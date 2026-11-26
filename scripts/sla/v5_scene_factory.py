@@ -31,9 +31,14 @@ MOBILE_TRAIN = (
     ("EF5_T_MOBILE_07", "F1", "MOBILE_GRASP", "red", (8, 4), (-9, 7), 702307),
     ("EF5_T_MOBILE_08", "F2", "MOBILE_GRASP", "blue", (9, -7), (-8, -4), 702308),
 )
+DIVERSE_PLACE_TRAIN = (
+    ("EF5_DIVERSE_PLACE_001", "F1", "DIVERSE_PLACE", "red", (-1, 3), (-5, 0), 702501),
+    ("EF5_DIVERSE_PLACE_002", "F2", "DIVERSE_PLACE", "blue", (4, 4), (2, -3), 702502),
+)
+PLACE_ZONE_OFFSETS_MM = {"EF5_DIVERSE_PLACE_001": (0, -4), "EF5_DIVERSE_PLACE_002": (5, 4)}
 
 
-def build(source, protected, out, *, qualification=None, protected_population=None, repair=None):
+def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False):
     import mujoco as mj
     from scripts.pi0292.durable import write
     from scripts.wm02.multitask_population_v6 import compile_population
@@ -45,6 +50,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
     existing_reset = {row["reset"] for row in catalog["episodes"]}
     split, roster = "QUAL", ROSTER
     require(repair is None or qualification is not None, "Protect the original QUAL population before a repair")
+    require(not diverse_place or (qualification is not None and repair is None),
+            "Diverse PLACE requires the existing population exclusions")
     if qualification:
         prior = read(pin(qualification, QUAL))
         require(prior["plan"] == PLAN and
@@ -55,7 +62,7 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         for population in (prior, history):
             existing.update(row["scene"]["sha256"] for row in population["clusters"])
             existing_reset.update(row["reset"] for row in population["clusters"])
-        split, roster = "TRAIN", MOBILE_TRAIN
+        split, roster = "TRAIN", DIVERSE_PLACE_TRAIN if diverse_place else MOBILE_TRAIN
     if repair:
         evidence = read(pin(repair, F2_REPLAY))
         row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
@@ -74,11 +81,18 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         for color, (dx, dy) in zip(("red", "blue"), (red, blue), strict=True):
             xyz = card["object_positions_world"][color]
             xyz[:2] = [xyz[0] + dx * 1e-3, xyz[1] + dy * 1e-3]
+        if diverse_place:
+            right = card["zones"]["right"]["center_world_XY"]
+            right[:] = [position + delta * 1e-3 for position, delta in
+                        zip(right, PLACE_ZONE_OFFSETS_MM[identity], strict=True)]
         require(reset not in existing_reset, "The proposed reset overlaps a protected experiment")
         existing_reset.add(reset)
         clusters.append(dict(id=identity, family=family, split=split, stage=split, reset=reset, card=card))
-        conditions.append(dict(id=identity, cluster=identity, split=split, family=family, reset=reset,
-                               skill=skill, target=target, original_2ms=True, physics_eligible=False))
+        condition = dict(id=identity, cluster=identity, split=split, family=family, reset=reset,
+                         skill=skill, target=target, original_2ms=True, physics_eligible=False)
+        if diverse_place:
+            condition["instruction"] = f"PLACE-{target}-right"
+        conditions.append(condition)
     out.mkdir(mode=0o700)
     prepared = dict(schema="SLA_CORE_EMBODIMENT_FACTORY_V5_S1", plan=PLAN, clusters=clusters,
                     conditions={split: conditions}, independent_target_and_distractor_positions=True)
@@ -123,4 +137,5 @@ if __name__ == "__main__":
     parser.add_argument("--qualification", type=Path)
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
+    parser.add_argument("--diverse-place", action="store_true")
     build(**vars(parser.parse_args()))
