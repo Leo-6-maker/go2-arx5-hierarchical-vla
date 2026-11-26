@@ -35,6 +35,8 @@ Corelab 已完成 `STEP0250` 端点交接和独立 CPU 恢复，核对了模型�
 
 Corelab 已真实读回 SOURCE 的独立开发输入 **24 个 RoboDojo 窗**和 **18 个 Ville 窗**。RoboDojo 来自六类共 12 个 SOURCE_DEV 回合，Ville 来自 6 个 SOURCE_DEV 回合。登记逐窗原 RGB、状态、动作、支持掩码指纹，保留各自 H50／H40，全部仅用于评价。源窗口名册 `a6e9a33717d9938ac1870ce479947d3289045cf601ea0977a2cf80d082e80292`，零模型前向。
 
+基于已恢复的 250 端点完成两项离线 CPU 预检。24 个原反馈窗已按固定名册逐窗读回，核对原 H40 包络及新推理包身份，回执 `62a17ea19cc6df30572354776be5940ee1c1cc50613c2cf275846d2ed96b55d9`。独立源域对照已成功从 R4-200 恢复共享、目标域和 RoboDojo 参数组，并从 SOURCE250 恢复共享、单臂和 RoboDojo 参数组。RoboDojo 固定为 50×14 个有效动作值，Ville 固定为 40×7。源域预检回执 `b91da70bc4dfc4d26dbfd063863894216b6692218e57f0620e5e4100f8d15575`。两项预检均为零模型前向、零物理积分。
+
 ## 公共 ARX5 与 R5
 
 - Corelab 第二批新增 RoboDojo TRAIN **18/18**，六类任务各 3 条，合计 **19,863 个完整 H50 窗**，执行了 **36 次真实边界读回**。前两批合计新增 30 条，独立 READY 库存累计 **367 条**，其中 RoboDojo 337、Ville 30。第二批清单 `86531eb99e58c43e8a4505f46ed5da9ab30306601d30efeba2de68ab8825c236`，Core READY `19d6597c982f5e9c0dfeac9b5c1acd2e979ec39f99528527d8f7ae132b6fc471`。这 30 条的 Hopper 读回或优化器访问均为 0。第三批最多 24 条，继续排除已封存 TRAIN、DEV、TEST 和此前候选。
