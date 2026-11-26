@@ -16,11 +16,13 @@ CAMERAS = {"observation.images.front": "base_0_rgb", "observation.images.wrist":
 
 
 class SingleArmReader:
-    def __init__(self, root, manifest_sha, video_root, *, split, resize, cache_episodes=12):
+    def __init__(self, root, manifest_sha, video_root, *, split, resize, cache_episodes=12,
+                 schema=SCHEMA, native_hz=20, horizon=HORIZON, cameras=CAMERAS):
         receipt = root / "MANIFEST.json"
         need(digest(receipt) == manifest_sha and split in ("TRAIN", "SOURCE_DEV"), "Unverified single-arm manifest")
         self.manifest = read(receipt)
-        need(self.manifest["schema"] == SCHEMA and self.manifest["native_hz"] == 20
+        need(self.manifest["schema"] == schema and self.manifest["native_hz"] == native_hz
+             and self.manifest["horizon"] == horizon
              and self.manifest["target_command"] is False, "Wrong single-arm source ABI")
         statfile = root / self.manifest["statistics"]["file"]
         need(digest(statfile) == self.manifest["statistics"]["sha256"], "Single-arm statistics changed")
@@ -30,6 +32,7 @@ class SingleArmReader:
         self.stats = {field: tuple(np.asarray(stats[field][key]) for key in ("q01", "q99"))
                       for field in ("state", "actions")}
         self.resize, self.video_root = resize, video_root
+        self.cameras = cameras
         self.episodes = {row["episode"]: {**row, "task": self.manifest["task"]}
                          for row in self.manifest["episodes"] if row["split"] == split}
         self.rows = [(episode, i) for episode, row in self.episodes.items() for i in range(row["windows"])]
@@ -41,10 +44,11 @@ class SingleArmReader:
             need(digest(path) == meta["sha256"], "Single-arm numerical bytes changed")
             with np.load(path, allow_pickle=False) as data:
                 samples = row["windows"]
-                need(data["actions"].shape == (samples, HORIZON, 7) and data["state"].shape == (samples, 7)
-                     and data["mask"].shape == (samples, HORIZON) and data["mask"].all()
+                need(data["actions"].shape == (samples, horizon, 7) and data["state"].shape == (samples, 7)
+                     and data["mask"].shape == (samples, horizon) and data["mask"].all()
                      and np.isfinite(data["actions"]).all() and np.isfinite(data["state"]).all()
-                     and np.allclose(data["future_timestamp"][:, 0] - data["observation_timestamp"], .05, atol=1e-5),
+                     and np.allclose(data["future_timestamp"] - data["observation_timestamp"][:, None],
+                                     np.arange(1, horizon + 1) / native_hz, atol=1e-5, rtol=0),
                      "Unexpected physical source frames or support")
                 self.numerical[episode] = (data["state"], data["actions"], data["mask"], data["observation_timestamp"])
 
@@ -68,7 +72,7 @@ class SingleArmReader:
         if episode not in self.cache:
             captures = {}
             ts = self.numerical[episode][3]
-            for key, name in CAMERAS.items():
+            for key, name in self.cameras.items():
                 info = self.episodes[episode]["views"][key]
                 path = self.video_root / info["member"]
                 need(path.resolve(strict=True).is_relative_to(self.video_root.resolve(strict=True))
@@ -110,25 +114,26 @@ class SingleArmReader:
                     support=support[anchor], prompt=self.manifest["task"])
 
 
-def preflight(root, manifest_sha, video_root, output):
+def preflight(root, manifest_sha, video_root, output, *, schema=SCHEMA, native_hz=20, horizon=HORIZON, cameras=CAMERAS):
     from openpi_client.image_tools import resize_with_pad
 
     by_split = {}
     for split in ("TRAIN", "SOURCE_DEV"):
-        reader = SingleArmReader(root, manifest_sha, video_root, split=split, resize=resize_with_pad)
+        reader = SingleArmReader(root, manifest_sha, video_root, split=split, resize=resize_with_pad,
+                                 schema=schema, native_hz=native_hz, horizon=horizon, cameras=cameras)
         cursor = 0
         for row in reader.episodes.values():
             for index in (cursor, cursor + row["windows"] - 1):
                 item = reader[index]
-                need(item["actions"].shape == (40, 32) and item["support"].all()
+                need(item["actions"].shape == (horizon, 32) and item["support"].all()
                      and all(np.isfinite(item[k]).all() for k in ("state", "actions"))
                      and not np.any(item["actions"][:, 7:]) and not item["image_mask"]["left_wrist_0_rgb"],
                      "Single-arm model input ABI failed")
             cursor += row["windows"]
         by_split[split] = dict(episodes=len(reader.episodes), windows=len(reader),
                              read_image_pairs=2 * len(reader.episodes))
-    write(output, dict(by_split=by_split, manifest_sha256=manifest_sha, actual_native_hz=20,
-                       learner_shape=[40, 32], optimizer_updates=0))
+    write(output, dict(by_split=by_split, manifest_sha256=manifest_sha, actual_native_hz=native_hz,
+                       learner_shape=[horizon, 32], optimizer_updates=0))
 
 
 if __name__ == "__main__":
