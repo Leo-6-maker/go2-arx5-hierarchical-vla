@@ -1,0 +1,362 @@
+{
+  "schema": "SLA_CORE_EMBODIMENT_FACTORY_V5_PLAN_V1",
+  "date": "2026-11-26",
+  "status": "PLAN_ONLY",
+  "documents": {
+    "plan": "SLA_CORE_EMBODIMENT_FACTORY_V5_PLAN_20261126.md",
+    "runbook": "SLA_CORE_EMBODIMENT_FACTORY_V5_RUNBOOK_20261126.md"
+  },
+  "sources": {
+    "v4": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f72f3d57b470de3e62821cd5e1a33d938a669cb7/docs/protocols/SLA_HOPPER_AUTONOMOUS_V4_PLAN_20261126.md",
+    "v4registry": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f72f3d57b470de3e62821cd5e1a33d938a669cb7/docs/protocols/SLA_HOPPER_AUTONOMOUS_V4_REGISTRY_20261126.json",
+    "hopper": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d175383b07cabb701492222bc333809d57ca5830/reports/SLA_EXPERIMENT_PROGRESS/V4_HOPPER_HIGH_BATCH_20261126.md",
+    "container": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d175383b07cabb701492222bc333809d57ca5830/reports/SLA_EXPERIMENT_PROGRESS/V4_STEP100_CONTAINER_20261126.md",
+    "source": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d175383b07cabb701492222bc333809d57ca5830/reports/SLA_EXPERIMENT_PROGRESS/SOURCE_EXPOSURE_ACTUAL.json",
+    "n2readback": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d2561743ecc507bdb279ca12cc5ff30e4e6e3ff7/reports/SLA_EXPERIMENT_PROGRESS/V4_FOLLOWUP_20261126.md",
+    "n2plan": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4fe2c8cf1b69c168b2e3079e061bb7c702089cd3/docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_20261122.md",
+    "geometry": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/scripts/sla/core_hopper_geometry.py",
+    "producer": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/scripts/sla/core_hopper_collection.py",
+    "earlier": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/reports/WM02/sla-core-hopper-parallel-20261121/ENGINEERING_SELECTION_AND_MAIN_MOUNT_ACTUAL.md",
+    "later": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/reports/WM02/sla-core-hopper-parallel-20261121/TRAIN024_AND_H200_CONTINUATION_ACTUAL.md",
+    "gpu": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/c8642aa602d3e34dd4dcda5a55ff6ae7c7c53ae6/reports/WM02/sla-scale20k-20261119/DATA_AND_RUNTIME_ACTUAL.json",
+    "perf": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4d597259/reports/WM02/sla-d2-teacher-parallel-20261118/PERFORMANCE_PARALLEL_ACTUAL.json",
+    "libero": "https://github.com/Lifelong-Robot-Learning/LIBERO",
+    "robocasa": "https://robocasa.ai/docs/introduction/overview.html",
+    "robocasa_license": "https://github.com/robocasa/robocasa#license",
+    "mimicgen": "https://mimicgen.github.io/docs/modules/overview.html",
+    "mujoco_render": "https://mujoco.readthedocs.io/en/latest/programming/rendering.html",
+    "mujoco_parallel": "https://mujoco.readthedocs.io/en/latest/programming/simulation.html#multi-threading"
+  },
+  "publication_base": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+  "snapshot": {
+    "hopper": {
+      "observed_sgt": "2026-11-26T17:09:00+08:00",
+      "job": "735204.hopper-m-02",
+      "verified_updates": 564,
+      "first_formal_target": 1000,
+      "warm_p50": 5.087,
+      "warm_p95": 5.106,
+      "full_intermediate_endpoints": [
+        100,
+        250,
+        500
+      ],
+      "stage_median_seconds": {
+        "target_fm": 2.36,
+        "robodojo_fm": 1.201,
+        "libero_fm": 1.148,
+        "aux": 0.329,
+        "remaining": 0.049
+      }
+    },
+    "target": {
+      "compatible_old": 52,
+      "old_queries": 4450,
+      "complete_h40": 4294,
+      "sealed_candidate": 69,
+      "hold": 46,
+      "place": 23,
+      "extra_pending_compatibility": 17
+    },
+    "container": {
+      "old_standing_effective": 2,
+      "success": 0,
+      "total_starts": 6,
+      "technical": 4,
+      "peak_lift_mm": 38.85,
+      "first_stops": {
+        "D01": "foot_drift_5.617mm",
+        "D02": "body_angle_5.00069deg"
+      },
+      "old_qualification_preserved": true
+    },
+    "n2": {
+      "engineering_speedup": 1.9813,
+      "state_within_old_tolerance": [
+        6,
+        8
+      ],
+      "stop_pairs_peer_ticks": [
+        3500,
+        3500
+      ],
+      "production_qualified": false,
+      "latest_F1_R2_tcp_peak_mm": 7.041,
+      "mount_delta_mm": 6.731,
+      "tcp_in_mount_mm": 2.068,
+      "selected_reference": "UNKNOWN"
+    },
+    "historical_gpu_reports": [
+      {
+        "index": 0,
+        "name": "RTX 4080 SUPER",
+        "total_mib": 32760,
+        "identity_note": "nonstandard reported value verify physical device"
+      },
+      {
+        "index": 1,
+        "name": "RTX 4080 SUPER",
+        "total_mib": 16376
+      }
+    ],
+    "live_core_resources": null,
+    "vanda": "PAUSED_DO_NOT_RESTART"
+  },
+  "invariants": {
+    "wbc_solver_PD_legs_physics_and_generic_safety_frozen": true,
+    "native_dt_s": 0.002,
+    "old_scores_and_attempts_preserved": true,
+    "one_coordinator_and_independent_world_owners": true,
+    "no_gt_student": true,
+    "no_forced_grasp_release_or_fake_labels": true,
+    "no_unconsumed_target_supervision": true,
+    "no_post_stop_integrations_publish_install_grant": true,
+    "no_new_hardware": true,
+    "no_data_cleanup": true,
+    "healthy_hopper_and_student_jobs_continue": true,
+    "no_hot_change_locked_training_data": true
+  },
+  "data": {
+    "groups": [
+      {
+        "id": "LEGACY",
+        "total100": 69,
+        "total200": 69,
+        "attempts100": 51,
+        "attempts200": 51,
+        "notes": "69目标含46 HOLD/23 PLACE；只补实际兼容缺口，优先旧已登记合法未启动条件"
+      },
+      {
+        "id": "REACH_ORIENT",
+        "total100": 8,
+        "total200": 20,
+        "attempts100": 16,
+        "attempts200": 40,
+        "notes": "视觉目标、姿态、不同初态；完整达到声明技能目标"
+      },
+      {
+        "id": "MOBILE_GRASP",
+        "total100": 8,
+        "total200": 25,
+        "attempts100": 24,
+        "attempts200": 75,
+        "notes": "新增距离/方向/初态及抓后移动，保持原M_FREE接口"
+      },
+      {
+        "id": "DIVERSE_PLACE",
+        "total100": 8,
+        "total200": 40,
+        "attempts100": 24,
+        "attempts200": 120,
+        "notes": "不同形状、搬运落点、下放、开爪、承托、撤离；不重复legacy"
+      },
+      {
+        "id": "CONTAINER",
+        "total100": 4,
+        "total200": 26,
+        "attempts100": 12,
+        "attempts200": 78,
+        "notes": "现有站姿失败保留；另立明确M_FREE任务族，原完整资格先行"
+      },
+      {
+        "id": "PUSH",
+        "total100": 3,
+        "total200": 20,
+        "attempts100": 9,
+        "attempts200": 60,
+        "notes": "合法推送接触、目标区稳定、撤离；不自动闭爪"
+      }
+    ],
+    "complete_targets_cumulative": [
+      100,
+      200
+    ],
+    "new_complete_if_69_compatible": 131,
+    "new_complete_if_52_compatible": 148,
+    "complete_attempt_max_wave1": 136,
+    "complete_attempt_max_total": 424,
+    "legacy_attempts_only_for_actual_gap": true,
+    "inherited_V4_and_old_collection_attempts_count_once": true,
+    "slot_id_rule": "EF5_<bucket>_<001..cumulative_limit> or existing registered ID mapped one-to-one; preseal real geometry and split before dispatch",
+    "nonlegacy_wave1_attempt_max": 85,
+    "nonlegacy_total_attempt_max": 373,
+    "proposed_min_new_distinct_train_geometries": 40,
+    "proposed_min_geometries_each_new_bucket": 5,
+    "usual_max_episodes_per_geometry": 4,
+    "source_asset_license_verified_per_member": true,
+    "holdout_skills": [
+      "DRAWER",
+      "INSERT",
+      "COMPOSITION"
+    ],
+    "withhold_holdout_target_training": true,
+    "recovery": {
+      "target_wave1": 10,
+      "attempt_max_wave1": 20,
+      "target_total": 40,
+      "attempt_max_total": 80,
+      "targets_by_mechanism": {
+        "approach": 10,
+        "grasp_lift": 10,
+        "carry_place_release": 12,
+        "mobile_tracking": 8
+      },
+      "distinct_from_complete": true
+    },
+    "new_family_qual_teacher_max": 10,
+    "new_family_val_teacher_max": 10,
+    "heldout_conf_teacher_max": 9,
+    "heldout_student_max": 54,
+    "heldout_models": [
+      "prebound_baseline",
+      "ADAPT100",
+      "ADAPT200"
+    ],
+    "heldout_tasks": 3,
+    "heldout_geometry_each": 3,
+    "heldout_noises_each": 2
+  },
+  "profiles": [
+    {
+      "id": "P1",
+      "worlds": 1,
+      "teacher": 1,
+      "student": 0,
+      "status": "USE_EXISTING_QUALIFIED_PROFILE"
+    },
+    {
+      "id": "P2",
+      "worlds": 2,
+      "teacher": 2,
+      "student": 0,
+      "teacher_per_gpu": [
+        1,
+        1
+      ],
+      "status": "CONDITIONAL_NOT_ENABLED"
+    },
+    {
+      "id": "P3",
+      "worlds": 4,
+      "teacher": 4,
+      "student": 0,
+      "teacher_per_gpu": [
+        2,
+        2
+      ],
+      "status": "CONDITIONAL_NOT_ENABLED"
+    },
+    {
+      "id": "P4",
+      "worlds": 2,
+      "teacher": 1,
+      "student": 1,
+      "teacher_per_gpu": [
+        0,
+        1
+      ],
+      "status": "CONDITIONAL_NOT_ENABLED"
+    },
+    {
+      "id": "P5",
+      "worlds": 3,
+      "teacher": 2,
+      "student": 1,
+      "teacher_per_gpu": [
+        0,
+        2
+      ],
+      "status": "CONDITIONAL_NOT_ENABLED"
+    }
+  ],
+  "engineering": {
+    "old_N2_N4_capacity_inherited_not_reset": 64,
+    "old_N2_capacity": 36,
+    "old_N4_capacity": 28,
+    "old_tolerance_preserved": true,
+    "required_actual_selected_reference": true,
+    "n2_min_speedup": 1.5,
+    "n4_vs_n2_min_speedup": 1.25,
+    "mixed_P4_new_max": 4,
+    "mixed_P5_new_max": 6,
+    "optimization_max_per_profile": 4,
+    "optimization_profiles": [
+      "WARM_RESET",
+      "EVENT_READY",
+      "ASYNC_RGB_IO"
+    ],
+    "optimization_new_max": 12,
+    "initial_cpu_io_workers": 2,
+    "max_cpu_io_workers": 4,
+    "max_pending_captures_per_world": 2,
+    "student_wait_minutes": 30,
+    "teacher_terminals_before_handoff": 12
+  },
+  "snapshot_publish": {
+    "every_new_admissions": 4,
+    "interval_hours": 6,
+    "after_wave": true,
+    "one_writer": true,
+    "verify_receiver_real_reader": true,
+    "actual_training_visit_separate": true
+  },
+  "next_training": {
+    "current_1k_2k_immutable": true,
+    "adapt100_proposed_updates": [
+      1000,
+      3000
+    ],
+    "adapt200_proposed_updates": [
+      3000,
+      5000
+    ],
+    "formal_new_training_not_authorized_by_publication": true,
+    "keep_multisource_batch": [
+      64,
+      32,
+      32,
+      4
+    ]
+  },
+  "campaign": {
+    "hours_from_actual_mount": 72,
+    "review_interval_hours": 12,
+    "actual_auth_and_deadline_precede_compute": true,
+    "no_automatic_extension_of_old_hopper_goal": true,
+    "fallback_native_tick_cap": 50000,
+    "fallback_wall_s": 1800,
+    "fallback_student_query_cap": 160
+  },
+  "accounting": {
+    "first_wave_complete_requests_max": 136,
+    "all_complete_requests_max": 424,
+    "recovery_requests_max": 80,
+    "new_qual_val_conf_teacher_max": 29,
+    "new_conf_student_max": 54,
+    "new_mixed_engineering_max": 10,
+    "new_singleworld_engineering_max": 12,
+    "total_new_or_mapped_capacity": 609,
+    "old_n2_n4_64_separate": true,
+    "v4_existing_conditions_separate_except_explicit_one_to_one_production_mapping": true,
+    "authoring_effects": {
+      "physical_requests": 0,
+      "ticks": 0,
+      "model_forwards": 0,
+      "optimizer_updates": 0,
+      "transfer_bytes": 0,
+      "server_jobs": 0
+    }
+  },
+  "runtime_binding": {
+    "actual_source_sha": null,
+    "actual_owner": null,
+    "actual_gpu_uuids": null,
+    "actual_egl_mapping": null,
+    "actual_cpu_memory_disk": null,
+    "actual_authorization": null,
+    "actual_scene_and_asset_manifest": null,
+    "actual_train_split": null,
+    "actual_ready_snapshot": null,
+    "actual_hopper_job_state": null
+  }
+}
