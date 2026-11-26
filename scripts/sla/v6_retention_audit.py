@@ -62,6 +62,7 @@ def audit(run, step, template, output):
                 "The complete 200-update experiment lacks its original terminal record")
     population = Counter()
     replay_visits = Counter()
+    release_visits = Counter()
     reexpressed_visits = 0
     timing = []
     target = {"target": 64, "auxiliary": 4}
@@ -77,10 +78,17 @@ def audit(run, step, template, output):
             if role == "R2_PHASE_MATCHED_REPLAY":
                 require(sum(row["replay_visits"].values()) == 8, "Wrong realized blue-left visits")
                 replay_visits.update(row["replay_visits"])
-            if role == "R4_REEXPRESSED_COMMANDS":
+            if role in ("R4_REEXPRESSED_COMMANDS", "R5_RELEASE_PHASE_REPLAY"):
                 require(row["reexpressed_geometry_visits"] == 64, "Wrong realized rotated/displaced supervision visits")
                 reexpressed_visits += row["reexpressed_geometry_visits"]
+            if role == "R5_RELEASE_PHASE_REPLAY":
+                changes = row["release_phase_replay_visits"]
+                require(set(changes) <= {"OPEN", "WITHDRAW"} and 0 < sum(changes.values()) <= 4,
+                        "Wrong actual R5 intervention exposure")
+                release_visits.update(changes)
             timing.append(row["seconds"])
+    if role == "R5_RELEASE_PHASE_REPLAY" and step == 200:
+        require(release_visits == {"OPEN": 400, "WITHDRAW": 399}, "R5 missed its registered intervention slots")
     result = dict(step=step, formal=False, complete_training_endpoint=step == 200,
                   parent_sha256=MAIN, role=role, endpoint=str(endpoint),
                   receipt_sha256=sha(receipt_file), contract_sha256=sha(contract_file), actual_visits=dict(population),
@@ -89,6 +97,8 @@ def audit(run, step, template, output):
                   warm_p50_s=float(np.median(timing[2:])), warm_p95_s=float(np.percentile(timing[2:], 95)),
                   checkpoint_bytes=sum((endpoint / p).stat().st_size for p in receipt["files"]),
                   **restore(endpoint, step, target_only))
+    if release_visits:
+        result["actual_release_phase_replay_visits"] = dict(release_visits)
     result["provider_manifest_sha256"] = export(result, template, output, diagnostic=True)
     with output.with_name(output.name + "_READBACK.json").open("x") as stream:
         json.dump(result, stream, indent=2, allow_nan=False)

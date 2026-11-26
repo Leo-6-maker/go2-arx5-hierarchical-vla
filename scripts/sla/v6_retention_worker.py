@@ -21,7 +21,8 @@ from v4_main250_hopper import allocation
 
 
 FACTORS = {"R1_LOW_LR": (.25, False), "R2_PHASE_MATCHED_REPLAY": (1., False),
-           "R3_TARGET_GRADIENT_ONLY": (1., True), "R4_REEXPRESSED_COMMANDS": (1., False)}
+           "R3_TARGET_GRADIENT_ONLY": (1., True), "R4_REEXPRESSED_COMMANDS": (1., False),
+           "R5_RELEASE_PHASE_REPLAY": (1., False)}
 ENDPOINTS = (100, 200)
 MICRO = dict(target=64, robodojo=32, libero=32)
 
@@ -46,6 +47,33 @@ def activate_replay(replay, datasets, banks, slots, original_archive):
     return digest
 
 
+def release_replay(ref, target, original, slots):
+    manifest = read(pin(ref["audit"]["path"], ref["audit"]["sha256"]))
+    require(manifest["proposed_updates"] == ENDPOINTS[-1] and manifest["optimizer_updates"] == 0
+            and manifest["shifted_to"] == {"OPEN": 400, "WITHDRAW": 399}
+            and manifest["label_manifest_sha256"] == ref["label_manifest_sha256"], "Unexpected R5 Corelab dataset")
+    with np.load(pin(ref["bank"], manifest["bank_sha256"]), allow_pickle=False) as packet:
+        visits, new_slots = packet["target_indices"], packet["auxiliary_slots"]
+    totals = [Counter() for _ in range(ENDPOINTS[-1])]
+    require(visits.shape == original.shape and visits.dtype == original.dtype and np.array_equal(slots, new_slots)
+            and np.array_equal(visits[ENDPOINTS[-1]:], original[ENDPOINTS[-1]:])
+            and np.array_equal(np.take_along_axis(visits, slots, axis=1), np.take_along_axis(original, slots, axis=1)),
+            "R5 altered the fixed exposure beyond release phases")
+    for step, slot in np.argwhere(visits != original):
+        before, after = int(original[step, slot]), int(visits[step, slot])
+        a, ai = target.rows[before]
+        b, bi = target.rows[after]
+        phase = b["expert_stage_audit_only"][bi]
+        require(a["id"] == b["id"] and a["task"].startswith("PLACE-")
+                and a["expert_stage_audit_only"][ai] in ("CARRY", "LOWER") and phase in ("OPEN", "WITHDRAW")
+                and target.support(before).all() and target.support(after).all(), "R5 switched an ineligible raw phase")
+        totals[step][phase] += 1
+    require(sum(totals, Counter()) == manifest["shifted_to"] and all(0 < sum(t.values()) <= 4 for t in totals)
+            and hashlib.sha256(visits.tobytes()).hexdigest() == manifest["target_visit_bank_sha256"],
+            "R5 actual reader changed the intervention slots")
+    return visits, totals
+
+
 def run(capsule, custody, short_run, bank_root):
     import jax
     import orbax.checkpoint as ocp
@@ -56,7 +84,8 @@ def run(capsule, custody, short_run, bank_root):
         role = binding["role"]
         lr_scale, target_only = FACTORS[role]
         with_replay = role == "R2_PHASE_MATCHED_REPLAY"
-        with_reexpressed_commands = role == "R4_REEXPRESSED_COMMANDS"
+        with_release = role == "R5_RELEASE_PHASE_REPLAY"
+        with_reexpressed_commands = role == "R4_REEXPRESSED_COMMANDS" or with_release
         core = read(pin(binding["core_release"]["path"], binding["core_release"]["sha256"]))
         require(core["role"] == role and core["parent"] == MAIN and core["corelab_diagnosis_complete"]
                 and binding["updates"] == ENDPOINTS[-1] and core["active_fixed_h40_aux"] == 4,
@@ -94,6 +123,13 @@ def run(capsule, custody, short_run, bank_root):
             bind_dataset(datasets["target"], Path(condition["path"]), condition["manifest_sha256"],
                          short_run / "incoming/V3-MAIN-CONSUMED-DATA-02/MANIFEST.json")
             config["reexpressed_geometry_manifest_sha256"] = condition["manifest_sha256"]
+        if with_release:
+            ref = core["release_replay"]
+            require(ref["label_manifest_sha256"] == config["reexpressed_geometry_manifest_sha256"],
+                    "R5 label coordinate representation must match R4")
+            banks["target"], realized = release_replay(ref, datasets["target"], banks["target"], slots)
+            config.update(target_visit_bank_matches_original=False,
+                          target_release_bank_sha256=hashlib.sha256(banks["target"].tobytes()).hexdigest())
         write(result / "RUN_CONTRACT.json", config)
         stop = False
 
@@ -137,6 +173,11 @@ def run(capsule, custody, short_run, bank_root):
                             row["replay_visits"] = dict(identities)
                         if with_reexpressed_commands:
                             row["reexpressed_geometry_visits"] = observed["target"]
+                        if with_release:
+                            actual_indices = banks["target"][learner.step - 1]
+                            require(hashlib.sha256(actual_indices.tobytes()).hexdigest() == row["components"]["target"]["visit_sha256"],
+                                    "Real training visit hash differs from the release bank")
+                            row["release_phase_replay_visits"] = dict(realized[learner.step - 1])
                         ledger.write(json.dumps(row, allow_nan=False) + "\n")
                         if learner.step in ENDPOINTS:
                             sealed = seal()

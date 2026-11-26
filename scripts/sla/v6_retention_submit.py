@@ -19,7 +19,35 @@ from v6_retention_worker import ENDPOINTS, FACTORS, MAIN, read, require
 
 BUDGET = 3600
 NAMES = {"R1_LOW_LR": "slav6ret1", "R2_PHASE_MATCHED_REPLAY": "slav6ret2",
-         "R3_TARGET_GRADIENT_ONLY": "slav6ret3", "R4_REEXPRESSED_COMMANDS": "slav6rref"}
+         "R3_TARGET_GRADIENT_ONLY": "slav6ret3", "R4_REEXPRESSED_COMMANDS": "slav6rref",
+         "R5_RELEASE_PHASE_REPLAY": "slav6r5rel"}
+
+
+def confirm_release_study(evidence):
+    def document(ref):
+        path = Path(ref["path"])
+        require(digest(path) == ref["sha256"], "An R5 evidence receipt changed in transfer")
+        return read(path)
+
+    state = evidence["r4_native"]
+    hold, place = (document(state[k]) for k in ("hold", "place"))
+    require(hold["registered"] == hold["full_success"] == 2 and place["registered"] == place["valid"] == 4
+            and place["full_success"] == 0 and place["model_checkpoint_sha256"] == hold["model_checkpoint_sha256"]
+            and hold["gpu_and_native_leases_closed"] and place["gpu_and_native_leases_closed"],
+            "A closed R4 HOLD/PLACE comparison is required for the release contrast")
+    cases = [document(ref) for ref in state["release_traces"]]
+    place_results = {row["id"]: row["result_sha256"] for row in place["arms"]}
+    require([r["id"] for r in cases] == ["R4_DEV_0200_P01_701", "R4_DEV_0200_P02_701"]
+            and all(r["valid"] and not r["unsafe"] and not r["terminal_released"] and r["first_region_tick"]
+                    and r["returned_queries_after_first_region"] > 0 and r["max_raw_h40_width_mm"] < 5.
+                    and r["result_sha256"] == place_results[r["id"]] for r in cases),
+            "Release-phase change requires repeated evidence of missing open commands")
+    ref = evidence["release_replay"]
+    bank = document(ref["audit"])
+    require(bank["optimizer_updates"] == 0 and bank["shifted_visits"] == 799
+            and bank["unchanged_auxiliary"] and bank["matched_full_mask_per_slot"] and bank["matched_episodes_per_slot"]
+            and bank["label_manifest_sha256"] == ref["label_manifest_sha256"] == evidence["reexpressed_commands"]["manifest_sha256"]
+            and digest(Path(ref["bank"])) == bank["bank_sha256"], "The verified release-phase bank changed")
 
 
 def submit(role, capsule, custody, short, bank, source, runtime, v4_code, original, r0_first, r0_retry):
@@ -35,12 +63,14 @@ def submit(role, capsule, custody, short, bank, source, runtime, v4_code, origin
             for key in ("candidates", "roster", "host"):
                 document = evidence["replay"][key]
                 require(digest(Path(document["path"])) == document["sha256"], "Incompatible Corelab replay package")
-        if role == "R4_REEXPRESSED_COMMANDS":
+        if role in ("R4_REEXPRESSED_COMMANDS", "R5_RELEASE_PHASE_REPLAY"):
             declared = evidence["reexpressed_commands"]
             host = declared["core_host"]
             require(digest(Path(declared["path"]) / "MANIFEST.json") == declared["manifest_sha256"]
                     and digest(Path(host["path"])) == host["sha256"],
                     "The corrected geometry manifest and actual Corelab readback are required")
+        if role == "R5_RELEASE_PHASE_REPLAY":
+            confirm_release_study(evidence)
         require(time.time() + BUDGET < DEADLINE, "Remaining time is too short for a complete job")
         grant = project_grant(BUDGET)
         require(all(isinstance(v, (int, float)) and math.isfinite(v) and v > 0 for v in (
