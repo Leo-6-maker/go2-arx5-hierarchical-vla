@@ -15,6 +15,10 @@ SOURCES = (
     ("drop_footbag_into_dice_tower", "cb6f2fb33737afba63852784d71db35c17076adb"),
     ("rice-cooker_step_2", "83c9d785c551716f17f94d142db2dddb9fc93cb6"),
 )
+RICE_COOKER_EXTENSIONS = (
+    ("rice-cooker_step_1_truncated_x", "4ae4cf70b560b31371bc5c2cd52eb5889f9e453a"),
+    ("rice-cooker_step_3", "5a221e28b6bc40b7283800adffa60b2b565bd046"),
+)
 CAMERAS = ("observation.images.front", "observation.images.wrist")
 EPISODES = (0, 1)
 BYTE_LIMIT = 512 * 1024**2
@@ -123,11 +127,11 @@ def inspect(root, ep, info, task):
                 training_eligible=False)
 
 
-def run(out):
+def run(out, sources=SOURCES):
     out.mkdir(mode=0o700)
     results = []
     budget = BYTE_LIMIT
-    for name, revision in SOURCES:
+    for name, revision in sources:
         repo = "villekuosmanen/" + name
         root = out / name
         root.mkdir(mode=0o700)
@@ -166,4 +170,6 @@ def run(out):
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("out", type=Path)
-    run(p.parse_args().out)
+    p.add_argument("--rice-cooker-extensions", action="store_true")
+    args = p.parse_args()
+    run(args.out, RICE_COOKER_EXTENSIONS if args.rice_cooker_extensions else SOURCES)

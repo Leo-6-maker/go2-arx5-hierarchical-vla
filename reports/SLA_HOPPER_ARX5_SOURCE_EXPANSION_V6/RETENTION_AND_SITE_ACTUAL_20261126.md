@@ -221,3 +221,9 @@ Hopper 逐项回读输入路径、实际 R4 封印、目标辅助、已接收的
 | P02／701 | 12 | 2.65 mm | 2.78 mm | 2.78 mm | 0/12 |
 
 R5 两组原 H40 几何均 **12/12** 通过。在这 24 个原 R4 入区反馈上，R5 仍持续给出近闭爪输出。该结果没有涉及 R5 自己的闭环状态，也不支持只通过再次提高这一批释放采样比例继续试错。固定反馈 `800aba2c0d86ffb15614655c734cc8bb2eb858516c2b44cf37dbe2eccbf241cc`，回包 `9b144e1dc0d7a3a1b32f9886f239d143e9b23b60c2aad4ba816bf161dc1fe796`，比较 `28f8d08515a7308eb424a5824b79455617da7617c8e7554d495fcbcfb2c7d3cb`。
+
+### 两个额外 Ville 50 Hz 单臂任务
+
+Corelab 从两个 Apache-2.0 固定版本各实读两条原始单臂 ARX5 记录。两任务是拾取锅内胆和按压锅盖，共 **4 条／2,009 行／49,225,051 字节**。在原 50 Hz 时间网格对照全部双相机 PTS，最大差 **0.458 µs**。第一任务下载阶段通过，在缺 PyAV 的环境退出。恢复时复用已下载的 10 个原件和项目现有 PyAV 版本，第一任务新增下载 0 字节。
+
+两份数据都只有七维关节与夹爪观测和命令，缺独立实测 TCP。锅盖组实测夹爪开度记录在约 **0.20–0.60 mm**，命令接近恒定且为负，定量压盖力缺测。保留真实字段和 50 Hz 时钟。两组仍为源域候选，新增 TRAIN 准入、物理积分和优化器访问均为 0。内胆回读 `1bf032eda9c2ef5ec500a75d8011bc14019f5e6c1697bcbbaa19ed755239e7ef`，锅盖回读 `7405cabb20dbe1bf239c9a6d8f94adbac85c87f67107a0f6343d394a87fcb473`。 [内胆来源](https://huggingface.co/datasets/villekuosmanen/rice-cooker_step_1_truncated_x/tree/4ae4cf70b560b31371bc5c2cd52eb5889f9e453a) · [锅盖来源](https://huggingface.co/datasets/villekuosmanen/rice-cooker_step_3/tree/5a221e28b6bc40b7283800adffa60b2b565bd046)
