@@ -1,0 +1,369 @@
+{
+  "schema": "SLA_HOPPER_V61_CORRECTED_RETENTION_V1",
+  "status": "PLAN_ONLY",
+  "date": "2026-11-26",
+  "publication_base": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+  "documents": {
+    "plan": "SLA_HOPPER_V61_CORRECTED_RETENTION_PLAN_20261126.md",
+    "runbook": "SLA_HOPPER_V61_CORRECTED_RETENTION_RUNBOOK_20261126.md"
+  },
+  "references": {
+    "actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/ec927393bae025d536371ec88f237ba8de29ee3f/reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/RETENTION_AND_SITE_ACTUAL_20261126.md",
+    "core": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/fe21674f20ffb37538bae33646122adf25e5cdb2/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/FIRST_SITE_ACTUAL_20261126.md",
+    "v4": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f72f3d57b470de3e62821cd5e1a33d938a669cb7/docs/protocols/SLA_HOPPER_AUTONOMOUS_V4_PLAN_20261126.md",
+    "v4reg": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f72f3d57b470de3e62821cd5e1a33d938a669cb7/docs/protocols/SLA_HOPPER_AUTONOMOUS_V4_REGISTRY_20261126.json",
+    "v5": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/2cbce375a4f5a01bedc4f065d5ad6581fe7cbb05/docs/protocols/SLA_CORE_EMBODIMENT_FACTORY_V5_PLAN_20261126.md",
+    "v6": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d7c74953109374b69906036a0e2c6f39a32b3aa7/docs/protocols/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_PLAN_20261126.md",
+    "v6reg": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d7c74953109374b69906036a0e2c6f39a32b3aa7/docs/protocols/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_REGISTRY_20261126.json",
+    "m1000": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d806ab813e34ee1e3f3a6645409fa4c2402ece7d/reports/SLA_EXPERIMENT_PROGRESS/V4_HOPPER_HIGH_BATCH_20261126.md",
+    "ville": "https://huggingface.co/datasets/villekuosmanen/drop_footbag_into_dice_tower/tree/cb6f2fb33737afba63852784d71db35c17076adb"
+  },
+  "latest": {
+    "r4_report_ref": "ec927393bae025d536371ec88f237ba8de29ee3f",
+    "observed_sgt": "2026-11-26T22:28:00+08:00",
+    "parent_candidate": {
+      "id": "R4-200",
+      "training_sha256": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+      "original_parent": "MAIN3.8K",
+      "updates": 200,
+      "parameter_leaves": 45,
+      "optimizer_leaves": 94,
+      "adam_counts": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "p50_s": 5.2595,
+      "p95_s": 5.4392,
+      "raw_h40": [
+        24,
+        24
+      ],
+      "raw_seam_fail": [
+        2,
+        24
+      ],
+      "candidate_not_full_release": true
+    },
+    "r4_hold": {
+      "layout": "N02",
+      "noises": [
+        201,
+        202
+      ],
+      "valid": 2,
+      "success": 2,
+      "independent_layout_count": 1,
+      "tech": 0,
+      "safety_stop": 0,
+      "ticks": 46656,
+      "forwards": 141,
+      "updates": 0,
+      "lift_mm": [
+        25.8,
+        24.41
+      ],
+      "hold_s": [
+        1.198,
+        1.268
+      ],
+      "paired_parent_success": 2,
+      "paired_m1000_success": 0,
+      "link2_common_tick_mm": {
+        "parent": [
+          130.22,
+          137.28
+        ],
+        "m1000": [
+          3.57,
+          0.37
+        ],
+        "r4": [
+          137.19,
+          143.89
+        ]
+      },
+      "scoring_receipt_sha256": "db77327c1ff1bd3d1dd759d51afb4b7ada4c5d230b0da937aa893d0d8fbb243d"
+    },
+    "old_research_updates": 600,
+    "r3_not_submitted_budget_used_by_r4": true,
+    "m1000_2k_closed": true,
+    "source_actual_updates": 0,
+    "source_core_train": 337,
+    "source_robodojo": 307,
+    "source_robodojo_old": 200,
+    "source_robodojo_new": 107,
+    "source_ville_single": 30,
+    "latest_ville_10_at_core": true,
+    "last_reported_both_site_readable_count": 317,
+    "source_new_data_optimized": 0,
+    "target_consumed_inventory": 67,
+    "target_corrected_qualified": 52,
+    "target_remaining_corrected_admission": 15,
+    "target_hold": 45,
+    "target_place": 22,
+    "target_queries": 5892,
+    "target_complete_h40": 5691,
+    "target_new_native_v5": 0
+  },
+  "label_contract": {
+    "fixed_r4_52_sha256": "1b57d74fd133a3acbfb57bdce10a7ac4b8d8b18fd7fad8ca72376530edcb2a21",
+    "corrected_queries": 4450,
+    "full_h40": 4294,
+    "valid_points": 174880,
+    "verified_p10_install_points": 44500,
+    "translation": "p_c-(p_r-p_a)",
+    "rotation": "R_a @ R_r.T @ R_c",
+    "apply_execute_map_exactly_once": true,
+    "retain_raw_consumed_labels": true,
+    "max_position_error_mm": 0.0001,
+    "max_angle_error_deg": 0.00001,
+    "actual_r4_max_position_error_mm": 6.46e-7,
+    "actual_r4_max_angle_error_deg": 5.54e-8,
+    "mask_grip_padding_unchanged": true,
+    "source_semantics_separate": true,
+    "no_target_leakage": true,
+    "remaining_fifteen_admission_required_before_use": true,
+    "minimum_replay_r4_52_allowed": true,
+    "old_dev_overlap_excluded": 5
+  },
+  "parent_gate": {
+    "preferred": "R4_200",
+    "fallback_preserve": "MAIN38",
+    "n02_existing_success_required": 2,
+    "n02_existing_count": 2,
+    "place_cards": 4,
+    "place_correct_grasp_min": 3,
+    "require_complete_place_before_source": false,
+    "independent_layouts": 2,
+    "noises_each": 2,
+    "independent_cards_each_model": 4,
+    "independent_r4_min_success": 1,
+    "independent_r4_not_below_parent": true,
+    "record_each_matched_regression": true,
+    "new_same_mechanism_pregrasp_stop_block_at": 2,
+    "teacher_new_max": 2,
+    "all_required_valid_and_closed": true,
+    "actual_release": null
+  },
+  "admission": {
+    "minimum_existing_arx5": 200,
+    "minimum_genuinely_new_train": 100,
+    "minimum_task_groups": 3,
+    "actual_ready_required": true,
+    "mix500_not_hard_gate": true,
+    "mix500_goal": 500,
+    "mix2k_goal": 2000,
+    "expanded_single_min_train": 100,
+    "expanded_single_min_distinct_skill_groups": 3,
+    "footbag_repeat_not_new_skill": true,
+    "source_license_split_and_reader_required": true
+  },
+  "training": {
+    "batches": {
+      "source_early": {
+        "target": 16,
+        "single_arx5": 16,
+        "dual_arx5": 80,
+        "libero": 16
+      },
+      "source_expanded": {
+        "target": 16,
+        "single_arx5": 64,
+        "dual_arx5": 32,
+        "libero": 16
+      },
+      "source_dual_only": {
+        "target": 16,
+        "single_arx5": 0,
+        "dual_arx5": 96,
+        "libero": 16
+      },
+      "adapt_early": {
+        "target": 64,
+        "single_arx5": 16,
+        "dual_arx5": 32,
+        "libero": 16
+      },
+      "adapt_expanded": {
+        "target": 64,
+        "single_arx5": 32,
+        "dual_arx5": 16,
+        "libero": 16
+      },
+      "adapt_dual_only": {
+        "target": 64,
+        "single_arx5": 0,
+        "dual_arx5": 48,
+        "libero": 16
+      }
+    },
+    "global_fm": 128,
+    "aux_count": 4,
+    "aux_generation_steps": 10,
+    "group_weights": "B_group/128",
+    "aux_rule": "preserve verified old aux-to-target-FM effective coefficient ratio; source 0.25 old lambda if normalized old target 0.5",
+    "source_default": "source_early",
+    "adapt_if_narrow": "adapt_early",
+    "state_dropout": 0.25,
+    "source": {
+      "new_optimizer_rng": true,
+      "first_endpoints": [
+        250,
+        500,
+        1000
+      ],
+      "planned_endpoint": 5000,
+      "conditional_endpoint": 10000,
+      "peak_v4_relative": 0.5,
+      "proposed_peak_lr": 0.00000169621416,
+      "warmup": 100,
+      "decay_total": 5000,
+      "end_fraction": 0.1,
+      "real_new_source_visits_required": true,
+      "source_and_target_gate_each_boundary": true,
+      "data_and_recipe_cold_boundary_only": true
+    },
+    "adapt": {
+      "first": 1000,
+      "planned": 3000,
+      "conditional": 5000,
+      "peak_source_relative": 0.5,
+      "warmup": 100,
+      "decay_total": 3000,
+      "end_fraction": 0.1
+    },
+    "extension_new_schedule_explicit": true,
+    "freeze_wbc_l1_and_base": true,
+    "train_shared_action_expert_vlm_lora_and_domain_io": true,
+    "one_global_clip_and_adam": true,
+    "default_effective_batch_unchanged": true,
+    "new_domain_engineering_max_inherited": 24,
+    "optional_control_max_inherited": 1000,
+    "prior_r3_not_reenabled": true
+  },
+  "evaluation": {
+    "panel_roles": [
+      "R4_200",
+      "SOURCE250",
+      "SOURCE500",
+      "SOURCE1000",
+      "SOURCE5000",
+      "SOURCE10000_IF_ENABLED",
+      "ADAPT1000",
+      "ADAPT3000",
+      "ADAPT5000_IF_ENABLED"
+    ],
+    "each_place": 4,
+    "each_n02": 2,
+    "nominal_six_panel_capacity": 54,
+    "existing_r4_n02": 2,
+    "max_new_or_mapped_six_panel": 52,
+    "independent_hold_initial_parent_and_r4": 8,
+    "independent_hold_final_source_and_adapt": 8,
+    "max_new_or_mapped_student": 68,
+    "teacher_qualification_max": 2,
+    "old_v6_v5_slots_mapped_not_duplicated": true,
+    "fixed_feedback_dev_windows": 24,
+    "source_dev_min_windows_each": 16,
+    "continuation": {
+      "n02_success_min": 2,
+      "place_grasp_not_below_r4": true,
+      "no_new_repeated_mechanism_pregrasp_stop": true,
+      "finite_and_restore": true,
+      "source_improvement_or_documented_underconvergence": true
+    },
+    "holdout_target": [
+      "DRAWER",
+      "INSERT",
+      "COMPOSITION"
+    ],
+    "same_200_step_counterfactual_optional_new_registration": true
+  },
+  "sites": {
+    "core": [
+      "public_data_preparation",
+      "all_independent_cpu_diagnosis",
+      "teacher_recovery_scene",
+      "offline_inference",
+      "native_closed_loop",
+      "independent_checkpoint_review"
+    ],
+    "hopper": [
+      "real_gpu_training",
+      "bounded_training_gpu_performance",
+      "necessary_in_job_read_load_prefetch_compile_save_restore"
+    ],
+    "hopper_independent_cpu_only": false,
+    "hopper_evaluation": false,
+    "hopper_native_physics": false,
+    "release_gpu_waiting": true,
+    "vanda_paused": true,
+    "historical_pbs_cpu": 12,
+    "historical_pbs_host_gb": 225
+  },
+  "core_production": {
+    "target_100": 100,
+    "target_200": 200,
+    "recovery": 40,
+    "remaining_total_to_100_if_67_corrected": 33,
+    "legacy_gap_if_67_corrected": 2,
+    "new_skill_wave1": 31,
+    "old_production_storage_gate_unchanged": true,
+    "old_n2_n4_qualification_not_reset": true,
+    "actual_new_qualification": false,
+    "historical_2202_free_gib": {
+      "system": 95,
+      "hdd": 534,
+      "nfs": 1172
+    },
+    "historical_production_floor_gib": {
+      "system": 274.2,
+      "hdd": 566.9
+    },
+    "actual_current_resources": null,
+    "no_cleanup_or_move_without_authority": true
+  },
+  "scheduler": {
+    "actual_owner": null,
+    "actual_authorization": null,
+    "actual_next_job_id": null,
+    "one_owner": true,
+    "unknown_reconcile_before_submit": true,
+    "keep_healthy": true,
+    "checkpoint_every_updates": 100,
+    "checkpoint_every_minutes": 30,
+    "max_capsule_hours": 6,
+    "save_reserve_min": 15,
+    "old_320_gpu_hours_not_reset": true,
+    "old_deadline_sgt": "2026-12-05T12:41:52+08:00"
+  },
+  "accounting": {
+    "default_main_updates_inherited": 8000,
+    "conditional_main_max_inherited": 15000,
+    "optional_control_max_inherited": 1000,
+    "new_domain_engineering_max_inherited": 24,
+    "prior_retention_600_separate": true,
+    "old_r0_closed_not_repeated": true,
+    "publication_actual": {
+      "download_bytes": 0,
+      "optimizer_updates": 0,
+      "pbs_jobs": 0,
+      "native_requests": 0,
+      "physics_ticks": 0,
+      "file_cleanup_bytes": 0
+    }
+  },
+  "runtime_binding": {
+    "actual_parent_release": null,
+    "actual_label_manifest": null,
+    "actual_source_manifest": null,
+    "actual_data_bank": null,
+    "actual_new_domain_initialization": null,
+    "actual_lr": null,
+    "actual_aux_coefficient": null,
+    "actual_independent_layout_noise_manifest": null,
+    "actual_resource_and_owner": null
+  }
+}
