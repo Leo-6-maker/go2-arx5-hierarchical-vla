@@ -50,6 +50,14 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
         for entry in commitments:
             release = read(entry / "RELEASE.json")
             job = native(release["job"])
+            if entry == probe:
+                # A worker publishes its receipt immediately before PBS
+                # records the terminal state.
+                for _ in range(6):
+                    if job["job_state"] == "F":
+                        break
+                    time.sleep(5)
+                    job = native(release["job"])
             require(job["job_state"] == "F" and job["project"] == PROJECT
                     and job["Job_Owner"].split("@")[0] == grant["account"]
                     and int(job["Resource_List"]["ngpus"]) == 1
@@ -66,7 +74,7 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
             require(row["job_state"] == "F" or not row["Job_Name"].startswith(("slav4", "slav6")),
                     "An existing Hopper experiment owner must be reconciled")
 
-        binding = dict(mode=mode, manifest=manifest, parent=PARENT, steps=STEPS[mode])
+        binding = dict(mode=mode, manifest=manifest, parent=PARENT, steps=STEPS[mode], settings=preflight["settings"])
         if mode == "formal":
             result = probe / "run/TERMINAL.json"
             terminal = read(result)

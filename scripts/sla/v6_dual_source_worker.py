@@ -16,7 +16,7 @@ from v3_main_place_learn import endpoint_files
 from v4_long_checkpoint import load_parent
 from v4_long_probe import recover, snapshot
 from v4_main250_hopper import allocation
-from v6_dual_course import PARENT, SEED, SOURCE_BATCH, SOURCE_MICRO, bind
+from v6_dual_course import PARENT, SEED, bind
 
 
 STEPS = {"probe": 6, "formal": 1000}
@@ -38,11 +38,17 @@ def preflight(custody, short_run, old_bank, source, manifest):
     _, datasets, banks, slots, auxiliary, settings = inputs_for(custody, short_run, old_bank, source, manifest)
     parent = custody / "HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase03800"
     _, tokenizer, *_ = inputs(custody, short_run, old_bank, parent)
+    sizes = settings["visits"]
     shapes = []
     for step in (0, 1):
-        shapes.append({d: list(prepare_host_batch(datasets[d], tokenizer, d,
-                        range(step * size, (step + 1) * size), banks[d][step])["actions"].shape)
-                       for d, size in SOURCE_BATCH.items()})
+        actual = {}
+        for domain, size in sizes.items():
+            role = "target" if domain == "single" else domain
+            cursor = step * size + (settings["single_phase_cursor"] if domain == "single" else 0)
+            host = prepare_host_batch(datasets[domain], tokenizer, role, range(cursor, cursor + size),
+                                      banks[domain][step])
+            actual[domain] = list(host["actions"].shape)
+        shapes.append(actual)
         preceding, executed = auxiliary(banks["target"][step, slots[step]])
         require(preceding.shape == (4,) and executed.shape == (4, 40) and np.isfinite(executed).all(),
                 "Native target auxiliary sample or preceding width is missing")
@@ -50,7 +56,8 @@ def preflight(custody, short_run, old_bank, source, manifest):
     require(np.all(banks["robodojo"][0] < sources.base_length)
             and np.all(banks["robodojo"][1] >= sources.base_length), "New source has no real scheduled visit")
     return dict(settings=settings, actual_host_batch_shapes=shapes,
-                read_new_source_windows=int(len(banks["robodojo"][1])), optimizer_updates=0)
+                read_new_source_windows=int(len(banks["robodojo"][1]) + sizes.get("single", 0)),
+                separate_single_arm_actual_rows=sizes.get("single", 0), optimizer_updates=0)
 
 
 def run(mode, capsule, custody, short_run, old_bank, source, manifest):
@@ -73,6 +80,9 @@ def run(mode, capsule, custody, short_run, old_bank, source, manifest):
         write(result / "START.json", site)
         jax.config.update("jax_compilation_cache_dir", str(capsule / "jit-cache"))
         make, datasets, banks, _, _, settings = inputs_for(custody, short_run, old_bank, source, manifest)
+        require(settings == declared["settings"], "The actual training course changed after host admission")
+        sizes = settings["visits"]
+        micro = settings["fm_micro"]
         if mode == "formal":
             proof = Path(declared["probe_terminal"]["path"])
             require(sha(proof) == declared["probe_terminal"]["sha256"], "Qualification receipt changed")
@@ -107,6 +117,7 @@ def run(mode, capsule, custody, short_run, old_bank, source, manifest):
             last_save = time.monotonic()
             first_new = None
             new_visits = 0
+            single_visits = 0
 
             def seal():
                 point = result / f"STEP{learner.step:04d}"
@@ -119,16 +130,20 @@ def run(mode, capsule, custody, short_run, old_bank, source, manifest):
                 with (result / "UPDATES.jsonl").open("x", buffering=1) as ledger:
                     while learner.step < updates:
                         guard()
-                        row = learner.update(updates, SOURCE_MICRO, 4, guard)
+                        row = learner.update(updates, micro, 4, guard)
                         visits = {d: c["visits"] for d, c in row["components"].items()}
-                        require(visits == {**SOURCE_BATCH, "auxiliary": 4}, "Effective visit count changed")
+                        require(visits == {**sizes, "auxiliary": 4}, "Effective visit count changed")
                         slots = banks["robodojo"][learner.step - 1]
                         count = int(np.count_nonzero(slots >= datasets["robodojo"].base_length))
-                        require(count == (96 if learner.step % 2 == 0 else 0), "Source round-robin was not consumed")
-                        row["v6_new_source_visits"] = count
-                        if count and first_new is None:
+                        require(count == (sizes["robodojo"] if learner.step % 2 == 0 else 0),
+                                "Source round-robin was not consumed")
+                        single = visits.get("single", 0)
+                        row["v6_new_dual_source_visits"] = count
+                        row["v6_new_single_source_visits"] = single
+                        if (count or single) and first_new is None:
                             first_new = row["step"]
                         new_visits += count
+                        single_visits += single
                         ledger.write(json.dumps(row, allow_nan=False) + "\n")
                         if mode == "formal" and (learner.step % 100 == 0 or learner.step == 250
                                                 or time.monotonic() - last_save >= 1800):
@@ -136,7 +151,7 @@ def run(mode, capsule, custody, short_run, old_bank, source, manifest):
                             last_save = time.monotonic()
                 if mode == "probe":
                     report["restore"] = recover(learner, factory, result / "STEP0006",
-                                                graphs["target"], (SOURCE_MICRO, 4), guard)
+                                                graphs["target"], (micro, 4), guard)
                     require(report["restore"]["prediction_equal"] is True, "Exact restart prediction changed")
                     stats = jax.local_devices()[0].memory_stats()
                     require(stats["peak_bytes_in_use"] < .9 * stats["bytes_limit"], "Insufficient device margin")
@@ -146,7 +161,8 @@ def run(mode, capsule, custody, short_run, old_bank, source, manifest):
                 status = "SAVED_AT_FINITE_BOUNDARY"
             finally:
                 write(result / "TERMINAL.json", dict(**report, status=status, settings=settings,
-                    updates=learner.step, first_new_source_optimizer_step=first_new, new_source_visits=new_visits,
+                    updates=learner.step, first_new_source_optimizer_step=first_new,
+                    new_dual_source_visits=new_visits, new_single_source_visits=single_visits,
                     checkpoint=seal(), contract_sha256=sha(result / "RUN_CONTRACT.json")))
 
 

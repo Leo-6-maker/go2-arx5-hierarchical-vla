@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from xml.etree import ElementTree
 
-from v6_ville_pilot import need, write
+from v6_ville_pilot import need, read, write
 
 
 SDK_REVISION = "36eabcb618c2668dfdff228b18b30507fde71784"
@@ -14,7 +14,7 @@ SDK_XML = f"https://raw.githubusercontent.com/real-stanford/arx5-sdk/{SDK_REVISI
 AUTHOR_PLUGIN_REVISION = "d87b5f1d8bba052abf4182cbd27f20a7cc66f76f"
 
 
-def compare(root, output, *, numeric_output=None):
+def compare(root, output, *, numeric_output=None, extension=None):
     import numpy as np
     import pyarrow.parquet as pq
     from scipy.spatial.transform import Rotation
@@ -48,8 +48,14 @@ def compare(root, output, *, numeric_output=None):
     offset = None
     if numeric_output is not None:
         numeric_output.mkdir(mode=0o700)
-    for index in (0, 1):
-        sample = root / f"data/chunk-000/episode_{index:06d}.parquet"
+    population = [(root, index, phase) for index, phase in ((0, "FIT"), (1, "HELD_OUT_CHECK"))]
+    if extension is not None:
+        observations = read(extension / "ACTUAL.json")
+        need(observations["repo"] == "villekuosmanen/drop_footbag_into_dice_tower"
+             and observations["source_train_added"] == 0, "Unexpected single-arm validation source")
+        population.extend((extension, row["episode"], row["proposed_split"]) for row in observations["scanned"])
+    for folder, index, phase in population:
+        sample = folder / f"data/chunk-000/episode_{index:06d}.parquet"
         values = pq.read_table(sample, columns=["observation.state", "observation.eef_6d_pose", "action", "timestamp"])
         state = np.asarray(values["observation.state"].to_pylist())
         observed = np.asarray(values["observation.eef_6d_pose"].to_pylist())
@@ -65,7 +71,7 @@ def compare(root, output, *, numeric_output=None):
             offset = (rotation.transpose(0, 2, 1) @ translation[:, :, None])[:, :, 0].mean(axis=0)
         raw_error = np.linalg.norm(translation, axis=1)
         adjusted_error = np.linalg.norm(translation - rotation @ offset, axis=1)
-        episodes.append(dict(episode=index, samples=n, fit_role="FIT" if index == 0 else "HELD_OUT_CHECK",
+        episodes.append(dict(episode=index, samples=n, fit_role=phase,
              raw_position_median_mm=float(np.median(raw_error) * 1000),
              raw_position_max_mm=float(raw_error.max() * 1000),
              adjusted_position_median_mm=float(np.median(adjusted_error) * 1000),
@@ -109,5 +115,6 @@ if __name__ == "__main__":
     parser.add_argument("root", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--numeric-output", type=Path)
+    parser.add_argument("--extension", type=Path)
     args = parser.parse_args()
-    compare(args.root, args.output, numeric_output=args.numeric_output)
+    compare(args.root, args.output, numeric_output=args.numeric_output, extension=args.extension)
