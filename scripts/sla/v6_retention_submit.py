@@ -19,7 +19,7 @@ from v6_retention_worker import ENDPOINTS, FACTORS, MAIN, read, require
 
 BUDGET = 3600
 NAMES = {"R1_LOW_LR": "slav6ret1", "R2_PHASE_MATCHED_REPLAY": "slav6ret2",
-         "R3_TARGET_GRADIENT_ONLY": "slav6ret3"}
+         "R3_TARGET_GRADIENT_ONLY": "slav6ret3", "R4_REEXPRESSED_COMMANDS": "slav6rref"}
 
 
 def submit(role, capsule, custody, short, bank, source, runtime, v4_code, original, r0_first, r0_retry):
@@ -35,6 +35,12 @@ def submit(role, capsule, custody, short, bank, source, runtime, v4_code, origin
             for key in ("candidates", "roster", "host"):
                 document = evidence["replay"][key]
                 require(digest(Path(document["path"])) == document["sha256"], "Incompatible Corelab replay package")
+        if role == "R4_REEXPRESSED_COMMANDS":
+            declared = evidence["reexpressed_commands"]
+            host = declared["core_host"]
+            require(digest(Path(declared["path"]) / "MANIFEST.json") == declared["manifest_sha256"]
+                    and digest(Path(host["path"])) == host["sha256"],
+                    "The corrected geometry manifest and actual Corelab readback are required")
         require(time.time() + BUDGET < DEADLINE, "Remaining time is too short for a complete job")
         grant = project_grant(BUDGET)
         require(all(isinstance(v, (int, float)) and math.isfinite(v) and v > 0 for v in (

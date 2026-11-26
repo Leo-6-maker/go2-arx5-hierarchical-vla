@@ -21,7 +21,7 @@ from v4_main250_hopper import allocation
 
 
 FACTORS = {"R1_LOW_LR": (.25, False), "R2_PHASE_MATCHED_REPLAY": (1., False),
-           "R3_TARGET_GRADIENT_ONLY": (1., True)}
+           "R3_TARGET_GRADIENT_ONLY": (1., True), "R4_REEXPRESSED_COMMANDS": (1., False)}
 ENDPOINTS = (100, 200)
 MICRO = dict(target=64, robodojo=32, libero=32)
 
@@ -56,6 +56,7 @@ def run(capsule, custody, short_run, bank_root):
         role = binding["role"]
         lr_scale, target_only = FACTORS[role]
         with_replay = role == "R2_PHASE_MATCHED_REPLAY"
+        with_reexpressed_commands = role == "R4_REEXPRESSED_COMMANDS"
         core = read(pin(binding["core_release"]["path"], binding["core_release"]["sha256"]))
         require(core["role"] == role and core["parent"] == MAIN and core["corelab_diagnosis_complete"]
                 and binding["updates"] == ENDPOINTS[-1] and core["active_fixed_h40_aux"] == 4,
@@ -76,12 +77,23 @@ def run(capsule, custody, short_run, bank_root):
                 "The matched exposure or actual auxiliary sample bank changed")
         config = dict(role=role, parent=model, original_visit_banks=original_banks, micro=MICRO,
                     exact_lr_factor=lr_scale, peak_lr=float(rates.max()), endpoints=ENDPOINTS,
-                    four_cpu_workers=True, prefetch_batches=2, target_matches_original=True,
+                    four_cpu_workers=True, prefetch_batches=2, target_visit_bank_matches_original=True,
                     active_auxiliary=4, source_updates_enabled=not target_only)
         if with_replay:
-            config["target_matches_original"] = False
+            config["target_visit_bank_matches_original"] = False
             config["target_replay_bank_sha256"] = activate_replay(core["replay"], datasets, banks, slots,
                 custody / "foundation-layout-v2/train-ready/TRAIN-069")
+        if with_reexpressed_commands:
+            from v6_reanchored_teacher_labels import bind_dataset
+
+            condition = core["reexpressed_commands"]
+            host = read(pin(condition["core_host"]["path"], condition["core_host"]["sha256"]))
+            require(host["manifest_sha256"] == condition["manifest_sha256"]
+                    and host["actual_reader_samples"] == 128 and not host["optimizer_updates"],
+                    "The label condition must pass actual Corelab consumption checks")
+            bind_dataset(datasets["target"], Path(condition["path"]), condition["manifest_sha256"],
+                         short_run / "incoming/V3-MAIN-CONSUMED-DATA-02/MANIFEST.json")
+            config["reexpressed_geometry_manifest_sha256"] = condition["manifest_sha256"]
         write(result / "RUN_CONTRACT.json", config)
         stop = False
 
@@ -123,6 +135,8 @@ def run(capsule, custody, short_run, bank_root):
                                                  if i >= len(target.original))
                             require(sum(identities.values()) == 8, "Actual replay visits differ from the bound batch")
                             row["replay_visits"] = dict(identities)
+                        if with_reexpressed_commands:
+                            row["reexpressed_geometry_visits"] = observed["target"]
                         ledger.write(json.dumps(row, allow_nan=False) + "\n")
                         if learner.step in ENDPOINTS:
                             sealed = seal()

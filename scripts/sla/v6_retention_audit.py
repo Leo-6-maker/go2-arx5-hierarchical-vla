@@ -62,6 +62,7 @@ def audit(run, step, template, output):
                 "The complete 200-update experiment lacks its original terminal record")
     population = Counter()
     replay_visits = Counter()
+    reexpressed_visits = 0
     timing = []
     target = {"target": 64, "auxiliary": 4}
     expected = target if target_only else dict(target, robodojo=32, libero=32)
@@ -76,11 +77,15 @@ def audit(run, step, template, output):
             if role == "R2_PHASE_MATCHED_REPLAY":
                 require(sum(row["replay_visits"].values()) == 8, "Wrong realized blue-left visits")
                 replay_visits.update(row["replay_visits"])
+            if role == "R4_REEXPRESSED_COMMANDS":
+                require(row["reexpressed_geometry_visits"] == 64, "Wrong realized rotated/displaced supervision visits")
+                reexpressed_visits += row["reexpressed_geometry_visits"]
             timing.append(row["seconds"])
     result = dict(step=step, formal=False, complete_training_endpoint=step == 200,
                   parent_sha256=MAIN, role=role, endpoint=str(endpoint),
                   receipt_sha256=sha(receipt_file), contract_sha256=sha(contract_file), actual_visits=dict(population),
                   actual_replay_visits=dict(replay_visits),
+                  actual_reexpressed_geometry_visits=reexpressed_visits,
                   warm_p50_s=float(np.median(timing[2:])), warm_p95_s=float(np.percentile(timing[2:], 95)),
                   checkpoint_bytes=sum((endpoint / p).stat().st_size for p in receipt["files"]),
                   **restore(endpoint, step, target_only))
