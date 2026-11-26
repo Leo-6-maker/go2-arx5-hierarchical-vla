@@ -33,13 +33,39 @@ def ledger_prefix(result, steps):
     return rows
 
 
+def capture_milestone(run, step, receipt_file):
+    from scripts.pi0292.durable import write
+
+    require(step in (250, 500) and not receipt_file.exists(),
+            "Capture each fixed diagnostic milestone once")
+    ledger_prefix(run, step)
+    endpoint = run / f"STEP{step:04d}"
+    metadata = read(endpoint / "_CHECKPOINT_METADATA")
+    require(metadata["commit_timestamp_nsecs"] > metadata["init_timestamp_nsecs"] > 0,
+            "Orbax milestone is not atomically committed")
+    files = endpoint_files(endpoint)
+    write(receipt_file, dict(step=step, endpoint=str(endpoint.resolve()), files=files,
+          provenance="INDEPENDENT_COMMITTED_MILESTONE",
+          contract_sha256=sha(run / "RUN_CONTRACT.json"),
+          orbax_commit_ns=metadata["commit_timestamp_nsecs"]))
+
+
 def audit(run, receipt_file, custody, bank_root):
     receipt = read(receipt_file)
     step = int(receipt["step"])
     path = Path(receipt["endpoint"]).resolve(strict=True)
-    require(path.parent == run.resolve(strict=True) and path.name == f"STEP{step:04d}"
-            and receipt_file.parent.resolve(strict=True) == run.resolve(strict=True),
+    require(path.parent == run.resolve(strict=True) and path.name == f"STEP{step:04d}",
             "Selected checkpoint belongs to another run")
+    recovered_milestone = receipt.get("provenance") == "INDEPENDENT_COMMITTED_MILESTONE"
+    if recovered_milestone:
+        metadata = read(path / "_CHECKPOINT_METADATA")
+        require(step in (250, 500) and not receipt.get("formal_endpoint")
+                and metadata["commit_timestamp_nsecs"] == receipt["orbax_commit_ns"]
+                and receipt["contract_sha256"] == sha(run / "RUN_CONTRACT.json"),
+                "Recovered milestone no longer matches its checkpoint commit")
+    else:
+        require(receipt_file.parent.resolve(strict=True) == run.resolve(strict=True),
+                "Expected the original learner's sealed run receipt")
     contract_path = run / "RUN_CONTRACT.json"
     contract = read(contract_path)
     settings, charter = contract["settings"], contract["charter"]
@@ -148,7 +174,10 @@ if __name__ == "__main__":
     cli.add_argument("--reference", type=Path)
     cli.add_argument("--export", type=Path)
     cli.add_argument("--diagnostic", action="store_true")
+    cli.add_argument("--capture-milestone", type=int, choices=(250, 500))
     a = cli.parse_args()
+    if a.capture_milestone is not None:
+        capture_milestone(a.run, a.capture_milestone, a.receipt_file)
     proof = audit(a.run, a.receipt_file, a.custody, a.bank_root)
     if a.export:
         proof["provider_manifest_sha256"] = export(proof, a.reference, a.export, diagnostic=a.diagnostic)

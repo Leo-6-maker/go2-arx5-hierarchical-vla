@@ -26,21 +26,29 @@ SUPERSEDED_LONG_PROBE = "slav4longq1"
 LONG_PROBE = "slav4longq2"
 LONG_PROBE_RECOVERY = "slav4longq3"
 LONG_FORMAL = "slav4main1k"
+LONG_TRACE = "slav4trace"
 
 
-def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,completed_probe=None,prior_probe=None):
+def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,completed_probe=None,prior_probe=None,profile_of=None,milestone=None):
     long_run = short_run is not None
     formal = completed_probe is not None
     if long_run != (bank_root is not None) or (formal or prior_probe is not None) and not long_run:
         raise ValueError("Bind both the exact completed short run and the real long data")
-    if formal:
+    profiling = profile_of is not None
+    if profiling != (milestone is not None) or profiling and (not formal or prior_probe is not None):
+        raise ValueError("A profile needs the independently measured probe and the exact formal parent")
+    if profiling:
+        name = LONG_TRACE
+    elif formal:
         name = LONG_FORMAL
     elif prior_probe is not None:
         name = LONG_PROBE_RECOVERY
     else:
         name = LONG_PROBE if long_run else NAME
     wall = 2 * 3600 if long_run and not formal else WALL
-    if formal:
+    if profiling:
+        wall = 3600
+    elif formal:
         from v4_long_train import UPDATES, select
 
         charter = json.loads((capsule / "incoming/FORMAL_BINDING.json").read_bytes())
@@ -112,6 +120,26 @@ def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,comple
             previous_probe = completed_probe / "PREVIOUS_PROBE_READBACK.json"
             if previous_probe.exists():
                 prior += json.loads(previous_probe.read_bytes())["wall_s"]
+        if profiling:
+            from v4_long_profile import START, TRACED, WARM
+
+            binding = json.loads((capsule / "incoming/PROFILE_BINDING.json").read_bytes())
+            terminal_path = profile_of / "run/TRAIN_TERMINAL.json"
+            terminal = json.loads(terminal_path.read_bytes())
+            actual = json.loads((profile_of / "RELEASE.json").read_bytes())
+            row = native(actual["job"])
+            if (row["job_state"] != "F" or row["Exit_status"] != 0 or row["Job_Name"] != LONG_FORMAL
+                    or row["project"] != PROJECT or row["Job_Owner"].split("@")[0] != grant["account"]
+                    or int(row["Resource_List"]["ngpus"]) != 1 or not terminal["formal_endpoint"]
+                    or terminal["completed_updates"] != 1000 or binding["main_terminal_sha256"] != digest(terminal_path)
+                    or binding["milestone_sha256"] != digest(milestone)
+                    or binding["replay_start"] != START or binding["traced"] != TRACED
+                    or binding["warmup"] != WARM):
+                raise PermissionError("Wait for the exact original 1K scheduler terminal and fixed trace admission")
+            old_engineering = json.loads((completed_probe / "run/ACCEPTED.json").read_bytes())["engineering_updates"]
+            if old_engineering + WARM + TRACED > 56:
+                raise PermissionError("The trace exceeds the existing finite engineering scope")
+            prior += actual["reserved_s"]
         if prior_probe is not None:
             release = json.loads((prior_probe / "RELEASE.json").read_bytes())
             probe = native(release["job"])
@@ -133,7 +161,7 @@ def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,comple
                                          text=True,timeout=45).split()
         for job in active:
             row = native(job)
-            if row["Job_Name"] in (*EARLIER_NAMES, NAME, SUPERSEDED_LONG_PROBE, LONG_PROBE, LONG_PROBE_RECOVERY, LONG_FORMAL) and row["job_state"] != "F":
+            if row["Job_Name"] in (*EARLIER_NAMES, NAME, SUPERSEDED_LONG_PROBE, LONG_PROBE, LONG_PROBE_RECOVERY, LONG_FORMAL, LONG_TRACE) and row["job_state"] != "F":
                 existing.append(job)
         if existing or (capsule/"run").exists():
             raise RuntimeError("An existing MAIN owner must be reconciled")
@@ -147,11 +175,16 @@ def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,comple
             f.writelines(f"{value}  {name}\n" for name,value in manifests.items())
         paths=":".join(map(str,(capsule/"code",source,source/"src",runtime/"data_dependencies",
                                      runtime/"upstream",runtime/"packages")))
-        entrypoint = "v4_long_train.py" if formal else "v4_long_probe.py" if long_run else "v4_main250_hopper.py"
+        if profiling:
+            entrypoint = "v4_long_profile.py"
+        else:
+            entrypoint = "v4_long_train.py" if formal else "v4_long_probe.py" if long_run else "v4_main250_hopper.py"
         argv = [runtime/"interpreter/bin/python3.12", "-B", capsule/"code"/entrypoint, capsule, custody]
         if long_run:
             argv.extend((short_run, bank_root))
-        if formal:
+        if profiling:
+            argv.extend((profile_of, milestone))
+        elif formal:
             argv.append(completed_probe)
         if prior_probe is not None:
             argv.extend(("--prior-probe", prior_probe))
@@ -207,6 +240,8 @@ if __name__=="__main__":
     cli.add_argument("--short-run",type=Path)
     cli.add_argument("--bank-root",type=Path)
     cli.add_argument("--completed-probe",type=Path)
+    cli.add_argument("--profile-of",type=Path)
+    cli.add_argument("--milestone",type=Path)
     cli.add_argument("--prior-probe",type=Path)
     os.umask(0o077)
     submit(**vars(cli.parse_args()))

@@ -1,6 +1,7 @@
 """One learner update for V4 mixed-source training or its matched control."""
 
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import nullcontext
 from dataclasses import dataclass
 import hashlib
 import time
@@ -41,7 +42,7 @@ class LongLearner:
     """Keep one immutable visit plan, one model, and one global Adam clip."""
 
     def __init__(self, *, graphs, parameters, frozen, datasets, tokenizer, banks, auxiliary_slots,
-                 auxiliary, cursors, rates, rng, target_control=False, workers=4):
+                 auxiliary, cursors, rates, rng, target_control=False, workers=4, trace=None):
         from go2arx5_vla.sla_adapter import scale20k_training as original
         from go2arx5_vla.sla_adapter.adapt5k_training import OPTIMIZER
         from go2arx5_vla.sla_adapter.scale20k_contract import make_adamw
@@ -68,6 +69,7 @@ class LongLearner:
         self.pool = ThreadPoolExecutor(max_workers=workers, thread_name_prefix="v4-learner-input")
         self.reader_locks = {domain: Lock() for domain in self.domains}
         self.queued = {}
+        self.trace = trace if trace is not None else lambda _name: nullcontext()
 
     def close(self):
         self.pool.shutdown(wait=True, cancel_futures=True)
@@ -119,41 +121,46 @@ class LongLearner:
         for domain in self.domains:
             self.active_component = domain
             guard()
-            batch = prepared[domain].result()
+            with self.trace("prefetch_wait/" + domain):
+                batch = prepared[domain].result()
             d0 = time.monotonic()
-            obs, actions = device_batch(batch.host)
-            support = jax.device_put(batch.support) if batch.support is not None else None
-            noise, tau = self.draws[domain](self.rng, batch.cursor)
+            with self.trace("prepare_gpu/" + domain):
+                obs, actions = device_batch(batch.host)
+                support = jax.device_put(batch.support) if batch.support is not None else None
+                noise, tau = self.draws[domain](self.rng, batch.cursor)
             active = {"shared": self.parameters["shared"], "private": self.parameters[domain]}
             total = jax.tree.map(jnp.zeros_like, active)
             losses = []
             width = fm_micro[domain]
-            for start in range(0, len(batch.indices), width):
-                guard()
-                part = slice(start, start + width)
-                args = (jax.tree.map(lambda x: x[part], obs), actions[part], noise[part], tau[part])
-                if support is not None:
-                    args = (*args, support[part])
-                loss, total = self.gradient[domain](total, width / len(batch.indices),
-                                                    active, self.frozen, *args)
-                losses.append(loss)
-            fm[domain] = total
-            metrics[domain] = dict(loss=float(jnp.mean(jnp.stack(losses))),
-                                   visits=len(batch.indices),
-                                   visit_sha256=hashlib.sha256(batch.indices.tobytes()).hexdigest(),
-                                   seconds=time.monotonic() - d0)
+            with self.trace("flow_matching/" + domain):
+                for start in range(0, len(batch.indices), width):
+                    guard()
+                    part = slice(start, start + width)
+                    args = (jax.tree.map(lambda x: x[part], obs), actions[part], noise[part], tau[part])
+                    if support is not None:
+                        args = (*args, support[part])
+                    loss, total = self.gradient[domain](total, width / len(batch.indices),
+                                                        active, self.frozen, *args)
+                    losses.append(loss)
+                fm[domain] = total
+                metrics[domain] = dict(loss=float(jnp.mean(jnp.stack(losses))),
+                                       visits=len(batch.indices),
+                                       visit_sha256=hashlib.sha256(batch.indices.tobytes()).hexdigest(),
+                                       seconds=time.monotonic() - d0)
             if step == 0:
                 self.observe_memory()
             if domain == "target":
                 self.active_component = "auxiliary"
-                aux, metrics["auxiliary"] = self.aux_gradient(step, batch, obs, active, aux_micro, guard)
+                with self.trace("h40_auxiliary"):
+                    aux, metrics["auxiliary"] = self.aux_gradient(step, batch, obs, active, aux_micro, guard)
                 if step == 0:
                     self.observe_memory()
-        if self.domains == ("target",):
-            joint = {key: jax.tree.map(lambda fm, a: 2. * fm + a, fm["target"][name], aux[name])
-                     for key, name in (("shared", "shared"), ("target", "private"))}
-        else:
-            joint = joint_gradient(fm, aux, tree_map=jax.tree.map)
+        with self.trace("join_gradient"):
+            if self.domains == ("target",):
+                joint = {key: jax.tree.map(lambda fm, a: 2. * fm + a, fm["target"][name], aux[name])
+                         for key, name in (("shared", "shared"), ("target", "private"))}
+            else:
+                joint = joint_gradient(fm, aux, tree_map=jax.tree.map)
         return joint, {**fm, "auxiliary": aux}, metrics
 
     def aux_gradient(self, step, batch, observation, active, micro, guard):
@@ -193,16 +200,18 @@ class LongLearner:
         start = time.monotonic()
         joint, components, metrics = self.components(
             self.step, self.prepared(self.step, stop), fm_micro, aux_micro, guard)
-        for name, gradient in components.items():
-            norm = float(optax.global_norm(gradient))
-            if not np.isfinite(norm) or not np.isfinite(metrics[name]["loss"]):
-                raise FloatingPointError("Nonfinite component before Adam: " + name)
-            metrics[name]["gradient_l2"] = norm
+        with self.trace("finite_gradient_readback"):
+            for name, gradient in components.items():
+                norm = float(optax.global_norm(gradient))
+                if not np.isfinite(norm) or not np.isfinite(metrics[name]["loss"]):
+                    raise FloatingPointError("Nonfinite component before Adam: " + name)
+                metrics[name]["gradient_l2"] = norm
         guard()
         self.active_component = "optimizer"
         rate = float(self.rates[self.step])
-        parameters, optimizer, norm = self.apply(self.parameters, self.optimizer, joint, rate)
-        jax.block_until_ready((parameters, optimizer))
+        with self.trace("adamw_global_clip"):
+            parameters, optimizer, norm = self.apply(self.parameters, self.optimizer, joint, rate)
+            jax.block_until_ready((parameters, optimizer))
         self.parameters, self.optimizer = parameters, optimizer
         if self.step == 0:
             self.observe_memory()
