@@ -1,0 +1,321 @@
+{
+  "schema": "SLA_SCIENCE_FIRST_LONG_HORIZON_V62",
+  "status": "PLAN_ONLY",
+  "date_sgt": "2026-11-27",
+  "base": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+  "documents": {
+    "plan": "SLA_SCIENCE_FIRST_LONG_HORIZON_V62_PLAN_20261127.md",
+    "runbook": "SLA_SCIENCE_FIRST_LONG_HORIZON_V62_RUNBOOK_20261127.md"
+  },
+  "references": {
+    "v61": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/221cc714f7648bb6f596745f9af1aaf1cae530d1/docs/protocols/SLA_HOPPER_V61_CORRECTED_RETENTION_PLAN_20261126.md",
+    "v61reg": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/221cc714f7648bb6f596745f9af1aaf1cae530d1/docs/protocols/SLA_HOPPER_V61_CORRECTED_RETENTION_REGISTRY_20261126.json",
+    "actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4de2985f05a9acf87566aa5b1dd363816bbdc34b/reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/RETENTION_AND_SITE_ACTUAL_20261126.md",
+    "factory": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6a10550dcc5beaf1e9a8c4180796198149d52023/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/FIRST_SITE_ACTUAL_20261126.md",
+    "storage": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6a10550dcc5beaf1e9a8c4180796198149d52023/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/STORAGE_MAINTENANCE_ACTUAL_20261127.md",
+    "layout": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6a10550dcc5beaf1e9a8c4180796198149d52023/scripts/sla/v5_storage_layout.py",
+    "v5": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/2cbce375a4f5a01bedc4f065d5ad6581fe7cbb05/docs/protocols/SLA_CORE_EMBODIMENT_FACTORY_V5_PLAN_20261126.md",
+    "v6": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d7c74953109374b69906036a0e2c6f39a32b3aa7/docs/protocols/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_PLAN_20261126.md",
+    "source": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4de2985f05a9acf87566aa5b1dd363816bbdc34b/reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/FIRST_SITE_ACTUAL_20261126.md"
+  },
+  "user_mandate": [
+    "优先推进科学实验，更新长程实验计划到github",
+    "不用管存储限制，优先推进科学实验主线"
+  ],
+  "latest": {
+    "r4_parent_sha256": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+    "r5_sha256": "e44934ce604dff1aef3c2d3e94b4c2235efd5a15e9883c9ceba6265bb8cc61d2",
+    "source_bank_sha256": "1ba0092a0c982c51e785849b86332bfc9c3db636bad6a82cab97548bed027891",
+    "independent_manifest_sha256": "c2af53f5b70340d1543082adbdbb769ea8e0e66231ac63d56059485136669605",
+    "r4": {
+      "hold": {
+        "valid": 2,
+        "success": 2,
+        "ticks": 46656,
+        "forwards": 141
+      },
+      "place": {
+        "valid": 4,
+        "grasp": 4,
+        "lift": 3,
+        "zone": 2,
+        "complete": 0,
+        "ticks": 182812,
+        "forwards": 640
+      },
+      "safety_stop": 0
+    },
+    "r5": {
+      "updates": 200,
+      "open_replacements": 400,
+      "withdraw_replacements": 399,
+      "pbs": "735810.hopper-m-02",
+      "terminal": "F/0",
+      "fixed_feedback_release_qualifying": 0,
+      "fixed_feedback_release_total": 24,
+      "native_evaluation_pending": true
+    },
+    "historical_diagnostic_updates": 800,
+    "source_actual_updates": 0,
+    "source_pbs": null,
+    "source_core_train": 337,
+    "robodojo_old": 200,
+    "robodojo_new": 107,
+    "ville": 30,
+    "target_episodes": 69,
+    "target_hold": 46,
+    "target_place": 23,
+    "target_queries": 6100,
+    "target_full_h40": 5893,
+    "corrected_valid_points": 239860,
+    "source_first_target_episodes": 52,
+    "storage_observed_sgt": "2026-11-27T01:11:00+08:00",
+    "ssd_free_gib": 92.17,
+    "hdd_free_gib": 533.13,
+    "nfs_shared_free_gib": 1161.82,
+    "nfs_personal_quota": null,
+    "retired_files": 145,
+    "retired_bytes": 9159933952,
+    "archive_real_copy_bytes": 0,
+    "habitat_retired_bytes": 0
+  },
+  "resources": {
+    "project_storage_fixed_floor_blocking": false,
+    "old_floor_advisory": true,
+    "old_hot_cap_advisory": true,
+    "actual_site_enforced_limits_required": true,
+    "actual_mount_device_writable_required": true,
+    "real_capacity_inflight_terminal_seal_required": true,
+    "unknown_quota_is_not_unlimited": true,
+    "unrelated_volume_not_blocking": true,
+    "no_cleanup_precondition": true,
+    "no_new_unapproved_deletion": true,
+    "no_system_or_mount_change": true,
+    "science_first_local_partial_progress": true,
+    "hopper_independent_cpu_only": false,
+    "hopper_evaluation": false,
+    "vanda_paused": true,
+    "release_gpu_waiting": true
+  },
+  "parent_gate": {
+    "existing_r4_hold_pass": true,
+    "existing_r4_place_grasp_pass": true,
+    "parent_n03_existing_closed": 2,
+    "independent_slots": [
+      {
+        "id": "IH-R4-N03-201",
+        "model": "R4-200",
+        "layout": "N03",
+        "noise": 201
+      },
+      {
+        "id": "IH-R4-N03-202",
+        "model": "R4-200",
+        "layout": "N03",
+        "noise": 202
+      },
+      {
+        "id": "IH-P-VAL-201",
+        "model": "MAIN3.8K",
+        "layout": "VAL-F1-G00",
+        "noise": 201
+      },
+      {
+        "id": "IH-R4-VAL-201",
+        "model": "R4-200",
+        "layout": "VAL-F1-G00",
+        "noise": 201
+      },
+      {
+        "id": "IH-P-VAL-202",
+        "model": "MAIN3.8K",
+        "layout": "VAL-F1-G00",
+        "noise": 202
+      },
+      {
+        "id": "IH-R4-VAL-202",
+        "model": "R4-200",
+        "layout": "VAL-F1-G00",
+        "noise": 202
+      }
+    ],
+    "each_tick_cap": 35703,
+    "each_forward_cap": 120,
+    "remaining_tick_cap": 214218,
+    "remaining_forward_cap": 720,
+    "independent_r4_min_success": 1,
+    "independent_r4_not_below_parent": true,
+    "new_repeated_pregrasp_stop_block": 2,
+    "require_complete_place": false,
+    "actual_release": null
+  },
+  "training": {
+    "batches": {
+      "source_early": {
+        "target": 16,
+        "single_arx5": 16,
+        "dual_arx5": 80,
+        "libero": 16
+      },
+      "source_expanded": {
+        "target": 16,
+        "single_arx5": 64,
+        "dual_arx5": 32,
+        "libero": 16
+      },
+      "source_dual_only": {
+        "target": 16,
+        "single_arx5": 0,
+        "dual_arx5": 96,
+        "libero": 16
+      },
+      "adapt_early": {
+        "target": 64,
+        "single_arx5": 16,
+        "dual_arx5": 32,
+        "libero": 16
+      },
+      "adapt_expanded": {
+        "target": 64,
+        "single_arx5": 32,
+        "dual_arx5": 16,
+        "libero": 16
+      },
+      "adapt_dual_only": {
+        "target": 64,
+        "single_arx5": 0,
+        "dual_arx5": 48,
+        "libero": 16
+      }
+    },
+    "global_fm": 128,
+    "aux_count": 4,
+    "aux_generation_steps": 10,
+    "aux_normalized_source": 0.0625,
+    "aux_normalized_adapt": 0.25,
+    "aux_target_ratio": 0.5,
+    "source_peak_lr": 0.0000016962141658312243,
+    "warmup": 100,
+    "source_decay_total": 5000,
+    "source_end_fraction": 0.1,
+    "source_endpoints": [
+      250,
+      500,
+      1000,
+      5000,
+      10000
+    ],
+    "source_first_visits": {
+      "target": 4000,
+      "single_arx5": 4000,
+      "dual_old": 10000,
+      "dual_new": 10000,
+      "libero": 4000,
+      "aux": 1000
+    },
+    "source_provisional": {
+      "allowed_before_parent_closed": true,
+      "requires_no_known_parent_regression": true,
+      "requires_real_authority_and_capacity": true,
+      "max_updates": 250,
+      "one_mutually_exclusive_first_segment": true,
+      "formal_promotion_requires_parent_and_endpoint_pass": true,
+      "no_repeat_on_promotion": true,
+      "continue_500_before_both_gates": false,
+      "all_updates_count_in_inherited_cap": true
+    },
+    "adapt_endpoints": [
+      1000,
+      3000,
+      5000
+    ],
+    "expanded_single_min": 100,
+    "expanded_single_skill_groups_min": 3,
+    "new_engineering_max_inherited": 24,
+    "optional_control_max_inherited": 1000,
+    "release_repair_max_within_optional": 250,
+    "state_dropout": 0.25,
+    "one_global_clip_and_adam": true,
+    "keep_frozen_wbc_l1": true
+  },
+  "evaluation": {
+    "old_v61_six_panel_logical": 54,
+    "r4_six_existing_closed": 6,
+    "remaining_six_panel": 48,
+    "independent_hold_logical": 16,
+    "parent_n03_existing_closed": 2,
+    "remaining_independent_hold": 14,
+    "remaining_main_student_max": 62,
+    "r5_native_initial": 2,
+    "r5_native_conditional_additional": 4,
+    "r5_native_max": 6,
+    "r5_total_tick_cap": 254218,
+    "r5_total_forward_cap": 880,
+    "new_or_mapped_student_max": 68,
+    "c0_new_teacher_feedback_windows_max": 48,
+    "c0_new_forwards_max": 96,
+    "existing_teacher_qualification_reused": 2,
+    "new_initial_hold_teacher_qual_max": 0,
+    "continuation_n02_min_success": 2,
+    "continuation_place_grasp_min": 4,
+    "require_source_improvement_or_explain_underconvergence": true,
+    "holdout": [
+      "DRAWER",
+      "INSERT",
+      "COMPOSITION"
+    ]
+  },
+  "factory": {
+    "target_100": 100,
+    "target_200": 200,
+    "recovery": 40,
+    "wave1_remaining": 31,
+    "wave1_skill_targets": {
+      "reach": 8,
+      "mobile_grasp": 8,
+      "diverse_place": 8,
+      "container": 4,
+      "push": 3
+    },
+    "n2_n4_previous_qualification_capacity_inherited": [
+      36,
+      28
+    ],
+    "source_goal": [
+      500,
+      2000
+    ],
+    "original_target_label_corrected_contract": true
+  },
+  "scheduler": {
+    "actual_owner": null,
+    "actual_source_job_id": null,
+    "actual_scope": null,
+    "one_owner": true,
+    "reconcile_unknown_before_submit": true,
+    "old_gpu_hours_cap_320_not_reset": true,
+    "deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "max_pbs_hours": 6,
+    "save_reserve_min": 15,
+    "checkpoint_every_updates": 100,
+    "checkpoint_every_minutes": 30,
+    "report_each_endpoint_or_hours": 12
+  },
+  "accounting": {
+    "default_main_updates": 8000,
+    "conditional_main_updates_max": 15000,
+    "optional_control_max": 1000,
+    "release_repair_counts_within_control": true,
+    "engineering_max": 24,
+    "old_research_800_separate": true,
+    "publication_actual": {
+      "pbs_jobs": 0,
+      "optimizer_updates": 0,
+      "native_requests": 0,
+      "physics_ticks": 0,
+      "download_bytes": 0,
+      "archive_copy_bytes": 0,
+      "retired_bytes": 0
+    }
+  }
+}
