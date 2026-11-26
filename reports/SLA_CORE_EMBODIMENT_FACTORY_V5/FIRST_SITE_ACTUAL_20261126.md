@@ -49,3 +49,7 @@
 旧关闭波次的 3 条已完成两站实际读取。新 `TRAIN-LEGACY-067` 为 **45 HOLD + 22 PLACE**，5,892 个真实消费窗口，其中 5,691 个完整支持 H40。Corelab 和 Hopper 各验证新增轨迹的 6 组真实起止观测，沿用 Go2 原始两路相机映射及实际动作掩码。两端 manifest 一致，为 `cf68c9a444b340e6757486c34829dfb7624066dd510614da2f279b3165d6267a`。收方独立回读为 `8fe9f927c57845d243baa2db161db06e022455ed00e799c068fa696fdd1b4ca6`。沿用原 DEV 排除，库存仍缺一条 HOLD 和一条 PLACE 才到 69。此版本实际优化器访问为 0。
 
 从 RoboCasa365 的官方 Lightwheel 公共包按 HTTP 范围仅取 `fruit_bowl/FruitBowl001`。20 个成员完成 CRC 和 SHA-256 校验，实际传输 5,150,114 字节。首轮网络连接中止的原件保留，下一轮通过。Core CPU 实际编译出 16 个碰撞件、18 个 mesh、19 个 geom。原模型包围尺寸 332.10 × 236.94 × 152.00 mm，中心向下射线穿过口沿并命中容器内部。该原尺寸资产只完成场景接入前的几何核验；移动容器的尺寸、接触和完整路径仍需用独立 M_FREE 合同验证。本次零原生积分。按上游 CC BY 4.0 记录 RoboCasa365 与 Lightwheel 署名。[上游许可](https://github.com/robocasa/robocasa/tree/7bfc60c9d26c02506d4265cbe0e86b35e6e25d42#license) · [官方资产包索引](https://github.com/robocasa/robocasa/blob/7bfc60c9d26c02506d4265cbe0e86b35e6e25d42/robocasa/models/assets/box_links/box_links_assets.json)。
+
+## 22:02 SGT 存储回读
+
+Corelab 实际系统控制卷约 **95 GiB** 可用，原底线 274.2 GiB。本地 HDD 约 **534 GiB** 可用，原底线 566.9 GiB，至少还需约 **33 GiB** 加原在途预留。私有 NFS 尚有约 **1,172 GiB**，承接检查点和已有数据封存。本地原生产存储门保持有效。当前新增原生任务和完整示范均为 0，两站兼容旧示范实收 **67 条**，距 Embodiment-100 尚缺 33 条新合格结果。继续保留原接触、消费与 STOP 合同，Vanda 保持暂停。
