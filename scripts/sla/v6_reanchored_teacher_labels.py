@@ -41,9 +41,45 @@ def bind_dataset(target, package, manifest_sha, original_manifest):
     target.actual = patched
 
 
+def reexpress(spec, queries, recorded):
+    from go2arx5_vla.sla_adapter.gripper_v2 import GripLogitCodec
+
+    policy = np.asarray(spec["policy_from_world"])
+    world = np.linalg.inv(policy)
+    codec = GripLogitCodec(np.asarray(queries[0]["episode_fixed_T_policy_from_mount"]))
+    fixed = recorded["action"].copy()
+    require(len(queries) == len(fixed), "Mismatched Teacher queries and command rows")
+    maxima, p10_maxima = np.zeros(2), np.zeros(2)
+    for index, query in enumerate(queries):
+        mask = recorded["valid"][index]
+        anchor = np.asarray(query["state_eef10"])
+        actual = np.asarray(query["actual_state"]["tcp"])
+        previous = receiver(query["recent_reference"]["accepted_pose7"])
+        tick = query["native_step"]
+        require(tick == recorded["native_step"][index] == query["recent_reference"]["native_step"]
+                and query["phase"] == recorded["phase"][index] and mask[:10].all()
+                and np.allclose(matrix_from10(anchor[None])[0], policy @ actual, atol=1e-8, rtol=0.),
+                "Labels and original causal observations must use the same query")
+        baseline = recorded["action"][index]
+        decoded = codec.decode(anchor, np.pad(baseline, ((0, 0), (0, 25))))
+        original_world = world @ matrix_from10(decoded)
+        inverse = transport(original_world, previous, actual)
+        preimage = pose10(policy @ inverse, decoded[:, 9])
+        _, encoded = codec.encode(anchor, preimage)
+        fixed[index, mask, :6] = encoded[mask, :6]
+        view = codec.decode(anchor, np.pad(fixed[index], ((0, 0), (0, 25))))
+        replayed = transport(world @ matrix_from10(view), actual, previous)
+        residual = metric(replayed[mask], original_world[mask])
+        maxima = np.maximum(maxima, residual.max(axis=0))
+        p10_maxima = np.maximum(p10_maxima, residual[:10].max(axis=0))
+    require(np.array_equal(fixed[..., 6], recorded["action"][..., 6])
+            and np.array_equal(fixed[~recorded["valid"]], recorded["action"][~recorded["valid"]]),
+            "Gripper labels and unsupported suffix must stay bitwise unchanged")
+    return fixed, maxima, p10_maxima
+
+
 def export(native_root, consumed, parent_gate, diagnosis, output):
     from go2arx5_vla.sla_adapter.codec_v1 import Quantiles
-    from go2arx5_vla.sla_adapter.gripper_v2 import GripLogitCodec
 
     diagnostic = read(diagnosis)
     require(diagnostic["queries"] == 4450 and all(diagnostic[key] == 0 for key in
@@ -62,44 +98,20 @@ def export(native_root, consumed, parent_gate, diagnosis, output):
     for entry, spec, queries, query_sha in original_cases(native_root, consumed):
         eid = entry["episode"]
         require(query_sha == prior[eid], "Original Teacher query bytes changed after the audit")
-        policy = np.asarray(spec["policy_from_world"])
-        world = np.linalg.inv(policy)
-        mount = np.asarray(queries[0]["episode_fixed_T_policy_from_mount"])
-        codec = GripLogitCodec(mount)
         with np.load(pin(consumed / entry["labels"], entry["sha256"]), allow_pickle=False) as old:
             recorded = {k: old[k] for k in ("action", "valid", "phase", "native_step")}
-        fixed = recorded["action"].copy()
+        fixed, error, p10_error = reexpress(spec, queries, recorded)
+        maxima = np.maximum(maxima, error)
+        p10_maxima = np.maximum(p10_maxima, p10_error)
+        checked += int(recorded["valid"].sum())
+        full += int(recorded["valid"].all(axis=1).sum())
         for index, query in enumerate(queries):
             mask = recorded["valid"][index]
-            anchor = np.asarray(query["state_eef10"])
-            actual = np.asarray(query["actual_state"]["tcp"])
-            previous = receiver(query["recent_reference"]["accepted_pose7"])
-            tick = query["native_step"]
-            require(tick == recorded["native_step"][index] == query["recent_reference"]["native_step"]
-                    and query["phase"] == recorded["phase"][index] and mask[:10].all()
-                    and np.allclose(matrix_from10(anchor[None])[0], policy @ actual, atol=1e-8, rtol=0.),
-                    "Labels and original causal observations must use the same query")
             baseline = recorded["action"][index]
-            decoded = codec.decode(anchor, np.pad(baseline, ((0, 0), (0, 25))))
-            original_world = world @ matrix_from10(decoded)
-            inverse = transport(original_world, previous, actual)
-            preimage = pose10(policy @ inverse, decoded[:, 9])
-            _, encoded = codec.encode(anchor, preimage)
-            fixed[index, mask, :6] = encoded[mask, :6]
-            view = codec.decode(anchor, np.pad(fixed[index], ((0, 0), (0, 25))))
-            replayed = transport(world @ matrix_from10(view), actual, previous)
-            residual = metric(replayed[mask], original_world[mask])
-            maxima = np.maximum(maxima, residual.max(axis=0))
-            p10_maxima = np.maximum(p10_maxima, residual[:10].max(axis=0))
-            checked += int(mask.sum())
             phase = query["phase"]
-            full += int(mask.all())
             for scope, rows in (("P10", slice(0, 10)), ("SUPPORTED_SUFFIX", slice(10, None))):
                 support[phase, scope, "original"].append(np.abs(norm.normalize(baseline[mask][rows])))
                 support[phase, scope, "reexpressed"].append(np.abs(norm.normalize(fixed[index, mask][rows])))
-        require(np.array_equal(fixed[..., 6], recorded["action"][..., 6])
-                and np.array_equal(fixed[~recorded["valid"]], recorded["action"][~recorded["valid"]]),
-                "Gripper labels and unsupported suffix must stay bitwise unchanged")
         result = output / entry["labels"]
         with result.open("xb") as stream:
             np.savez_compressed(stream, **dict(recorded, action=fixed))

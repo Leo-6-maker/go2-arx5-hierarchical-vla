@@ -33,20 +33,24 @@ def transport(poses, actual, accepted):
     return result
 
 
+def case_evidence(native_root, row):
+    matching = [p for p in native_root.glob(f"*/cases/{row['episode']}/EXECUTION_SPEC.json")
+                if hashlib.sha256(p.read_bytes()).hexdigest() == row["original_markers"]]
+    require(len(matching) == 1, "Expected exactly one original execution specification")
+    terminal = read(pin(matching[0].with_name("RESULT.private.json"), row["result"]))
+    cap = terminal["detail"]["capture"]
+    export = read(pin(Path(cap["path"]), cap["sha256"]))
+    p = export["labels"]
+    queries = read(pin(Path(p["path"]), p["sha256"]))
+    require(len(queries) == row["windows"], "Original query number changed")
+    return read(matching[0]), queries, p["sha256"]
+
+
 def original_cases(native_root, commands):
     case_list = read(commands / "MANIFEST.json")["episodes"]
     require(len(case_list) == 52, "Use the fixed original V4 Teacher population")
     for row in case_list:
-        matching = [p for p in native_root.glob(f"*/cases/{row['episode']}/EXECUTION_SPEC.json")
-                    if hashlib.sha256(p.read_bytes()).hexdigest() == row["original_markers"]]
-        require(len(matching) == 1, "Expected exactly one original execution specification")
-        terminal = read(pin(matching[0].with_name("RESULT.private.json"), row["result"]))
-        cap = terminal["detail"]["capture"]
-        export = read(pin(Path(cap["path"]), cap["sha256"]))
-        p = export["labels"]
-        queries = read(pin(Path(p["path"]), p["sha256"]))
-        require(len(queries) == row["windows"], "Original query number changed")
-        yield row, read(matching[0]), queries, p["sha256"]
+        yield row, *case_evidence(native_root, row)
 
 
 def run(native_root, commands, output):
