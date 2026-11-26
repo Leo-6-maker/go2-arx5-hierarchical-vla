@@ -43,7 +43,8 @@ class LongLearner:
 
     def __init__(self, *, graphs, parameters, frozen, datasets, tokenizer, banks, auxiliary_slots,
                  auxiliary, cursors, rates, rng, target_control=False, workers=4, trace=None,
-                 batch_by_domain=None, gradient_join=None):
+                 batch_by_domain=None, gradient_join=None, domain_roles=None,
+                 support_domains=("target",), optimizer_factory=None):
         from go2arx5_vla.sla_adapter import scale20k_training as original
         from go2arx5_vla.sla_adapter.adapt5k_training import OPTIMIZER
         from go2arx5_vla.sla_adapter.scale20k_contract import make_adamw
@@ -53,21 +54,26 @@ class LongLearner:
         self.auxiliary, self.auxiliary_slots = auxiliary, auxiliary_slots
         self.cursors, self.rates = cursors, rates
         self.batch_by_domain = dict(BATCH if batch_by_domain is None else batch_by_domain)
-        if (set(self.batch_by_domain) != set(BATCH) or any(
-                type(size) is not int or size <= 0 for size in self.batch_by_domain.values())
+        self.roles = {domain: domain for domain in BATCH} if domain_roles is None else dict(domain_roles)
+        self.support_domains = frozenset(support_domains)
+        if (set(self.batch_by_domain) != set(self.roles) or not set(self.roles.values()) <= set(BATCH)
+                or self.roles.get("target") != "target" or "target" not in self.support_domains
+                or not self.support_domains <= set(self.roles)
+                or any(type(size) is not int or size <= 0 for size in self.batch_by_domain.values())
                 or (target_control and gradient_join is not None)):
             raise ValueError("Unsupported learner batch or reduction")
         self.gradient_join = gradient_join
         self.domains = ("target",) if target_control else tuple(self.batch_by_domain)
         self.gradient = {
             d: original.compile_fm_accumulation(
-                masked_target_loss(graphs[d]) if d == "target" else original.domain_loss(graphs[d]))
+                masked_target_loss(graphs[d]) if d in self.support_domains else original.domain_loss(graphs[d]))
             for d in self.domains
         }
-        self.draws = {d: original.frozen_draws(d, self.batch_by_domain[d]) for d in self.domains}
+        self.draws = {d: original.frozen_draws(self.roles[d], self.batch_by_domain[d]) for d in self.domains}
         self.aux_add = original.compile_fm_accumulation(
             original.target_auxiliary(graphs["target"], datasets["target"].statistics["actions"]))
-        self.initialize_optimizer, self.apply = make_adamw(**OPTIMIZER)
+        make_optimizer = make_adamw if optimizer_factory is None else optimizer_factory
+        self.initialize_optimizer, self.apply = make_optimizer(**OPTIMIZER)
         self.optimizer = self.initialize_optimizer(parameters)
         self.step = 0
         self.active_component = "prepare"
@@ -90,9 +96,9 @@ class LongLearner:
             raise ValueError("Invalid realized domain batch")
         with self.reader_locks[domain]:
             reader = self.datasets[domain]
-            host = prepare_host_batch(reader, self.tokenizer, domain,
+            host = prepare_host_batch(reader, self.tokenizer, self.roles[domain],
                                       range(cursor, cursor + len(indices)), indices)
-            if domain == "target":
+            if domain in self.support_domains:
                 support = np.stack([reader.support(int(i)) for i in indices])
                 if not support.any(axis=1).all():
                     raise ValueError("An optimized target sample has no actual consumption")
