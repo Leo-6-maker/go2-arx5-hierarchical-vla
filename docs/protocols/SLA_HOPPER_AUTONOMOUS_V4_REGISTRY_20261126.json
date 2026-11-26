@@ -1,0 +1,1504 @@
+{
+  "schema": "SLA_HOPPER_AUTONOMOUS_V4_PLAN_V1",
+  "date": "2026-11-26",
+  "status": "PLAN_ONLY",
+  "execution_ready": false,
+  "documents": {
+    "plan": "SLA_HOPPER_AUTONOMOUS_V4_PLAN_20261126.md",
+    "runbook": "SLA_HOPPER_AUTONOMOUS_V4_RUNBOOK_20261126.md"
+  },
+  "source_refs": {
+    "v3": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/a0eea81a7c2b7989a3acfac2a3c419cc8cd073bf/docs/protocols/SLA_V3_PLACE_AND_PT_PLAN_20261126.md",
+    "v3run": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/a0eea81a7c2b7989a3acfac2a3c419cc8cd073bf/docs/protocols/SLA_V3_PLACE_AND_PT_RUNBOOK_20261126.md",
+    "v3registry": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/a0eea81a7c2b7989a3acfac2a3c419cc8cd073bf/docs/protocols/SLA_V3_PLACE_AND_PT_REGISTRY_20261126.json",
+    "progress": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b1c5ae70e1d36ccddf2805d1ffa3391916113d3e/reports/SLA_V3_PLACE_AND_PT/PROGRESS_20261126.md",
+    "progress_json": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b1c5ae70e1d36ccddf2805d1ffa3391916113d3e/reports/SLA_V3_PLACE_AND_PT/PROGRESS_20261126.json",
+    "video": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/95712ce3ecb3c37ff0785cde6f105e29e12dbc66/docs/media/sla-v2-native-20261126/README.md",
+    "hopper": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/95712ce3ecb3c37ff0785cde6f105e29e12dbc66/docs/media/sla-v2-native-20261126/H200_READONLY.md",
+    "actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b6869988b90851baf0e4ce207df3985fef1d2dc7/reports/WM02/sla-main3800-native-diagnostics-20261122/ACTUAL.md",
+    "engine": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b6869988b90851baf0e4ce207df3985fef1d2dc7/scripts/sla/hopper_engine.py",
+    "engineering": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/reports/WM02/sla-core-hopper-parallel-20261121/ENGINEERING_SELECTION_AND_MAIN_MOUNT_ACTUAL.md",
+    "engineering_json": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1fee437d12d9a79deff8e2be0175da3f148dd48e/reports/WM02/sla-core-hopper-parallel-20261121/ENGINEERING_SELECTION_AND_MAIN_MOUNT_ACTUAL.json",
+    "oldplan": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/171b5bedb290258954aac140157743e92e3b152e/docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.md",
+    "n2": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4fe2c8cf1b69c168b2e3079e061bb7c702089cd3/docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_20261122.md",
+    "n2actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4d597259/reports/WM02/sla-d2-teacher-parallel-20261118/PERFORMANCE_PARALLEL_ACTUAL.md",
+    "scale": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/c8642aa602d3e34dd4dcda5a55ff6ae7c7c53ae6/reports/WM02/sla-scale20k-20261119/DATA_AND_RUNTIME_ACTUAL.md",
+    "source_eval": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/c8642aa602d3e34dd4dcda5a55ff6ae7c7c53ae6/reports/WM02/sla-multisource-goal-v2-20261120/TGT2K_5K_PAIRED_AND_MIX_PUBLIC_WATCH_ACTUAL.md"
+  },
+  "publication_base": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+  "v3_snapshot": {
+    "as_of_sgt": "2026-11-26T13:36:28+08:00",
+    "main_updates": 0,
+    "main_target": 250,
+    "main_gpu1_attempts": 2,
+    "main_attempt02_registered_terminal": false,
+    "pt_updates": 159,
+    "pt_target": 250,
+    "teacher_success": 6,
+    "teacher_started": 6,
+    "student_started": 0,
+    "old_registry_slots": 47,
+    "main_reusable_episodes": 52,
+    "main_reusable_place": 16,
+    "main_reusable_hold": 36,
+    "main_queries": 4450,
+    "main_consumed_intervals": 44500
+  },
+  "hopper_snapshot": {
+    "as_of_sgt": "2026-11-26T12:40:00+08:00",
+    "visible_active_or_queued": 0,
+    "current_balance": "UNKNOWN_AUTH_EXPIRED",
+    "main_paid_updates": 3900,
+    "recoverable_main_phase": 3800,
+    "complete_arrays": 140,
+    "partial_3900_files": 127,
+    "partial_full_length_files": 126,
+    "A_and_B_independent_additional_updates_each": 500,
+    "train069_new_episodes_unused": 17,
+    "old_goal_deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "old_goal_gpu_hours": 320,
+    "remaining_actual_authorization": null
+  },
+  "invariants": {
+    "WBC_PD_solver_legs_physics_safety_frozen": true,
+    "original_task_scoring_and_mobile_gates": true,
+    "student_no_GT_or_teacher_intervention": true,
+    "no_forced_grip_or_suffix_deletion": true,
+    "actual_consumed_command_target_labels": true,
+    "source_semantics_separate": true,
+    "one_learner_per_single_H200": true,
+    "no_duplicate_or_unknown_job_restart": true,
+    "no_user_data_cleanup": true,
+    "old_results_and_costs_retained": true
+  },
+  "migration": {
+    "site_preference": "Hopper",
+    "healthy_core_PT_continue": true,
+    "healthy_core_MAIN_continue": true,
+    "old_incomplete_checkpoint_never_resume": true,
+    "actual_owner_and_auth_required": true,
+    "MAIN_V3_inherit_recipe_and_endpoints": true,
+    "MAIN_trainable_array_count": 19,
+    "MAIN_effective_batch": 32,
+    "MAIN_formal_total_updates": 250,
+    "MAIN_visits": 8000,
+    "MAIN_stage_visits": {
+      "approach": 1120,
+      "close": 840,
+      "postgrasp_lift": 1120,
+      "place_release": 1680,
+      "retreat": 840,
+      "hold": 2400
+    },
+    "PT_original_endpoint": 250,
+    "new_work_not_reset_old_registry": true
+  },
+  "performance": {
+    "old_ref_warm_p50_s": 16.26,
+    "old_ref_warm_p95_s": 17.56,
+    "old_rejected_profiles": [
+      {
+        "fm": 4,
+        "aux": 1,
+        "relative_total_grad": 0.007891
+      },
+      {
+        "fm": 8,
+        "aux": 1,
+        "relative_total_grad": 0.008064
+      },
+      {
+        "fm": 16,
+        "aux": 1,
+        "relative_total_grad": 0.008128
+      },
+      {
+        "fm": 1,
+        "aux": 2,
+        "relative_total_grad": 0.053658
+      },
+      {
+        "fm": 1,
+        "aux": 4,
+        "relative_total_grad": 0.046715
+      }
+    ],
+    "cpu_worker_candidates": [
+      1,
+      4,
+      8
+    ],
+    "readonly_batches_each": 16,
+    "initial_workers": 4,
+    "initial_prefetch_batches": 2,
+    "max_prefetch_batches": 4,
+    "short_profiles": [
+      "REF",
+      "FM4",
+      "FM8",
+      "FM16",
+      "BEST_PLUS_VALID_CACHE"
+    ],
+    "long_profiles": [
+      "REF",
+      "FM4",
+      "FM8",
+      "FM16",
+      "BEST_FM_AUX2",
+      "BEST_FM_AUX4",
+      "BEST_PLUS_VALID_CACHE"
+    ],
+    "max_updates_per_profile": 8,
+    "warm_updates": 2,
+    "timed_updates": 6,
+    "short_engineering_updates_max": 40,
+    "long_engineering_updates_max": 56,
+    "cache_fixed_probe_windows": 8,
+    "relative_loss_max": 0.0001,
+    "relative_grad_l2_max": 0.001,
+    "required_per_component_and_total": true,
+    "selection_min_speedup": 1.25,
+    "desired_speedup": 1.5,
+    "reference_fallback": true,
+    "no_fp8_or_global_batch_change": true,
+    "cache_only_independent_frozen_subgraph": true,
+    "one_optimizer_step_and_global_clip": true
+  },
+  "training": {
+    "MAIN_MULTISKILL_V4": {
+      "status": "CONDITIONAL_NOT_STARTED",
+      "parent_priority": [
+        "V3_PLACE250_IF_COMPLETE_PLACE_AND_N02_2_OF_2",
+        "A43_IF_COMPLETE_PLACE_AND_N02_2_OF_2",
+        "B43_IF_COMPLETE_PLACE_AND_N02_2_OF_2",
+        "MAIN38"
+      ],
+      "parent_sealed_before_update": true,
+      "new_optimizer_and_rng": true,
+      "endpoint_updates_cumulative": [
+        1000,
+        2000
+      ],
+      "second_endpoint_conditional": true,
+      "FM_batch": {
+        "target": 64,
+        "robodojo": 32,
+        "libero": 32
+      },
+      "FM_weights": {
+        "target": 2,
+        "robodojo": 1,
+        "libero": 1
+      },
+      "aux_count": 4,
+      "aux_full_support_required": true,
+      "aux_generation_steps": 10,
+      "old_aux_coefficient": "BIND_ACTUAL_ORIGINAL",
+      "state_dropout": 0.25,
+      "LR": {
+        "peak": "BOUND_LAST_MAIN38_VERIFIED_LR",
+        "warmup": 100,
+        "decay_total_updates": 2000,
+        "end_fraction": 0.1
+      },
+      "target_mix_if_new_qualified": {
+        "old": 0.6,
+        "new": 0.4
+      },
+      "target_old_group": {
+        "hold": 0.4,
+        "place": 0.6
+      },
+      "no_new_skill_fallback": {
+        "old": 1,
+        "new": 0
+      },
+      "fixed_data_within_2k": true,
+      "source_trainable_scope": "original_VLM_LoRA_shared_action_expert_and_domain_IO",
+      "per_1000_visits": {
+        "target": 64000,
+        "robodojo": 32000,
+        "libero": 32000,
+        "aux": 4000
+      },
+      "source_stats_and_semantics_separate": true
+    },
+    "TARGET_CONTROL1000_V4": {
+      "status": "CONDITIONAL_NOT_STARTED",
+      "parent": "SAME_AS_MAIN_MULTISKILL_V4",
+      "updates": 1000,
+      "matching_target_visits": 64000,
+      "matching_aux_visits": 4000,
+      "same_target_noise_and_lr": true,
+      "source_loss": false,
+      "source_only_IO_idle": true,
+      "interpretation": "incremental_source_supervision_on_shared_mixed_ancestor_not_historical_pretraining_effect"
+    },
+    "PT_followup": "separately_registered_after_original_CMD0_CMD250"
+  },
+  "new_skill": {
+    "order": [
+      "PUSH",
+      "CONTAINER",
+      "DRAWER"
+    ],
+    "requires_actual_source_task_inventory": true,
+    "dev_layouts_each": 2,
+    "train_layouts_each": 5,
+    "train_attempts_per_skill": 10,
+    "min_complete_episodes": 5,
+    "min_train_geometries": 2,
+    "teacher_qual_before_student": true,
+    "student_models": [
+      "MAIN38",
+      "V3_PLACE250",
+      "OFFICIAL_PT_FROZEN"
+    ],
+    "same_model_output_contract_or_stack_comparison_only": true,
+    "followup_demos": [
+      10,
+      20
+    ],
+    "followup_requires_new_registration": true
+  },
+  "multienv": {
+    "site": "Core",
+    "previous_N2_speedup": 1.99,
+    "previous_state_within_tolerance": [
+      7,
+      8
+    ],
+    "previous_full_production_qualified": false,
+    "old_N2_N4_protocol": "REUSE_AND_COMPLETE_ONLY_REAL_GAPS",
+    "N2_min_speedup": 1.5,
+    "N4_min_speedup_vs_N2": 1.25,
+    "teacher_N2_not_student_batch_qualification": true,
+    "student_batch_single_policy_server": true,
+    "offline_training_requires_no_physics": true
+  },
+  "accounting": {
+    "new_native_slots": 118,
+    "model_slots": 82,
+    "zero_student_model_slots": 36,
+    "by_block": {
+      "AB_L1": 12,
+      "AB_HOLD_REG": 2,
+      "LONG_DEV6": 24,
+      "LONG_NEW_PAIRED": 8,
+      "NEW_QDEV": 6,
+      "NEW_ZERO_SHOT": 36,
+      "NEW_TRAIN": 30
+    },
+    "long_formal_updates_max": 3000,
+    "v3_updates_separate": true,
+    "engineering_updates_max": 96,
+    "conditional_not_required_denominator": true,
+    "current_authoring_effects": {
+      "server_jobs": 0,
+      "transfer_bytes": 0,
+      "training_updates": 0,
+      "model_forwards": 0,
+      "physics_ticks": 0,
+      "hardware_actions": 0
+    }
+  },
+  "conditions": [
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_601_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 601,
+      "model": "MAIN38",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_601_A43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 601,
+      "model": "A43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_601_B43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 601,
+      "model": "B43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_602_A43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 602,
+      "model": "A43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_602_B43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 602,
+      "model": "B43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_602_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 602,
+      "model": "MAIN38",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_601_B43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 601,
+      "model": "B43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_601_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 601,
+      "model": "MAIN38",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P02_601_A43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 601,
+      "model": "A43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_602_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 602,
+      "model": "MAIN38",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_602_A43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 602,
+      "model": "A43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_L1",
+      "id": "AB_P01_602_B43",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 602,
+      "model": "B43",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "AB_HOLD_REG",
+      "id": "AB_HOLD_N02_A",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_A",
+      "model": null,
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "AB_HOLD_REG",
+      "id": "AB_HOLD_N02_B",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_B",
+      "model": null,
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_P01_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 701,
+      "model": "PARENT",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_P02_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 702,
+      "model": "PARENT",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_P02_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 701,
+      "model": "PARENT",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_P01_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 702,
+      "model": "PARENT",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_N02_A",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_A",
+      "model": "PARENT",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_PARENT_N02_B",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_B",
+      "model": "PARENT",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_P01_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 701,
+      "model": "M1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_P02_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 702,
+      "model": "M1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_P02_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 701,
+      "model": "M1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_P01_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 702,
+      "model": "M1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_N02_A",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_A",
+      "model": "M1000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M1000_N02_B",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_B",
+      "model": "M1000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_P01_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 701,
+      "model": "T1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_P02_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 702,
+      "model": "T1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_P02_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 701,
+      "model": "T1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_P01_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 702,
+      "model": "T1000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_N02_A",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_A",
+      "model": "T1000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_T1000_N02_B",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_B",
+      "model": "T1000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_P01_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 701,
+      "model": "M2000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_P02_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 702,
+      "model": "M2000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_P02_701",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P02",
+      "noise_label": 701,
+      "model": "M2000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_P01_702",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "P01",
+      "noise_label": 702,
+      "model": "M2000",
+      "task": "ORIGINAL_PLACE"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_N02_A",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_A",
+      "model": "M2000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_DEV6",
+      "id": "LONG_M2000_N02_B",
+      "status": "NOT_ENABLED",
+      "role": "regression",
+      "slot": "N02",
+      "archived_noise_alias": "N02_B",
+      "model": "M2000",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D01_701_M1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D01",
+      "noise_label": 701,
+      "model": "M1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D01_701_T1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D01",
+      "noise_label": 701,
+      "model": "T1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D02_702_M1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D02",
+      "noise_label": 702,
+      "model": "M1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D02_702_T1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D02",
+      "noise_label": 702,
+      "model": "T1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D02_701_M1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D02",
+      "noise_label": 701,
+      "model": "M1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D02_701_T1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D02",
+      "noise_label": 701,
+      "model": "T1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D01_702_M1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D01",
+      "noise_label": 702,
+      "model": "M1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "LONG_NEW_PAIRED",
+      "id": "LONG_NEW_D01_702_T1000",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "slot": "D01",
+      "noise_label": 702,
+      "model": "T1000",
+      "task": null,
+      "task_selector": "first jointly trained qualified PUSH>CONTAINER>DRAWER"
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "PUSH_Q_D01",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "PUSH",
+      "slot": "D01"
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "PUSH_Q_D02",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "PUSH",
+      "slot": "D02"
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D02_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "PUSH_D01_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "PUSH",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T01_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T01",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T01_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T01",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T02_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T02",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T02_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T02",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T03_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T03",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T03_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T03",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T04_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T04",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T04_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T04",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T05_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T05",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "PUSH_T05_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "PUSH",
+      "slot": "T05",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "CONTAINER_Q_D01",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "CONTAINER",
+      "slot": "D01"
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "CONTAINER_Q_D02",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "CONTAINER",
+      "slot": "D02"
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D02_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "CONTAINER_D01_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "CONTAINER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T01_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T01",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T01_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T01",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T02_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T02",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T02_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T02",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T03_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T03",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T03_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T03",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T04_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T04",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T04_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T04",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T05_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T05",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "CONTAINER_T05_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "CONTAINER",
+      "slot": "T05",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "DRAWER_Q_D01",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "DRAWER",
+      "slot": "D01"
+    },
+    {
+      "block": "NEW_QDEV",
+      "id": "DRAWER_Q_D02",
+      "status": "NOT_ENABLED",
+      "role": "teacher_qualification",
+      "skill": "DRAWER",
+      "slot": "D02"
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_801_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_801_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D02_801_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D02",
+      "noise_label": 801,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_802_MAIN38",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "MAIN38",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_802_V3_PLACE250",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "V3_PLACE250",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_ZERO_SHOT",
+      "id": "DRAWER_D01_802_OFFICIAL_PT_FROZEN",
+      "status": "NOT_ENABLED",
+      "role": "student",
+      "skill": "DRAWER",
+      "slot": "D01",
+      "noise_label": 802,
+      "model": "OFFICIAL_PT_FROZEN",
+      "requires_no_target_skill_training": true
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T01_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T01",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T01_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T01",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T02_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T02",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T02_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T02",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T03_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T03",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T03_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T03",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T04_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T04",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T04_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T04",
+      "reset_label": 32
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T05_31",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T05",
+      "reset_label": 31
+    },
+    {
+      "block": "NEW_TRAIN",
+      "id": "DRAWER_T05_32",
+      "status": "NOT_ENABLED",
+      "role": "teacher_data",
+      "skill": "DRAWER",
+      "slot": "T05",
+      "reset_label": 32
+    }
+  ],
+  "runtime_binding": {
+    "actual_site_auth": null,
+    "quota": null,
+    "actual_owner": null,
+    "job_id": null,
+    "complete_parent_sha": null,
+    "code_sha": null,
+    "manifest_sha": null,
+    "processor_codec_stats_hash": null,
+    "noise_and_sampler_hash": null,
+    "task_scene_scorer_hash": null,
+    "original_safety_hash": null,
+    "finite_endpoints": null,
+    "actual": null
+  }
+}
