@@ -59,9 +59,11 @@ def compare(root, output, *, numeric_output=None, extension=None, candidates=())
         observations = read(candidate / "ACTUAL.json")
         expected = {f"villekuosmanen/{name}": revision for name, revision in NATIVE_20HZ_TCP_CANDIDATES}
         source = observations["repo"]
-        need(observations["revision"] == expected.get(source) and observations["source_train_added"] == 0
-             and observations["license"] == "Apache-2.0", "Unexpected 20 Hz TCP candidate")
         pilot = "episodes" in observations
+        provenance = observations if pilot else read(candidate / "PILOT_TASK_RECEIPT.json")
+        need(observations["revision"] == expected.get(source) and observations["source_train_added"] == 0
+             and provenance["repo"] == source and provenance["revision"] == observations["revision"]
+             and provenance["license"] == "Apache-2.0", "Unexpected 20 Hz TCP candidate")
         hashes = {row["path"]: row["sha256"] for row in observations["member_hashes" if pilot else "files"]}
         for row in observations["episodes" if pilot else "scanned"]:
             index = row["episode"]

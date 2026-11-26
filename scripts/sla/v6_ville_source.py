@@ -6,13 +6,14 @@ import hashlib
 from pathlib import Path
 
 from v6_robodojo_intake import digest, read
-from v6_ville_pilot import CAMERAS, SOURCES, need, write
+from v6_ville_pilot import CAMERAS, NATIVE_20HZ_TCP_CANDIDATES, SOURCES, need, write
 
 
 SCHEMA = "SLA_V6_VILLE_ARX5_FUTURE_LOGGED_STATE_20HZ"
 POSITIVE = frozenset({88, 50, 2, 23, 84, 36, 87, 16, 83, 28, 14, 15})
 DEV = frozenset({14, 15})
 HORIZON = 40
+FOOTBAG = "villekuosmanen/drop_footbag_into_dice_tower"
 
 
 def seal(root, scan_sha, fk_receipt, fk_sha, output, outcome=None, outcome_sha=None):
@@ -25,20 +26,30 @@ def seal(root, scan_sha, fk_receipt, fk_sha, output, outcome=None, outcome_sha=N
     need(digest(actual) == scan_sha and digest(fk_receipt) == fk_sha, "Fixed outcome cohort changed")
     scan = read(actual)
     fk = read(fk_receipt)
-    _, revision = SOURCES[1]
-    need(scan["repo"] == "villekuosmanen/drop_footbag_into_dice_tower"
-         and scan["revision"] == revision and scan["source_train_added"] == 0, "Source revision changed")
-    proof = {x["episode"]: x for x in fk["episodes"] if x["fit_role"] != "FIT"}
+    source = scan["repo"]
+    footbag = source == FOOTBAG
+    supported = {f"villekuosmanen/{name}": revision for name, revision in (SOURCES[1], *NATIVE_20HZ_TCP_CANDIDATES)}
+    revision = supported.get(source)
+    need(revision is not None and scan["revision"] == revision and scan["source_train_added"] == 0,
+         "Source revision changed")
+    proof = {x["episode"]: x for x in fk["episodes"]
+             if x["fit_role"] != "FIT" and (footbag or x.get("source") == source)}
     rows = {x["episode"]: x for x in scan["scanned"]}
     if outcome is None:
-        need(outcome_sha is None and set(rows) == POSITIVE, "The original closed cohort changed")
+        need(footbag and outcome_sha is None and set(rows) == POSITIVE, "The original closed cohort changed")
         positive, dev = POSITIVE, DEV
     else:
         need(digest(outcome) == outcome_sha, "The fixed release-outcome review changed")
         outcome_receipt = read(outcome)
         need(outcome_receipt["scan_sha256"] == scan_sha and set(outcome_receipt["observed"]) == set(rows),
              "The source audit must report all decoded episodes")
-        positive = set(outcome_receipt["confirmed_drop_through_tower"])
+        outcome_key = "confirmed_drop_through_tower" if footbag else "confirmed_task_complete"
+        positive = set(outcome_receipt[outcome_key])
+        if not footbag:
+            need(outcome_receipt["repo"] == source and outcome_receipt["revision"] == revision
+                 and outcome_receipt["fk_sha256"] == fk_sha, "Observed completion must bind the exact source and fit report")
+            need(set(rows) <= proof.keys() and positive <= rows.keys(), "Missing native observed source pose check")
+            positive = {i for i in positive if proof[i]["adjusted_position_max_mm"] <= 5 and proof[i]["angle_max_deg"] <= 2}
         dev = {i for i in positive if rows[i]["proposed_split"] == "DEV_CANDIDATE"}
         need(positive <= rows.keys() and dev and positive - dev, "Require independent train and validation members")
         rows = {i: row for i, row in rows.items() if i in positive}
@@ -47,6 +58,13 @@ def seal(root, scan_sha, fk_receipt, fk_sha, output, outcome=None, outcome_sha=N
          and all(i in proof and proof[i]["fit_role"] in ("TRAIN_CANDIDATE", "DEV_CANDIDATE") for i in rows),
          "The fixed episode-level outcome population changed")
     member = {x["path"]: x["sha256"] for x in scan["files"]}
+    task = "drop the footbag into the cardboard dice tower"
+    if not footbag:
+        info_file = root / "PILOT_TASK_RECEIPT.json"
+        task_receipt = read(info_file)
+        need(digest(info_file) == outcome_receipt["task_receipt_sha256"] and task_receipt["repo"] == source
+             and task_receipt["revision"] == revision, "Missing pinned original task text")
+        task = task_receipt["task"]
     output.mkdir(mode=0o700)
     episodes = []
     fits = []
@@ -111,15 +129,21 @@ def seal(root, scan_sha, fk_receipt, fk_sha, output, outcome=None, outcome_sha=N
     manifest = output / "MANIFEST.json"
     write(manifest, dict(schema=SCHEMA, license="Apache-2.0", revision=revision, scan_sha256=scan_sha,
         fk_check_sha256=fk_sha, outcome_review_sha256=outcome_sha, native_hz=20, horizon=HORIZON,
-        task="drop the footbag into the cardboard dice tower",
+        task=task,
         label_kind="FUTURE_LOGGED_STATE_REFERENCE", target_command=False, video_root=str(root),
         camera_mask=dict(base_0_rgb=True, left_wrist_0_rgb=False, right_wrist_0_rgb=True),
         statistics=dict(file=statfile.name, sha256=digest(statfile)), episodes=episodes))
-    write(output / "ACTUAL.json", dict(manifest_sha256=digest(manifest), samples_by_split=dict(Counter(role.values())),
-         windows_by_split={name: sum(row["windows"] for row in episodes if row["split"] == name)
-                           for name in ("TRAIN", "SOURCE_DEV")},
-         release_scope="CORE_STANDALONE_SOURCE", hopper_readback=False, calibrated_robot_commands=False,
-         demo_outcomes="HUMAN_REVIEW_STYLE_FIXED_RGB_PHASES", optimizer_updates=0))
+    actual = dict(manifest_sha256=digest(manifest), samples_by_split=dict(Counter(role.values())),
+                  windows_by_split={name: sum(row["windows"] for row in episodes if row["split"] == name)
+                                    for name in ("TRAIN", "SOURCE_DEV")},
+                  release_scope="CORE_STANDALONE_SOURCE", hopper_readback=False, calibrated_robot_commands=False,
+                  demo_outcomes="HUMAN_REVIEW_STYLE_FIXED_RGB_PHASES", optimizer_updates=0)
+    if not footbag:
+        visual = set(outcome_receipt["confirmed_task_complete"])
+        actual.update(demo_outcomes="FIXED_RGB_PHASES_VISUALLY_REVIEWED", max_tcp_position_mm=5, max_tcp_angle_deg=2,
+                      excluded_by_tcp=sorted(visual - positive),
+                      excluded_by_outcome=sorted(set(outcome_receipt["observed"]) - visual))
+    write(output / "ACTUAL.json", actual)
 
 
 if __name__ == "__main__":
