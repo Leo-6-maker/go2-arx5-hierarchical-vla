@@ -42,7 +42,8 @@ class LongLearner:
     """Keep one immutable visit plan, one model, and one global Adam clip."""
 
     def __init__(self, *, graphs, parameters, frozen, datasets, tokenizer, banks, auxiliary_slots,
-                 auxiliary, cursors, rates, rng, target_control=False, workers=4, trace=None):
+                 auxiliary, cursors, rates, rng, target_control=False, workers=4, trace=None,
+                 batch_by_domain=None, gradient_join=None):
         from go2arx5_vla.sla_adapter import scale20k_training as original
         from go2arx5_vla.sla_adapter.adapt5k_training import OPTIMIZER
         from go2arx5_vla.sla_adapter.scale20k_contract import make_adamw
@@ -51,13 +52,19 @@ class LongLearner:
         self.datasets, self.tokenizer, self.banks = datasets, tokenizer, banks
         self.auxiliary, self.auxiliary_slots = auxiliary, auxiliary_slots
         self.cursors, self.rates = cursors, rates
-        self.domains = ("target",) if target_control else tuple(BATCH)
+        self.batch_by_domain = dict(BATCH if batch_by_domain is None else batch_by_domain)
+        if (set(self.batch_by_domain) != set(BATCH) or any(
+                type(size) is not int or size <= 0 for size in self.batch_by_domain.values())
+                or (target_control and gradient_join is not None)):
+            raise ValueError("Unsupported learner batch or reduction")
+        self.gradient_join = gradient_join
+        self.domains = ("target",) if target_control else tuple(self.batch_by_domain)
         self.gradient = {
             d: original.compile_fm_accumulation(
                 masked_target_loss(graphs[d]) if d == "target" else original.domain_loss(graphs[d]))
             for d in self.domains
         }
-        self.draws = {d: original.frozen_draws(d, BATCH[d]) for d in self.domains}
+        self.draws = {d: original.frozen_draws(d, self.batch_by_domain[d]) for d in self.domains}
         self.aux_add = original.compile_fm_accumulation(
             original.target_auxiliary(graphs["target"], datasets["target"].statistics["actions"]))
         self.initialize_optimizer, self.apply = make_adamw(**OPTIMIZER)
@@ -78,8 +85,8 @@ class LongLearner:
         from go2arx5_vla.sla_adapter.scale20k_training import prepare_host_batch
 
         indices = self.banks[domain][step]
-        cursor = self.cursors[domain] + step * BATCH[domain]
-        if len(indices) != BATCH[domain]:
+        cursor = self.cursors[domain] + step * self.batch_by_domain[domain]
+        if len(indices) != self.batch_by_domain[domain]:
             raise ValueError("Invalid realized domain batch")
         with self.reader_locks[domain]:
             reader = self.datasets[domain]
@@ -113,10 +120,10 @@ class LongLearner:
         from go2arx5_vla.sla_adapter.batch_v2 import device_batch
         from go2arx5_vla.sla_adapter.adapt5k_contract import joint_gradient
 
-        if (set(fm_micro) != set(BATCH) or aux_micro not in (1, 2, 4)
+        if (set(fm_micro) != set(self.batch_by_domain) or aux_micro not in (1, 2, 4)
                 or any(fm_micro[d] not in (1, 8, 16, 32, 64)
-                       or BATCH[d] % fm_micro[d] for d in BATCH)):
-            raise ValueError("Unsupported V4 microbatch")
+                       or self.batch_by_domain[d] % fm_micro[d] for d in self.batch_by_domain)):
+            raise ValueError("Unsupported learner microbatch")
         fm, metrics = {}, {}
         for domain in self.domains:
             self.active_component = domain
@@ -159,6 +166,8 @@ class LongLearner:
             if self.domains == ("target",):
                 joint = {key: jax.tree.map(lambda fm, a: 2. * fm + a, fm["target"][name], aux[name])
                          for key, name in (("shared", "shared"), ("target", "private"))}
+            elif self.gradient_join is not None:
+                joint = self.gradient_join(fm, aux, tree_map=jax.tree.map)
             else:
                 joint = joint_gradient(fm, aux, tree_map=jax.tree.map)
         return joint, {**fm, "auxiliary": aux}, metrics
