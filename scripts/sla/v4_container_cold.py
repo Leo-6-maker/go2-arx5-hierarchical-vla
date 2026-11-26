@@ -20,6 +20,10 @@ from source_custody import digest, pin, read, require, write_new
 
 POSITIONS_M = ((0., -.080), (.055, -.060), (-.045, -.067))
 OPPOSITE_M = ((.055, .060), (.075, .050), (.080, 0.))
+# The previous standing attempts entered the carry around x=0.289 m
+# but moved forward toward x=0.345/0.365 m before hitting stance gates.
+LATERAL_M = ((0., -.103), (.012, -.103), (.018, -.095),
+             (0., .093), (.012, .093), (.018, .085))
 RIM_RADIUS_M = .046
 RIM_HEIGHT_M = .016
 
@@ -93,7 +97,7 @@ def finish(mj, model, state, geometry):
                 nominal_retreat_m=.020)
 
 
-def run(site, archive, output, opposite):
+def run(site, archive, output, opposite, lateral=False):
     import mujoco as mj
 
     require(mj.__version__ == "3.2.7", "Expected the original CPU MuJoCo version")
@@ -104,6 +108,7 @@ def run(site, archive, output, opposite):
     original, template, roster, _ = source(archive, v19 / "SEA193_FRUIT_H0_COLD_01")
     output.mkdir(mode=0o700)
     rows = {}
+    offsets = LATERAL_M if lateral else OPPOSITE_M if opposite else POSITIONS_M
     with forbid_integration(mj) as calls, contact_contract():
         for role, name in zip(("G00", "G01"), DEV_LAYOUTS, strict=True):
             if opposite and role != "G01":
@@ -127,7 +132,7 @@ def run(site, archive, output, opposite):
             xml = compact_xml(fruit_xml(xml), base["table_top_world_z"], xyz, top=top)
             verify_frozen(old, mj.MjModel.from_xml_string(xml))
             results = []
-            for offset in OPPOSITE_M if opposite else POSITIONS_M:
+            for offset in offsets:
                 center = np.asarray(xyz["red"][:2]) + offset
                 row = dict(offset_m=offset, bowl_xy_m=center.tolist())
                 results.append(row)
@@ -148,7 +153,8 @@ def run(site, archive, output, opposite):
             rows[role] = dict(cases=results, pickup_source_scene_sha256=digest(old_path),
                               pickup_archive_sha256=digest(journal))
     require(not calls, "Cold inspection advanced physics")
-    result = dict(kind="V4_CONTAINER_COMPACT_COLD", rows=rows, native_integrations=0,
+    result = dict(kind="V4_CONTAINER_LATERAL_COLD" if lateral else "V4_CONTAINER_COMPACT_COLD",
+                  rows=rows, native_integrations=0,
                   model_forwards=0, optimizer_updates=0, native_qualification=False)
     write_new(output / "RESULT.json", result)
 
@@ -157,5 +163,7 @@ if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     for key in ("site", "archive", "output"):
         cli.add_argument(key, type=Path)
-    cli.add_argument("--opposite", action="store_true")
+    variants = cli.add_mutually_exclusive_group()
+    variants.add_argument("--opposite", action="store_true")
+    variants.add_argument("--lateral", action="store_true")
     run(**vars(cli.parse_args()))
