@@ -1,0 +1,354 @@
+{
+  "schema": "sla_experiment_progress_v1",
+  "snapshot_utc": "2026-11-26T06:50:21Z",
+  "plan": {
+    "v3": "a0eea81a7c2b7989a3acfac2a3c419cc8cd073bf",
+    "v4": "f72f3d57b470de3e62821cd5e1a33d938a669cb7",
+    "v4_registry_sha256": "86cde1a83f2cedefbba7321b528435304f8f2ec7b884b3981ed4527686a9f9d1"
+  },
+  "references": {
+    "near_source_pr": 515,
+    "v2_video_commit": "95712ce3ecb3c37ff0785cde6f105e29e12dbc66",
+    "v3_previous_progress_commit": "b1c5ae70e1d36ccddf2805d1ffa3391916113d3e",
+    "source_exposure_sha256": "b1549e8eae268531413cc6bc32411028334f6fa35b38c3bc7721c12ef34f0465"
+  },
+  "archived_native": {
+    "main38_HOLD_dev": {
+      "started": 4,
+      "success": 2
+    },
+    "main38_HOLD_confirm": {
+      "registered": 6,
+      "started": 4,
+      "success": 2,
+      "not_started": 2,
+      "successful_layouts": [
+        "N02"
+      ],
+      "failed_layouts": [
+        "N03"
+      ],
+      "teacher_qualification_failed": [
+        "N01"
+      ]
+    },
+    "main38_PLACE_dev": {
+      "started": 4,
+      "correct_grasp": 4,
+      "lift_hold": 3,
+      "ever_in_zone": 2,
+      "prior_lift_and_entered_zone": 1,
+      "complete": 0,
+      "matched_teachers_passed": 2
+    },
+    "frozen_official_pt": {
+      "historical_teacher_initial_grasp_positive": {
+        "initial_grasp": "TEACHER",
+        "added_lift_mm": 20.982,
+        "hold_s": 1.402
+      },
+      "near_source_path": {
+        "started": 9,
+        "valid": 7,
+        "success": 0
+      },
+      "near_source_student_prefix": {
+        "started": 2,
+        "proper_grasp": 0,
+        "reason": "RIGHT_FINGER_PAD_TABLE_CONTACT",
+        "full_task": false
+      },
+      "later_native_archived_predictions": 38,
+      "later_native_positive_consumption_predictions": 37,
+      "source_close_diagnostic_threshold": 0.55,
+      "at_source_close_threshold": 0,
+      "raw_min_close_approx": 0.872,
+      "verified_full_autonomous_successes": 0
+    }
+  },
+  "pt250": {
+    "training_teachers": {
+      "registered": 8,
+      "started": 4,
+      "passed": 4,
+      "static_screened": 2,
+      "not_started_after_data_threshold": 2,
+      "ticks": 56337
+    },
+    "dev_teachers": {
+      "registered": 2,
+      "started": 2,
+      "passed": 2,
+      "ticks": 28131,
+      "layouts": [
+        "D01",
+        "D02"
+      ]
+    },
+    "dataset": {
+      "actual_consumed_seconds": 63.05,
+      "causal_queries": 127,
+      "supported_h50_labels": 6068
+    },
+    "train": {
+      "status": "FORMAL_250",
+      "planned_updates": 250,
+      "verified_updates": 250,
+      "verified_visits": 8000,
+      "visits_by_phase": {
+        "APPROACH": 2000,
+        "CLOSE": 2000,
+        "LIFT_HOLD": 2000,
+        "AFTER_GRASP": 2000
+      },
+      "length_seconds_optimization_clock": 12218.770073199645,
+      "trainable_tensors": 10,
+      "trainable_parameters": 22118400,
+      "endpoint": "STEP0250",
+      "terminal_sha256": "9789701d2c145eacee1404fdfec024b8a9d165b1726b2869641df756a4c19a9c",
+      "audit_sha256": "16f7538900596cf70012e4d0c1592eebb126d9401a04199e33ec0117aca92729",
+      "contract_sha256": "d01ba4f62ec1f8f177ba1d6b82ddcc1d6532f799532ea74af34576229805a7a3"
+    },
+    "native_comparison": {
+      "status": "CLOSED_NO_NATIVE_START_PRELAUNCH_EXCEPTION_UNDER_INVESTIGATION",
+      "registered": 8,
+      "started": 0,
+      "valid": 0,
+      "model_forwards": 0,
+      "native_ticks": 0,
+      "optimizer_updates": 0,
+      "binding_sha256": "9aa6889d36eb337acd6eac40588cb3baa3fcdcb5a2d207987e0ca4878b567f69",
+      "panel_close_sha256": "3ea7dfa9127ba454b6932282fed6a8f391d70d7021fe3730bbefe52afcfb3b7f",
+      "independent_readout_sha256": "3e7f39ce4ed24490cfcb660f2dbf43a2505c64f7687b7f8953c3f2658c378311",
+      "first_prepared": "PT_COMPARE_D01_501_CMD0",
+      "conditions": [
+        {
+          "id": "PT_COMPARE_D01_501_CMD0",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D01_501_CMD250",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D02_502_CMD250",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D02_502_CMD0",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D02_501_CMD0",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D02_501_CMD250",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D01_502_CMD250",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "PT_COMPARE_D01_502_CMD0",
+          "status": "NOT_STARTED"
+        }
+      ]
+    }
+  },
+  "main250": {
+    "state": "HOPPER_TERMINAL_PREOPTIMIZER_PARENT_PATH",
+    "dataset": {
+      "place_episodes": 16,
+      "hold_episodes": 36,
+      "consumed_50ms_intervals": 44500,
+      "queries": 4450,
+      "effective_batch": 32,
+      "trainable_arrays": 19,
+      "planned_visits": 8000,
+      "planned_updates": 250
+    },
+    "verified_updates": 0,
+    "new_recoverable_endpoint": null,
+    "core_events": [
+      {
+        "event": "GPU_ALLOCATION_FAILURE",
+        "started": true,
+        "updates": 0
+      },
+      {
+        "event": "HOST_MEMORY_PROTECTION",
+        "started": true,
+        "updates": 0
+      },
+      {
+        "event": "MIGRATION_RESERVED_NO_CORE_START",
+        "started": false,
+        "updates": 0
+      }
+    ],
+    "hopper_events": [
+      {
+        "event": "SUBMISSION_RESPONSE_LOST_NO_MATCH_IN_ACTIVE_AND_HISTORY",
+        "located_jobs": 0
+      },
+      {
+        "event": "GPU_BOOT_THEN_FOUNDATION_MODEL_PATH_ERROR",
+        "pbs_state": "F",
+        "exit": 1,
+        "gpu": "NVIDIA H200",
+        "gpus": 1,
+        "requested_cpus": 12,
+        "requested_memory_gb": 225,
+        "reserved_wall_seconds": 21600,
+        "used_wall_seconds": 26,
+        "updates": 0,
+        "boot_receipt_sha256": "a8a11c9ab351e68b3cbd979ae8271d8e2731a0f97cbcd2502ec6260750aa7425",
+        "stderr_sha256": "e53cc99e52b9e707cb2215771968a87faf1e028b5370600a9bac7e73fc3e598f",
+        "scheduler_output_sha256": "ba29bb51646bd67b0e192ccf73a84015f3c3e00ccec20f8bf744ba461d446465"
+      }
+    ],
+    "performance": {
+      "host_reader_profiles": "NOT_MEASURED",
+      "microbatch_equivalence": "NOT_MEASURED",
+      "cold_resume": "NOT_MEASURED",
+      "cache": "NOT_MEASURED",
+      "formal_throughput": null
+    },
+    "native_followup": {
+      "dev_place": {
+        "registered": 4,
+        "started": 0
+      },
+      "n02_hold": {
+        "registered": 2,
+        "started": 0
+      },
+      "held_out_place_teacher": {
+        "registered": 3,
+        "started": 0
+      },
+      "held_out_place_student": {
+        "registered": 6,
+        "started": 0
+      }
+    }
+  },
+  "historical_hopper": {
+    "original_main_updates": 3900,
+    "last_original_recoverable_updates": 3800,
+    "complete_array_count": 140,
+    "incomplete_3900_present_array_count": 127,
+    "original_checkpoint_sha256": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+    "continuation": {
+      "A": {
+        "additional_updates": 500,
+        "terminal_updates": 4300,
+        "complete_arrays": 140,
+        "old_native_grasp": [
+          1,
+          6
+        ],
+        "old_native_hold": [
+          0,
+          6
+        ]
+      },
+      "B": {
+        "additional_updates": 500,
+        "terminal_updates": 4300,
+        "complete_arrays": 140,
+        "old_native_grasp": [
+          0,
+          6
+        ],
+        "old_native_hold": [
+          0,
+          6
+        ]
+      }
+    },
+    "train069_additions_historical_visits": 0,
+    "approx_current_quota_remaining_gb": 150
+  },
+  "v4_native": {
+    "total_capacity": 118,
+    "model_capacity": 82,
+    "zero_student_model_capacity": 36,
+    "started": 0,
+    "conditions_by_block": {
+      "AB_L1": {
+        "capacity": 12,
+        "started": 0
+      },
+      "AB_HOLD_REG": {
+        "capacity": 2,
+        "started": 0
+      },
+      "LONG_DEV6": {
+        "capacity": 24,
+        "started": 0
+      },
+      "LONG_NEW_PAIRED": {
+        "capacity": 8,
+        "started": 0
+      },
+      "NEW_QDEV": {
+        "capacity": 6,
+        "started": 0
+      },
+      "NEW_ZERO_SHOT": {
+        "capacity": 36,
+        "started": 0
+      },
+      "NEW_TRAIN": {
+        "capacity": 30,
+        "started": 0
+      }
+    }
+  },
+  "v4_long_learning": {
+    "main_1k": "NOT_STARTED",
+    "conditional_main_2k": "NOT_STARTED",
+    "target_control_1k": "NOT_STARTED"
+  },
+  "v4_new_skill": {
+    "source_visits_audited": true,
+    "target_archive_has_registered_new_task_families": false,
+    "skills": [
+      "PUSH",
+      "CONTAINER",
+      "DRAWER"
+    ],
+    "new_teachers_started": 0,
+    "new_students_started": 0
+  },
+  "multienv": {
+    "historic_engineering_runs": [
+      {
+        "scope": "D2",
+        "starts": 12,
+        "ticks": 121436
+      },
+      {
+        "scope": "D3",
+        "starts": 12,
+        "ticks": 121436
+      }
+    ],
+    "old_n2_ratio": 1.99,
+    "old_matched_state_pass": [
+      7,
+      8
+    ],
+    "old_independent_peer_stop_pair_complete": false,
+    "production_n2": "NOT_QUALIFIED",
+    "new_skill_n2": "NOT_QUALIFIED",
+    "n4": "NOT_QUALIFIED",
+    "shared_student_batch": "NOT_QUALIFIED"
+  },
+  "site_policy": {
+    "vanda": "PAUSED"
+  }
+}
