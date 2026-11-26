@@ -43,3 +43,9 @@
 | 128 | 1,870 | 1,683 |
 
 128 份有独立状态时，单进程 RSS 峰值约 554 和 582 MiB。每卡 256 组观测中有 4 组与该状态初次 RGB 哈希不同，最大变化为 2 个通道各 1 个灰度级。首轮以逐字节一致为退出判据，两个进程均技术关闭。第二轮自由相机未能显示各状态的几何差异，未计入本表。本表只使用原始两路命名相机，记录实际像素差。32 至 128 之间冷渲染速率持平。原 WBC、动作消费、接触与 STOP 隔离仍须实际运行，本次不授予多 world 物理生产资格。两张现场回执 SHA-256 依设备序为 `d6dfc7a7b1bfb942d2b463e43d5d99c22d3c920934f17f605c84987719a66375`、`4415e227f25e9815a740598bd577b47666d51959ef13d14277aa16bd79c31818`。
+
+## 67 条跨站快照和单件容器资产
+
+旧关闭波次的 3 条已完成两站实际读取。新 `TRAIN-LEGACY-067` 为 **45 HOLD + 22 PLACE**，5,892 个真实消费窗口，其中 5,691 个完整支持 H40。Corelab 和 Hopper 各验证新增轨迹的 6 组真实起止观测，沿用 Go2 原始两路相机映射及实际动作掩码。两端 manifest 一致，为 `cf68c9a444b340e6757486c34829dfb7624066dd510614da2f279b3165d6267a`。收方独立回读为 `8fe9f927c57845d243baa2db161db06e022455ed00e799c068fa696fdd1b4ca6`。沿用原 DEV 排除，库存仍缺一条 HOLD 和一条 PLACE 才到 69。此版本实际优化器访问为 0。
+
+从 RoboCasa365 的官方 Lightwheel 公共包按 HTTP 范围仅取 `fruit_bowl/FruitBowl001`。20 个成员完成 CRC 和 SHA-256 校验，实际传输 5,150,114 字节。首轮网络连接中止的原件保留，下一轮通过。Core CPU 实际编译出 16 个碰撞件、18 个 mesh、19 个 geom。原模型包围尺寸 332.10 × 236.94 × 152.00 mm，中心向下射线穿过口沿并命中容器内部。该原尺寸资产只完成场景接入前的几何核验；移动容器的尺寸、接触和完整路径仍需用独立 M_FREE 合同验证。本次零原生积分。按上游 CC BY 4.0 记录 RoboCasa365 与 Lightwheel 署名。[上游许可](https://github.com/robocasa/robocasa/tree/7bfc60c9d26c02506d4265cbe0e86b35e6e25d42#license) · [官方资产包索引](https://github.com/robocasa/robocasa/blob/7bfc60c9d26c02506d4265cbe0e86b35e6e25d42/robocasa/models/assets/box_links/box_links_assets.json)。
