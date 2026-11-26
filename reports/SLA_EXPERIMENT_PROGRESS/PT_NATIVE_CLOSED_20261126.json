@@ -1,0 +1,810 @@
+{
+  "schema": "sla_v4_pt_native_closure_v1",
+  "observed_utc": "2026-11-26T07:40:00Z",
+  "main250": {
+    "hop_terminal_verified_on_core": true,
+    "core_terminal_sha256": "724cc8c2732b2c50e1f5e630a77f6c1764bea0ee7e2e2cc3ec7b34f3b29fef26",
+    "core_import_sha256": "9f1408761718d1990880b9ad5e27607c8e73af3ffa8d4338f657c4ccc0c85123",
+    "evaluation": "RUNNING_ORIGINAL_REGISTERED_M_DEV",
+    "verified_optimizer_ledger": {
+      "verified": 250,
+      "visits": 8000,
+      "all_logical_batch_hashes_match": true,
+      "contract_sha256": "28d849a0a8d55b8af746c452e8fd6719c959e35f48995b7994851ac7de801824",
+      "sampler_bank_sha256": "68f0801fc09ef4fcae06c1dc9fab86e1112ef7c5f6ac4053e39d94b37d25bb48",
+      "visits_by_phase": {
+        "approach": 1120,
+        "close": 840,
+        "postgrasp_lift": 1120,
+        "place_release": 1680,
+        "retreat": 840,
+        "hold": 2400
+      }
+    },
+    "pbs": {
+      "terminal": "F",
+      "exit": 0,
+      "used_seconds": 614,
+      "site_reported_peak_kib": 19512756
+    }
+  },
+  "PT": {
+    "final": {
+      "readout_sha256": "6cd3dab37a7a950388d4d60d6a6da5354419d581bf26ec2d82b559d7ff028813",
+      "panel_sha256": "4410ef03d3f99fe6c37fed5643abffef941ac01960c2b9458048243aff2d597f",
+      "cards": [
+        {
+          "id": "PT_COMPARE_D01_501_CMD0",
+          "layout": "D01",
+          "noise": 501,
+          "arm": "CMD0",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 9372,
+          "raw_threshold_queries": 0,
+          "returned": 2,
+          "entered": 2,
+          "source_atom_count": 20,
+          "grasp": false,
+          "lift_m": 2.8024106257795722e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 9372,
+            "trace_reason_values": [
+              [
+                2,
+                274
+              ]
+            ],
+            "last_requested_tick": 9378,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D01_501_CMD250",
+          "layout": "D01",
+          "noise": 501,
+          "arm": "CMD250",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 12608,
+          "raw_threshold_queries": 1,
+          "returned": 8,
+          "entered": 8,
+          "source_atom_count": 98,
+          "grasp": false,
+          "lift_m": 2.841894397587197e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 12608,
+            "trace_reason_values": [
+              [
+                2,
+                404
+              ]
+            ],
+            "last_requested_tick": 12628,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D02_502_CMD250",
+          "layout": "D02",
+          "noise": 502,
+          "arm": "CMD250",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 12618,
+          "raw_threshold_queries": 4,
+          "returned": 8,
+          "entered": 8,
+          "source_atom_count": 98,
+          "grasp": false,
+          "lift_m": 3.319538255386334e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 12618,
+            "trace_reason_values": [
+              [
+                2,
+                404
+              ]
+            ],
+            "last_requested_tick": 12628,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D02_502_CMD0",
+          "layout": "D02",
+          "noise": 502,
+          "arm": "CMD0",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 9793,
+          "raw_threshold_queries": 0,
+          "returned": 3,
+          "entered": 3,
+          "source_atom_count": 25,
+          "grasp": false,
+          "lift_m": 3.276250937211955e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 9793,
+            "trace_reason_values": [
+              [
+                2,
+                291
+              ]
+            ],
+            "last_requested_tick": 9803,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D02_501_CMD0",
+          "layout": "D02",
+          "noise": 501,
+          "arm": "CMD0",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 10216,
+          "raw_threshold_queries": 0,
+          "returned": 3,
+          "entered": 3,
+          "source_atom_count": 32,
+          "grasp": false,
+          "lift_m": 3.2762509483141855e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 10216,
+            "trace_reason_values": [
+              [
+                2,
+                308
+              ]
+            ],
+            "last_requested_tick": 10228,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D02_501_CMD250",
+          "layout": "D02",
+          "noise": 501,
+          "arm": "CMD250",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 12798,
+          "raw_threshold_queries": 0,
+          "returned": 8,
+          "entered": 8,
+          "source_atom_count": 96,
+          "grasp": false,
+          "lift_m": 3.319538255386334e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 12798,
+            "trace_reason_values": [
+              [
+                2,
+                411
+              ]
+            ],
+            "last_requested_tick": 12803,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D01_502_CMD250",
+          "layout": "D01",
+          "noise": 502,
+          "arm": "CMD250",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 12381,
+          "raw_threshold_queries": 2,
+          "returned": 7,
+          "entered": 7,
+          "source_atom_count": 91,
+          "grasp": false,
+          "lift_m": 2.8305968235997625e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 12381,
+            "trace_reason_values": [
+              [
+                2,
+                395
+              ]
+            ],
+            "last_requested_tick": 12403,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        },
+        {
+          "id": "PT_COMPARE_D01_502_CMD0",
+          "layout": "D01",
+          "noise": 502,
+          "arm": "CMD0",
+          "disposition": "VALID",
+          "outcome": "ORIGINAL_SAFETY_STOP",
+          "native_ticks": 9660,
+          "raw_threshold_queries": 0,
+          "returned": 3,
+          "entered": 3,
+          "source_atom_count": 22,
+          "grasp": false,
+          "lift_m": 2.802410614677342e-8,
+          "continuous_hold_s": 0,
+          "success": false,
+          "original_stop": {
+            "stop_tick": 9660,
+            "trace_reason_values": [
+              [
+                2,
+                286
+              ]
+            ],
+            "last_requested_tick": 9678,
+            "after_stop_integrations": 0,
+            "after_stop_installs": 0
+          }
+        }
+      ],
+      "pairs": [
+        {
+          "layout": "D01",
+          "noise": 501,
+          "initial_actual_difference": {
+            "tcp_m": 0.000021312966506098775,
+            "angle_deg": 0.003778736890953789
+          },
+          "matched_all_noise_hashes": true,
+          "task_success": [
+            false,
+            false
+          ]
+        },
+        {
+          "layout": "D02",
+          "noise": 502,
+          "initial_actual_difference": {
+            "tcp_m": 0.00004152875725191002,
+            "angle_deg": 0.00603712304822362
+          },
+          "matched_all_noise_hashes": true,
+          "task_success": [
+            false,
+            false
+          ]
+        },
+        {
+          "layout": "D02",
+          "noise": 501,
+          "initial_actual_difference": {
+            "tcp_m": 0.000005045413529335712,
+            "angle_deg": 0.00021473372915452356
+          },
+          "matched_all_noise_hashes": true,
+          "task_success": [
+            false,
+            false
+          ]
+        },
+        {
+          "layout": "D01",
+          "noise": 502,
+          "initial_actual_difference": {
+            "tcp_m": 0.00001658684352887144,
+            "angle_deg": 0.0013907135153071923
+          },
+          "matched_all_noise_hashes": true,
+          "task_success": [
+            false,
+            false
+          ]
+        }
+      ],
+      "totals": {
+        "CMD0": {
+          "registered": 4,
+          "started": 4,
+          "valid": 4,
+          "success": 0,
+          "native_grasp": 0
+        },
+        "CMD250": {
+          "registered": 4,
+          "started": 4,
+          "valid": 4,
+          "success": 0,
+          "native_grasp": 0
+        }
+      },
+      "model_forwards": 42,
+      "native_ticks": 89446,
+      "optimizer_updates": 0,
+      "new_starts": 2,
+      "carried": 6
+    },
+    "closing_threshold_trace": [
+      {
+        "condition": "PT_COMPARE_D01_501_CMD0",
+        "stopped": true,
+        "acknowledged_min_mm": 39.31133222579956,
+        "threshold_queries": []
+      },
+      {
+        "condition": "PT_COMPARE_D01_501_CMD250",
+        "stopped": true,
+        "acknowledged_min_mm": 41.63837385177613,
+        "threshold_queries": [
+          {
+            "index": 4,
+            "tick": 10203,
+            "first_closed_row": 47,
+            "closed_rows": 3,
+            "first_closed_source_s": 1.5666666666666667,
+            "last_positive_consumed_source_s": 0.16666666666666666,
+            "lowest_raw_grip": 0.2497945874929428,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.6484637260437
+          }
+        ]
+      },
+      {
+        "condition": "PT_COMPARE_D02_502_CMD250",
+        "stopped": true,
+        "acknowledged_min_mm": 41.72144603729248,
+        "threshold_queries": [
+          {
+            "index": 4,
+            "tick": 10203,
+            "first_closed_row": 34,
+            "closed_rows": 16,
+            "first_closed_source_s": 1.1333333333333333,
+            "last_positive_consumed_source_s": 0.09654947916666665,
+            "lowest_raw_grip": 0.024014906957745552,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.75412845611572
+          },
+          {
+            "index": 5,
+            "tick": 10953,
+            "first_closed_row": 44,
+            "closed_rows": 6,
+            "first_closed_source_s": 1.4666666666666666,
+            "last_positive_consumed_source_s": 0.1,
+            "lowest_raw_grip": 0.18664266169071198,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.77823495864869
+          },
+          {
+            "index": 6,
+            "tick": 11703,
+            "first_closed_row": 30,
+            "closed_rows": 20,
+            "first_closed_source_s": 1,
+            "last_positive_consumed_source_s": 0.13333333333333333,
+            "lowest_raw_grip": 0.022335659712553024,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.80294942855836
+          },
+          {
+            "index": 7,
+            "tick": 12453,
+            "first_closed_row": 30,
+            "closed_rows": 20,
+            "first_closed_source_s": 1,
+            "last_positive_consumed_source_s": 0,
+            "lowest_raw_grip": 0.04189363494515419,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.95162901096168
+          }
+        ]
+      },
+      {
+        "condition": "PT_COMPARE_D02_502_CMD0",
+        "stopped": true,
+        "acknowledged_min_mm": 39.19251323232306,
+        "threshold_queries": []
+      },
+      {
+        "condition": "PT_COMPARE_D02_501_CMD0",
+        "stopped": true,
+        "acknowledged_min_mm": 38.98440788929559,
+        "threshold_queries": []
+      },
+      {
+        "condition": "PT_COMPARE_D02_501_CMD250",
+        "stopped": true,
+        "acknowledged_min_mm": 41.70224857330323,
+        "threshold_queries": []
+      },
+      {
+        "condition": "PT_COMPARE_D01_502_CMD250",
+        "stopped": true,
+        "acknowledged_min_mm": 41.68391180038453,
+        "threshold_queries": [
+          {
+            "index": 4,
+            "tick": 10453,
+            "first_closed_row": 34,
+            "closed_rows": 16,
+            "first_closed_source_s": 1.1333333333333333,
+            "last_positive_consumed_source_s": 0.10345052083333332,
+            "lowest_raw_grip": 0.021831657737493515,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.716594219207764
+          },
+          {
+            "index": 6,
+            "tick": 11953,
+            "first_closed_row": 27,
+            "closed_rows": 23,
+            "first_closed_source_s": 0.9,
+            "last_positive_consumed_source_s": 0,
+            "lowest_raw_grip": 0.017977410927414894,
+            "reached_first_closed_source_knot": false,
+            "lowest_acknowledged_mm": 41.77614641189575
+          }
+        ]
+      },
+      {
+        "condition": "PT_COMPARE_D01_502_CMD0",
+        "stopped": true,
+        "acknowledged_min_mm": 39.37683588320176,
+        "threshold_queries": []
+      }
+    ],
+    "terminal_contacts": [
+      {
+        "card": "PT_COMPARE_D01_501_CMD0",
+        "tick": 9372,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.002248732213192689
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D01_501_CMD250",
+        "tick": 12608,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.004929433063013272
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D02_501_CMD0",
+        "tick": 10216,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.007151761424552261
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D02_501_CMD250",
+        "tick": 12798,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.0019667457937591615
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D02_502_CMD0",
+        "tick": 9793,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.002267470629403745
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D02_502_CMD250",
+        "tick": 12618,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.0027934662692290224
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D01_502_CMD0",
+        "tick": 9660,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.0036638398457980448
+          }
+        ]
+      },
+      {
+        "card": "PT_COMPARE_D01_502_CMD250",
+        "tick": 12381,
+        "safety_reason": "ILLEGAL_CONTACT",
+        "right_pad_table": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "distance_mm": -0.0012939582565221763
+          }
+        ]
+      }
+    ],
+    "stop_layer_attribution": [
+      {
+        "card": "PT_COMPARE_D01_501_CMD0",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 9372,
+        "last_complete_atom_tick": 9353,
+        "raw_intent_clearance_mm": 9.790318401678405,
+        "submitted_clearance_mm": 9.789033166042529,
+        "actual_clearance_mm": -0.0056626421249417885,
+        "pre_stop_echo_clearance_range_mm": [
+          9.789039047642124,
+          9.789044752554888
+        ],
+        "nominal_uncommitted_source_s": 0.00920411962375923,
+        "measured_xyz_only_clearance_mm": 0.5183332546201523,
+        "measured_rotation_only_clearance_mm": 9.26716606934984,
+        "measured_slide_only_clearance_mm": 9.787339092903593
+      },
+      {
+        "card": "PT_COMPARE_D01_501_CMD250",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 12608,
+        "last_complete_atom_tick": 12603,
+        "raw_intent_clearance_mm": 5.907832224754652,
+        "submitted_clearance_mm": 7.841017301520115,
+        "actual_clearance_mm": -0.01146838994302117,
+        "pre_stop_echo_clearance_range_mm": [
+          7.8410232288845645,
+          7.841027737094438
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.609249817901246,
+        "measured_rotation_only_clearance_mm": 7.2219803748318645,
+        "measured_slide_only_clearance_mm": 7.83964171350956
+      },
+      {
+        "card": "PT_COMPARE_D02_501_CMD0",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 10216,
+        "last_complete_atom_tick": 10203,
+        "raw_intent_clearance_mm": 6.763024122454003,
+        "submitted_clearance_mm": 8.568030426345974,
+        "actual_clearance_mm": -0.014158007443164367,
+        "pre_stop_echo_clearance_range_mm": [
+          8.568029183905248,
+          8.568029183905248
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.5493771199131074,
+        "measured_rotation_only_clearance_mm": 8.007107271823221,
+        "measured_slide_only_clearance_mm": 8.56584024650504
+      },
+      {
+        "card": "PT_COMPARE_D02_501_CMD250",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 12798,
+        "last_complete_atom_tick": 12778,
+        "raw_intent_clearance_mm": 7.433080808591968,
+        "submitted_clearance_mm": 7.552785766563893,
+        "actual_clearance_mm": -0.004807630066603827,
+        "pre_stop_echo_clearance_range_mm": [
+          7.552792778927048,
+          7.552792782275408
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.5780570947530785,
+        "measured_rotation_only_clearance_mm": 6.971511365986006,
+        "measured_slide_only_clearance_mm": 7.551453699375395
+      },
+      {
+        "card": "PT_COMPARE_D02_502_CMD0",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 9793,
+        "last_complete_atom_tick": 9778,
+        "raw_intent_clearance_mm": 2.8807685888317844,
+        "submitted_clearance_mm": 9.017326210678853,
+        "actual_clearance_mm": -0.008118692328005356,
+        "pre_stop_echo_clearance_range_mm": [
+          9.01731939242754,
+          9.017328201213987
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.5553655807183314,
+        "measured_rotation_only_clearance_mm": 8.456114170066666,
+        "measured_slide_only_clearance_mm": 9.015478563420606
+      },
+      {
+        "card": "PT_COMPARE_D02_502_CMD250",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 12618,
+        "last_complete_atom_tick": 12603,
+        "raw_intent_clearance_mm": 5.636899232864657,
+        "submitted_clearance_mm": 7.858836198623494,
+        "actual_clearance_mm": -0.009173920243445155,
+        "pre_stop_echo_clearance_range_mm": [
+          7.858830416683476,
+          7.8588392196199655
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.6149436909143133,
+        "measured_rotation_only_clearance_mm": 7.236219676808289,
+        "measured_slide_only_clearance_mm": 7.857618166835952
+      },
+      {
+        "card": "PT_COMPARE_D01_502_CMD0",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 9660,
+        "last_complete_atom_tick": 9653,
+        "raw_intent_clearance_mm": 1.4763083600444533,
+        "submitted_clearance_mm": 9.311599762557712,
+        "actual_clearance_mm": -0.009899199106181908,
+        "pre_stop_echo_clearance_range_mm": [
+          9.311601264530408,
+          9.311601328684494
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.5456555142397106,
+        "measured_rotation_only_clearance_mm": 8.758327826543205,
+        "measured_slide_only_clearance_mm": 9.309760861243602
+      },
+      {
+        "card": "PT_COMPARE_D01_502_CMD250",
+        "outcome": "MATCHED_PARTIAL_GRANT",
+        "stop_tick": 12381,
+        "last_complete_atom_tick": 12378,
+        "raw_intent_clearance_mm": 7.554638588228104,
+        "submitted_clearance_mm": 7.618781988334943,
+        "actual_clearance_mm": -0.004187303130421052,
+        "pre_stop_echo_clearance_range_mm": [
+          7.6187752553622134,
+          7.6187752553622134
+        ],
+        "nominal_uncommitted_source_s": 0,
+        "measured_xyz_only_clearance_mm": 0.5912573234365219,
+        "measured_rotation_only_clearance_mm": 7.024887994081111,
+        "measured_slide_only_clearance_mm": 7.617518441508774
+      }
+    ],
+    "technical_extra_starts": 1,
+    "technical_extra_ticks": 6203,
+    "technical_extra_forwards": 1,
+    "raw_launch_total": 9,
+    "raw_launch_ticks": 95649,
+    "raw_total_forwards": 43,
+    "technical_owner_after_six": {
+      "status": "HOST_OOM",
+      "close_receipt_count": 6,
+      "unstarted_conditions_kept": 2
+    }
+  },
+  "long_cpu": {
+    "exact_auxiliary": {
+      "episodes": 52,
+      "complete_H40": 4294,
+      "actual_supported_atoms": 174880,
+      "manifest_sha256": "584fe14655538cbe22509cd27f5fc432026808d5c577c84b6ab9ed81d2e7838b"
+    },
+    "signed_three_domain_input": {
+      "logical_action_shapes": {
+        "target": [
+          64,
+          40,
+          32
+        ],
+        "robodojo": [
+          32,
+          50,
+          32
+        ],
+        "libero": [
+          32,
+          10,
+          32
+        ]
+      },
+      "auxiliary_shape": [
+        4,
+        40
+      ],
+      "optimizer_updates": 0,
+      "target_windows": 4450,
+      "scheduled_rates": [
+        3.392428331662449e-8,
+        0.0000033924283316624487,
+        0.0000033924283316624487,
+        3.392428331662449e-7
+      ]
+    }
+  }
+}
