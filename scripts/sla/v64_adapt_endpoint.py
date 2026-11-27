@@ -12,7 +12,6 @@ import numpy as np
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
 from v3_main_place_learn import endpoint_files
-from v4_long_export import export
 from v61_source_course import MAIN, R4
 from v62_source_endpoint import restore
 from v63_adapt_course import BATCH, MICRO, SEED, TARGET
@@ -93,6 +92,8 @@ def audit(run, bank, qualification_sha):
 
 
 if __name__ == "__main__":
+    from v4_long_export import export
+
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("run", "bank", "qualification", "output", "reference", "provider"):
         parser.add_argument(name, type=Path)

@@ -147,12 +147,12 @@ def stage(base, endpoint, overlay, step, *, adapt=False):
     shutil.copy2(__file__, overlay / SLA)
     modules = ("v62_source_admission", "v62_source_endpoint", "v61_source_course", "v61_source_bank", "v6_dual_course")
     if adapt:
-        modules += ("v64_adapt_endpoint", "v63_adapt_course", "v63_adapt_data", "v4_long_export")
+        modules += ("v64_adapt_endpoint", "v63_adapt_course", "v63_adapt_data")
     for name in modules:
         member = Path(import_module(name).__file__)
         target = overlay / SLA / member.name
         if target.exists():
-            require(sha(target) == sha(member), "Conflicting native evaluation module")
+            require(sha(target) == sha(member), f"Conflicting native evaluation module: {name}")
         else:
             shutil.copy2(member, target)
     prefix = "ADAPT" if adapt else "SOURCE"
