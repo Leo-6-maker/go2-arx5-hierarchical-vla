@@ -118,13 +118,21 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
         raise ValueError("The original mobile compiler roster changed")
     roster = FINAL_BLUE_ROSTER if final_blue else BLUE_ROSTER if blue else ROSTER
     factory.MOBILE_TRAIN = roster
-    compiled = site / f"SCENE-FACTORY-MOBILE-F1-{variant}-{wave}"
+    stage_version = f"{wave}-R2" if final_blue else wave
+    compiled = site / f"SCENE-FACTORY-MOBILE-F1-{variant}-{stage_version}"
     factory.build(base_input, train_manifest, compiled, qualification=qualification, protected_population=exclude)
     population = compiled / "COMPILED_POPULATION.private.json"
     # Preserve the original launcher and change only its fixed TRAIN population.
     body = previous.read_text()
     earlier = '("EF5_T_MOBILE_01", "EF5_T_MOBILE_05")' if blue else '("EF5_T_MOBILE_03", "EF5_T_MOBILE_07")'
-    replacements = ((OLD_MOBILE, sha(population)), (earlier, repr(tuple(row[0] for row in roster))))
+    replacements = [(OLD_MOBILE, sha(population)), (earlier, repr(tuple(row[0] for row in roster)))]
+    if final_blue:
+        replacements.extend((
+            ('roster["physics_requests"] != 2', 'roster["physics_requests"] != 1'),
+            ('roster["integrations"] != 2*TICKS', 'roster["integrations"] != TICKS'),
+            ("(2, 71406) if binding else (264, 12065592)", "(1, 35703) if binding else (264, 12065592)"),
+            ("physics_requests=2, integrations=2*TICKS", "physics_requests=1, integrations=TICKS"),
+        ))
     for before, after in replacements:
         if body.count(before) != 1:
             raise ValueError("Existing Mobile Grasp dispatcher seam changed")
@@ -133,7 +141,7 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
     compile(body, str(dispatch), "exec")
     with dispatch.open("x") as stream:
         stream.write(body)
-    overlay = site / f"MOBILE-F1-{variant}-TRAIN-OVERLAY-{wave}"
+    overlay = site / f"MOBILE-F1-{variant}-TRAIN-OVERLAY-{stage_version}"
     root = site / f"MOBILE-F1-{variant}-TRAIN-{wave}"
     options = dict(qualification=qualified) if blue else dict(legacy_red_train=True)
     module(dispatch).stage(prior, population, legacy, overlay, root, revision, **options)
