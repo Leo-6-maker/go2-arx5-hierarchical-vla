@@ -34,7 +34,7 @@ def validate_boundary(binding):
             and binding["parent"]["sha256"] == PARENT_RELEASE
             and binding["source_hold"]["sha256"] == SOURCE_RELEASE
             and binding["engineering_updates"] == PROBE_STEPS
-            and binding["engineering_upper_left"] >= PROBE_STEPS and binding["formal_prior_updates"] >= 250
+            and binding["engineering_upper_left"] >= (0 if binding.get("previous_qualification") else PROBE_STEPS) and binding["formal_prior_updates"] >= 250
             and binding["formal_prior_updates"] + FIRST <= 8000,
             "Use the exact available A250 / engineering scope")
     parent_gate(binding["parent"])
@@ -118,35 +118,42 @@ def run(capsule):
 
         course = dict(plan=PLAN, r4_parent=R4, course_seed=SEED, bank_sha256=binding["bank_sha256"],
                       data_sha256=record["added_manifest_sha256"], batches=BATCH,micro=MICRO,auxiliary=4)
-        probe = capsule / "qualification"
-        probe.mkdir(mode=0o700)
-        with closing(factory()) as learner:
-            status = "QUALIFICATION_INTERRUPTED"
-            restore, peak = None, None
-            try:
-                with (probe / "UPDATES.jsonl").open("x",buffering=1) as history:
-                    while learner.step < PROBE_STEPS:
-                        row = assess(learner,banks,group,datasets,PROBE_STEPS,guard,phases)
-                        history.write(json.dumps(row,allow_nan=False)+"\n")
-                guard()
-                restore = recover(learner,factory,probe / f"STEP{PROBE_STEPS:04d}",graphs["target"],(MICRO,4),guard)
-                memory = jax.local_devices()[0].memory_stats()
-                peak = memory["peak_bytes_in_use"]
-                require(restore["prediction_equal"] and peak < .9*memory["bytes_limit"],
-                        "Actual cold restore and safe accelerator capacity required")
-                recent = [json.loads(line)["seconds"] for line in (probe / "UPDATES.jsonl").read_text().splitlines()][-3:]
-                require(time.time()+900+1.15*FIRST*np.median(recent) < site["deadline"],
-                        "Measured cold qualification leaves insufficient time for A250")
-                status = "QUALIFICATION_PASS"
-            finally:
-                path = probe / f"STEP{learner.step:04d}"
-                if not path.exists():
-                    checkpoint(learner,path)
-                write(probe / "TERMINAL.json",dict(status=status,updates=learner.step,optimizer="NEW_ADAM_FOR_QUAL_ONLY",
-                      restore=restore,peak_allocated_bytes=peak,course=course,files=endpoint_files(path)))
+        previous = binding.get("previous_qualification")
+        if previous:
+            proof = pin(previous["path"], previous["sha256"])
+            checked = read(proof)
+            require(checked["course"] == course and checked["updates"] == PROBE_STEPS
+                    and checked["restore"]["prediction_equal"] and checked["peak_allocated_bytes"] > 0,
+                    "The independently sealed previous engineering stage must match this exact course")
+            require(checked["files"] == endpoint_files(proof.parent / f"STEP{PROBE_STEPS:04d}"),
+                    "Archived engineering endpoint members changed")
+        else:
+            probe = capsule / "qualification"
+            probe.mkdir(mode=0o700)
+            with closing(factory()) as learner:
+                status = "QUALIFICATION_INTERRUPTED"
+                restore, peak = None, None
+                try:
+                    with (probe / "UPDATES.jsonl").open("x",buffering=1) as history:
+                        while learner.step < PROBE_STEPS:
+                            row = assess(learner,banks,group,datasets,PROBE_STEPS,guard,phases)
+                            history.write(json.dumps(row,allow_nan=False)+"\n")
+                    guard()
+                    restore = recover(learner,factory,probe / f"STEP{PROBE_STEPS:04d}",graphs["target"],(MICRO,4),guard)
+                    memory = jax.local_devices()[0].memory_stats()
+                    peak = memory["peak_bytes_in_use"]
+                    require(restore["prediction_equal"] and peak < .9*memory["bytes_limit"],
+                            "Actual cold restore and safe accelerator capacity required")
+                    status = "QUALIFICATION_PASS"
+                finally:
+                    path = probe / f"STEP{learner.step:04d}"
+                    if not path.exists():
+                        checkpoint(learner,path)
+                    write(probe / "TERMINAL.json",dict(status=status,updates=learner.step,optimizer="NEW_ADAM_FOR_QUAL_ONLY",
+                          restore=restore,peak_allocated_bytes=peak,course=course,files=endpoint_files(path)))
+            proof = probe / "TERMINAL.json"
         formal = capsule / "run"
         formal.mkdir(mode=0o700)
-        proof = probe / "TERMINAL.json"
         write(formal / "RUN_CONTRACT.json",dict(course=course,start=0,end=FIRST,ancestry=ancestry,
               probe_receipt=sha(proof),binding_sha256=sha(seal), optimizer="NEW_ADAM_FROM_R4",
               rng="INDEPENDENT_ADAPT_SEED", lr_schedule="WARM100_COSINE3000"))
@@ -175,7 +182,7 @@ def run(capsule):
                 if point is None or point["step"] != learner.step:
                     point = checkpoint(learner,formal / f"STEP{learner.step:04d}")
                 write(formal / "TERMINAL.json",dict(status=status,updates=learner.step,course=course,
-                      engineering_updates=PROBE_STEPS,optimizer_visits=dict(visits),go2_population=dict(go2_groups),
+                      engineering_updates=0 if previous else PROBE_STEPS,optimizer_visits=dict(visits),go2_population=dict(go2_groups),
                       go2_phase=dict(go2_phases),checkpoint=point,bank_cursor=learner.step,
                       contract_sha256=sha(formal / "RUN_CONTRACT.json")))
 

@@ -29,11 +29,11 @@ def ref(path):
     return dict(path=str(path),sha256=sha(path))
 
 
-def submit(root):
+def submit(root, *, after_probe=False):
     paths = root / "incoming/PATHS.json"
     config = read(paths)
     incoming = paths.parent
-    code = root / "code"
+    code = root / ("code-formal-r1" if after_probe else "code")
     custody, r4, bank = (Path(config[k]) for k in ("custody","r4","adapt_bank"))
     runtime = custody / "sla-core-hopper-v1-runtime-20261121-01/runtime.verified"
     source = custody / "qualification-source-b9581196/source"
@@ -48,7 +48,7 @@ def submit(root):
     prior.extend(root.parent / "retention-20261126-01" / x
                  for x in ("slav6ret1","slav6ret2","slav6rref","slav6r5rel"))
     prior.extend((*owner_trials,source_formal))
-    capsule = root / "A250"
+    capsule = root / ("A250-FORMAL-R1" if after_probe else "A250")
     require(time.time()+BUDGET < DEADLINE, "The original allocation deadline must cover this job")
     with closing(OwnerLock(root / "SUBMIT.lock")):
         require(not capsule.exists(), "Reconcile the existing A250 capsule before re-submitting")
@@ -67,7 +67,24 @@ def submit(root):
             ledger = job / "run/UPDATES.jsonl"
             if ledger.exists():
                 used += len(ledger.read_text().splitlines())
-        require(0 <= used <= 24-PROBE_STEPS, "The actual existing engineering budget has been consumed")
+        previous = None
+        if after_probe:
+            first = root / "A250"
+            old_job = native(read(first / "RELEASE.json")["job"])
+            qualification = first / "qualification/TERMINAL.json"
+            proof = read(qualification)
+            log = first / "qualification/UPDATES.jsonl"
+            lines = log.read_text().splitlines()
+            require(old_job["job_state"] == "F" and old_job["Job_Name"] == NAME and not (first / "run").exists()
+                    and proof["status"] == "QUALIFICATION_INTERRUPTED" and proof["restore"]["prediction_equal"]
+                    and proof["updates"] == len(lines) == PROBE_STEPS and proof["course"]["bank_sha256"] == bsha
+                    and "Measured cold qualification leaves insufficient time for A250" in (first / "stderr.log").read_text(),
+                    "Only the closed, restored engineering stage can be reused without replay")
+            previous = ref(qualification)
+            prior.append(first)
+            used += len(lines)
+        require(0 <= used <= 24-(0 if after_probe else PROBE_STEPS),
+                "The actual existing engineering budget has been consumed")
         formal = read(source_formal / "run/TERMINAL.json")
         require(formal["status"] == "FORMAL_SOURCE_BOUNDARY" and formal["updates"] == 250
                 and read(source_formal / "RELEASE.json")["job"] == "736211.hopper-m-02",
@@ -89,6 +106,8 @@ def submit(root):
                        engineering_updates=PROBE_STEPS,engineering_upper_left=24-used,
                        formal_prior_updates=250,inputs=ref(paths),bank_sha256=bsha,host_readback=ref(host),
                        parent=ref(incoming/"PARENT_RELEASE.json"),source_hold=ref(incoming/"SOURCE0250-RELEASE.json"))
+        if previous:
+            binding["previous_qualification"] = previous
         validate_boundary(binding)
         capsule.mkdir(mode=0o700)
         write_once(capsule/"WRITE_CAPACITY.json",write_capacity(capsule,r4,"250",0,FIRST,BUDGET))
@@ -99,6 +118,8 @@ def submit(root):
         authorized = [declaration,paths,host,incoming/"PARENT_RELEASE.json",incoming/"SOURCE0250-RELEASE.json",
                       capsule/"GRANT.json",bank/"ACTUAL.json",*sorted(code.glob("*.py")),
                       *sorted((earlier/"v4-local").glob("*.py"))]
+        if previous:
+            authorized.append(Path(previous["path"]))
         inputs = capsule/"INPUTS.sha256"
         with inputs.open("x") as handle:
             handle.writelines(f"{sha(p)}  {p}\n" for p in authorized)
@@ -124,5 +145,6 @@ def submit(root):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root",type=Path)
+    parser.add_argument("--after-probe",action="store_true")
     os.umask(0o077)
-    submit(parser.parse_args().root)
+    submit(**vars(parser.parse_args()))
