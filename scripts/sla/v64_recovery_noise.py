@@ -6,27 +6,33 @@ import hashlib
 from pathlib import Path
 
 from scripts.pi0292.durable import OwnerLock, write
-from v64_recovery_roster import PLAN, QUERIES, ROSTER, fixed
+from v64_recovery_cohorts import FIRST_NOISE, FIRST_ROSTER, SECOND_ROSTER, read_roster
+from v64_recovery_roster import PLAN, QUERIES, fixed
 
 QUALIFIED_WORKER = "361709e35c2bf427d5644e7af37a925014ab52861c075d4782749afd371d6bfc"
-TRAIN_ROSTER = "e9b7552d4c10779f4c87a04ef23c252ee2f599a69a24df5d8f94624166ad6cba"
 
 
-def seal(roster, worker, previous, output):
+def seal(roster, worker, previous, output, *, prior_recovery=None):
     import jax
     import numpy as np
 
-    registered = fixed(roster, TRAIN_ROSTER)
+    registered, cohort = read_roster(roster)
     runtime = fixed(worker, QUALIFIED_WORKER)
     binding = runtime["sample_noise"]
     historical = fixed(previous, binding["sha256"])
-    if (registered["plan"] != PLAN or registered["split"] != "TRAIN" or
-            tuple(case["id"] for case in registered["cases"]) != tuple(row[0] for row in ROSTER)
-            or not all(case["maximum_queries"] == QUERIES for case in registered["cases"])
-            or str(previous.resolve(strict=True)) != binding["path"]):
-        raise ValueError("Require the exact new TRAIN roster and the previous qualified CUDA runtime")
+    if (str(previous.resolve(strict=True)) != binding["path"]
+            or (cohort == SECOND_ROSTER) != (prior_recovery is not None)):
+        raise ValueError("The required old CUDA runtime or prior Recovery noise binding changed")
     prior_ids = {row["noise_id"] for row in historical["tensors"]}
     prior_bytes = {row["gpu_sha256"] for row in historical["tensors"]}
+    history = {}
+    if prior_recovery is not None:
+        first = fixed(prior_recovery, FIRST_NOISE)
+        if first["roster_sha256"] != FIRST_ROSTER or len(first["tensors"]) != 2 * QUERIES:
+            raise ValueError("Require the complete first Recovery noise bank")
+        prior_ids.update(row["noise_id"] for row in first["tensors"])
+        prior_bytes.update(row["gpu_sha256"] for row in first["tensors"])
+        history["prior_recovery_noise_sha256"] = FIRST_NOISE
 
     def value_sha(noise_id):
         value = np.asarray(jax.random.normal(jax.random.PRNGKey(noise_id), (1, 40, 32), dtype=np.float32))
@@ -49,13 +55,14 @@ def seal(roster, worker, previous, output):
                 prior_ids.add(noise_id)
                 prior_bytes.add(fingerprint)
                 rows.append(dict(case=case["id"], query=query, noise_id=noise_id, gpu_sha256=fingerprint))
-        write(output, dict(plan=PLAN, split="TRAIN", roster_sha256=TRAIN_ROSTER, worker_spec_sha256=QUALIFIED_WORKER, matched_archived_cuda_sentinels=len(checks),
+        write(output, dict(plan=PLAN, split="TRAIN", roster_sha256=cohort, worker_spec_sha256=QUALIFIED_WORKER, matched_archived_cuda_sentinels=len(checks),
                  prior_noise_manifest_sha256=binding["sha256"], tensors=rows, model_forwards=0,
-                 optimizer_updates=0, native_integrations=0))
+                 optimizer_updates=0, native_integrations=0, **history))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("roster", "worker", "previous", "output"):
         parser.add_argument(name, type=Path)
+    parser.add_argument("--prior-recovery", type=Path)
     seal(**vars(parser.parse_args()))

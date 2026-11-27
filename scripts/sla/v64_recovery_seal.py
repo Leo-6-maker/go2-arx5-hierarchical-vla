@@ -7,8 +7,8 @@ from pathlib import Path
 
 import numpy as np
 
-from v64_recovery_launcher import checked_ref, ref
-from v64_recovery_noise import TRAIN_ROSTER
+from v64_recovery_cohorts import roster_ref
+from v64_recovery_launcher import ref
 from v64_recovery_roster import fixed, sha
 
 
@@ -142,7 +142,7 @@ def inspect(case, output, control=None):
     detail = result["detail"]
     capture, queries = actual_queries(case, detail, spec)
     if control is None:
-        binding = checked_ref(spec["v64_recovery_train"], TRAIN_ROSTER)
+        binding, _ = roster_ref(spec["v64_recovery_train"])
         card, = (c for c in binding["cases"] if c["id"] == case.name)
         need(spec["collection_split"] == "TRAIN" and spec["evaluation_split"] == "TRAIN_RECOVERY"
              and detail["teacher_takeover"] and not detail["task_success"]

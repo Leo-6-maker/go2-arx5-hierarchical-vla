@@ -3,13 +3,13 @@ import argparse
 import hashlib
 from pathlib import Path
 
-from v64_recovery_noise import TRAIN_ROSTER
-from v64_recovery_roster import PLAN, QUERIES, ROSTER, TERMINAL, TICKS, fixed, sha
+from v64_recovery_cohorts import FIRST_NOISE, FIRST_ROSTER, NOISE, read_roster, roster_ref
+from v64_recovery_followup import FIRST_RESULT
+from v64_recovery_roster import PLAN, QUERIES, TERMINAL, TICKS, fixed, sha
 
 
 EXECUTOR = "7415d5a6436a8c2ab670bdc7b428fb66307fe221829b31302b88a8262a0ec496"
 R4_COMPARISON = "1e19b5cdce0d957d9da4b976d2f3b80cca0b3c972c372b683f665465d6687050"
-CUDA_NOISE = "8ddc137196a1b035d9b835b9397bef51eff86d6037ee55de47c06131dce6e89e"
 SCOPE = "SLA_V64_RECOVERY_TRAIN"
 
 
@@ -24,28 +24,41 @@ def checked_ref(reference, expected):
 
 
 def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
-    roster = fixed(roster_path, TRAIN_ROSTER)
+    roster, cohort = read_roster(roster_path)
     parent = fixed(parent_path, R4_COMPARISON)
-    provenance = fixed(teacher_wave / "RESULT.private.json", TERMINAL)
-    noise = fixed(noise_path, CUDA_NOISE)
+    noise = fixed(noise_path, NOISE[cohort])
     cards = roster["cases"]
     expected_noise = [(card["id"], query, (card["policy_seed"] + query) % 2**31)
                       for card in cards for query in range(QUERIES)]
     actual_noise = [(row["case"], row["query"], row["noise_id"]) for row in noise["tensors"]]
     if (roster["plan"] != noise["plan"] or noise["plan"] != PLAN
             or roster["split"] != noise["split"] or noise["split"] != "TRAIN"
-            or tuple((c["id"], c["original_teacher"], c["task"]) for c in cards) != ROSTER
             or parent["comparison_model"] != roster["student_provider"] or parent["v4_model_role"] != "R4_DEV_0200"
             or parent["gpu_noise_sha256"] != noise["prior_noise_manifest_sha256"]
             or actual_noise != expected_noise or len({row["gpu_sha256"] for row in noise["tensors"]}) != 2 * QUERIES
-            or noise["roster_sha256"] != TRAIN_ROSTER or noise["matched_archived_cuda_sentinels"] != 3):
+            or noise["roster_sha256"] != cohort or noise["matched_archived_cuda_sentinels"] != 3):
         raise ValueError("The Recovery cohort, retained R4 model, or realized noise bank changed")
-    records = {row["condition"]: row for row in provenance["records"]}
+    if cohort != FIRST_ROSTER:
+        closed = checked_ref(roster["prior_terminal"], FIRST_RESULT)
+        if (not closed["complete_reconciliation"] or closed["terminal_cases"] != 2 or closed["train_recovery_count"] != 1
+                or noise["prior_recovery_noise_sha256"] != FIRST_NOISE
+                or roster["max_native_requests_cumulative"] != 20
+                or closed["terminal_cases"] != roster["previous_recovery_native_requests"]):
+            raise ValueError("The followup requires the entire actual first cohort")
     teachers = {}
     for card in cards:
         key = card["original_teacher"]
-        row = records[key]
-        case = teacher_wave / "cases" / key
+        if cohort == FIRST_ROSTER:
+            wave = teacher_wave
+            provenance = fixed(wave / "RESULT.private.json", TERMINAL)
+        else:
+            scope = roster["teacher_sources"][card["id"]]
+            wave = Path(scope["teacher_wave"])
+            if wave.parent != teacher_wave or Path(scope["terminal"]["path"]) != wave / "RESULT.private.json":
+                raise ValueError("The followup sources must be the actual closed independent TRAIN waves")
+            provenance = fixed(wave / "RESULT.private.json", scope["terminal"]["sha256"])
+        row, = (entry for entry in provenance["records"] if entry["condition"] == key)
+        case = wave / "cases" / key
         if not (row["admitted"] and row["task_and_mobile_success"] and row["split"] == "TRAIN"
                 and not row["technical_failure"] and not row["hard_STOP"]
                 and Path(row["result"]["path"]) == case / "RESULT.private.json"):
@@ -61,7 +74,7 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
 
 
 def case_fields(original, registration, row):
-    roster = checked_ref(registration["v64_recovery_train"], TRAIN_ROSTER)
+    roster, _ = roster_ref(registration["v64_recovery_train"])
     selected, = (card for card in roster["cases"] if card["id"] == row["id"])
     witness = registration["teacher_specs"][row["id"]]
     teacher = fixed(Path(witness["path"]), witness["sha256"])

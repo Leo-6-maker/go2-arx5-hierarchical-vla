@@ -3,9 +3,9 @@ import argparse
 import json
 from pathlib import Path
 
-from v64_recovery_launcher import CUDA_NOISE, SCOPE, checked_ref, ref
-from v64_recovery_noise import TRAIN_ROSTER
-from v64_recovery_roster import PLAN, QUERIES, ROSTER, TICKS, fixed, sha
+from v64_recovery_cohorts import NOISE, roster_ref
+from v64_recovery_launcher import SCOPE, ref
+from v64_recovery_roster import PLAN, QUERIES, TICKS, fixed
 from v64_recovery_seal import inspect
 
 
@@ -16,10 +16,11 @@ def read(path):
 def close(root, output):
     spec = read(root / "EXECUTION_SPEC.json")
     registered = fixed(root / "COMPARISON.json", spec["comparison_registration"]["sha256"])
-    roster = checked_ref(registered["v64_recovery_train"], TRAIN_ROSTER)["cases"]
+    manifest, cohort = roster_ref(registered["v64_recovery_train"])
+    roster = manifest["cases"]
     if (registered["plan"] != PLAN or spec["registry_scope"] != SCOPE
-            or registered["gpu_noise_sha256"] != CUDA_NOISE or not registered["zero_training"]
-            or tuple(row["id"] for row in registered["schedule"]) != tuple(row[0] for row in ROSTER)
+            or registered["gpu_noise_sha256"] != NOISE[cohort] or not registered["zero_training"]
+            or tuple(row["id"] for row in registered["schedule"]) != tuple(row["id"] for row in roster)
             or not all(read(root / role / "control/LEASE.json")["status"] == "CLOSED" for role in (".", "worker"))):
         raise ValueError("The exact frozen pair and both owner leases must be closed")
     outcomes = read(root / "PAIR_CLOSE.private.json")["cases"]
