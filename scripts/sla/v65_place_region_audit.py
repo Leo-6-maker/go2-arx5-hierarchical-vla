@@ -66,6 +66,7 @@ def after_entry(case):
             atoms.append(dict(start_tick=start, emitted_mm=requested, measured_mm=measured))
         queries.append(dict(query=int(query.name), start_tick=request["native_step"],
                             raw_p10_max_mm=float(widths[:10].max()), raw_h40_max_mm=float(widths.max()),
+                            raw_open_rows_1_based=(np.flatnonzero(widths >= OPEN_DIAGNOSTIC_MM) + 1).tolist(),
                             actual_recorded=actual is not None, atoms=atoms))
     atoms = [row for q in queries for row in q["atoms"]]
     require(all(b["start_tick"] > a["start_tick"] for a, b in zip(atoms, atoms[1:])),
