@@ -4,6 +4,7 @@ import argparse
 from contextlib import closing
 import os
 from pathlib import Path
+from pwd import getpwuid
 import shlex
 import subprocess
 import time
@@ -24,29 +25,41 @@ from v6_dual_source_submit import PROJECT, SERVER, admit
 NAME = "slav65r3a3k"
 
 
-def submit(parent, stage, output, *, after=None, hours=4):
+def submit(parent, stage, output, *, after=None, hours=4, recover_quota=False, segment_end=END):
     budget = hours * 3600
-    require(1 <= hours <= 6 and time.time()+budget < DEADLINE and output.parent.resolve() == parent.parent.resolve(),
-            "Original scratch and project deadline must cover the continuation")
+    user = getpwuid(os.getuid()).pw_name
+    quota_root = Path("/hpctmp") / user
+    alternate = output.parent == stage and stage.resolve().is_relative_to(quota_root)
+    require(1 <= hours <= 6 and time.time()+budget < DEADLINE
+            and (output.parent.resolve() == parent.parent.resolve() or alternate)
+            and (not recover_quota or (alternate and after is not None)),
+            "Personal storage and project deadline must cover the continuation")
     with closing(OwnerLock(stage / "SUBMIT.lock")):
         require(not output.exists(), "Reconcile the existing continuation owner before submission")
         base, _ = original(parent)
         bank = stage / "BANK-3K/ACTUAL.json"
         prior, start = {}, START
+        lost_updates = 0
         name = parent.name.replace("-1K-", "-3K-")
         if after is not None:
-            require(after.parent == parent.parent and after != parent, "Unknown continuation capsule")
-            previous_boundary, _ = boundary(parent, after, bank)
+            require(after.parent in (parent.parent, stage) and after != parent, "Unknown continuation capsule")
+            previous_boundary, _ = boundary(parent, after, bank, quota=recover_quota)
             start = previous_boundary["step"]
             name += f"-from-{start:04d}"
             prior["previous_boundary"] = previous_boundary
+            lost_updates = (read(after / "BINDING.json").get("paid_unsealed_updates", 0)
+                            + previous_boundary.get("paid_unsealed_updates", 0))
         require(output.name == name, "Use the unique capsule for this observed boundary")
+        require(start < segment_end <= END and segment_end % 100 == 0
+                and (segment_end == END or alternate), "Use a complete, site-bounded checkpoint boundary")
         preceding = after or parent
         release = read(preceding / "RELEASE.json")
         previous = native(release["job"])
-        require(previous["job_state"] == "F" and previous["Exit_status"] == 0 and previous["project"] == PROJECT
-                and release["job"] == read(preceding / "JOB.json")["job"], "The preceding PBS must have closed normally")
-        require(base["formal_prior_updates"] + END <= 8000, "Continuation would exceed formal budget")
+        require(previous["job_state"] == "F" and previous["Exit_status"] == int(recover_quota)
+                and previous["project"] == PROJECT and release["job"] == read(preceding / "JOB.json")["job"],
+                "The preceding PBS must match the recorded terminal class")
+        require(base["formal_prior_updates"] + END + lost_updates <= 8000,
+                "Continuation would exceed the budget including unsealed paid updates")
         accounted = read(preceding / "INTENT.json")["prior_upper_gpu_s"] + release["reserved_s"]
         require(accounted+budget <= 320*3600, "Original GPU-hour allowance cannot cover this run")
         try:
@@ -72,11 +85,14 @@ def submit(parent, stage, output, *, after=None, hours=4):
                 "Require the real continuation first batch and the sealed appended bank")
         paths = read(pin(base["data"]["path"], base["data"]["sha256"]))["parent_paths"]
         output.mkdir(mode=0o700)
-        write_once(output / "WRITE_CAPACITY.json", write_capacity(output, Path(paths["r4"]), str(END), start, END, budget))
+        personal = quota_root if alternate else Path("/scratch") / user
+        write_once(output / "WRITE_CAPACITY.json", write_capacity(output, Path(paths["r4"]), str(segment_end),
+                   start, segment_end, budget, quota_root=personal))
         write_once(output / "GRANT.json", grant)
         declaration = output / "BINDING.json"
         binding = {**base, **prior, "course": COURSE, "formal_start": start, "formal_end": END, "engineering_updates": 0,
-                   "formal_prior_updates": base["formal_prior_updates"]+start, "base_capsule": str(parent),
+                   "segment_end": segment_end, "quota_root": str(personal), "paid_unsealed_updates": lost_updates,
+                   "formal_prior_updates": base["formal_prior_updates"]+start+lost_updates, "base_capsule": str(parent),
                    "base_seal": BASE_SEAL, "base_terminal": BASE_TERMINAL, "base_pbs": read(parent / "JOB.json")["job"],
                    "bank": ref(bank), "host_batch": ref(bank.with_name("FIRST-BATCH.json")),
                    "site_grant": ref(output / "GRANT.json"), "budget_seconds": budget}
@@ -118,5 +134,7 @@ if __name__ == "__main__":
         cli.add_argument(name, type=Path)
     cli.add_argument("--after", type=Path)
     cli.add_argument("--hours", type=int, choices=range(1, 7), default=4)
+    cli.add_argument("--recover-quota", action="store_true")
+    cli.add_argument("--segment-end", type=int, default=END)
     os.umask(0o077)
     submit(**vars(cli.parse_args()))

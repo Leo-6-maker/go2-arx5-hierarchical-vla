@@ -53,7 +53,46 @@ def ledger(run, bank, begin, end, *, settle):
                 warm_samples=len(warm))
 
 
-def boundary(base, previous, bank):
+def quota_boundary(base, previous, bank):
+    """Use the last complete seal from the observed storage failure, with all paid visits retained."""
+    run = previous / "run"
+    contract = read(run / "RUN_CONTRACT.json")
+    binding = read(pin(previous / "BINDING.json", contract["binding_sha256"]))
+    resume = read(run / "RESUME.json")
+    start = contract["start"]
+    require(start == START and contract["end"] == END and contract["seed"] == SEED
+            and contract["plan"] == binding["plan"] == PLAN and contract["course"] == binding["course"] == COURSE
+            and binding["base_capsule"] == str(base) and binding["bank"]["sha256"] == sha(bank)
+            and contract["previous_seal"] == binding["base_seal"] == resume["parent_seal"] == BASE_SEAL
+            and contract["previous_terminal"] == binding["base_terminal"] == BASE_TERMINAL
+            and resume["step"] == START and resume["rng_restored"]
+            and resume["adam_counters"] == dict.fromkeys(("shared", *BATCH), START)
+            and not binding["engineering_updates"] and not contract["new_adam_from_r4"]
+            and not (run / "TERMINAL.json").exists() and not (previous / "STOP.json").exists(),
+            "The original quota-interrupted continuation scope changed")
+    stderr = previous / "stderr.log"
+    failure = stderr.read_text()
+    seals = sorted(run.glob("STEP[0-9][0-9][0-9][0-9]_SEALED.json"))
+    reads = [json.loads(line) for line in (run / "UPDATES.jsonl").read_text().splitlines()]
+    last = reads[-1]["step"]
+    seal = seals[-1]
+    step = read(seal)["step"]
+    require(START < step < last < END and last - step == 100
+            and not (run / f"STEP{last:04d}").exists()
+            and "Disk quota exceeded [os_error_code='122']" in failure
+            and f"STEP{last:04d}.orbax-checkpoint-tmp-" in failure,
+            "Require the exact storage failure and the last durable full state")
+    checkpoint = read(seal)
+    require(checkpoint["bank_cursor"] == step and checkpoint["adam_counts"] == dict.fromkeys(("shared", *BATCH), step),
+            "The surviving sealed optimizer state is incomplete")
+    ledger(run, bank, START, last, settle=True)
+    return dict(path=str(previous), step=step, seal=sha(seal), terminal=sha(stderr), terminal_kind="STORAGE_QUOTA",
+                paid_unsealed_updates=last - step, updates_sha256=sha(run / "UPDATES.jsonl")), checkpoint
+
+
+def boundary(base, previous, bank, *, quota=False):
+    if quota:
+        return quota_boundary(base, previous, bank)
     run = previous / "run"
     terminal = read(run / "TERMINAL.json")
     contract = read(pin(run / "RUN_CONTRACT.json", terminal["contract_sha256"]))
@@ -61,10 +100,13 @@ def boundary(base, previous, bank):
     resume = read(run / "RESUME.json")
     allocation = read(previous / "START.json")
     start, end = contract["start"], terminal["formal_updates"]
+    finite_walltime = ((run / "TERMINAL.json").stat().st_mtime >= allocation["deadline"] - 930
+                       and terminal["status"] == "SAVED_AT_FINITE_BOUNDARY")
+    segment_ended = (terminal["status"] == "MANAGED_CHECKPOINT_SEGMENT"
+                     and contract.get("segment_end") == binding.get("segment_end") == end)
     require(START <= start < end < END and contract["end"] == END
-            and terminal["status"] == "SAVED_AT_FINITE_BOUNDARY" and terminal["segment_updates"] == end-start
+            and (finite_walltime or segment_ended) and terminal["segment_updates"] == end - start
             and not (previous / "STOP.json").exists()
-            and (run / "TERMINAL.json").stat().st_mtime >= allocation["deadline"]-930
             and terminal["start"] == start and terminal["end"] == END and terminal["resumed_from_formal_1k"]
             and not terminal["engineering_updates"] and not contract["new_adam_from_r4"]
             and contract["plan"] == binding["plan"] == PLAN and contract["seed"] == SEED

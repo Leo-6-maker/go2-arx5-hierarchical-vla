@@ -35,19 +35,27 @@ def checkpoint_bound(r4):
     return (3 * baseline + 1) // 2
 
 
-def write_capacity(capsule, r4, stage, start, end, budget):
+def write_capacity(capsule, r4, stage, start, end, budget, *, quota_root=None):
     slot_bytes = checkpoint_bound(r4)
     # Periodic clock and update checkpoints can both be exercised. Include
     # the terminal and one overlapping atomic save as separate reservations.
     writes = 2 if stage == "probe" else end // 100 - start // 100 + budget // 1800 + 2
     expected = (writes + 1) * slot_bytes
     free = shutil.disk_usage(capsule).free
+    if quota_root is not None:
+        root = quota_root.resolve(strict=True)
+        require(capsule.resolve().is_relative_to(root) and root.stat().st_uid == os.getuid()
+                and root.stat().st_dev == capsule.stat().st_dev, "Unbound personal quota root")
+        free = min(free, shutil.disk_usage(root).free)
     require(free > expected, f"Actual safe checkpoint capacity unavailable: {free} <= {expected}")
     with tempfile.TemporaryFile(dir=capsule) as trial:
         os.posix_fallocate(trial.fileno(), 0, 64 * 1024**2)
         os.fsync(trial.fileno())
-    return dict(free_bytes=free, planned_bytes=expected, checkpoint_bytes=slot_bytes,
-                write_probe_bytes=64 * 1024**2, site_device=capsule.stat().st_dev)
+    proof = dict(free_bytes=free, planned_bytes=expected, checkpoint_bytes=slot_bytes,
+                 write_probe_bytes=64 * 1024**2, site_device=capsule.stat().st_dev)
+    if quota_root is not None:
+        proof["quota_root"] = str(root)
+    return proof
 
 
 def award(binding, capsule, allocation_value):

@@ -129,6 +129,8 @@ def run(capsule):
     binding_file = capsule / "BINDING.json"
     binding = read(binding_file)
     start, end = binding.get("formal_start", 0), binding["formal_end"]
+    segment_end = binding.get("segment_end", end)
+    quota_root = Path(binding["quota_root"]) if "quota_root" in binding else None
     timer = None
     require(binding["plan"] == PLAN and binding["r4_receipt"] == R4
             and binding["formal_prior_updates"] + end-start <= 8000
@@ -137,7 +139,8 @@ def run(capsule):
         from v65_recovery_chain import StepTiming, boundary
         from v65_recovery_extension import BASE_SEAL, BASE_TERMINAL, COURSE, END as EXTENDED, START, extended_bank, original
 
-        require(START <= start < end == EXTENDED and binding["course"] == COURSE and binding["engineering_updates"] == 0
+        require(START <= start < segment_end <= end == EXTENDED
+                and binding["course"] == COURSE and binding["engineering_updates"] == 0
                 and binding["base_seal"] == BASE_SEAL and binding["base_terminal"] == BASE_TERMINAL,
                 "Only the scientific 1K-to-3K continuation is registered")
         origin = Path(binding["base_capsule"])
@@ -149,7 +152,8 @@ def run(capsule):
         if start > START:
             expected = binding["previous_boundary"]
             previous = Path(expected["path"])
-            recorded, parent_seal = boundary(origin, previous, Path(binding["bank"]["path"]))
+            recorded, parent_seal = boundary(origin, previous, Path(binding["bank"]["path"]),
+                                             quota=expected.get("terminal_kind") == "STORAGE_QUOTA")
             require(recorded == expected and recorded["step"] == start, "The finite prior state changed since admission")
             previous_seal, previous_terminal = recorded["seal"], recorded["terminal"]
         timer = StepTiming()
@@ -168,7 +172,8 @@ def run(capsule):
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1
                 and "H200" in jax.local_devices()[0].device_kind, "One allocated H200 is required")
         site["project_award"] = award(binding, capsule, site)
-        site["write_capacity"] = write_capacity(capsule, r4, str(end), start, end, binding["budget_seconds"])
+        site["write_capacity"] = write_capacity(capsule, r4, str(segment_end), start, segment_end,
+                                                binding["budget_seconds"], quota_root=quota_root)
         write(capsule / "START.json", site)
         jax.config.update("jax_compilation_cache_dir", str(capsule / "jit-cache"))
         bank = binding["bank"]
@@ -220,7 +225,10 @@ def run(capsule):
             return row
 
         def save(current, directory):
-            require(shutil.disk_usage(capsule).free > 2*site["write_capacity"]["checkpoint_bytes"],
+            free = shutil.disk_usage(capsule).free
+            if quota_root is not None:
+                free = min(free, shutil.disk_usage(quota_root).free)
+            require(free > 2 * site["write_capacity"]["checkpoint_bytes"],
                     "Complete write/overlap reserve fell below the inherited bound")
             path = directory / f"STEP{current.step:04d}"
             with ocp.PyTreeCheckpointer() as writer:
@@ -240,7 +248,8 @@ def run(capsule):
             formal = capsule / "run"
             formal.mkdir(mode=0o700)
             contract = formal / "RUN_CONTRACT.json"
-            write(contract, dict(plan=PLAN, course=COURSE, seed=SEED, start=start, end=end, ancestry=ancestry,
+            write(contract, dict(plan=PLAN, course=COURSE, seed=SEED, start=start, end=end, segment_end=segment_end,
+                  ancestry=ancestry,
                   new_adam_from_r4=False, previous_seal=previous_seal, previous_terminal=previous_terminal,
                   binding_sha256=sha(binding_file), actual_training_scope_sha256=sha(capsule / "PARAMETERS.json")))
             with closing(make()) as current:
@@ -248,7 +257,7 @@ def run(capsule):
                 require(bool(finite(current.parameters)), "Nonfinite restored trainable parameters")
                 write(formal / "RESUME.json", dict(state, parent_seal=previous_seal, bank_sha256=bank["sha256"],
                                                    engineering_updates=0))
-                train_segment(current, formal, update, save, end, start=start)
+                train_segment(current, formal, update, save, end, start=start, segment_end=segment_end)
             return
 
         qual = capsule / "qualification"
@@ -289,13 +298,14 @@ def run(capsule):
             train_segment(current, formal, update, save, END)
 
 
-def train_segment(current, formal, update, save, end, *, start=0):
+def train_segment(current, formal, update, save, end, *, start=0, segment_end=None):
+    stop_step = end if segment_end is None else segment_end
     status, last_save, latest = "TECHNICAL_INTERRUPTION", time.monotonic(), None
     totals, accounted_step = Counter(), start
     try:
         with (formal / "UPDATES.jsonl").open("x", buffering=1) as history:
-            while current.step < end:
-                row = update(current, end)
+            while current.step < stop_step:
+                row = update(current, stop_step)
                 history.write(json.dumps(row, allow_nan=False)+"\n")
                 accounted_step = current.step
                 totals.update(row["go2"])
@@ -304,7 +314,10 @@ def train_segment(current, formal, update, save, end, *, start=0):
                 if current.step % 100 == 0 or current.step == 250 or time.monotonic()-last_save >= 1800:
                     _, latest = save(current, formal)
                     last_save = time.monotonic()
-        status = "FORMAL_V65_3K_COMPLETE" if start else "FORMAL_V65_1K_COMPLETE"
+        if stop_step < end:
+            status = "MANAGED_CHECKPOINT_SEGMENT"
+        else:
+            status = "FORMAL_V65_3K_COMPLETE" if start else "FORMAL_V65_1K_COMPLETE"
     except TimeoutError:
         status = "SAVED_AT_FINITE_BOUNDARY"
     finally:
