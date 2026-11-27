@@ -169,6 +169,8 @@ def run(spec):
             baseline_wall = baseline["wall_s"]
             result.update(native_wall_s=terminal["wall_s"], baseline_wall_s=baseline_wall,
                           overhead_relative=terminal["wall_s"]/baseline_wall-1)
+            if not terminal["shutdown_clean"]:
+                raise RuntimeError("Native observer did not satisfy the original clean shutdown gate")
             code = 0
     except Exception as error:
         result["failure"] = f"{type(error).__name__}: {error}"

@@ -4,6 +4,7 @@ Run inside a fresh GDB owning its inferior. This is a diagnostic observer:
 hardware breakpoints pause the inferior and are not a production ACK.
 """
 
+import __main__
 import hashlib
 import json
 import math
@@ -145,6 +146,24 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
     return Observer()
 
 
+def disarm_on_native_signal(observer, output):
+    """Remove hardware breakpoints before a normal controller thread teardown."""
+    gdb.execute("catch signal SIGINT SIGTERM", to_string=True)
+    catchpoint = gdb.breakpoints()[-1]
+
+    def record_disarm():
+        if observer.is_valid():
+            observer.delete()
+            with Path(output).open("x") as stream:
+                json.dump(dict(inferior_pid=gdb.selected_inferior().pid, monotonic_ns=time.monotonic_ns(),
+                               signal_pending=True, hardware_breakpoint_removed=True), stream)
+                stream.write("\n")
+
+    __main__.record_observer_signal_disarm = record_disarm
+    gdb.execute(f"commands {catchpoint.number}\nsilent\npython record_observer_signal_disarm()\ncontinue\nend",
+                to_string=True)
+
+
 if "SLA_SELECTED_REFERENCE_TRACE" in os.environ:
     LIMIT = int(os.environ.get("SLA_SELECTED_REFERENCE_TRACE_LIMIT","64"))
     if not 1 <= LIMIT <= 8192:
@@ -152,3 +171,4 @@ if "SLA_SELECTED_REFERENCE_TRACE" in os.environ:
     OBSERVER = install(os.environ["SLA_SELECTED_REFERENCE_TRACE"],LIMIT,
                        fixture=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE")=="1",
                        fixture_solution=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE_SOLUTION")=="1")
+    disarm_on_native_signal(OBSERVER, os.environ["SLA_SELECTED_REFERENCE_TRACE"] + ".shutdown")
