@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 
 from v64_arm_request_shadow import ArmReceiptMatcher, REQUEST_STAMP_SLACK_TICKS
-from v64_observation_readback import receiver, rows, tick
+from v64_observation_readback import grant_timing, receiver, rows, tick
 from v64_wbc_entry_readback import JOINTS, sha, stamp
 
 
@@ -34,6 +34,17 @@ def analyze(case):
             or end > result["actual_native_integrations"]):
         raise ValueError("Expected an uninterrupted, safe, actually completed task prefix")
 
+    handoff_path = raw / "RECOVERY-HANDOFF-INTENT.private.json"
+    handoff = None
+    handoff_intervals = {}
+    if handoff_path.exists():
+        intent = json.loads(handoff_path.read_bytes())
+        handoff = intent["native_step"]
+        if (not intent["clock_owner_unchanged"] or intent["next_role"] != "TEACHER"
+                or handoff not in intervals or intervals.get(handoff - 25) != intent["original_wire_sha256"]):
+            raise ValueError("The recorded Recovery handoff must name the actual preceding installed wire")
+        handoff_intervals = {step: Counter() for step in range(handoff - 50, handoff + 50, 25)}
+
     installed, _, expired, _ = receiver(raw)
     if expired:
         raise ValueError("Original receiver recorded an expired acceptance")
@@ -41,6 +52,7 @@ def analyze(case):
     matcher = ArmReceiptMatcher()
     request_counts, binding_counts, offsets = Counter(), Counter(), Counter()
     per_atom = {step: Counter() for step in intervals}
+    first_current = {}
     for _, row in rows(ros):
         topic = row["topic_key"]
         msg = row["message"]
@@ -85,8 +97,12 @@ def analyze(case):
             status = "other_install"
         binding_counts[status] += 1
         per_atom[boundary][status] += 1
+        if boundary in handoff_intervals:
+            handoff_intervals[boundary][status] += 1
+            if status == "current" and boundary not in first_current:
+                first_current[boundary] = control_tick, row["received_monotonic_s"]
 
-    return dict(case=case.name, terminal_sha256=sha(terminal), ros_sha256=sha(ros),
+    summary = dict(case=case.name, terminal_sha256=sha(terminal), ros_sha256=sha(ros),
                 receiver_sha256=sha(raw / "planner.jsonl"), intervals_sha256=sha(packet_path),
                 native_range=[start, end], requests=dict(request_counts), inferred_install_binding=dict(binding_counts),
                 receipt_minus_inferred_ticks=dict(offsets), full_task_intervals=len(intervals),
@@ -94,6 +110,12 @@ def analyze(case):
                 mixed_current_prior_intervals=sum(bool(counter["current"] and counter["prior"]) for counter in per_atom.values()),
                 no_unique_request_intervals=sum(not counter for counter in per_atom.values()),
                 native_stop=result["physics_stops"], independent_controller_witness=False)
+    if handoff is not None:
+        summary["recovery_handoff"] = dict(native_step=handoff, intent_sha256=sha(handoff_path),
+            first_current_offsets_ticks={step: call - step for step, (call, _) in first_current.items()},
+            inferred_bindings_by_interval=handoff_intervals,
+            ros_receipt_clock_timings=grant_timing(raw, first_current, result["actual_native_integrations"]))
+    return summary
 
 
 if __name__ == "__main__":
