@@ -4,6 +4,7 @@ import argparse
 from collections import Counter
 import json
 from pathlib import Path
+from time import perf_counter_ns
 
 import numpy as np
 
@@ -30,7 +31,29 @@ def predict(recent, stamp_tick, signature):
     return found
 
 
-def analyze(case, proof):
+class ArmReceiptMatcher:
+    """Consume one independent ROS receipt stream in arrival order."""
+
+    def __init__(self):
+        self.recent = []
+
+    def policy(self, message):
+        if message["time_trajectory"]:
+            trajectory = arm_trajectory(message)
+            if trajectory is not None:
+                self.recent.append((trajectory, identity(message)))
+
+    def request(self, message, *, match=True):
+        stamp_tick = tick(stamp(message))
+        earliest = (stamp_tick - REQUEST_STAMP_SLACK_TICKS) * TICK + DELAY_COMPENSATION
+        self.recent = [(trajectory, ref) for trajectory, ref in self.recent if trajectory[0][-1] >= earliest]
+        if not match:
+            return set()
+        signature = np.asarray(message["points"][0]["positions"], dtype="<f4").tobytes()
+        return predict(self.recent, stamp_tick, signature)
+
+
+def analyze(case, proof, *, profile=False):
     native = case / "native-01"
     observation = native / "SELECTED_CONTROLLER.private.jsonl"
     archive = native / "ROS_CONSUMPTION.private.jsonl"
@@ -45,23 +68,26 @@ def analyze(case, proof):
     if len(truth) != proof["counts"]["task_selected_calls"]:
         raise ValueError("Require one independently established truth for every evaluated call")
 
-    recent, counts, interpretations = [], Counter(), []
+    matcher, counts, interpretations = ArmReceiptMatcher(), Counter(), []
+    compute_ns, message_ns, queue_sizes = [], [], []
     for line, row in rows(archive):
         topic, message = row["topic_key"], row["message"]
-        if topic == "policy" and message["time_trajectory"]:
-            trajectory = arm_trajectory(message)
-            if trajectory is not None:
-                recent.append((trajectory, identity(message)))
+        if topic == "policy":
+            started = perf_counter_ns() if profile else 0
+            matcher.policy(message)
+            if profile:
+                message_ns.append(perf_counter_ns()-started)
             continue
         if topic != "arm_request":
             continue
-        request_tick = tick(stamp(message))
-        earliest = (request_tick - REQUEST_STAMP_SLACK_TICKS) * TICK + DELAY_COMPENSATION
-        recent = [(trajectory, ref) for trajectory, ref in recent if trajectory[0][-1] >= earliest]
-        if line not in truth:
+        verified = line in truth
+        started = perf_counter_ns() if profile and verified else 0
+        candidates = matcher.request(message, match=verified)
+        if not verified:
             continue
-        signature = np.asarray(message["points"][0]["positions"], dtype="<f4").tobytes()
-        candidates = predict(recent, request_tick, signature)
+        if profile:
+            compute_ns.append(perf_counter_ns()-started)
+            queue_sizes.append(len(matcher.recent))
         exact = truth[line] in candidates
         if len(candidates) == 1:
             verdict = "unique_correct" if exact else "unique_wrong"
@@ -73,7 +99,16 @@ def analyze(case, proof):
         interpretations.append(dict(ros_line=line, candidate_count=len(candidates), verdict=verdict))
     if sum(counts.values()) != len(truth):
         raise ValueError("Did not evaluate the full archive of known arm requests")
-    return dict(case=case.name, observer_scored_requests=len(truth), counts=dict(counts), interpretations=interpretations)
+    result = dict(case=case.name, observer_scored_requests=len(truth), counts=dict(counts), interpretations=interpretations)
+    if profile:
+        def measure(samples):
+            return dict(samples=len(samples), wall_p50_ms=float(np.median(samples))/1e6,
+                        wall_p95_ms=float(np.percentile(samples,95))/1e6, maximum_ms=max(samples)/1e6,
+                        total_s=sum(samples)/1e9)
+
+        result["passive_match_cost"] = dict(request=measure(compute_ns), policy_receipt=measure(message_ns),
+                                            maximum_candidate_policies=max(queue_sizes))
+    return result
 
 
 if __name__ == "__main__":
@@ -81,9 +116,10 @@ if __name__ == "__main__":
     cli.add_argument("truth", type=Path)
     cli.add_argument("output", type=Path)
     cli.add_argument("cases", type=Path, nargs="+")
+    cli.add_argument("--profile", action="store_true")
     args = cli.parse_args()
     archive = {r["case"]: r for r in json.loads(args.truth.read_text())["records"]}
-    result = [analyze(case, archive[case.name]) for case in args.cases]
+    result = [analyze(case, archive[case.name], profile=args.profile) for case in args.cases]
     with args.output.open("x") as stream:
         json.dump(dict(records=result, truth_receipt_sha256=sha(args.truth), native_integrations=0,
                        model_forwards=0, diagnostic_only=True), stream, allow_nan=False, indent=2)
