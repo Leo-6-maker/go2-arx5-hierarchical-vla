@@ -9,7 +9,7 @@ import numpy as np
 
 from v64_observation_readback import rows, tick
 from v64_selected_policy_match import identity
-from v64_wbc_arm_request_join import position_signature
+from v64_wbc_arm_request_join import arm_trajectory, interpolate_signature
 from v64_wbc_entry_readback import TICK, sha, stamp
 
 
@@ -22,10 +22,10 @@ def predict(recent, stamp_tick, signature):
     for observed in range(stamp_tick-REQUEST_STAMP_SLACK_TICKS, stamp_tick+1):
         time = observed * TICK
         evaluation = time + DELAY_COMPENSATION
-        for policy, reference in recent:
-            grid = policy["time_trajectory"]
+        for trajectory, reference in recent:
+            grid = trajectory[0]
             if (reference[0] <= time + 1e-8 and grid[0] <= evaluation <= grid[-1]
-                    and signature == position_signature(policy, time)):
+                    and signature == interpolate_signature(trajectory, time)):
                 found.add((observed, reference))
     return found
 
@@ -49,13 +49,15 @@ def analyze(case, proof):
     for line, row in rows(archive):
         topic, message = row["topic_key"], row["message"]
         if topic == "policy" and message["time_trajectory"]:
-            recent.append((message, identity(message)))
+            trajectory = arm_trajectory(message)
+            if trajectory is not None:
+                recent.append((trajectory, identity(message)))
             continue
         if topic != "arm_request":
             continue
         request_tick = tick(stamp(message))
         earliest = (request_tick - REQUEST_STAMP_SLACK_TICKS) * TICK + DELAY_COMPENSATION
-        recent = [(policy, ref) for policy, ref in recent if policy["time_trajectory"][-1] >= earliest]
+        recent = [(trajectory, ref) for trajectory, ref in recent if trajectory[0][-1] >= earliest]
         if line not in truth:
             continue
         signature = np.asarray(message["points"][0]["positions"], dtype="<f4").tobytes()

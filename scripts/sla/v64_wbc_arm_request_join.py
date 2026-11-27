@@ -12,17 +12,27 @@ from v64_selected_policy_match import digest, identity
 from v64_wbc_entry_readback import ARM_LOOKAHEAD, JOINTS, sha, stamp
 
 
-def position_signature(policy, observation):
+def arm_trajectory(policy):
     times = np.asarray(policy["time_trajectory"])
     poses = np.asarray([row["value"][-6:] for row in policy["state_trajectory"]])
     if (len(times) == 0 or poses.shape != (len(times), 6) or not np.isfinite(poses).all()
             or not np.isfinite(times).all() or not (np.diff(times) > 0).all()):
         return None
+    return times, poses.T
+
+
+def interpolate_signature(trajectory, observation):
+    times, positions = trajectory
     request_time = min(observation + ARM_LOOKAHEAD, times[-1])
     if request_time < times[0]:
         return None
-    value = [np.interp(request_time, times, col) for col in poses.T]
+    value = [np.interp(request_time, times, col) for col in positions]
     return np.asarray(np.clip(value, -3.2, 3.7), dtype="<f4").tobytes()
+
+
+def position_signature(policy, observation):
+    trajectory = arm_trajectory(policy)
+    return interpolate_signature(trajectory, observation) if trajectory else None
 
 
 def analyze(case):
