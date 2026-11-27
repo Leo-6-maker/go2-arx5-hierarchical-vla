@@ -26,6 +26,8 @@ Corelab 用现场读取器重新读取全部 Recovery3。其双 RGB、归一化�
 
 同一 PBS 随即从 R4-200、全新正式 Adam/RNG step 0 起跑。**20:12:01 SGT** 实际正式账本 **49/1,000 步**，去前 5 步的每步中位数约 **4.98 s**。正式绑定 `e7348a2dbc242cf8687999139313c2e6f4dec0423794e3deca9810ee8c8ce55e`。这是还在推进的训练样本，尚无正式末端或闭环评价。
 
+**20:16:57 SGT** 回读正式 step 100 完整封存，20 个成员，四个 Adam 计数和采样游标均为 100，冻结 LoRA 指纹与 R4 相同。前 100 步实际消费 **12,800 FM、400 个 H40 辅助位**，含 4,800 旧 Go2、4,600 新 Go2、200 Recovery。去前五步的更新中位数 **4.96 s**。检查时正式作业已推进至第 107 步。checkpoint `6c7e10652f3998314890d13f60bdf6fbc14f13ae5955d71ebee2299dea4a983e`，百步真实账本 `2f4b676a88e3c8ddba883c76bd7df774e89fa4a8ea87bba005dd3632051ef395`。这是训练完整性记录，科学评价仍安排在完成 1K 后。
+
 ## Corelab 并行结果
 
 两张移动容器 QUAL 均在开爪前触发原安全门。完整 **0/2**，共 60,204 tick，STOP 后均为 0 tick。红卡已抓持并搬运，蓝卡止于抓持前。固定数据库存为 Embodiment **93/100**、Recovery **3/10**。容器接触与净空复算见 [Corelab 两卡终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/684c0ad6/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/V64_CORE_SELECTED_REFERENCE_ACTUAL_20261127.md#两张-mobile-container-qual-在开爪前触发原安全门)。
