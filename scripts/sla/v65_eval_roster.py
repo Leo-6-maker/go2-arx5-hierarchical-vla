@@ -14,6 +14,7 @@ STUDIES = (
     ("INDEPENDENT_HOLD", "HOLD-R4_DEV_0200", "3ae6430f1aab24d81c5a4b37064f28db4ff8d03519a792384d0b0cf5cc2eedbe", "LONG_HOLD"),
 )
 HOLD_ROSTER = "c2af53f5b70340d1543082adbdbb769ea8e0e66231ac63d56059485136669605"
+ARCHIVED_MATCHED_ROSTER = "113154c43071e9ddd16309d45bfba2f8382a41391b6f41e5ea3e4ec367bbf84d"
 NOISE = {"LONG_HOLD": "fd542cdfcba6d3c205b6449168e1cc665a7168fdb81e64458f08b6471cb90fb3",
          "LONG_PLACE": "69f4997392ae291bdc50bc2b8699fd0ccac43e9a19b6bbbc7809dee6d92ade0d"}
 CELLS = {
@@ -76,11 +77,13 @@ def bind_site(base, paired_hold, output):
                        launched_requests=0, physics_ticks=0, model_queries=0, stage="ARCHIVED_MATCHED_INPUTS_VERIFIED"))
 
 
-def bind_preflights(site, archive, output):
+def bind_preflights(site, archive, output, *, step=1000):
     from v62_source_native import V65, source_role
 
+    if step == 3000:
+        pin(archive, ARCHIVED_MATCHED_ROSTER)
     inputs = read(archive)
-    role = source_role(1000, V65)
+    role = source_role(step, V65)
     require(inputs["plan"] == PLAN and inputs["stage"] == "ARCHIVED_MATCHED_INPUTS_VERIFIED"
             and inputs["caps"] == dict(physical_requests=10, integrations=397_030, model_queries=1360),
             "The original matched reservation must cover the fixed comparison")
@@ -92,7 +95,7 @@ def bind_preflights(site, archive, output):
         call = read(root / f"{role}_PANEL_INVOCATION.json")
         old = inputs["groups"][group]
         require(call["executed"] is False and call["phase"] == phase and call["role"] == panel["v4_model_role"] == role
-                and call["comparison_sha256"] == sha(declaration) and panel["source_step"] == 1000
+                and call["comparison_sha256"] == sha(declaration) and panel["source_step"] == step
                 and panel["v62_plan"] == PLAN and panel["gpu_noise_sha256"] == old["original_noise"]["sha256"]
                 and call["conditions"] == [row["id"] for row in panel["schedule"]], "The CPU-only bound roster changed")
         mappings = []
@@ -111,10 +114,11 @@ def bind_preflights(site, archive, output):
                                  native_started=False, max_ticks=new["max_ticks"], max_queries=new["policy_queries"]))
         groups[phase] = dict(preflight=reference(declaration), source_audit=panel["source_audit"], cases=mappings)
     require(len(checkpoints) == 1 and len({g["source_audit"]["sha256"] for g in groups.values()}) == 1,
-            "All panels must use the same independently restored 1K provider")
+            "All panels must use the same independently restored provider")
+    milestone = {"step": step} if step != 1000 else {}
     write(output, dict(plan=PLAN, role=role, matched_archive=reference(archive), groups=groups,
                        checkpoint=checkpoints.pop(), caps=inputs["caps"], launched_requests=0, native_integrations=0,
-                       stage="NATIVE_ENTRY_MATCHED"))
+                       stage="NATIVE_ENTRY_MATCHED", **milestone))
 
 
 if __name__ == "__main__":
@@ -122,9 +126,11 @@ if __name__ == "__main__":
     for key in ("base", "paired_hold", "output"):
         cli.add_argument(key, type=Path)
     cli.add_argument("--preflights", action="store_true")
+    cli.add_argument("--step", type=int, choices=(1000, 3000), default=1000)
     args = cli.parse_args()
     require(not args.output.exists(), "Preserve existing matched protocol evidence")
     if args.preflights:
-        bind_preflights(args.base, args.paired_hold, args.output)
+        bind_preflights(args.base, args.paired_hold, args.output, step=args.step)
     else:
+        require(args.step == 1000, "Reuse the existing matched archive for 3K")
         bind_site(args.base, args.paired_hold, args.output)

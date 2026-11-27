@@ -15,8 +15,8 @@ BASE_ENTRY = "904f54907cf46b19cd025c24294ab98b3fcd259ded248df2edf8a2ffd04a0bae"
 ROLE = "RECOVERY1000"
 
 
-def rows(roster):
-    return [dict(row, id=row["id"].replace("R4_DEV_0200", ROLE))
+def rows(roster, role=ROLE):
+    return [dict(row, id=row["id"].replace("R4_DEV_0200", role))
             for row in original_rows(roster, "R4_DEV_0200")]
 
 
@@ -29,7 +29,8 @@ def launcher(path):
          '        return checked_manifest(reference, expected, registration)\n'
          '    if registration["v4_model_role"] == "R4_DEV_0200":\n        from v6_r4_native_deploy'),
         ('        from v61_hold_pair import rows\n        return rows(registration["v61_roster"], registration["v4_model_role"])',
-         '        from v65_independent_hold import rows\n        return rows(registration["v61_roster"])'),
+         '        from v65_independent_hold import rows\n'
+         '        return rows(registration["v61_roster"], registration["v4_model_role"])'),
         ('            additional["v61_roster"] = binding["v61_roster"]\n',
          '            from v62_source_native import V65, source_role\n'
          '            require(binding["v62_plan"] == V65 and binding["role"] == source_role(binding["source_step"], V65),\n'
@@ -39,7 +40,8 @@ def launcher(path):
         ('qualification, "PARENT" if r4 else binding["role"])',
          'qualification, "PARENT" if r4 or binding.get("v61_roster") else binding["role"])'),
         ('            from v61_hold_pair import rows\n            places, holds = [], rows(binding["v61_roster"], binding["role"])',
-         '            from v65_independent_hold import rows\n            places, holds = [], rows(binding["v61_roster"])'),
+         '            from v65_independent_hold import rows\n'
+         '            places, holds = [], rows(binding["v61_roster"], binding["role"])'),
     ):
         require(text.count(old) == 1, "The original independent HOLD launcher seam changed")
         text = text.replace(old, new)
@@ -50,10 +52,12 @@ def launcher(path):
 def stage(prior, standard, overlay):
     original = read(prior / "V61_R4_DEV_0200_PREFLIGHT.json")
     regular = read(standard / "RECOVERY_HOLD_PREFLIGHT.json")
+    step = regular["source_step"]
+    role = source_role(step, V65)
     require(original["hold"] == original_rows(original["v61_roster"], "R4_DEV_0200")
             and original["noise"]["hold"] == regular["noise"]["hold"]
-            and regular["role"] == source_role(1000, V65), "The qualified HOLD archive and V6.5 are unmatched")
-    registration = dict(v4_model_role=ROLE, **{k: regular[k] for k in ("v62_plan", "source_step", "source_audit")})
+            and regular["role"] == role, "The qualified HOLD archive and V6.5 are unmatched")
+    registration = dict(v4_model_role=role, **{k: regular[k] for k in ("v62_plan", "source_step", "source_audit")})
     own = regular["parent_panel"]
     old_parent = read(pin(own["path"], own["sha256"]))["candidate"]
     parent = read(pin(Path(old_parent["path"]) / "CHECKPOINT.json", old_parent["sha256"]))
@@ -61,9 +65,12 @@ def stage(prior, standard, overlay):
     entry = SLA / "m38_a_native_v1.py"
     source = launcher(prior / entry)
     shutil.copytree(prior, overlay, copy_function=os.link, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    for name in ("v62_source_native", "v62_source_endpoint", "v62_source_admission", "v61_source_course", "v61_source_bank",
-                 "v6_dual_course", "v65_recovery_endpoint", "v65_recovery_course", "v65_recovery_data", "v63_adapt_course",
-                 "v63_adapt_data", "v64_a78_delta", "v64_a87_increment", "v64_a93_increment", "v64_go2_delta4"):
+    modules = ("v62_source_native", "v62_source_endpoint", "v62_source_admission", "v61_source_course", "v61_source_bank",
+               "v6_dual_course", "v65_recovery_endpoint", "v65_recovery_course", "v65_recovery_data", "v63_adapt_course",
+               "v63_adapt_data", "v64_a78_delta", "v64_a87_increment", "v64_a93_increment", "v64_go2_delta4")
+    if step == 3000:
+        modules += ("v65_recovery_3k_endpoint", "v65_recovery_chain", "v65_recovery_extension")
+    for name in modules:
         relative = SLA / f"{name}.py"
         if (overlay / relative).exists():
             require(sha(overlay / relative) == sha(standard / relative), f"Mismatched evaluation dependency: {name}")
@@ -73,7 +80,7 @@ def stage(prior, standard, overlay):
     (overlay / entry).write_text(source)
     shutil.copy2(__file__, overlay / SLA)
     write(overlay / "RECOVERY_INDEPENDENT_HOLD_PREFLIGHT.json",
-          dict(regular, v61_roster=original["v61_roster"], hold=rows(original["v61_roster"]), place=[],
+          dict(regular, v61_roster=original["v61_roster"], hold=rows(original["v61_roster"], role), place=[],
                checkpoint_sha256=model["checkpoint_sha256"]))
 
 

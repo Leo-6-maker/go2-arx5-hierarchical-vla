@@ -29,10 +29,11 @@ def reference(path):
 
 
 def source_role(step, plan=V62):
-    require(type(step) is int and step in ENDPOINTS, "Unknown SOURCE evaluation milestone")
+    require(type(step) is int, "Unknown evaluation milestone")
     if plan == V65:
-        require(step == 1000, "V6.5 can be evaluated only at step 1000")
-        return "RECOVERY1000"
+        require(step in (1000, 3000), "Unknown V6.5 evaluation milestone")
+        return f"RECOVERY{step:04d}"
+    require(step in ENDPOINTS, "Unknown SOURCE evaluation milestone")
     if plan != V62:
         from v64_adapt_endpoint import END, PLAN as ADAPT_PLAN
 
@@ -47,6 +48,10 @@ def checked_manifest(provider, parent, registration):
     require(registration["v4_model_role"] == source_role(step, plan), "Unregistered evaluation role")
     audit = registration["source_audit"]
     if plan == V65:
+        if step == 3000:
+            from v65_recovery_3k_endpoint import check_offline_provider
+
+            return check_offline_provider(provider, parent, audit)
         from v65_recovery_endpoint import check_eval_provider
 
         return check_eval_provider(provider, parent, audit)
@@ -160,6 +165,8 @@ def stage(base, endpoint, overlay, step, *, adapt=False, recovery=False):
     if recovery:
         modules += ("v65_recovery_endpoint", "v65_recovery_course", "v65_recovery_data", "v64_a78_delta",
                     "v64_a87_increment", "v64_a93_increment", "v64_go2_delta4")
+    if recovery and step == 3000:
+        modules += ("v65_recovery_3k_endpoint", "v65_recovery_chain", "v65_recovery_extension")
     for name in modules:
         member = Path(import_module(name).__file__)
         target = overlay / SLA / member.name
@@ -287,7 +294,7 @@ if __name__ == "__main__":
         parser = actions.add_parser(name)
         for field in fields:
             parser.add_argument(field, type=Path)
-        parser.add_argument("step", type=int, choices=ENDPOINTS)
+        parser.add_argument("step", type=int, choices=(*ENDPOINTS, 3000) if name == "stage" else ENDPOINTS)
         if name == "stage":
             selection = parser.add_mutually_exclusive_group()
             selection.add_argument("--adapt", action="store_true")

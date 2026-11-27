@@ -11,11 +11,14 @@ from v62_source_native import V65, source_role
 from v64_adapt_endpoint import END, PLAN
 
 
-def dispatch(base, overlay, original, root, phase, *, execute, recovery=False):
-    require(recovery or phase != "INDEPENDENT_HOLD", "Independent HOLD is reserved for the 1K comparison")
+def dispatch(base, overlay, original, root, phase, *, execute, recovery=False, step=None, matched_entry=None):
+    require(recovery or phase != "INDEPENDENT_HOLD", "Independent HOLD is reserved for V6.5")
     hold = phase in ("HOLD", "INDEPENDENT_HOLD")
     work = overlay.parent
     plan, end, kind = (V65, 1000, "RECOVERY") if recovery else (PLAN, END, "ADAPT")
+    if step is not None:
+        require(recovery and step in (1000, 3000), "Unknown V6.5 native milestone")
+        end = step
     prefix = source_role(end, plan)
     invocation = f"{prefix if recovery else 'A250'}_PANEL_INVOCATION.json"
     expected = f"{prefix}-{'NATIVE' if execute else 'PREFLIGHT'}-{phase}-01"
@@ -45,6 +48,18 @@ def dispatch(base, overlay, original, root, phase, *, execute, recovery=False):
                 and not finished["executed"] and finished["phase"] == phase
                 and finished["comparison_sha256"] == sha(prior / "COMPARISON.json"),
                 "Require the completed pinned CPU phase first")
+        if end == 3000:
+            require(matched_entry is not None, "Require the full 3K matched native entry before dispatch")
+            entry = read(matched_entry)
+            group = entry["groups"][phase]
+            require(entry["role"] == prefix and entry["plan"] == plan
+                    and entry["stage"] == "NATIVE_ENTRY_MATCHED"
+                    and entry["caps"] == dict(physical_requests=10, integrations=397_030, model_queries=1360)
+                    and entry["launched_requests"] == 0 and entry["native_integrations"] == 0
+                    and entry["checkpoint"] == binding["checkpoint_sha256"]
+                    and group["preflight"]["sha256"] == finished["comparison_sha256"]
+                    and group["source_audit"] == binding["source_audit"],
+                    "The original ten-cell preflight must bind the executed phase")
     worker = read(base / "V2-M-PLACE-01/worker/EXECUTION_SPEC.json")
     env = dict(os.environ, **worker["native_environment"])
     env.update(CUDA_VISIBLE_DEVICES="", JAX_PLATFORMS="cpu", PYTHONDONTWRITEBYTECODE="1",
@@ -76,4 +91,6 @@ if __name__ == "__main__":
     parser.add_argument("phase", choices=("HOLD", "PLACE", "INDEPENDENT_HOLD"))
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--recovery", action="store_true")
+    parser.add_argument("--step", type=int)
+    parser.add_argument("--matched-entry", type=Path)
     dispatch(**vars(parser.parse_args()))

@@ -1,4 +1,4 @@
-"""Read out the ten original 1K native cells and apply the registered release criteria."""
+"""Read the matched V6.5 native cells and apply the original release criteria."""
 
 import argparse
 from collections import Counter
@@ -44,7 +44,8 @@ def completed_cases(root, phase, bound):
     reg = read(root / "COMPARISON.json")
     original = configured["preflight"]
     cpu = read(pin(original["path"], original["sha256"]))
-    require(reg["v62_plan"] == PLAN and reg["source_step"] == END and reg["schedule"] == cpu["schedule"]
+    step = bound.get("step", END)
+    require(reg["v62_plan"] == PLAN and reg["source_step"] == step and reg["schedule"] == cpu["schedule"]
             and reg["source_audit"] == configured["source_audit"] and reg["gpu_noise_sha256"] == cpu["gpu_noise_sha256"],
             "Live experiment scope differs from the independent preflight")
     require([r["id"] for r in v4_panel_rows(reg)] == [r["id"] for r in reg["schedule"]],
@@ -64,7 +65,7 @@ def completed_cases(root, phase, bound):
         if closed["status"] != "CLOSED":
             continue
         if not checked:
-            require(comparison_manifest(reg)["checkpoint_sha256"] == bound["checkpoint"], "Wrong 1K endpoint")
+            require(comparison_manifest(reg)["checkpoint_sha256"] == bound["checkpoint"], "Wrong V6.5 endpoint")
             checked = True
         result = read_case(case, row, expected)
         spec = read(pin(case / "EXECUTION_SPEC.json", closed["spec_sha256"]))
@@ -75,6 +76,7 @@ def completed_cases(root, phase, bound):
 
 def compare_phase(site, root, phase, reservation, output):
     bound = read(reservation)
+    candidate_key = f"candidate_{bound.get('step', END) // 1000}k"
     rows = completed_cases(root, phase, bound)
     original = old_endpoints(site, root.parent, phase)
     for row in rows:
@@ -85,7 +87,7 @@ def compare_phase(site, root, phase, reservation, output):
                 require(result["policy_seed"] == row["policy_seed"], "Mismatched retained seed")
     write(output, dict(phase=phase, registered=len(bound["groups"][phase]["cases"]), closed=len(rows),
                        checkpoint=bound["checkpoint"], reservation=reference(reservation),
-                       pairs=[dict(candidate_1k=row, baselines={k:v[row["prior_cell"]] for k,v in original.items()})
+                       pairs=[dict({candidate_key: row}, baselines={k:v[row["prior_cell"]] for k,v in original.items()})
                               for row in rows]))
 
 
@@ -94,9 +96,10 @@ def native_phase(root, phase, reservation, output):
     expected = bound["groups"][phase]
     declaration = root / "COMPARISON.json"
     consent = read(declaration)
-    require(bound["plan"] == consent["v62_plan"] == PLAN and consent["source_step"] == END
+    step = bound.get("step", END)
+    require(bound["plan"] == consent["v62_plan"] == PLAN and consent["source_step"] == step
             and consent["source_audit"] == expected["source_audit"], "Native evaluation revision changed")
-    result = read_phase(root, "HOLD" if phase == "INDEPENDENT_HOLD" else phase, END)
+    result = read_phase(root, "HOLD" if phase == "INDEPENDENT_HOLD" else phase, step)
     require(result["checkpoint"] == bound["checkpoint"] and len(result["arms"]) == len(expected["cases"]),
             "Invalid checkpoint or native denominator")
     for row, cell in zip(result["arms"], expected["cases"], strict=True):
@@ -166,7 +169,8 @@ def settle(site, parent_release, reservation, reports, dev, feedback, output):
             and {row["prior_cell"] for pnl in panels for row in pnl["arms"]} == set(precedents),
             "Independent scores are incomplete or not paired to the exact old population")
     offline, replay = read(dev), read(feedback)
-    require(offline["plan"] == PLAN and offline["source_step"] == replay["step"] == END
+    step = bound.get("step", END)
+    require(offline["plan"] == PLAN and offline["source_step"] == replay["step"] == step
             and offline["checkpoint"] == replay["checkpoint"] == bound["checkpoint"]
             and offline["audit"] == panels[0]["audit"] == panels[1]["audit"] == panels[2]["audit"]
             and replay["roster"]["sha256"] == FEEDBACK_ROSTER
@@ -177,7 +181,7 @@ def settle(site, parent_release, reservation, reports, dev, feedback, output):
             "The registered zero-integration offline cohort is incomplete")
     metrics = paired_metrics([p["arms"] for p in panels], precedents)
     alerts = offline["retention_alert_domains"]
-    write(output, dict(plan=PLAN, step=END, checkpoint=bound["checkpoint"], source_drift_alert_domains=alerts,
+    write(output, dict(plan=PLAN, step=step, checkpoint=bound["checkpoint"], source_drift_alert_domains=alerts,
                        scientific_release=metrics["native_pass"] and not alerts, automatic_training_submission=False,
                        measurements=metrics, native_groups=[reference(p) for p in reports],
                        feedback=reference(feedback), source_dev=reference(dev)))
