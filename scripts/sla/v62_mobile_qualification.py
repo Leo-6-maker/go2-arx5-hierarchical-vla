@@ -22,9 +22,11 @@ DIVERSE_WAVE2_GEOMETRY = "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da70
 DIVERSE_WAVE3_GEOMETRY = "a6d6a35dd5f9fc15b6f587c17eed3bcb355b044b68776494a915d602546b301e"
 DIVERSE_WAVE4_GEOMETRY = "7a9e350319006ce628a718f533de2dd520222dc8c3042a7b738697957762418e"
 DIVERSE_WAVE5_GEOMETRY = "664aee826dcb87082ec6b26ef17d700dd07775afff60ce4a090cb12a6eca4d22"
+DIVERSE_WAVE6_GEOMETRY = "7a5f0a2466cc139c589112b186bdfcd7f76c2fd6b610fc84b43359ea1a15b001"
 DIVERSE_WAVE2_TERMINAL = "fd4ab7afadf92a45d097e638c23cc488a27d6916c890705be265513c9a62e3e0"
 DIVERSE_WAVE3_TERMINAL = "6c86071bb00828c6a891be72f6be2c48aeea1b3f3d9a9ceb61306a7caa0526f1"
 DIVERSE_WAVE4_TERMINAL = "ad40b4a7dbbd410061b861f64014f9a33bff35b74a15b0cf786b8d907aa7ec82"
+DIVERSE_WAVE5_TERMINAL = "270991e71f8cc47171d40f05c31a3d61ad629c4cf9bface9767ca484ced20e2c"
 F2_ACTUAL_PREFIX = "bc56a16a451df2dc89aea9b725eabccc0f5be0b92442a71f69569d0635827aed"
 DIVERSE_LEGACY = "05b145f759de77ff7cf00c82db6aee4fdafe21b826c8fa15a410e88c07ebf154"
 DIVERSE_LEGACY_LEFT = "414fa12a17d0527c7ac91ff8eec6254b1714e8ecb00a447a0d57c284b1beebeb"
@@ -53,9 +55,13 @@ DIVERSE_PLACE_WAVE5 = {
     "EF5_DIVERSE_PLACE_009": DIVERSE_PLACE_WAVE4["EF5_DIVERSE_PLACE_007"],
     "EF5_DIVERSE_PLACE_010": DIVERSE_PLACE_WAVE4["EF5_DIVERSE_PLACE_008"],
 }
+DIVERSE_PLACE_WAVE6 = {
+    "EF5_DIVERSE_PLACE_011": DIVERSE_PLACE_WAVE4["EF5_DIVERSE_PLACE_007"],
+    "EF5_DIVERSE_PLACE_012": DIVERSE_PLACE_WAVE4["EF5_DIVERSE_PLACE_008"],
+}
 PLACE_WAVES = {"DIVERSE_PLACE": DIVERSE_PLACE, "DIVERSE_PLACE_WAVE2": DIVERSE_PLACE_WAVE2,
                "DIVERSE_PLACE_WAVE3": DIVERSE_PLACE_WAVE3, "DIVERSE_PLACE_WAVE4": DIVERSE_PLACE_WAVE4,
-               "DIVERSE_PLACE_WAVE5": DIVERSE_PLACE_WAVE5}
+               "DIVERSE_PLACE_WAVE5": DIVERSE_PLACE_WAVE5, "DIVERSE_PLACE_WAVE6": DIVERSE_PLACE_WAVE6}
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
           "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
           "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY),
@@ -63,7 +69,8 @@ SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN
           "DIVERSE_PLACE_WAVE2": ("TRAIN", tuple(DIVERSE_PLACE_WAVE2), DIVERSE_WAVE2_GEOMETRY),
           "DIVERSE_PLACE_WAVE3": ("TRAIN", tuple(DIVERSE_PLACE_WAVE3), DIVERSE_WAVE3_GEOMETRY),
           "DIVERSE_PLACE_WAVE4": ("TRAIN", tuple(DIVERSE_PLACE_WAVE4), DIVERSE_WAVE4_GEOMETRY),
-          "DIVERSE_PLACE_WAVE5": ("TRAIN", tuple(DIVERSE_PLACE_WAVE5), DIVERSE_WAVE5_GEOMETRY)}
+          "DIVERSE_PLACE_WAVE5": ("TRAIN", tuple(DIVERSE_PLACE_WAVE5), DIVERSE_WAVE5_GEOMETRY),
+          "DIVERSE_PLACE_WAVE6": ("TRAIN", tuple(DIVERSE_PLACE_WAVE6), DIVERSE_WAVE6_GEOMETRY)}
 
 
 def digest(path):
@@ -155,6 +162,16 @@ def rows(population, binding):
                     or any(not row["task_and_mobile_success"] or row["hard_STOP"] or row["technical_failure"]
                            for row in preceding)):
                 raise ValueError("The new F1 layouts require both original successful terminal records")
+        if variant == "DIVERSE_PLACE_WAVE6":
+            terminal = pinned(roster["previous_place_result"])
+            stopped, admitted = terminal["records"]
+            if (roster["previous_place_result"]["sha256"] != DIVERSE_WAVE5_TERMINAL
+                    or terminal["paid_requests"] != 2 or terminal["exit_code"] != 0
+                    or [row["condition"] for row in (stopped, admitted)] != list(DIVERSE_PLACE_WAVE5)
+                    or stopped["first_failure"] != "ILLEGAL_CONTACT" or not stopped["hard_STOP"]
+                    or stopped["post_STOP_ticks"] != 0 or any(row["technical_failure"] for row in (stopped, admitted))
+                    or not admitted["admitted"] or not admitted["task_and_mobile_success"] or admitted["hard_STOP"]):
+                raise ValueError("Keep the preceding F1 contact failure and admitted red PLACE")
     elif split == "TRAIN":
         confirmation = pinned(roster["qualification"])
         expected, instruction = IDS[0], "HOLD-blue"
@@ -180,6 +197,8 @@ def rows(population, binding):
 
 
 def capacity_file(root):
+    if root.name in ("DIVERSE-PLACE-TRAIN-06", "DIVERSE-PLACE-OVERLAY-06"):
+        return root.parent / "DIVERSE-PLACE-CAPACITY-06.json"
     if root.name in ("DIVERSE-PLACE-TRAIN-05", "DIVERSE-PLACE-OVERLAY-05"):
         return root.parent / "DIVERSE-PLACE-CAPACITY-05.json"
     if root.name in ("DIVERSE-PLACE-TRAIN-04", "DIVERSE-PLACE-OVERLAY-04"):
@@ -240,7 +259,7 @@ def patch(anchor, path, expected, edits):
 
 def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None,
           legacy_red_train=False, place_catalog=None, place_left_proof=None, previous_place_wave=None,
-          stop_prefix=None, after_clean_place_wave=False):
+          stop_prefix=None, after_clean_place_wave=False, after_mixed_place_wave=False):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
     if legacy_red_train and (qualification or repair):
@@ -251,12 +270,16 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         raise ValueError("The second PLACE wave also requires the original right-placement witness")
     if after_clean_place_wave and (not (previous_place_wave and place_catalog) or stop_prefix or place_left_proof):
         raise ValueError("The fifth wave uses the sealed two-card F1 terminal")
-    if previous_place_wave and (not (place_left_proof or stop_prefix or after_clean_place_wave)
+    if after_mixed_place_wave and (not (previous_place_wave and place_catalog)
+            or after_clean_place_wave or stop_prefix or place_left_proof):
+        raise ValueError("The sixth wave uses the sealed fifth-wave results")
+    if previous_place_wave and (not (place_left_proof or stop_prefix or after_clean_place_wave or after_mixed_place_wave)
             or plain(previous_place_wave / "control/LEASE.json")["status"] != "CLOSED"):
         raise ValueError("The successor wave requires closed production and its earlier evidence")
     if stop_prefix and (not (place_catalog and previous_place_wave) or place_left_proof):
         raise ValueError("The fourth wave requires the previous terminal and the two actual contact prefixes")
-    variant = ("DIVERSE_PLACE_WAVE5" if after_clean_place_wave else
+    variant = ("DIVERSE_PLACE_WAVE6" if after_mixed_place_wave else
+               "DIVERSE_PLACE_WAVE5" if after_clean_place_wave else
                "DIVERSE_PLACE_WAVE4" if stop_prefix else
                "DIVERSE_PLACE_WAVE3" if previous_place_wave else
                "DIVERSE_PLACE_WAVE2" if place_left_proof else "DIVERSE_PLACE" if place_catalog else
@@ -379,4 +402,5 @@ if __name__ == "__main__":
     parser.add_argument("--previous-place-wave", type=Path)
     parser.add_argument("--stop-prefix", type=Path)
     parser.add_argument("--after-clean-place-wave", action="store_true")
+    parser.add_argument("--after-mixed-place-wave", action="store_true")
     stage(**vars(parser.parse_args()))

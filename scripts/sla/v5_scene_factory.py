@@ -56,12 +56,18 @@ DIVERSE_PLACE_TRAIN_V5 = (
     ("EF5_DIVERSE_PLACE_010", "F1", "DIVERSE_PLACE", "red", (-5, -2), (-1, 6), 702510),
 )
 PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_009=(-2, 3), EF5_DIVERSE_PLACE_010=(-4, -3))
+DIVERSE_PLACE_TRAIN_V6 = (
+    ("EF5_DIVERSE_PLACE_011", "F1", "DIVERSE_PLACE", "blue", (-8, 4), (3, 3), 702511),
+    ("EF5_DIVERSE_PLACE_012", "F1", "DIVERSE_PLACE", "red", (2, 0), (-9, -2), 702512),
+)
+PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_011=(4, -4), EF5_DIVERSE_PLACE_012=(-1, -6))
 PLACE_WAVE5_HISTORY = (
     "838cd05519316ee5fc16d97a051d9a707e9203fdf4d452ba842f9885c8da723b",
     "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe",
     "a6d6a35dd5f9fc15b6f587c17eed3bcb355b044b68776494a915d602546b301e",
     "7a9e350319006ce628a718f533de2dd520222dc8c3042a7b738697957762418e",
 )
+PLACE_WAVE6_HISTORY = (*PLACE_WAVE5_HISTORY, "664aee826dcb87082ec6b26ef17d700dd07775afff60ce4a090cb12a6eca4d22")
 F2_PLACE_DESCEND = "5578d875d85f925d501a835f79692ba023ee50b4f84924a8d8a21457686c20c1"
 F2_PLACE_WAVE2 = "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe"
 F2_PLACE_WAVE3 = "a6d6a35dd5f9fc15b6f587c17eed3bcb355b044b68776494a915d602546b301e"
@@ -110,12 +116,13 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             existing.update(row["scene"]["sha256"] for row in previous["clusters"])
             existing_reset.update(row["reset"] for row in previous["clusters"])
             roster = DIVERSE_PLACE_TRAIN_V4
-        if place_wave == 5:
-            for path, digest in zip(place_history, PLACE_WAVE5_HISTORY, strict=True):
+        if place_wave in (5, 6):
+            history_digests = PLACE_WAVE6_HISTORY if place_wave == 6 else PLACE_WAVE5_HISTORY
+            for path, digest in zip(place_history, history_digests, strict=True):
                 previous = read(pin(path, digest))
                 existing.update(row["scene"]["sha256"] for row in previous["clusters"])
                 existing_reset.update(row["reset"] for row in previous["clusters"])
-            roster = DIVERSE_PLACE_TRAIN_V5
+            roster = DIVERSE_PLACE_TRAIN_V6 if place_wave == 6 else DIVERSE_PLACE_TRAIN_V5
     if repair:
         evidence = read(pin(repair, F2_REPLAY))
         row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
@@ -136,7 +143,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             xyz[:2] = [xyz[0] + dx * 1e-3, xyz[1] + dy * 1e-3]
         if diverse_place:
             left_placements = {"EF5_DIVERSE_PLACE_004", "EF5_DIVERSE_PLACE_005",
-                               "EF5_DIVERSE_PLACE_006", "EF5_DIVERSE_PLACE_007", "EF5_DIVERSE_PLACE_009"}
+                               "EF5_DIVERSE_PLACE_006", "EF5_DIVERSE_PLACE_007", "EF5_DIVERSE_PLACE_009",
+                               "EF5_DIVERSE_PLACE_011"}
             side = "left" if identity in left_placements else "right"
             center = card["zones"][side]["center_world_XY"]
             center[:] = [position + delta * 1e-3 for position, delta in
@@ -187,8 +195,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         actual["f2_failed_place_replay_sha256"] = F2_PLACE_DESCEND
     if place_wave == 4:
         actual["protected_previous_place_population_sha256"] = F2_PLACE_WAVE3
-    if place_wave == 5:
-        actual["protected_place_populations_sha256"] = list(PLACE_WAVE5_HISTORY)
+    if place_wave in (5, 6):
+        actual["protected_place_populations_sha256"] = list(history_digests)
     write(out / "ACTUAL.json", actual)
 
 
@@ -200,8 +208,8 @@ if __name__ == "__main__":
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--diverse-place", action="store_true")
-    parser.add_argument("--place-wave", type=int, choices=(1, 2, 3, 4, 5), default=1)
+    parser.add_argument("--place-wave", type=int, choices=(1, 2, 3, 4, 5, 6), default=1)
     parser.add_argument("--place-f2-proof", type=Path)
     parser.add_argument("--previous-place", type=Path)
-    parser.add_argument("--place-history", type=Path, nargs=4, default=())
+    parser.add_argument("--place-history", type=Path, nargs="+", default=())
     build(**vars(parser.parse_args()))
