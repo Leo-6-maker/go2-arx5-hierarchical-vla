@@ -43,7 +43,7 @@ def ledger(run, first, end, banks, slots, rates):
     return seconds
 
 
-def restore(endpoint, step):
+def restore(endpoint, step, *, groups=GROUPS, seed=SEED):
     import jax
     import orbax.checkpoint as ocp
 
@@ -54,11 +54,11 @@ def restore(endpoint, step):
         state = checkpointer.restore(endpoint, args=ocp.args.PyTreeRestore(
             item=metadata, restore_args=args, transforms={}))
     require(set(state) == {"parameters", "optimizer", "step", "rng"} and int(state["step"]) == step
-            and set(state["parameters"]) == set(state["optimizer"]) == GROUPS
-            and np.array_equal(state["rng"], np.asarray(jax.random.PRNGKey(SEED))),
-            "SOURCE checkpoint lost its step, RNG, or a trainable partition")
+            and set(state["parameters"]) == set(state["optimizer"]) == groups
+            and np.array_equal(state["rng"], np.asarray(jax.random.PRNGKey(seed))),
+            "Checkpoint lost its step, RNG, or a trainable partition")
     require(all(np.isfinite(leaf).all() for part in ("parameters", "optimizer") for leaf in jax.tree.leaves(state[part])),
-            "SOURCE checkpoint contains nonfinite parameters or optimizer state")
+            "Checkpoint contains nonfinite parameters or optimizer state")
     counters = {}
     for name, part in state["optimizer"].items():
         counters[name] = [int(x) for x in jax.tree.leaves(part)

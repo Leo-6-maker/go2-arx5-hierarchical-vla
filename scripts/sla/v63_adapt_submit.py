@@ -14,6 +14,7 @@ from m38_gpu_preflight_v1 import read, require, sha
 from scripts.pi0292.durable import OwnerLock
 from scripts.sla.hopper_parent_custody import write_once
 from scripts.sla.hopper_site import DEADLINE
+from v3_main_place_learn import endpoint_files
 from v61_source_course import R4
 from v61_source_submit import accounted_prior
 from v62_source_admission import write_capacity
@@ -67,7 +68,7 @@ def submit(root, *, after_probe=False):
             ledger = job / "run/UPDATES.jsonl"
             if ledger.exists():
                 used += len(ledger.read_text().splitlines())
-        previous = None
+        previous_qualification = None
         if after_probe:
             first = root / "A250"
             old_job = native(read(first / "RELEASE.json")["job"])
@@ -78,9 +79,11 @@ def submit(root, *, after_probe=False):
             require(old_job["job_state"] == "F" and old_job["Job_Name"] == NAME and not (first / "run").exists()
                     and proof["status"] == "QUALIFICATION_INTERRUPTED" and proof["restore"]["prediction_equal"]
                     and proof["updates"] == len(lines) == PROBE_STEPS and proof["course"]["bank_sha256"] == bsha
+                    and proof["peak_allocated_bytes"] > 0
+                    and proof["files"] == endpoint_files(first / "qualification" / f"STEP{PROBE_STEPS:04d}")
                     and "Measured cold qualification leaves insufficient time for A250" in (first / "stderr.log").read_text(),
                     "Only the closed, restored engineering stage can be reused without replay")
-            previous = ref(qualification)
+            previous_qualification = ref(qualification)
             prior.append(first)
             used += len(lines)
         require(0 <= used <= 24-(0 if after_probe else PROBE_STEPS),
@@ -92,9 +95,9 @@ def submit(root, *, after_probe=False):
         try:
             grant = project_grant(BUDGET)
         except BalanceLoginExpired:
-            previous = read(source_formal / "CONFIG.json")
-            lineage = Path(previous["project_lineage"])
-            grant = project_period(previous["project_basis"],lineage,BUDGET)
+            source_config = read(source_formal / "CONFIG.json")
+            lineage = Path(source_config["project_lineage"])
+            grant = project_period(source_config["project_basis"],lineage,BUDGET)
             grant["lineage"] = str(lineage)
         accrued = accounted_prior(prior,original,grant)
         require(accrued+BUDGET <= 320*3600, "This job exceeds the inherited GPU-hour ceiling")
@@ -106,8 +109,8 @@ def submit(root, *, after_probe=False):
                        engineering_updates=PROBE_STEPS,engineering_upper_left=24-used,
                        formal_prior_updates=250,inputs=ref(paths),bank_sha256=bsha,host_readback=ref(host),
                        parent=ref(incoming/"PARENT_RELEASE.json"),source_hold=ref(incoming/"SOURCE0250-RELEASE.json"))
-        if previous:
-            binding["previous_qualification"] = previous
+        if previous_qualification:
+            binding["previous_qualification"] = previous_qualification
         validate_boundary(binding)
         capsule.mkdir(mode=0o700)
         write_once(capsule/"WRITE_CAPACITY.json",write_capacity(capsule,r4,"250",0,FIRST,BUDGET))
@@ -118,8 +121,8 @@ def submit(root, *, after_probe=False):
         authorized = [declaration,paths,host,incoming/"PARENT_RELEASE.json",incoming/"SOURCE0250-RELEASE.json",
                       capsule/"GRANT.json",bank/"ACTUAL.json",*sorted(code.glob("*.py")),
                       *sorted((earlier/"v4-local").glob("*.py"))]
-        if previous:
-            authorized.append(Path(previous["path"]))
+        if previous_qualification:
+            authorized.append(Path(previous_qualification["path"]))
         inputs = capsule/"INPUTS.sha256"
         with inputs.open("x") as handle:
             handle.writelines(f"{sha(p)}  {p}\n" for p in authorized)
