@@ -1,9 +1,8 @@
-"""Build an inspection copy of the exact V6.5 Go2/R3 dataset for a private Hub repo."""
+"""Build a Hugging Face inspection snapshot of the exact V6.5 Go2/R3 dataset."""
 
 import argparse
 from collections import Counter
 import csv
-import hashlib
 import io
 import json
 from pathlib import Path
@@ -190,7 +189,7 @@ pretty_name: Go2 + ARX5 Embodiment A93 and Recovery3
 
 # Go2＋ARX5 本体示范 A93 / Recovery3
 
-这份私有快照来自 Corelab 的 MuJoCo 采集。A93 有 **93 条完整示范 / 7,916 窗**，Recovery3 有 **3 条独立教师接管后缀 / 115 窗**。Recovery 与 A93 的三个 TRAIN 布局共用场景几何，各自使用独立 reset。快照绑定 [SLA V6.5](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/528)。
+这份快照来自 Corelab 的 MuJoCo 采集。A93 有 **93 条完整示范 / 7,916 窗**，Recovery3 有 **3 条独立教师接管后缀 / 115 窗**。Recovery 与 A93 的三个 TRAIN 布局共用场景几何，各自使用独立 reset。快照绑定 [SLA V6.5](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/528)。
 
 - [episodes.csv](episodes.csv) 提供可排序的回合索引、任务指令、窗口数和归档路径。
 - [index.json](index.json) 包含每个回合的阶段计数、物理时钟、坐标和内容指纹。

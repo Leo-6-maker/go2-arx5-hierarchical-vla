@@ -31,3 +31,9 @@ Corelab 用现场读取器重新读取全部 Recovery3。其双 RGB、归一化�
 ## Corelab 并行结果
 
 两张移动容器 QUAL 均在开爪前触发原安全门。完整 **0/2**，共 60,204 tick，STOP 后均为 0 tick。红卡已抓持并搬运，蓝卡止于抓持前。固定数据库存为 Embodiment **93/100**、Recovery **3/10**。容器接触与净空复算见 [Corelab 两卡终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/684c0ad6/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/V64_CORE_SELECTED_REFERENCE_ACTUAL_20261127.md#两张-mobile-container-qual-在开爪前触发原安全门)。
+
+## Go2 本体数据公开版
+
+按照用户授权将 A93 和 Recovery3 上传到 Hugging Face。固定公开版本 `098afd49a39363d56be284a45b4500ed8882aacc`。内容共 **105 个文件、3,169,150,096 B**，含 54 条 HOLD、31 条 PLACE、8 条 Reach/Orient 和 3 条独立 Recovery 教师后缀。归档保留机身与腕部原始 RGB、R4 修订动作、逐点真实支持掩码、状态和实耗夹爪宽度。页面另有实际画面预览与逐回合索引。发布对象限于验收后的 Go2 仿真训练数据。
+
+匿名核验固定版本中全部文件的成员清单、大小及对象指纹，独立下载两份索引和 PLACE、Reach、Recovery 三个代表性归档并逐文件通过 SHA-256。索引 `9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56`。[Hugging Face 公开固定版](https://huggingface.co/datasets/leoyuer/go2-arx5-embodiment-a93-r3/tree/098afd49a39363d56be284a45b4500ed8882aacc)
