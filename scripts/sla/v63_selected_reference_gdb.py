@@ -109,6 +109,7 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
     stream = Path(output).open("x", buffering=1)
     stream.write(json.dumps(dict(schema="OCS2_SELECTED_REFERENCE_BREAKPOINT_02", binary_sha256=digest,
                                  fixture=fixture, hardware_breakpoint=True, max_samples=max_samples,
+                                 inferior_pid=gdb.selected_inferior().pid,
                                  solution_fields="TRAJECTORIES_POST_EVENTS_AND_MODE_SCHEDULE"))+"\n")
 
     class Observer(gdb.Breakpoint):
