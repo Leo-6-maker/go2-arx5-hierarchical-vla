@@ -98,7 +98,7 @@ def bowl_support(model, data, packet, target_geom):
     return inside, support
 
 
-def verify_bowl_surface(factory, holds, proof):
+def verify_bowl_surface(factory, holds, proof, check_contact=None):
     import mujoco as mj
 
     from go2arx5_vla.world_model.native_replay import forbid_integration
@@ -137,6 +137,8 @@ def verify_bowl_surface(factory, holds, proof):
                 inside_empty,support_empty = bowl_support(model,data,{"contacts":[]},target)
                 require(inside and support and inside_empty and not support_empty,
                         "The floor adapter must distinguish actual solved contact force from geometry only")
+                if check_contact is not None:
+                    check_contact(layout, model, data, target, floor)
                 evidence.append(dict(id=identity,offset_xy_mm=row["offset_xy_mm"],
                                      static_normal_load_n=sum(float(c["wrench"][0]) for c in contacts)))
     require(not effects and len(evidence) == 18, "Expect the original 18 cold states and no integration")

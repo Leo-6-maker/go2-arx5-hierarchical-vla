@@ -10,11 +10,11 @@ import numpy as np
 
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
-from v64_container_release_contract import PLACE_RESULT, ReleaseTracker, release_readback
+from v64_container_release_contract import PLACE_RESULT, ReleaseTracker, publish_release, release_readback
 from v64_container_teacher import COMMAND_CLEARANCE_M, ContainerTeacher, RIM_CLEARANCE_M
 
 
-def verify_release(case):
+def verify_release(case, handoff_path=None):
     import mujoco as mj
 
     from go2arx5_vla.world_model.multitask_state_v6 import TwoObjectState, packets
@@ -41,6 +41,7 @@ def verify_release(case):
     tracked = {}
     bad_mark = {}
     count = 0
+    first_publish = None
     with forbid_integration(mj) as effects:
         for packet in packets(raw / "state.bin.journal"):
             step = packet["step"]
@@ -61,6 +62,10 @@ def verify_release(case):
                     tracker.observe(wrong)
                 else:
                     tracker.observe(state)
+                if (handoff_path is not None and name == "exact" and step in intervals
+                        and first_publish is None
+                        and publish_release(handoff_path, "EF5_Q_CONTAINER_01", step, tracker)):
+                    first_publish = step
                 if step in intervals:
                     accepted, opened = intervals[step]
                     atom = atoms[step]
@@ -92,6 +97,7 @@ def verify_release(case):
     return dict(tabletop_native_result=PLACE_RESULT, state_packets=count, exact_accepted_atoms=len(atoms),
                 first_separation=asdict(expected), active_release=asdict(active), open_wire=exact.open_wire,
                 separation_ticks=exact.separation_ticks, recontact_ticks=exact.recontact_ticks,
+                first_published_boundary=first_publish,
                 rejected=sorted([*bad_mark, "no_OPEN", "gap", "recontact", "reversed_jaw"]))
 
 

@@ -5,7 +5,9 @@ from dataclasses import dataclass
 from itertools import product
 import json
 import math
+import os
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
@@ -113,6 +115,30 @@ class ReleaseTracker:
             return None
         release = Release(self.grasp_tick, self.lift_tick, *self.open_interval, self.separation_tick)
         return release if release.observed(self.last) else None
+
+
+def publish_release(path, condition, paused_tick, tracker):
+    """Give the next 25 integrations only the last measured release evidence."""
+    role = {"EF5_Q_CONTAINER_01": "red", "EF5_Q_CONTAINER_02": "blue"}
+    if (role.get(condition) != tracker.selected or paused_tick != tracker.last
+            or paused_tick < 5703 or (paused_tick - 5703) % 25):
+        raise ValueError("The release belongs to the actual paused boundary of the selected case")
+    release = tracker.result()
+    if release is None:
+        path.unlink(missing_ok=True)
+        return False
+    tokens = (paused_tick, release.grasp_tick, release.lift_tick, release.open_issue_tick,
+              release.open_ack_tick, release.separation_tick)
+    with NamedTemporaryFile(mode="w", dir=path.parent, delete=False) as stream:
+        draft = Path(stream.name)
+        try:
+            stream.write(f"V64_CONTAINER_RELEASE {condition} " + " ".join(map(str, tokens)) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+            os.replace(draft, path)
+        finally:
+            draft.unlink(missing_ok=True)
+    return True
 
 
 def contact_permitted(geoms, distance_m, selected, tick, release, *, inside, touching_robot):
