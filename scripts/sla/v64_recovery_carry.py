@@ -9,7 +9,9 @@ from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
 from go2arx5_vla.trajectory.so3 import quat_to_matrix
 from go2arx5_vla.world_model.fusion_trajectory_adapter import WORKING_CLOSED_M, WORKING_OPEN_M
 from go2arx5_vla.world_model.multitask_carry_geometry_v6 import DistalCarryGeometry
-from go2arx5_vla.world_model.multitask_score_v6 import BASE_MOTION, LIFT
+from go2arx5_vla.world_model.multitask_score_v6 import (
+    BASE_MOTION, LIFT, STABLE_SPEED, TABLE_TOLERANCE, Task, footprint_inside,
+)
 from go2arx5_vla.world_model.multitask_teacher_v6 import MultitaskTeacher
 
 
@@ -100,8 +102,7 @@ def exact_boundary(consumed, step):
     return atoms[-1]
 
 
-def prepare(initial, sample, condition, geometry, instruction, consumed, previous, base, model):
-    """Use measured state and the accepted receiver knot, without emitting a command."""
+def accepted_pose(sample, consumed, previous):
     atom = exact_boundary(consumed, sample["native_step"])
     if (atom["emitted_gripper_width_m"] != previous["width_m"]
             or atom["emitted_gripper_source_native_s"] != previous["source_native_s"]
@@ -111,9 +112,45 @@ def prepare(initial, sample, condition, geometry, instruction, consumed, previou
     reference = np.eye(4)
     reference[:3, 3] = pose[:3]
     reference[:3, :3] = quat_to_matrix(pose[3:])
-    teacher = CarryTeacher(initial, sample, condition, geometry, instruction, previous["width_m"], model=model)
+    return reference
+
+
+def checked_plan(teacher, sample, reference, previous, base):
     program, evidence = teacher.decide(sample, reference, base)
     margin = label_margin_report(program.decoded_H40, previous)
     if margin["training_margin_exceeded"] or margin["original_execution_speed_exceeded"]:
         raise ValueError("The Recovery Teacher attempt failed the original complete H40 check")
     return teacher, program, evidence, margin
+
+
+def prepare(initial, sample, condition, geometry, instruction, consumed, previous, base, model):
+    """Use measured state and the accepted receiver knot, without emitting a command."""
+    reference = accepted_pose(sample, consumed, previous)
+    teacher = CarryTeacher(initial, sample, condition, geometry, instruction, previous["width_m"], model=model)
+    return checked_plan(teacher, sample, reference, previous, base)
+
+
+def prepare_supported_release(initial, sample, score, condition, geometry, instruction, consumed, previous, base, model):
+    """Compile the existing OPEN phase at a supported, in-zone handoff for offline replay."""
+    task = Task.parse(instruction)
+    if (task.operation != "PLACE" or score["native_step"] != sample["native_step"]
+            or not score["ever_target_lift20mm"] or not score["inside_selected_region"]
+            or score["task_success"] or score["base_directional_motion_m"] < BASE_MOTION
+            or any(score[k] for k in ("missing_native_intervals", "unsafe_states", "wrong_object_grasp_ever",
+                                      "wrong_object_contact_ever")) or not sample["safety_valid"]):
+        raise ValueError("Require a safe in-region placement after a real lift")
+    target = sample["objects"][task.color]
+    obj, tcp = np.asarray(target["pose"]), np.asarray(sample["tcp"])
+    half = np.asarray(geometry["object_half_sizes"][task.color])
+    bottom = obj[2, 3] - abs(obj[2, :3]) @ half
+    if (not target["table_contact"] or not target["native_grasp"]
+            or not footprint_inside(obj, half, geometry["zones"][task.destination])
+            or abs(bottom-geometry["table_top_world_z"]) > TABLE_TOLERANCE
+            or np.linalg.norm(target["linear_velocity"]) >= STABLE_SPEED):
+        raise ValueError("The robot must still hold an independently supported, stable target")
+    reference = accepted_pose(sample, consumed, previous)
+    teacher = CarryTeacher(initial, sample, condition, geometry, instruction, previous["width_m"], model=model)
+    teacher.stage = "OPEN"
+    teacher.open_start = sample["native_step"]
+    teacher.placement_TCP = tcp[:3, 3].copy()
+    return checked_plan(teacher, sample, reference, previous, base)
