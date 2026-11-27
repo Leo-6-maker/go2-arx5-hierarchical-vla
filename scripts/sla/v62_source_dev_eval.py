@@ -16,7 +16,7 @@ from v3_main_place_learn import endpoint_files
 from v61_source_course import MAIN, R4
 from v62_source_admission import V62
 from v62_source_dev_roster import R48, fingerprint
-from v62_source_native import checked_manifest, reference, source_role
+from v62_source_native import V65, checked_manifest, reference, source_role
 
 
 DEV_ROSTER = "a6e9a33717d9938ac1870ce479947d3289045cf601ea0977a2cf80d082e80292"
@@ -68,7 +68,8 @@ def summarize(rows, candidate_key="source"):
                 **{candidate_key + "_mae": float(candidate)})
 
 
-def evaluate(worker, endpoint, retention, roster, dual, single, single_video, out, step, *, adapt_baseline=None):
+def evaluate(worker, endpoint, retention, roster, dual, single, single_video, out, step, *, adapt_baseline=None,
+             recovery_baseline=None):
     spec = read(worker)
     bind_imports(spec)
 
@@ -87,11 +88,16 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
 
     _, gate, receiver = accepted(spec)
     plan, candidate, old_rows = V62, "source", {}
+    require(not (adapt_baseline and recovery_baseline), "Declare one candidate course")
     if adapt_baseline:
         from v64_adapt_endpoint import PLAN as ADAPT_PLAN
 
         plan, candidate = ADAPT_PLAN, "adapt"
-        past = read(pin(adapt_baseline, PAIRED_R4_DEV))
+    if recovery_baseline:
+        plan, candidate = V65, "recovery"
+    reused = recovery_baseline or adapt_baseline
+    if reused:
+        past = read(pin(reused, PAIRED_R4_DEV))
         require(past["plan"] == V62 and past["model_forwards"] == 84
                 and past["roster"]["sha256"] == DEV_ROSTER
                 and past["physics_ticks"] == past["optimizer_updates"] == 0,
@@ -110,9 +116,16 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
             "The exact R4 baseline training bytes are required")
     run = endpoint / ("A250-FORMAL-R1/run" if adapt_baseline else "run")
     checkpoint = run / f"STEP{step:04d}"
-    terminal = read(pin(run / "TERMINAL.json", model["training_receipt_sha256"]))
-    require(Path(terminal["checkpoint"]["path"]).name == checkpoint.name
-            and endpoint_files(checkpoint) == terminal["checkpoint"]["files"], "Wrong SOURCE training bytes")
+    if recovery_baseline:
+        verified = read(pin(audit["path"], audit["sha256"]))
+        terminal = read(pin(run / "TERMINAL.json", verified["training_terminal_sha256"]))
+        require(terminal["status"] == "FORMAL_V65_1K_COMPLETE" and terminal["formal_updates"] == step
+                and sha(run / f"STEP{step:04d}_SEALED.json") == model["training_receipt_sha256"],
+                "V6.5 restore and formal terminal disagree")
+    else:
+        terminal = read(pin(run / "TERMINAL.json", model["training_receipt_sha256"]))
+        require(Path(terminal["checkpoint"]["path"]).name == checkpoint.name, "Wrong SOURCE checkpoint name")
+    require(endpoint_files(checkpoint) == terminal["checkpoint"]["files"], "Wrong SOURCE training bytes")
     inputs = load_inputs(dual, single, single_video, roster)
 
     with closing(OwnerLock(Path(spec["neural_owner_lock"]))):
@@ -124,7 +137,7 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1, "Expected the registered Corelab GPU")
         out.mkdir(mode=0o700)
         jax.config.update("jax_compilation_cache_dir", str(out / "jit-cache"))
-        maximum_forwards = 42 if adapt_baseline else 84
+        maximum_forwards = 42 if reused else 84
         write(out / "START.json", dict(plan=plan, step=step, provider=provider, roster=reference(roster), gpu=gpu,
                                       maximum_forwards=maximum_forwards))
         asset = receiver["model"]
@@ -134,8 +147,23 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
         require(identity["frozen_fingerprint"] == model["frozen_model"]
                 and canonical_hash(identity["inventory"]) == model["partition_sha256"], "Frozen SOURCE model changed")
         tokenizer = Tokenizer(str(tokenizer_path))
-        roles = {candidate: restore_groups(checkpoint, ("shared", "single", "robodojo"), step)}
-        if not adapt_baseline:
+        if recovery_baseline:
+            from flax.traverse_util import flatten_dict, unflatten_dict
+            from v65_recovery_endpoint import r4_provider
+
+            _, _, lora, digest = r4_provider(retention / "R4_STEP0200_PROVIDER")
+            require(digest == model["parent_lora_sha256"], "R4 LoRA bytes differ from the qualified endpoint")
+            values = restore_groups(checkpoint, ("shared", "robodojo"), step)
+            inherited = {key[1:]: array for key, array in lora.items()}
+            active_shared = flatten_dict(values["shared"])
+            require(not active_shared.keys() & inherited.keys(), "Frozen LoRA must stay outside the optimizer")
+            values["shared"] = unflatten_dict(active_shared | inherited)
+            baseline_target = restore_groups(baseline, ("target",), 200)["target"]
+            values["target"] = baseline_target
+            roles = {candidate: values}
+        else:
+            roles = {candidate: restore_groups(checkpoint, ("shared", "single", "robodojo"), step)}
+        if not reused:
             roles = dict(r4_init=restore_groups(baseline, ("shared", "target", "robodojo"), 200), **roles)
         fields, _ = extracted_fields(batch_v2, pi0)
         output = {}
@@ -146,12 +174,12 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
             active = {}
             for role, values in roles.items():
                 groups = []
-                name = "target" if domain == "single" and role == "r4_init" else domain
+                name = "target" if domain == "single" and (role == "r4_init" or recovery_baseline) else domain
                 for partition in ("shared", name):
                     state = jax.tree.map(lambda value: value, template["shared" if partition == "shared" else graph_role])
                     state.replace_by_pure_dict(values[partition])
                     groups.append(state)
-                private = initialize_single(groups[1]) if name == "target" and role == "r4_init" else groups[1]
+                private = initialize_single(groups[1]) if name == "target" else groups[1]
                 active[role] = nnx.State.merge(groups[0], private)
             measured = []
             for row in rows:
@@ -165,7 +193,7 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
                 target = np.asarray(actions)[0, :, :dimensions]
                 record = dict(row, actual_noise_sha256=hashlib.sha256(np.asarray(noise).tobytes()).hexdigest(),
                               mae={}, prediction_sha256={})
-                if adapt_baseline:
+                if reused:
                     prior = old_rows[domain][index]
                     require(all(prior[key] == val for key, val in row.items())
                             and prior["actual_noise_sha256"] == record["actual_noise_sha256"]
@@ -188,11 +216,13 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
         proof = dict(plan=plan, source_step=step, checkpoint=model["checkpoint_sha256"], audit=audit,
                      roster=reference(roster), model_forwards=maximum_forwards,
                      physics_ticks=0, optimizer_updates=0, domains=output)
-        if adapt_baseline:
+        if reused:
             require(all(r["r4_init_mae"] > 0 for r in metrics.values()), "Invalid R4 baseline MAE")
-            change = {name: r["adapt_mae"] / r["r4_init_mae"] - 1 for name, r in metrics.items()}
-            proof.update(reused_r4=reference(adapt_baseline), relative_mae=change,
+            change = {name: r[candidate + "_mae"] / r["r4_init_mae"] - 1 for name, r in metrics.items()}
+            proof.update(reused_r4=reference(reused), relative_mae=change,
                          retention_alert_domains=[name for name, drift in change.items() if drift > .1])
+            if recovery_baseline:
+                proof["single_role"] = "R4_FIXED_INITIAL_VILLE_IO_SHARED_REPRESENTATION_ONLY"
         else:
             proof["source_learned"] = all(r["source_mae"] < r["r4_init_mae"] for r in metrics.values())
         write(out / "RESULT.json", proof)
@@ -203,5 +233,7 @@ if __name__ == "__main__":
     for key in ("worker", "endpoint", "retention", "roster", "dual", "single", "single_video", "out"):
         parser.add_argument(key, type=Path)
     parser.add_argument("step", type=int)
-    parser.add_argument("--adapt-baseline", type=Path)
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--adapt-baseline", type=Path)
+    selection.add_argument("--recovery-baseline", type=Path)
     evaluate(**vars(parser.parse_args()))

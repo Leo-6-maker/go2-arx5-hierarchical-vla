@@ -20,6 +20,7 @@ R4_PANELS = {
     "PLACE": "ce7077c88ed98d00277340098a3851fff1acfe6e35dc529d0b69e65c96e9806d",
 }
 FEEDBACK_ROSTER = "a6e24bfd71bcd7034f18a9a5007cc0061f74190950ae1f4d080a4f466ddd698a"
+V65 = "d7f4c1357fd9a48a6f3612c52c63172195a1da60"
 SLA = Path("scripts/sla")
 
 
@@ -29,6 +30,9 @@ def reference(path):
 
 def source_role(step, plan=V62):
     require(type(step) is int and step in ENDPOINTS, "Unknown SOURCE evaluation milestone")
+    if plan == V65:
+        require(step == 1000, "V6.5 can be evaluated only at step 1000")
+        return "RECOVERY1000"
     if plan != V62:
         from v64_adapt_endpoint import END, PLAN as ADAPT_PLAN
 
@@ -42,6 +46,10 @@ def checked_manifest(provider, parent, registration):
     plan = registration["v62_plan"]
     require(registration["v4_model_role"] == source_role(step, plan), "Unregistered evaluation role")
     audit = registration["source_audit"]
+    if plan == V65:
+        from v65_recovery_endpoint import check_eval_provider
+
+        return check_eval_provider(provider, parent, audit)
     proof = read(pin(audit["path"], audit["sha256"]))
     require(proof["science_plan"] == plan and proof["parent_sha256"] == MAIN and proof["initial_r4_receipt_sha256"] == R4
             and proof["step"] == step and proof["rng_restored"] and proof["complete_training_endpoint"]
@@ -123,7 +131,7 @@ def launcher(path):
     return text
 
 
-def stage(base, endpoint, overlay, step, *, adapt=False):
+def stage(base, endpoint, overlay, step, *, adapt=False, recovery=False):
     from scripts.pi0292.durable import write
 
     prior = base / "R4-DEV-0200-PLACE-OVERLAY-01"
@@ -132,7 +140,8 @@ def stage(base, endpoint, overlay, step, *, adapt=False):
     parent = panel["candidate"]
     source_provider = endpoint / "PROVIDER"
     provider = dict(path=str(source_provider), sha256=sha(source_provider / "CHECKPOINT.json"))
-    plan = V62
+    require(not (adapt and recovery), "Declare one evaluation course")
+    plan = V65 if recovery else V62
     if adapt:
         from v64_adapt_endpoint import PLAN as plan
     role = source_role(step, plan)
@@ -146,8 +155,11 @@ def stage(base, endpoint, overlay, step, *, adapt=False):
     entry.write_text(code)
     shutil.copy2(__file__, overlay / SLA)
     modules = ("v62_source_admission", "v62_source_endpoint", "v61_source_course", "v61_source_bank", "v6_dual_course")
-    if adapt:
+    if adapt or recovery:
         modules += ("v64_adapt_endpoint", "v63_adapt_course", "v63_adapt_data")
+    if recovery:
+        modules += ("v65_recovery_endpoint", "v65_recovery_course", "v65_recovery_data", "v64_a78_delta",
+                    "v64_a87_increment", "v64_a93_increment", "v64_go2_delta4")
     for name in modules:
         member = Path(import_module(name).__file__)
         target = overlay / SLA / member.name
@@ -155,7 +167,7 @@ def stage(base, endpoint, overlay, step, *, adapt=False):
             require(sha(target) == sha(member), f"Conflicting native evaluation module: {name}")
         else:
             shutil.copy2(member, target)
-    prefix = "ADAPT" if adapt else "SOURCE"
+    prefix = "RECOVERY" if recovery else "ADAPT" if adapt else "SOURCE"
     for phase in ("LONG_HOLD", "LONG_PLACE"):
         places, holds = comparison_rows(phase, panel["place"], panel["hold"], step, plan)
         registered = dict(registration, role=role, candidate=provider, source_phase=phase,
@@ -274,7 +286,9 @@ if __name__ == "__main__":
             parser.add_argument(field, type=Path)
         parser.add_argument("step", type=int, choices=ENDPOINTS)
         if name == "stage":
-            parser.add_argument("--adapt", action="store_true")
+            selection = parser.add_mutually_exclusive_group()
+            selection.add_argument("--adapt", action="store_true")
+            selection.add_argument("--recovery", action="store_true")
     args = vars(cli.parse_args())
     action = args.pop("action")
     {"stage": stage, "settle": settle, "release": release}[action](**args)

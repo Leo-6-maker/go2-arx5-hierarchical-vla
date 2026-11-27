@@ -79,16 +79,20 @@ def audit(capsule, bank, step):
     require(checkpoint["frozen_weight_sha256"] == parameters["total_frozen_sha256"]
             and checkpoint["lora_sha256"] == parameters["parent_lora_sha256"], "Frozen parent identity changed")
     inputs = ledger(run, bank, step)
+    completed = {}
     if step == END:
-        terminal = read(run / "TERMINAL.json")
+        terminal_path = run / "TERMINAL.json"
+        terminal = read(terminal_path)
         require(terminal["status"] == "FORMAL_V65_1K_COMPLETE" and terminal["formal_updates"] == END
                 and terminal["contract_sha256"] == sha(contract_path) and terminal["checkpoint"] == checkpoint
                 and terminal["optimizer_visits"] == inputs["actual_visits"], "Formal completion has not been sealed")
+        completed["training_terminal_sha256"] = sha(terminal_path)
     state = restore(endpoint, step, groups={"shared", *BATCH}, seed=SEED)
     require(state["adam_counters"] == checkpoint["adam_counts"], "Independent Adam readback disagrees")
     return dict(step=step, endpoint_sha256=sha(seal), contract_sha256=sha(contract_path), plan=PLAN,
                 initial_r4_receipt_sha256=R4, frozen_lora_sha256=checkpoint["lora_sha256"],
-                formal_scientific_endpoint=step == END, **inputs, **state)
+                bank_receipt_sha256=sha(bank / "ACTUAL.json"), formal_scientific_endpoint=step == END,
+                **completed, **inputs, **state)
 
 
 def r4_provider(root):
@@ -153,6 +157,32 @@ def export_go2(capsule, parent, destination, proof):
           training_contract_sha256=proof["contract_sha256"], parent_lora_sha256=digest))
     staging.rename(destination)
     return sha(destination / "CHECKPOINT.json")
+
+
+def check_eval_provider(provider, parent, audit):
+    """Use the frozen original ABI only after independent 1K restore and exact exposure."""
+    proof = read(pin(audit["path"], audit["sha256"]))
+    require(proof["plan"] == PLAN and proof["step"] == END and proof["formal_scientific_endpoint"]
+            and proof["initial_r4_receipt_sha256"] == R4 and proof["complete_training_endpoint"]
+            and proof["rng_restored"] and proof["adam_counters"] == dict.fromkeys(("shared", *BATCH), END)
+            and proof["fm_visits"] == 128_000 and proof["go2_visits"] == 96_000
+            and proof["actual_visits"] == {key: n*END for key, n in VISITS.items()}
+            and proof["provider_manifest_sha256"] == provider["sha256"], "V6.5 evaluation requires the cold-restored 1K")
+    root = Path(provider["path"])
+    model = read(pin(root / "CHECKPOINT.json", provider["sha256"]))
+    require(model["role"] == "V65_RECOVERY_ADAPT_1K" and model["phase"] == END
+            and model["previous_checkpoint_sha256"] == parent["checkpoint_sha256"] == MAIN
+            and model["training_receipt_sha256"] == proof["endpoint_sha256"]
+            and model["training_contract_sha256"] == proof["contract_sha256"]
+            and model["parent_lora_sha256"] == proof["frozen_lora_sha256"]
+            and model["source_codec"] == "DENSE_REFERENCE_G7_V6" and model["frozen_wbc"] and model["original_l1"]
+            and not any(model[k] for k in ("formal_inference_eligible", "native_admission", "hardware_allowed", "physics"))
+            and all(model[k] == parent[k] for k in ("foundation_sha256", "frozen_model", "action_sha256",
+                    "state_sha256", "tokenizer_sha256", "partition_sha256")), "V6.5 provider ABI or provenance changed")
+    for old, new in zip(parent["arrays"], model["arrays"], strict=True):
+        require(all(old[k] == new[k] for k in ("file", "key", "shape", "dtype")), "V6.5 provider array ABI changed")
+        pin(root / new["file"], new["sha256"])
+    return model
 
 
 if __name__ == "__main__":
