@@ -7,12 +7,86 @@ from pathlib import Path
 from m38_gpu_preflight_v1 import pin, read, require
 from scripts.pi0292.durable import write
 from v61_native_gate import stop_mechanism
-from v62_source_native import FEEDBACK_ROSTER, PARENT_RELEASE, R4_PANELS, read_phase, reference
+from v62_source_native import FEEDBACK_ROSTER, PARENT_RELEASE, R4_PANELS, read_case, read_phase, reference
 from v64_adapt_native_gate import place_stages
 from v65_recovery_course import END, PLAN
 
 
 PHASES = ("HOLD", "PLACE", "INDEPENDENT_HOLD")
+ADAPT = "9cafcdff94b14400df4cae244a50800c66c1d53a3dd1568f3197135563c8dce3"
+SOURCE = "5f8000336c3e6871b9947fe2aae6ca72f46bf8edea4781ca87ad58b9300ecc6a"
+
+
+def old_endpoints(site, root, phase):
+    if phase == "INDEPENDENT_HOLD":
+        parent = read(pin(root / "PARENT_RELEASE.json", PARENT_RELEASE))
+        pairs = parent["independent_HOLD"]["pairs"]
+        return {
+            "R4-200": {r["r4"]["id"]: r["r4"] for r in pairs},
+            "MAIN3.8K": {r["r4"]["id"]: r["parent"] for r in pairs},
+        }
+    r4 = read(pin(site / f"R4-DEV-0200-{phase}-NATIVE-01/INDEPENDENT_PANEL_READBACK.json", R4_PANELS[phase]))
+    adapt = read(pin(root / "ADAPT0250-RELEASE.json", ADAPT))
+    source = read(pin(root / "SOURCE0250-RELEASE.json", SOURCE))["native"]
+    source = read(pin(source["path"], source["sha256"]))
+    return {
+        "R4-200": {r["id"].replace("R4_DEV_0200", "ADAPT0250"): r for r in r4["arms"]},
+        "A250": {r["id"]: r for r in adapt["panels"][phase]["arms"]},
+        "SOURCE250": {r["id"].replace("SOURCE0250", "ADAPT0250"): r for r in source["panels"][phase]["arms"]},
+    }
+
+
+def completed_cases(root, phase, bound):
+    """Read the available terminal cases while the rest of the phase is still live."""
+    from m38_a_native_v1 import comparison_manifest, v4_panel_rows
+
+    configured = bound["groups"][phase]
+    reg = read(root / "COMPARISON.json")
+    original = configured["preflight"]
+    cpu = read(pin(original["path"], original["sha256"]))
+    require(reg["v62_plan"] == PLAN and reg["source_step"] == END and reg["schedule"] == cpu["schedule"]
+            and reg["source_audit"] == configured["source_audit"] and reg["gpu_noise_sha256"] == cpu["gpu_noise_sha256"],
+            "Live experiment scope differs from the independent preflight")
+    require([r["id"] for r in v4_panel_rows(reg)] == [r["id"] for r in reg["schedule"]],
+            "Original condition sequence changed")
+    panel = read(pin(reg["v4_panel"]["path"], reg["v4_panel"]["sha256"]))
+    noise = panel["noise"]["hold" if phase == "INDEPENDENT_HOLD" else phase.lower()]
+    require(noise["sha256"] == reg["gpu_noise_sha256"], "Resident CUDA noise differs")
+    expected = {r["noise_id"]: r["gpu_sha256"] for r in read(pin(noise["path"], noise["sha256"]))["tensors"]}
+    trails = []
+    checked = False
+    for row, cell in zip(reg["schedule"], configured["cases"], strict=True):
+        case = root / row["id"]
+        lease = case / "control/LEASE.json"
+        if not lease.is_file():
+            continue
+        closed = read(lease)
+        if closed["status"] != "CLOSED":
+            continue
+        if not checked:
+            require(comparison_manifest(reg)["checkpoint_sha256"] == bound["checkpoint"], "Wrong 1K endpoint")
+            checked = True
+        result = read_case(case, row, expected)
+        spec = read(pin(case / "EXECUTION_SPEC.json", closed["spec_sha256"]))
+        require(spec["frozen_files"][spec["model_path"]] == cell["geometry"], "Changed native scene")
+        trails.append(dict(result, prior_cell=cell["prior_cell"]))
+    return trails
+
+
+def compare_phase(site, root, phase, reservation, output):
+    bound = read(reservation)
+    rows = completed_cases(root, phase, bound)
+    original = old_endpoints(site, root.parent, phase)
+    for row in rows:
+        require(row["prior_cell"] in original["R4-200"], "No matching native R4 cell")
+        for old in original.values():
+            result = old[row["prior_cell"]]
+            if "policy_seed" in result and result["policy_seed"] is not None:
+                require(result["policy_seed"] == row["policy_seed"], "Mismatched retained seed")
+    write(output, dict(phase=phase, registered=len(bound["groups"][phase]["cases"]), closed=len(rows),
+                       checkpoint=bound["checkpoint"], reservation=reference(reservation),
+                       pairs=[dict(candidate_1k=row, baselines={k:v[row["prior_cell"]] for k,v in original.items()})
+                              for row in rows]))
 
 
 def native_phase(root, phase, reservation, output):
@@ -114,8 +188,11 @@ if __name__ == "__main__":
     mode = cli.add_subparsers(dest="mode", required=True)
     group = mode.add_parser("native-phase")
     group.add_argument("phase", choices=PHASES)
+    compare = mode.add_parser("compare-phase")
+    compare.add_argument("phase", choices=PHASES)
     settled = mode.add_parser("settle")
     for parser, names in ((group, ("root", "reservation", "output")),
+                          (compare, ("site", "root", "reservation", "output")),
                           (settled, ("site", "parent_release", "reservation", "dev", "feedback", "output"))):
         for name in names:
             parser.add_argument(name, type=Path)
@@ -123,4 +200,4 @@ if __name__ == "__main__":
     args = vars(cli.parse_args())
     action = args.pop("mode")
     require(not args["output"].exists(), "Preserve existing evidence")
-    {"native-phase": native_phase, "settle": settle}[action](**args)
+    {"native-phase": native_phase, "compare-phase": compare_phase, "settle": settle}[action](**args)

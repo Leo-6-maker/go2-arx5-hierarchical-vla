@@ -176,9 +176,31 @@ def stage(base, endpoint, overlay, step, *, adapt=False, recovery=False):
         write(overlay / f"{prefix}_{phase.removeprefix('LONG_')}_PREFLIGHT.json", dict(panel, **registered))
 
 
-def read_phase(root, phase, step):
-    from m38_a_native_v1 import bind_native, comparison_manifest, v4_panel_rows
+def read_case(case, row, expected):
+    from m38_a_native_v1 import bind_native
     from m38_a_readout_v1 import read_arm
+
+    request = read(case / "COMPARISON_REQUEST.json")
+    lease = read(case / "control/LEASE.json")
+    require(lease["status"] == "CLOSED" and lease["spec_sha256"] == request["spec_sha256"], "Unclosed native request")
+    spec = read(pin(case / "EXECUTION_SPEC.json", lease["spec_sha256"]))
+    require(spec["comparison_policy_seed"] == row["policy_seed"] and spec["interface_comparison_link"] == "L1",
+            "Native seed or transport changed")
+    bind_native(spec)
+    score = read_arm(case, expected)[0]
+    score["policy_seed"] = spec["comparison_policy_seed"]
+    require(score["native_ticks"] <= row["max_ticks"] and score["forwards"] <= row["policy_queries"],
+            "Unreconciled native budgets")
+    if "grasp" not in score:
+        terminal = read(pin(case / "RESULT.private.json", score["result_sha256"]))
+        events = terminal["physics_stops"]
+        score.update(grasp=False, task_success=False,
+                     actual_stop=events[0] if events else terminal["mobile_safety_stop"])
+    return score
+
+
+def read_phase(root, phase, step):
+    from m38_a_native_v1 import comparison_manifest, v4_panel_rows
 
     require(all(read(root / part / "control/LEASE.json")["status"] == "CLOSED" for part in (".", "worker")),
             "Readout requires the original owner to close")
@@ -195,26 +217,7 @@ def read_phase(root, phase, step):
     noise = config["noise"][phase.lower()]
     require(noise["sha256"] == registration["gpu_noise_sha256"], "Native CUDA bank changed")
     expected = {row["noise_id"]: row["gpu_sha256"] for row in read(pin(noise["path"], noise["sha256"]))["tensors"]}
-    scores = []
-    for row in cases:
-        case = root / row["id"]
-        request = read(case / "COMPARISON_REQUEST.json")
-        lease = read(case / "control/LEASE.json")
-        require(lease["status"] == "CLOSED" and lease["spec_sha256"] == request["spec_sha256"], "Unclosed native request")
-        spec = read(pin(case / "EXECUTION_SPEC.json", lease["spec_sha256"]))
-        require(spec["comparison_policy_seed"] == row["policy_seed"] and spec["interface_comparison_link"] == "L1",
-                "Native seed or transport changed")
-        bind_native(spec)
-        score = read_arm(case, expected)[0]
-        score["policy_seed"] = spec["comparison_policy_seed"]
-        require(score["native_ticks"] <= row["max_ticks"] and score["forwards"] <= row["policy_queries"],
-                "Unreconciled native budgets")
-        if "grasp" not in score:
-            terminal = read(pin(case / "RESULT.private.json", score["result_sha256"]))
-            events = terminal["physics_stops"]
-            score.update(grasp=False, task_success=False,
-                         actual_stop=events[0] if events else terminal["mobile_safety_stop"])
-        scores.append(score)
+    scores = [read_case(root / row["id"], row, expected) for row in cases]
     worker = read(root / "worker/RESULT.private.json")
     require(sum(s["forwards"] for s in scores) == worker["completed_generations"], "Unreconciled frozen forwards")
     return dict(checkpoint=model["checkpoint_sha256"], arms=scores, valid=sum(s["valid_science"] for s in scores),
