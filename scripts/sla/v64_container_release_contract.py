@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
-from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
 
 PLACE_RESULT = "ec7bd3b90eb3d38b50581220b590761431b4a540db3a3ed0d9158cfa11c022a1"
@@ -160,6 +159,7 @@ def release_readback(case):
 
     from go2arx5_vla.world_model.multitask_state_v6 import TwoObjectState, packets
     from go2arx5_vla.world_model.native_replay import forbid_integration
+    from m38_gpu_preflight_v1 import pin, read, require, sha
     from v64_recovery_seal import accepted_rows, actual_queries
 
     lease = read(case / "control/LEASE.json")
@@ -219,6 +219,7 @@ def bowl_geometry(factory, holds, samples):
     import numpy as np
 
     from go2arx5_vla.world_model.native_replay import forbid_integration
+    from m38_gpu_preflight_v1 import pin, read, require
     from v5_mobile_container_corridor import COLD, OBJECTS, SCORES, terminal_pose, wall_top
 
     compiled = factory / "SCENE_FACTORY_CONTAINER-PROJECT-01"
@@ -265,6 +266,7 @@ def bowl_geometry(factory, holds, samples):
 
 def run(case, support, output, factory, hold_red, hold_blue):
     from go2arx5_vla.world_model.multitask_contact_v6 import OBJECT_GEOMS, observer_permitted
+    from m38_gpu_preflight_v1 import pin, read, require
 
     release, replay = release_readback(case)
     static = read(pin(support, SUPPORT_PROBE))

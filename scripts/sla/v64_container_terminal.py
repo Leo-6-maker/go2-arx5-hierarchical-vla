@@ -6,7 +6,6 @@ from pathlib import Path
 
 import numpy as np
 
-from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
 from v64_container_release_contract import BOWL_FLOOR, PLACE_RESULT, Release
 
@@ -46,10 +45,10 @@ class TerminalScore:
         from go2arx5_vla.world_model.multitask_score_v6 import BASE_MOTION, DT, HOLD_SECONDS, OPEN_FRACTION, RETREAT, STABLE_SPEED
 
         expected = self.first_tick if self.last_tick is None else self.last_tick + 1
-        require(type(sample.tick) is int and (self.last_tick is None or sample.tick > self.last_tick)
-                and np.isclose(sample.time_s,sample.tick*DT,rtol=0,atol=1e-8)
-                and np.isfinite([sample.opening,sample.retreat_m,sample.speed_m_s,sample.approach_m]).all(),
-                "Native terminal scoring needs finite measurements and monotone 2 ms packets")
+        if (type(sample.tick) is not int or (self.last_tick is not None and sample.tick <= self.last_tick)
+                or not np.isclose(sample.time_s, sample.tick*DT, rtol=0, atol=1e-8)
+                or not np.isfinite([sample.opening, sample.retreat_m, sample.speed_m_s, sample.approach_m]).all()):
+            raise ValueError("Native terminal scoring needs finite measurements and monotone 2 ms packets")
         self.gaps += sample.tick != expected
         self.unsafe += not sample.safe
         self.samples += 1
@@ -84,9 +83,10 @@ def bowl_support(model, data, packet, target_geom):
     import mujoco as mj
 
     floor = model.geom(BOWL_FLOOR).id
-    require(model.geom_type[floor] == mj.mjtGeom.mjGEOM_CYLINDER
-            and model.geom_bodyid[floor] == model.body("ef5_static_bowl").id
-            and model.geom_type[target_geom] == mj.mjtGeom.mjGEOM_BOX, "Exact configured container and target geometry required")
+    if (model.geom_type[floor] != mj.mjtGeom.mjGEOM_CYLINDER
+            or model.geom_bodyid[floor] != model.body("ef5_static_bowl").id
+            or model.geom_type[target_geom] != mj.mjtGeom.mjGEOM_BOX):
+        raise ValueError("Exact configured container and target geometry required")
     half = model.geom_size[target_geom][:3]
     corners = np.asarray(list(product((-1.,1.),repeat=3))) * half
     rotation = data.geom_xmat[target_geom].reshape(3,3)
@@ -102,6 +102,7 @@ def verify_bowl_surface(factory, holds, proof, check_contact=None):
     import mujoco as mj
 
     from go2arx5_vla.world_model.native_replay import forbid_integration
+    from m38_gpu_preflight_v1 import pin, read, require
     from v5_mobile_container_corridor import COLD, OBJECTS, SCORES, terminal_pose, wall_top
 
     compiled = factory/"SCENE_FACTORY_CONTAINER-PROJECT-01"
@@ -152,6 +153,7 @@ def replay(case, release_proof, output, factory, hold_red, hold_blue):
     from go2arx5_vla.world_model.multitask_score_v6 import TABLE_TOLERANCE, footprint_inside
     from go2arx5_vla.world_model.multitask_state_v6 import TwoObjectState, packets
     from go2arx5_vla.world_model.native_replay import forbid_integration
+    from m38_gpu_preflight_v1 import pin, read, require, sha
 
     lease = read(case/"control/LEASE.json")
     require(lease["status"] == "CLOSED", "The observed positive control must be closed")
