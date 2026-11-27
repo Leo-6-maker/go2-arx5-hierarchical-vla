@@ -16,6 +16,9 @@ PLAN = "531f826b36c1195db8c253ca71497f1aeb569c80"
 EPISODES = {"robodojo": 499, "ville": 58, "sc_vla": 51}
 NATIVE = {"robodojo": (30, 50), "ville": (20, 40), "sc_vla": (15, 30)}
 WIDTH, STEPS, SEED = 32, 5000, 527_202612
+PUBLIC_RECEIPT = "fb09287c6f20579bea1972ca1a2376a91860a8408bf48a79d490d7abaf52a3fc"
+V61_REPLAY_RECEIPT = "1ba0092a0c982c51e785849b86332bfc9c3db636bad6a82cab97548bed027891"
+JOINT = {"target": 16, "ville": 32, "sc_vla": 32, "robodojo": 32, "libero": 16}
 
 
 def digest(path):
@@ -112,8 +115,54 @@ def build(catalogue, output):
           candidate_requires_full_go2_libero_binding=True))
 
 
+def bind_replay(public, replay, output):
+    source = read_pinned(public / "ACTUAL.json", PUBLIC_RECEIPT)
+    prior = read_pinned(replay / "ACTUAL.json", V61_REPLAY_RECEIPT)
+    if (source["steps"] != STEPS or source["samples_per_source_per_step"] != WIDTH
+            or sum(JOINT.values()) != 128 or prior["optimizer_visits"] != 0):
+        raise ValueError("Use the exact five-domain candidate and sealed replay")
+    public_index = public / "INDEX.json"
+    read_pinned(public_index, source["episode_index_sha256"])
+    prepared = (public / "BANK.npz", replay / "BANK.npz")
+    expected = (source["bank_sha256"], prior["bank_file_sha256"])
+    if tuple(digest(path) for path in prepared) != expected:
+        raise ValueError("An immutable visit bank has changed")
+    with np.load(prepared[0], allow_pickle=False) as data:
+        indices = {f"{role}_{field}": data[f"{role}_{field}"] for role in EPISODES
+                   for field in ("episode", "anchor")}
+    with np.load(prepared[1], allow_pickle=False) as data:
+        indices.update(target=data["target"], libero=data["libero"], auxiliary_slots=data["auxiliary_slots"])
+    shapes = {f"{role}_{field}": (STEPS, WIDTH) for role in EPISODES for field in ("episode", "anchor")}
+    shapes.update(target=(STEPS, 16), libero=(STEPS, 16), auxiliary_slots=(STEPS, 4))
+    if any(arr.shape != shapes[name] or arr.dtype.kind not in "iu" or arr.min() < 0
+           for name, arr in indices.items()):
+        raise ValueError("SOURCE608 candidate index shapes or visit range differ")
+    slots = indices["auxiliary_slots"]
+    if slots.max() >= JOINT["target"]:
+        raise ValueError("An H40 auxiliary slot escaped its replay row")
+    aux = np.take_along_axis(indices["target"], slots, axis=1)
+    if np.any(np.diff(np.sort(aux, axis=1), axis=1) <= 0):
+        raise ValueError("Each row must retain four distinct actual H40 visits")
+    output.mkdir(mode=0o700)
+    bank = output / "BANK.npz"
+    with bank.open("xb") as stream:
+        np.savez_compressed(stream, **indices)
+    write(output / "ACTUAL.json", dict(plan=PLAN, scope="SOURCE608_JOINT_INDEX_CANDIDATE", steps=STEPS,
+          effective_batch=JOINT, actual_h40_auxiliary_slots=4, replay_scope="SEALED_V61_GO2_LIBERO",
+          public_receipt_sha256=PUBLIC_RECEIPT, replay_receipt_sha256=V61_REPLAY_RECEIPT,
+          replay_reader_order_sha256={role: prior["reader_order_sha256"][role] for role in ("target", "libero")},
+          underlying_bank_sha256=list(expected), public_episode_index_sha256=digest(public_index),
+          joint_bank_sha256=digest(bank), scheduled_target_unique_first250=int(np.unique(indices["target"][:250]).size),
+          optimizer_visits=0, launch_admitted=False))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("catalogue", type=Path)
+    parser.add_argument("source", type=Path)
     parser.add_argument("output", type=Path)
-    build(**vars(parser.parse_args()))
+    parser.add_argument("--bind-replay", type=Path)
+    args = parser.parse_args()
+    if args.bind_replay:
+        bind_replay(args.source, args.bind_replay, args.output)
+    else:
+        build(args.source, args.output)
