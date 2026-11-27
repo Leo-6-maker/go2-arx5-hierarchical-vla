@@ -3,8 +3,9 @@ import argparse
 import hashlib
 from pathlib import Path
 
-from v64_recovery_cohorts import FIRST_NOISE, FIRST_ROSTER, NOISE, read_roster, roster_ref
-from v64_recovery_followup import FIRST_RESULT
+from v64_recovery_cohorts import (FIRST_NOISE, FIRST_ROSTER, NOISE, OPEN_ROSTER,
+                                 SECOND_NOISE, SECOND_ROSTER, read_roster, roster_ref)
+from v64_recovery_followup import FIRST_RESULT, OPEN_REPLAY, SECOND_RESULT
 from v64_recovery_roster import PLAN, QUERIES, TERMINAL, TICKS, fixed, sha
 
 
@@ -40,11 +41,23 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
         raise ValueError("The Recovery cohort, retained R4 model, or realized noise bank changed")
     if cohort != FIRST_ROSTER:
         closed = checked_ref(roster["prior_terminal"], FIRST_RESULT)
+        cumulative = closed["terminal_cases"]
         if (not closed["complete_reconciliation"] or closed["terminal_cases"] != 2 or closed["train_recovery_count"] != 1
                 or noise["prior_recovery_noise_sha256"] != FIRST_NOISE
-                or roster["max_native_requests_cumulative"] != 20
-                or closed["terminal_cases"] != roster["previous_recovery_native_requests"]):
+                or roster["max_native_requests_cumulative"] != 20):
             raise ValueError("The followup requires the entire actual first cohort")
+        if cohort == OPEN_ROSTER:
+            checked_ref(roster["second_prior_roster"], SECOND_ROSTER)
+            prior = checked_ref(roster["second_prior_terminal"], SECOND_RESULT)
+            replay = checked_ref(roster["supported_open_replay"], OPEN_REPLAY)
+            if (roster["handoff_protocol"] != "CARRY_OR_SUPPORTED_OPEN" or not prior["complete_reconciliation"]
+                    or prior["terminal_cases"] != 2 or prior["train_recovery_count"] != 1
+                    or noise["second_recovery_noise_sha256"] != SECOND_NOISE
+                    or replay["new_native_integrations"] or replay["new_model_forwards"]):
+                raise ValueError("The supported OPEN scope requires both paid pairs and the actual shadow evidence")
+            cumulative += prior["terminal_cases"]
+        if cumulative != roster["previous_recovery_native_requests"]:
+            raise ValueError("The paid Recovery denominator changed")
     teachers = {}
     for card in cards:
         key = card["original_teacher"]

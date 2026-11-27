@@ -13,10 +13,11 @@ from go2arx5_vla.world_model.multitask_teacher_episode_v6 import confirmed_conte
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.storage import digest
 
-from .v64_recovery_carry import ATOM_TICKS, PREFIX_TICKS, CarryStall, prepare
+from .v64_recovery_carry import ATOM_TICKS, PREFIX_TICKS, CarryStall, prepare, prepare_supported_release
 
 
 PLAN = "531f826b36c1195db8c253ca71497f1aeb569c80"
+OPEN_REPLAY = "bfda1426f0e91c6cbc8efe81df2ab3c590973152c034582d404a11dff805de49"
 
 
 class Pilot:
@@ -43,6 +44,13 @@ class Pilot:
                 or card["task"] != adapter.task.instruction or digest(Path(spec["model_path"])) != bound_scene):
             raise PermissionError("Require the independent two-card Recovery TRAIN allocation")
         self.stall = CarryStall(adapter.task, spec["multitask_geometry"])
+        self.open_enabled = manifest.get("handoff_protocol") == "CARRY_OR_SUPPORTED_OPEN"
+        if self.open_enabled:
+            replay = read_pin(manifest["supported_open_replay"])
+            if (manifest["supported_open_replay"]["sha256"] != OPEN_REPLAY
+                    or replay["new_native_integrations"] or replay["new_model_forwards"]
+                    or len(replay["cases"]) != 4 or not any(row["reached"] for row in replay["cases"])):
+                raise PermissionError("The supported OPEN route requires the sealed four-case boundary replay")
         self.rejected = False
 
     def maybe_prepare(self, adapter, score, initial, query, folder):
@@ -57,8 +65,12 @@ class Pilot:
         sample = adapter.measured_task_state()
         step = sample["native_step"]
         result = self.stall.observe(score, sample, row)
-        if result is None or step + PREFIX_TICKS > adapter.spec["max_ticks"]:
+        if step + PREFIX_TICKS > adapter.spec["max_ticks"]:
             return None
+        if result is None:
+            if not self.open_enabled:
+                return None
+            return self.maybe_open(adapter, score, initial, row, sample, query)
         previous = confirmed_context(adapter, step, sample["time_s"])
         try:
             teacher, program, evidence, margin = prepare(initial, sample, adapter.spec["mobile_condition"],
@@ -71,6 +83,25 @@ class Pilot:
             return None
         return dict(event=result, teacher=teacher, program=program, evidence=evidence, margin=margin,
                     witness=row["confirmed_intervals"][-1]["accepted_boundary"], query=query)
+
+    def maybe_open(self, adapter, score, initial, consumed, sample, query):
+        scored = score.result()
+        target = sample["objects"][adapter.task.color]
+        if (not scored["inside_selected_region"] or not scored["ever_target_lift20mm"]
+                or not target["table_contact"] or not target["native_grasp"]):
+            return None
+        step = sample["native_step"]
+        previous = confirmed_context(adapter, step, sample["time_s"])
+        try:
+            teacher, program, evidence, margin = prepare_supported_release(
+                initial, sample, scored, adapter.spec["mobile_condition"], adapter.spec["multitask_geometry"],
+                adapter.task.instruction, consumed, previous, adapter.base_pose_hold, adapter.actual_state.model)
+        except ValueError:
+            return None
+        event = dict(trigger="SUPPORTED_OPEN", native_step=step, native_time_s=sample["time_s"],
+                     actual_previous_width_m=previous["width_m"], physically_supported=True)
+        return dict(event=event, teacher=teacher, program=program, evidence=evidence, margin=margin,
+                    witness=consumed["confirmed_intervals"][-1]["accepted_boundary"], query=query)
 
 
 def finish(adapter, prepared, frame, stream, reader, score):
