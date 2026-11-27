@@ -7,27 +7,23 @@ from pathlib import Path
 import mujoco
 import numpy as np
 
-from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
 from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix
 from go2arx5_vla.world_model.fusion_trajectory_adapter import WORKING_CLOSED_M, WORKING_OPEN_M
-from go2arx5_vla.world_model.mobile_continuous_teacher_v2 import DT
 from go2arx5_vla.world_model.multitask_contact_v6 import OBJECT_GEOMS, PADS, allowed_pair, observer_permitted
-from go2arx5_vla.world_model.multitask_score_v6 import BASE_MOTION, LIFT, Score, Task
+from go2arx5_vla.world_model.multitask_score_v6 import Score, Task
 from go2arx5_vla.world_model.multitask_state_v6 import packets, score_through
-from go2arx5_vla.world_model.multitask_teacher_v6 import MultitaskTeacher
 from go2arx5_vla.world_model.native_replay import forbid_integration
 from go2arx5_vla.world_model.storage import digest
-from go2arx5_vla.world_model.task_learning_grasp_v1 import FiftyMsProgram
 from scripts.pi0292.durable import read, write
+from scripts.sla.v64_recovery_early_teacher import prepare_early, rejected_boundary
 from v5_mobile_container_corridor import solve
-from v64_recovery_carry import accepted_pose, exact_boundary
+from v64_recovery_carry import ATOM_TICKS, PREFIX_TICKS, checked_plan
 from v64_recovery_release_prefix import BoundaryReader
 
 
 FIFTH_CLOSE = "06cbfdc794d9fd05a6336c8e15a4f6017b946e13aaac067625003bad93d7771e"
 CASES = ("V64_RECOVERY_TRAIN_09", "V64_RECOVERY_TRAIN_10")
 STUDENT_START = 5703
-OPENING_SECONDS = 2.0
 
 
 def ref(path):
@@ -83,42 +79,62 @@ def static_prefix(model, sample, program, color, tcp_id, holding):
                 original_contact_predicate=True, native_motion_qualified=False)
 
 
-def preview(initial, sample, result, spec, consumed, previous, base, static_geometry=None):
-    instruction = spec["task_instruction_id"]
-    geometry = spec["multitask_geometry"]
-    if (sample["native_step"] != result["native_step"] or not sample["safety_valid"]
-            or result["base_directional_motion_m"] < BASE_MOTION or result["ever_target_lift20mm"]
-            or any(result[key] for key in ("unsafe_states", "missing_native_intervals", "wrong_object_contact_ever",
-                                          "wrong_object_grasp_ever")) or result["maximum_lift_m"] >= LIFT):
-        raise ValueError("Require a safe paused early state after real BASE motion")
-    if result["ever_target_grasp"] and not result["target_grasp"]:
-        raise ValueError("A lost grasp cannot use the current-grasp lift preview")
-
-    reference = accepted_pose(sample, consumed, previous)
-    teacher = MultitaskTeacher(initial, spec["mobile_condition"], geometry, instruction)
-    width = previous["width_m"]
+def clock_fixture(teacher, program, margin, sample, base):
+    """Exercise commit and replan clocks from fixed sensor values without physics or labels."""
     span = WORKING_OPEN_M - WORKING_CLOSED_M
-    if not WORKING_CLOSED_M <= width <= WORKING_OPEN_M:
-        raise ValueError("Require a last emitted command in the original jaw stroke")
-    fraction = (width - WORKING_CLOSED_M) / span
-    if result["target_grasp"]:
-        teacher.rotation = np.asarray(sample["tcp"])[:3, :3].copy()
-        teacher.lift_origin = np.asarray(sample["tcp"])[:3, 3].copy()
-        teacher.stage = "LIFT"
-        gripper = np.full(40, fraction)
-    else:
-        # The original two-second quintic opening, scaled to the still-closed stroke.
-        u = np.arange(40) * DT / OPENING_SECONDS
-        gripper = fraction + (1. - fraction) * u**3 * (10. + u * (-15. + 6. * u))
+    last = PREFIX_TICKS // ATOM_TICKS - 1
+    rows = []
+    for index in range(5):
+        start = sample["native_step"]
+        raw = program.decoded_H40
+        final_width = float(WORKING_CLOSED_M + span * raw[last, 9])
+        rows.append(dict(step=start, stage=teacher.stage, confirmed_as_fixture_only=True,
+                         extreme_speed_m_s=margin["maximum_speed_m_s"],
+                         first_width_m=float(WORKING_CLOSED_M + span * raw[0, 9]), assumed_last_width_m=final_width))
+        end = start + PREFIX_TICKS
+        reference = teacher.commit(program, end)
+        if index == 0:
+            try:
+                teacher.decide(sample, reference, base)
+            except ValueError as error:
+                if str(error) != "CONTINUOUS_TEACHER_REQUIRES_EXACT_CONSUMED_P10_CLOCK":
+                    raise
+            else:
+                raise ValueError("Early Teacher accepted a repeated decision clock")
+        if index < 4:
+            sample = dict(sample, native_step=end, time_s=end * .002)
+            previous = dict(width_m=final_width, source_native_s=(end - ATOM_TICKS) * .002, query_native_s=end * .002)
+            teacher, program, _, margin = checked_plan(teacher, sample, reference, previous, base)
+    return dict(fixed_measured_sensor_values=True, command_history_simulated=True,
+                rejected_repeated_clock=True, planned_prefixes=rows)
 
-    program, evidence = teacher.decide(sample, reference, base)
-    raw = program.decoded_H40.copy()
-    raw[:, 9] = gripper
-    candidate = FiftyMsProgram(raw, sample["tcp"], reference, base)
-    np.testing.assert_array_equal(candidate.reference_path[:, :9], program.reference_path[:, :9])
-    margin = label_margin_report(candidate.decoded_H40, previous)
-    if margin["training_margin_exceeded"] or margin["original_execution_speed_exceeded"]:
-        raise ValueError("Candidate failed original full H40 envelope or G7 continuity")
+
+def rejected_boundary_fixture(rejected, consumed, step):
+    decision = rejected["rejection"]
+    invalid = (
+        ("native_stop", dict(rejected, rejection=dict(decision, reason="NATIVE_SAFETY_STOP")), consumed, step),
+        ("already_installed", dict(rejected, rejection=dict(decision, installed=True)), consumed, step),
+        ("install_ack", dict(rejected, install_ACKs=[{"fixture_only": True}]), consumed, step),
+        ("partial_student_prefix", rejected, dict(consumed, full_P10=False), step),
+        ("advanced_clock", rejected, consumed, step + 1),
+    )
+    refused = []
+    for name, proposal, prefix, tick in invalid:
+        try:
+            rejected_boundary(proposal, prefix, tick)
+        except ValueError:
+            refused.append(name)
+        else:
+            raise ValueError(f"Accepted an invalid early handoff boundary: {name}")
+    return refused
+
+
+def preview(initial, sample, result, spec, rejected, consumed, previous, base,
+            static_geometry=None, check_planner_clock=False):
+    teacher, candidate, evidence, margin = prepare_early(initial, sample, result, spec, rejected, consumed, previous, base)
+    raw = candidate.decoded_H40
+    span = WORKING_OPEN_M - WORKING_CLOSED_M
+    width = previous["width_m"]
     np.testing.assert_allclose(WORKING_CLOSED_M + span * raw[0, 9], width, rtol=0, atol=1e-12)
     tcp = np.asarray(sample["tcp"])[:3, 3]
     report = dict(stage=evidence["stage"], original_teacher_motion_path=True,
@@ -129,12 +145,15 @@ def preview(initial, sample, result, spec, consumed, previous, base, static_geom
                 original_H40_shadow_margin=margin, preview=candidate.evidence())
     if static_geometry is not None:
         model, tcp_id = static_geometry
-        report["static_prefix"] = static_prefix(model, sample, candidate, Task.parse(instruction).color,
-                                                tcp_id, result["target_grasp"])
+        color = Task.parse(spec["task_instruction_id"]).color
+        report["static_prefix"] = static_prefix(model, sample, candidate, color, tcp_id, result["target_grasp"])
+    if check_planner_clock:
+        report["counterfactual_clock_fixture"] = clock_fixture(teacher, candidate, margin, sample, base)
+        report["invalid_boundary_fixtures_refused"] = rejected_boundary_fixture(rejected, consumed, sample["native_step"])
     return report
 
 
-def scan(case, record, check_static):
+def scan(case, record, check_static, check_planner_clock):
     path = case / "RESULT.private.json"
     terminal = read(path)
     spec_path = case / "EXECUTION_SPEC.json"
@@ -156,10 +175,8 @@ def scan(case, record, check_static):
     rejected_path = native / "g7-queries" / f"{query:04d}/QUERY_ACTUAL.private.json"
     consumed_path = native / "g7-queries" / f"{query - 1:04d}/QUERY_ACTUAL.private.json"
     rejected, consumed = read(rejected_path), read(consumed_path)
-    if (rejected["rejection"] != rejection or rejected["native_start_step"] != step
-            or rejected["install_ACKs"] or rejected["confirmed_atoms"] or consumed["query"] != query - 1):
-        raise ValueError("The failed return must be uninstalled and next after the actual student prefix")
-    last = exact_boundary(consumed, step)
+    if rejected["rejection"] != rejection:
+        raise ValueError("The archived policy rejection differs from the closed result")
     meta = read(rejected_path.with_name("INPUT_META.private.json"))
     previous = meta["previous_reference"]
     if meta["previous_reference_basis"] != "CONFIRMED_COMPLETE_NATIVE_ATOM_COMMAND_NOT_MEASURED_APERTURE":
@@ -184,22 +201,22 @@ def scan(case, record, check_static):
         base = next(row["measured_BASE_pose_hold"] for row in map(json.loads, commands)
                     if row.get("measured_BASE_pose_hold") is not None)
     with forbid_integration(mujoco) as calls:
-        result = preview(initial, reader.latest, measured, spec, consumed, previous, base,
-                         (model, reader.tcp) if check_static else None)
+        result = preview(initial, reader.latest, measured, spec, rejected, consumed, previous, base,
+                         (model, reader.tcp) if check_static else None, check_planner_clock)
     if calls:
         raise ValueError("The Teacher preview may not integrate")
     return dict(case=case.name, task=task, native_step=step, actual_rejected_query=query,
                 archived_terminal=ref(path), physical_state=ref(journal), rejected_receipt=ref(rejected_path),
-                last_actual_prefix=ref(consumed_path), issued_wire=last["wire_sha256"],
+                last_actual_prefix=ref(consumed_path), issued_wire=consumed["confirmed_intervals"][-1]["wire_sha256"],
                 original_score_events=measured["events"], candidate=result)
 
 
-def run(closure, cases, output, check_static=False):
+def run(closure, cases, output, check_static=False, check_planner_clock=False):
     report = read(closure)
     if (digest(closure) != FIFTH_CLOSE or not report["complete_reconciliation"]
             or report["terminal_cases"] != 2 or tuple(case.name for case in cases) != CASES):
         raise ValueError("Require the entire fixed fifth cohort")
-    results = [scan(case, row, check_static) for case, row in zip(cases, report["cases"], strict=True)]
+    results = [scan(case, row, check_static, check_planner_clock) for case, row in zip(cases, report["cases"], strict=True)]
     write(output, dict(fifth_cohort=ref(closure), cases=results, native_integrations=0,
                       model_forwards=0, optimizer_updates=0, new_training_labels=0))
     print(json.dumps(dict(receipt=ref(output), cases=[dict(case=row["case"], **row["candidate"]) for row in results])))
@@ -211,4 +228,5 @@ if __name__ == "__main__":
     parser.add_argument("output", type=Path)
     parser.add_argument("cases", nargs=2, type=Path)
     parser.add_argument("--check-static", action="store_true")
+    parser.add_argument("--check-planner-clock", action="store_true")
     run(**vars(parser.parse_args()))

@@ -12,7 +12,7 @@ from v64_observation_readback import grant_timing, receiver, rows, tick
 from v64_wbc_entry_readback import JOINTS, sha, stamp
 
 
-def analyze(case):
+def analyze(case, *, window=None):
     terminal = case / "RESULT.private.json"
     spec = case / "EXECUTION_SPEC.json"
     lease = json.loads((case / "control/LEASE.json").read_bytes())
@@ -33,6 +33,13 @@ def analyze(case):
             or any(p["native_end_step"] != p["native_start_step"] + 25 or not p["safety_valid"] for p in packets)
             or end > result["actual_native_integrations"]):
         raise ValueError("Expected an uninterrupted, safe, actually completed task prefix")
+
+    window_steps = set()
+    if window is not None:
+        window_start, window_end = window
+        if not start <= window_start < window_end <= end or any((step - start) % 25 for step in window):
+            raise ValueError("Require a diagnostic window on the completed 50 ms grid")
+        window_steps = set(range(window_start, window_end, 25))
 
     handoff_path = raw / "RECOVERY-HANDOFF-INTENT.private.json"
     handoff = None
@@ -104,8 +111,8 @@ def analyze(case):
         per_atom[boundary][status] += 1
         if boundary in handoff_intervals:
             handoff_intervals[boundary][status] += 1
-            if status == "current" and boundary not in first_current:
-                first_current[boundary] = control_tick, row["received_monotonic_s"]
+        if status == "current" and (boundary in handoff_intervals or boundary in window_steps):
+            first_current.setdefault(boundary, (control_tick, row["received_monotonic_s"]))
 
     summary = dict(case=case.name, terminal_sha256=sha(terminal), ros_sha256=sha(ros),
                 receiver_sha256=sha(raw / "planner.jsonl"), intervals_sha256=sha(packet_path),
@@ -117,9 +124,20 @@ def analyze(case):
                 native_stop=result["physics_stops"], independent_controller_witness=False)
     if handoff is not None:
         summary["recovery_handoff"] = dict(native_step=handoff, intent_sha256=sha(handoff_path),
-            first_current_offsets_ticks={step: call - step for step, (call, _) in first_current.items()},
+            first_current_offsets_ticks={step: first_current[step][0] - step
+                                         for step in handoff_intervals if step in first_current},
             inferred_bindings_by_interval=handoff_intervals,
-            ros_receipt_clock_timings=grant_timing(raw, first_current, result["actual_native_integrations"]))
+            ros_receipt_clock_timings=grant_timing(raw, {step: first_current[step]
+                for step in handoff_intervals if step in first_current}, result["actual_native_integrations"]))
+    if window_steps:
+        summary["diagnostic_window"] = [
+            dict(start_tick=step, end_tick=packet["native_end_step"], inferred_install_binding=per_atom[step],
+                 first_current_offset_ticks=first_current[step][0] - step if step in first_current else None,
+                 accepted_endpoint_z_m=packet["target_endpoint_EEF10"][2],
+                 actual_tcp_z_m=packet["actual_TCP"][2][3], actual_mount_z_m=packet["actual_mount"][2][3],
+                 actual_base_z_m=packet["qpos"][2])
+            for packet in packets if (step := packet["native_start_step"]) in window_steps
+        ]
     return summary
 
 
@@ -127,10 +145,11 @@ if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("output", type=Path)
     cli.add_argument("cases", type=Path, nargs="+")
+    cli.add_argument("--window", type=int, nargs=2, metavar=("START_TICK", "END_TICK"))
     args = cli.parse_args()
     if args.output.exists():
         raise FileExistsError(args.output)
-    records = [analyze(case) for case in args.cases]
+    records = [analyze(case, window=args.window) for case in args.cases]
     with args.output.open("x") as stream:
         json.dump(dict(records=records, physics_ticks=0, model_forwards=0), stream, indent=2, allow_nan=False)
         stream.write("\n")
