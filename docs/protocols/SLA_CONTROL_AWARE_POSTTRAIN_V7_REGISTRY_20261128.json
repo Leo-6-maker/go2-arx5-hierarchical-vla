@@ -1,0 +1,292 @@
+{
+  "schema": "sla-control-aware-posttrain-v7-v1",
+  "date_sgt": "2026-11-28",
+  "status": "PLAN_ONLY_NOT_DEPLOYED",
+  "predecessors": [
+    425,
+    521,
+    527,
+    528
+  ],
+  "evidence": {
+    "hopper": "7fc7608fd7bca917163fa476cacc897db5bf7f7f",
+    "core": "f67fe887a2cc3e3b9309c122db6773febbefb697",
+    "v65_logical_sealed": 2800,
+    "v65_last_segment": {
+      "pbs": "737978.hopper-m-02",
+      "start": 2800,
+      "end": 3000,
+      "state_at_receipt": "R"
+    },
+    "v65_3k_native": null,
+    "v65_unsealed_actual_extra": 100,
+    "v65_1k": {
+      "hold": [
+        2,
+        2
+      ],
+      "independent_hold": [
+        1,
+        4
+      ],
+      "grasp": [
+        3,
+        4
+      ],
+      "lift": [
+        1,
+        4
+      ],
+      "in_zone": [
+        1,
+        4
+      ],
+      "place": [
+        0,
+        4
+      ],
+      "place_contact_stop": [
+        3,
+        4
+      ],
+      "all_contact_stop": 6,
+      "pregrasp_stop": 4,
+      "promotion": false
+    },
+    "r4": {
+      "hold": [
+        2,
+        2
+      ],
+      "independent_hold": [
+        2,
+        4
+      ],
+      "grasp": [
+        4,
+        4
+      ],
+      "lift": [
+        3,
+        4
+      ],
+      "in_zone": [
+        2,
+        4
+      ],
+      "place": [
+        0,
+        4
+      ],
+      "place_contact_stop": [
+        0,
+        4
+      ]
+    },
+    "recovery": {
+      "attempts": 10,
+      "admitted": 4,
+      "windows": 155,
+      "full_h40": 143,
+      "v65_fixed_episodes": 3,
+      "v65_fixed_windows": 115,
+      "query_alignment": [
+        897,
+        897
+      ],
+      "measurement_command_gap_gt_2mm": 330,
+      "g7_rejections": 5,
+      "g7_gap_gt_2mm": 2,
+      "early_dynamic_verified": false
+    },
+    "loss": {
+      "active_channels": 7,
+      "padding": 25,
+      "total_channels": 32,
+      "p10_weighted": false,
+      "delta_used": false,
+      "recovery_fm_at_2500": 5000,
+      "recovery_aux_at_2500": 0,
+      "aux_total_at_2500": 10000
+    },
+    "pregrasp_static": {
+      "base_dominant_examples": [
+        "P02_701",
+        "N03_201"
+      ],
+      "arm_geometry_examples": [
+        "N03_202",
+        "VAL01_202"
+      ],
+      "not_causal_dynamic": true
+    }
+  },
+  "dispatch": {
+    "preserve_v65": true,
+    "immediate": [
+      "A0_context_reader_and_code",
+      "E0_control_trace",
+      "L0_loss_gradient_audit",
+      "D0_early_recovery_existing_slots",
+      "RTC0_frozen_offline",
+      "existing_core_production"
+    ],
+    "v7_formal_wait": [
+      "3k_complete",
+      "3k_native_evaluation",
+      "parent_selection",
+      "real_budget_reconciliation",
+      "matched_new_gpu_qualification"
+    ],
+    "new_v7_pbs_now": false,
+    "source500": "HOLD",
+    "source608": "PREPARE_ONLY",
+    "vanda": "PAUSED",
+    "no_auto_5k_10k": true
+  },
+  "invariants": {
+    "wbc_frozen": true,
+    "l1_frozen": true,
+    "physics_dt_s": 0.002,
+    "action_dt_s": 0.05,
+    "horizon": 40,
+    "executed_prefix": 10,
+    "g7_limit_mm_s": 40,
+    "student_gt": false,
+    "stop_post_integrations": 0,
+    "protected_data_train": false,
+    "no_hot_change": true
+  },
+  "first_experiment": {
+    "id": "V7-A-CONTEXT",
+    "parent_rule": "3K_IF_ORIGINAL_RETENTION_AND_STAGE_PROGRESS_ELSE_R4_200",
+    "data": "A93_R3_FIXED_MATCHED",
+    "new_adam_rng": true,
+    "arms": [
+      "CONTROL_NEUTRAL",
+      "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND"
+    ],
+    "same_parameter_count": true,
+    "initial_fixed_prediction_equal": true,
+    "same_loss_and_bank": true,
+    "steps_each": 500,
+    "conditional_cumulative_steps_each": 1000,
+    "batch": {
+      "go2": 96,
+      "robodojo": 16,
+      "libero": 16
+    },
+    "target": {
+      "old": 48,
+      "new": 46,
+      "recovery": 2
+    },
+    "aux": 4,
+    "aux_coefficient": 0.375,
+    "lr_peak": 8.481070829156122e-7,
+    "warmup": 50,
+    "cosine_end": 500,
+    "final_lr_fraction": 0.1,
+    "freeze_vlm_lora": true,
+    "train_dense_expert": true,
+    "new_engineering_suggested_max": 4,
+    "eval_cards_each": 10,
+    "priority_matched_hold_each": 6,
+    "require_actual_slot_mapping": true,
+    "selection_candidate": {
+      "seam_p95_relative_drop": 0.2,
+      "or_rejection_cases_reduction": 1
+    },
+    "gate": {
+      "hold": [
+        2,
+        2
+      ],
+      "independent_hold_min": 2,
+      "place_grasp": 4,
+      "place_lift_min": 3,
+      "place_in_zone_min": 2,
+      "place_complete_preferred": 1,
+      "new_safety_stop": 0,
+      "source_mae_alert_relative": 0.1
+    }
+  },
+  "candidates": [
+    {
+      "id": "B1",
+      "change": "active_padding_loss"
+    },
+    {
+      "id": "B2",
+      "change": "p10_weight",
+      "candidate": 2
+    },
+    {
+      "id": "B3",
+      "change": "delta_loss"
+    },
+    {
+      "id": "B4",
+      "change": "recovery_aux_selection"
+    },
+    {
+      "id": "B5",
+      "change": "go2_only_gradient_control"
+    },
+    {
+      "id": "B6",
+      "change": "retention_single_variable"
+    },
+    {
+      "id": "C",
+      "change": "iterative_dagger_recovery",
+      "candidate_target": {
+        "old": 48,
+        "new": 32,
+        "recovery": 16
+      },
+      "requires_diverse_data": true
+    },
+    {
+      "id": "D",
+      "change": "recap_value_residual",
+      "status": "PREPARE_ONLY_UNTIL_STABLE_NATIVE"
+    }
+  ],
+  "budget": {
+    "formal_default_cap": 8000,
+    "formal_conditional_cap": 15000,
+    "formal_known_at_2800": 3400,
+    "formal_at_3k_if_no_other": 3600,
+    "formal_after_a500_pair": 4600,
+    "formal_after_a1000_pair": 5600,
+    "engineering_cap": 24,
+    "engineering_known": 17,
+    "engineering_remaining_max": 7,
+    "a_suggested_engineering_max": 4,
+    "main_native_early_upper": 50,
+    "known_a250_1k_3k_eval_cards": 26,
+    "main_native_remaining_after_3k_max": 24,
+    "a_planned_eval_cards": 20,
+    "main_native_remaining_after_a_max": 4,
+    "recovery_first_attempt_cap": 20,
+    "recovery_actual_attempts": 10,
+    "recovery_remaining_max": 10,
+    "original_gpu_hours": 320,
+    "deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "reset": false,
+    "require_latest_actual": true
+  },
+  "actual_new_actions": {
+    "pbs": 0,
+    "formal_updates": 0,
+    "engineering_updates": 0,
+    "native_starts": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "links": {
+    "plan": "SLA_CONTROL_AWARE_POSTTRAIN_V7_PLAN_20261128.md",
+    "runbook": "SLA_CONTROL_AWARE_POSTTRAIN_V7_RUNBOOK_20261128.md"
+  }
+}
