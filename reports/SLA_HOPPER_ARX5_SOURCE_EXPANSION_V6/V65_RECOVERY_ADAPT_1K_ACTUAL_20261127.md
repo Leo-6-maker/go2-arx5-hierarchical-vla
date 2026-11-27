@@ -32,6 +32,14 @@ Corelab 用现场读取器重新读取全部 Recovery3。其双 RGB、归一化�
 
 200 封存 `f3c43e2b21e0d865f502ee8c790299ea4f0fa5ae6aa5bade13f3d6eb8e300cf0`，账本 `d4ccce1a51705f489102d9c7429940b27c77bfa39cb8b9b48edb138c7b61807c`。250 封存 `62dc5ac501842356b7c080608e12e01864e2b46fc5a3573786f6af6df6e0bd3e`，账本 `f9fd3d0c949610bdbe62e1bb25a7c8c9e0bb3e55f8480e77dad584c682f957a1`。
 
+第 300 步已完整封存，四个 Adam 计数和采样游标均为 300。累计 **38,400 FM、1,200 辅助及 600 Recovery** 实际访问，去前五步中位数 **4.959 s**。封存 `7c623bd89a7e4db38645e427f0fd679d071cec380bbc035803cb5189a0c2daff`，三百步账本 `0cde972b926c58fd24b6d3cc9b00f9f540e2bf699437226493fb7ee69862568c`。
+
+## 1K 后原生配对的输入回验
+
+Corelab 用三批关闭的原 L1 回合核对 **N02 蓝色 HOLD 2、PLACE 4、独立蓝色 HOLD 4** 的几何文件、模型种子、原 CUDA 噪声银行和候选将复用的 tick／查询上限。共 10 个场景与种子组合，均有现成原生同条件终态。对应原卡上限合计 **397,030 tick、1,360 次查询**。独立 HOLD 固定 N03／VAL01 各用原 201／202，一并核对原教师资格名册。回执 `113154c43071e9ddd16309d45bfba2f8382a41391b6f41e5ea3e4ec367bbf84d`。
+
+这一步核对的是配对输入和用量上限。候选执行仍在等待完整 1K、Corelab 独立恢复以及原生槽和资源核对。新增启动、积分及模型前向均为 0。
+
 ## Corelab 并行结果
 
 两张移动容器 QUAL 均在开爪前触发原安全门。完整 **0/2**，共 60,204 tick，STOP 后均为 0 tick。红卡已抓持并搬运，蓝卡止于抓持前。固定数据库存为 Embodiment **93/100**、Recovery **3/10**。容器接触与净空复算见 [Corelab 两卡终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/684c0ad6/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/V64_CORE_SELECTED_REFERENCE_ACTUAL_20261127.md#两张-mobile-container-qual-在开爪前触发原安全门)。
