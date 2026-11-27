@@ -15,8 +15,12 @@ import time
 
 SLOT = "MEV1-ENG-INTERFACE-00"
 CLOSE_SLOT = "MEV1-ENG-INTERFACE-01"
+DETACH_SLOT = "MEV1-ENG-INTERFACE-02"
 FIRST_OBSERVER = "40af8145262bdbe3da44952b9ac69230d99d7bf2f186886c480b55cf28dbc22d"
 FIRST_OBSERVER_NATIVE = "36467b6e43fb68e528e786c10e2660e461f514a0556ccda3e7f95dd8d8f16d18"
+CLOSE_OBSERVER = "3bfe53258c1f7d9e86999175f7d0a8326ace11198b20a6a616bb458f5b084f0c"
+CLOSE_OBSERVER_NATIVE = "0f57dc524954f9c1b47dc2db8640e0ed70e1dee8b28e9e7ef658764260b6f2bc"
+CLOSE_DISARM = "93e2f4c82c7aa382b23573f2b89b18bcfc17c882df7951993a152914ce3fc7b4"
 BASELINE = "MEV1-ENG-N1-SHORT-01"
 V64 = "531f826b36c1195db8c253ca71497f1aeb569c80"
 LIMIT = 8192
@@ -26,30 +30,42 @@ FROZEN = "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
 
 
 
-def slot_id(binding):
+def closed_teardown(prior, slot, result_sha, native_sha):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 
-    prior = binding.get("prior_observer")
-    if prior is None:
-        return SLOT
-    if prior["sha256"] != FIRST_OBSERVER:
-        raise PermissionError("The followup must point to the original closed observer")
+    if prior["sha256"] != result_sha:
+        raise PermissionError("The followup must point to the expected closed observer")
     first = read_pin(prior)
     native = read_pin(first["native"]["terminal"])
     root = Path(prior["path"]).parent
     identifiers = [row["name"] for row in native["owned_process_exits"] if row["exit_code"] != 0]
-    if (first["condition"] != SLOT or first["physical_requests"] != 1 or first["ticks"] != TICKS
-            or first["native"]["terminal"]["sha256"] != FIRST_OBSERVER_NATIVE
+    folder = root / "cases" / slot
+    if (first["condition"] != slot or first["physical_requests"] != 1 or first["ticks"] != TICKS
+            or first["native"]["terminal"]["sha256"] != native_sha
             or first["comparison"]["status"] != "WITHIN_FROZEN_STATE_TOLERANCE"
             or native["unsafe"] or native["technical_failure"] or native["shutdown_clean"]
             or identifiers != ["controller"]
             or any(json.loads(path.read_bytes())["status"] != "CLOSED" for path in
-                   (root / "control/LEASE.json", root / "cases" / SLOT / "control/LEASE.json"))):
+                   (root / "control/LEASE.json", folder / "control/LEASE.json"))):
         raise PermissionError("A technically isolated observer teardown failure is required")
+    return folder
+
+
+def slot_id(binding):
+    if "prior_observer" not in binding:
+        if "prior_close" in binding:
+            raise PermissionError("Both original observer attempts must remain bound")
+        return SLOT
+    closed_teardown(binding["prior_observer"], SLOT, FIRST_OBSERVER, FIRST_OBSERVER_NATIVE)
+    if "prior_close" in binding:
+        folder = closed_teardown(binding["prior_close"], CLOSE_SLOT, CLOSE_OBSERVER, CLOSE_OBSERVER_NATIVE)
+        if shutdown_receipt(folder)["sha256"] != CLOSE_DISARM:
+            raise PermissionError("Require the actual failed teardown after hardware disarm")
+        return DETACH_SLOT
     return CLOSE_SLOT
 
 
-def shutdown_receipt(folder):
+def shutdown_receipt(folder, *, detached=False):
     from go2arx5_vla.world_model.storage import digest
 
     trace = folder / "native-01/SELECTED_CONTROLLER.private.jsonl"
@@ -63,7 +79,15 @@ def shutdown_receipt(folder):
     if not (record["inferior_pid"] == header["inferior_pid"] and record["hardware_breakpoint_removed"]
             and record["signal_pending"] and record["monotonic_ns"] > last_read_ns):
         raise RuntimeError("Actual observer disarm did not occur before the inferior exited")
-    return dict(path=str(path), sha256=digest(path), actual_signal_disarm=True)
+    receipt = dict(path=str(path), sha256=digest(path), actual_signal_disarm=True)
+    if detached:
+        exit_path = trace.with_name(trace.name + ".detached-exit")
+        exit_record = json.loads(exit_path.read_bytes())
+        if (exit_record["inferior_pid"] != header["inferior_pid"] or exit_record["native_exit"] != 0
+                or exit_record["gdb_exit"] != 0 or not exit_record["protocol_complete"]):
+            raise RuntimeError("Require actual successful debugger and controller exits")
+        receipt["detached_native_exit"] = dict(path=str(exit_path), sha256=digest(exit_path))
+    return receipt
 
 
 def fixed_card(authority):
@@ -92,26 +116,52 @@ def controller_argv(spec, output, argv, env):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 
     controller = Path(argv[0])
+    identifier = slot_id(read_pin(spec["v64_observation"]))
     if (controller != Path(spec["controller_binary"]) or digest(controller) != FROZEN
-            or spec["panel_entry_id"] != slot_id(read_pin(spec["v64_observation"])) or spec["max_ticks"] != TICKS):
+            or spec["panel_entry_id"] != identifier or spec["max_ticks"] != TICKS):
         raise PermissionError("Only the frozen controller in this observer card can be traced")
     trace = output / "SELECTED_CONTROLLER.private.jsonl"
     observer = Path(spec["source_root"]) / "scripts/sla/v63_selected_reference_gdb.py"
     env = dict(env, SLA_SELECTED_REFERENCE_TRACE=str(trace), SLA_SELECTED_REFERENCE_TRACE_LIMIT=str(LIMIT))
     env.pop("SLA_SELECTED_REFERENCE_FIXTURE", None)
     env.pop("SLA_SELECTED_REFERENCE_FIXTURE_SOLUTION", None)
-    gdb = ["/usr/bin/gdb", "--nx", "--batch", "--return-child-result", "-ex", "set startup-with-shell off",
+    env.pop("SLA_SELECTED_REFERENCE_DETACH", None)
+    gdb = ["/usr/bin/gdb", "--nx", "--batch", "-ex", "set startup-with-shell off",
            "-ex", "set disable-randomization off", "-ex", "handle SIGINT nostop noprint pass",
            "-ex", "handle SIGTERM nostop noprint pass", "-ex", "starti", "-x", str(observer), "-ex", "continue"]
+    if identifier == DETACH_SLOT:
+        env["SLA_SELECTED_REFERENCE_DETACH"] = "1"
+        supervisor = observer.with_name("v64_observer_detached_child.py")
+        gdb[3:3] = ["-ex", "set confirm off"]
+        return [spec["python"], "-B", str(supervisor), str(trace), *gdb, "-ex", "detach", "--args", *argv], env
+    gdb.insert(3, "--return-child-result")
     return [*gdb, "--args", *argv], env
+
+
+def direct_children(pid):
+    task = Path("/proc") / str(pid) / "task" / str(pid)
+    try:
+        return (task / "children").read_text().split()
+    except FileNotFoundError:
+        return []
 
 
 def observer_child(wrapper, binary):
     proc = Path("/proc")
-    process = proc / str(wrapper)
-    children = (process / "task" / str(wrapper) / "children").read_text().split()
-    owned = []
+    debugger = Path("/usr/bin/gdb").resolve()
+    children = direct_children(wrapper)
+    candidates = set(children)
     for raw in children:
+        child = proc / raw
+        try:
+            if (child.stat().st_uid == os.getuid() and os.getsid(int(raw)) == wrapper
+                    and (child / "exe").resolve(strict=True) == debugger):
+                candidates.update(direct_children(raw))
+        except (FileNotFoundError, ProcessLookupError):
+            continue
+    candidates.update(direct_children(wrapper))
+    owned = []
+    for raw in candidates:
         child = proc / raw
         try:
             if (child.stat().st_uid == os.getuid() and (child / "exe").resolve(strict=True) == Path(binary).resolve()
@@ -217,8 +267,8 @@ def run(spec):
                           overhead_relative=terminal["wall_s"]/baseline_wall-1)
             if not terminal["shutdown_clean"]:
                 raise RuntimeError("Native observer did not satisfy the original clean shutdown gate")
-            if identifier == CLOSE_SLOT:
-                result["observer_shutdown"] = shutdown_receipt(folder)
+            if identifier in (CLOSE_SLOT, DETACH_SLOT):
+                result["observer_shutdown"] = shutdown_receipt(folder, detached=identifier == DETACH_SLOT)
             code = 0
     except Exception as error:
         result["failure"] = f"{type(error).__name__}: {error}"
@@ -244,7 +294,7 @@ def patched(path, edits):
     path.write_text(content)
 
 
-def stage(previous, root, overlay, source_sha, *, execute, prior_observer=None):
+def stage(previous, root, overlay, source_sha, *, execute, prior_observer=None, prior_close=None):
     from go2arx5_vla.world_model.mfree_recovery_v2 import launch_service, register
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin, validate
@@ -265,6 +315,8 @@ def stage(previous, root, overlay, source_sha, *, execute, prior_observer=None):
             or not baseline["detail"]["interface_protocol_pass"]):
         raise PermissionError("Require the closed unchanged N1 comparison before a fresh observation")
     prior = {} if prior_observer is None else {"prior_observer": pin(prior_observer)}
+    if prior_close is not None:
+        prior["prior_close"] = pin(prior_close)
     identifier = slot_id(prior)
     population = load_population(Path(original["logical"]["path"]))["engineering"]
     slot, = (row for row in population if row["id"] == identifier)
@@ -320,7 +372,8 @@ def stage(previous, root, overlay, source_sha, *, execute, prior_observer=None):
     for relative, changes in edits.items():
         patched(target/relative, changes)
         members[str(relative)] = digest(target/relative)
-    for name in ("v64_n1_observation.py", "v63_selected_reference_gdb.py", "v64_selected_policy_match.py"):
+    for name in ("v64_n1_observation.py", "v63_selected_reference_gdb.py", "v64_selected_policy_match.py",
+                 "v64_observer_detached_child.py"):
         relative = sl/name
         if (target/relative).exists():
             raise FileExistsError(relative)
@@ -387,6 +440,7 @@ if __name__ == "__main__":
     prep.add_argument("source_sha")
     prep.add_argument("--execute", action="store_true")
     prep.add_argument("--prior-observer", type=Path)
+    prep.add_argument("--prior-close", type=Path)
     check = sub.add_parser("preflight")
     check.add_argument("path", type=Path)
     args = vars(parser.parse_args())

@@ -146,7 +146,7 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
     return Observer()
 
 
-def disarm_on_native_signal(observer, output):
+def disarm_on_native_signal(observer, output, *, detach=False):
     """Remove hardware breakpoints before a normal controller thread teardown."""
     gdb.execute("catch signal SIGINT SIGTERM", to_string=True)
     catchpoint = gdb.breakpoints()[-1]
@@ -160,7 +160,10 @@ def disarm_on_native_signal(observer, output):
                 stream.write("\n")
 
     __main__.record_observer_signal_disarm = record_disarm
-    gdb.execute(f"commands {catchpoint.number}\nsilent\npython record_observer_signal_disarm()\ncontinue\nend",
+    # The outer GDB command detaches after the catchpoint returns. Detaching
+    # while a breakpoint command list is still active can crash GDB.
+    continuation = "" if detach else "continue\n"
+    gdb.execute(f"commands {catchpoint.number}\nsilent\npython record_observer_signal_disarm()\n{continuation}end",
                 to_string=True)
 
 
@@ -171,4 +174,5 @@ if "SLA_SELECTED_REFERENCE_TRACE" in os.environ:
     OBSERVER = install(os.environ["SLA_SELECTED_REFERENCE_TRACE"],LIMIT,
                        fixture=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE")=="1",
                        fixture_solution=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE_SOLUTION")=="1")
-    disarm_on_native_signal(OBSERVER, os.environ["SLA_SELECTED_REFERENCE_TRACE"] + ".shutdown")
+    disarm_on_native_signal(OBSERVER, os.environ["SLA_SELECTED_REFERENCE_TRACE"] + ".shutdown",
+                            detach=os.environ.get("SLA_SELECTED_REFERENCE_DETACH") == "1")
