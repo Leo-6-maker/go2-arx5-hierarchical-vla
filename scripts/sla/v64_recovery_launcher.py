@@ -3,9 +3,10 @@ import argparse
 import hashlib
 from pathlib import Path
 
-from v64_recovery_cohorts import (FIRST_NOISE, FIRST_ROSTER, FOURTH_ROSTER, NOISE, OPEN_NOISE, OPEN_ROSTER,
-                                 SECOND_NOISE, SECOND_ROSTER, read_roster, roster_ref)
+from v64_recovery_cohorts import (FIFTH_ROSTER, FIRST_NOISE, FIRST_ROSTER, FOURTH_NOISE, FOURTH_ROSTER, NOISE,
+                                 OPEN_NOISE, OPEN_ROSTER, SECOND_NOISE, SECOND_ROSTER, read_roster, roster_ref)
 from v64_recovery_followup import FIRST_RESULT, OPEN_REPLAY, SECOND_RESULT, THIRD_RESULT
+from v64_recovery_legacy import FOURTH_RESULT
 from v64_recovery_roster import PLAN, QUERIES, TERMINAL, TICKS, fixed, sha
 
 
@@ -48,7 +49,7 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
                 or noise["prior_recovery_noise_sha256"] != FIRST_NOISE
                 or roster["max_native_requests_cumulative"] != 20):
             raise ValueError("The followup requires the entire actual first cohort")
-        if cohort in (OPEN_ROSTER, FOURTH_ROSTER):
+        if cohort in (OPEN_ROSTER, FOURTH_ROSTER, FIFTH_ROSTER):
             checked_ref(roster["second_prior_roster"], SECOND_ROSTER)
             prior = checked_ref(roster["second_prior_terminal"], SECOND_RESULT)
             replay = checked_ref(roster["supported_open_replay"], OPEN_REPLAY)
@@ -58,13 +59,22 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
                     or replay["new_native_integrations"] or replay["new_model_forwards"]):
                 raise ValueError("The supported OPEN scope requires both paid pairs and the actual shadow evidence")
             cumulative += prior["terminal_cases"]
-        if cohort == FOURTH_ROSTER:
+        if cohort in (FOURTH_ROSTER, FIFTH_ROSTER):
             checked_ref(roster["third_prior_roster"], OPEN_ROSTER)
             prior = checked_ref(roster["third_prior_terminal"], THIRD_RESULT)
             if (not prior["complete_reconciliation"] or not prior["forward_ledger_reconciled"]
                     or prior["terminal_cases"] != 2 or prior["train_recovery_count"] != 1
                     or noise["third_recovery_noise_sha256"] != OPEN_NOISE):
                 raise ValueError("The fourth cohort requires the complete third terminal and realized CUDA bank")
+            cumulative += prior["terminal_cases"]
+        if cohort == FIFTH_ROSTER:
+            registered = checked_ref(roster["fourth_prior_roster"], FOURTH_ROSTER)
+            prior = checked_ref(roster["fourth_prior_terminal"], FOURTH_RESULT)
+            if (not prior["complete_reconciliation"] or not prior["forward_ledger_reconciled"]
+                    or prior["terminal_cases"] != prior["denominator"] or prior["denominator"] != 2
+                    or [row["id"] for row in prior["cases"]] != [row["id"] for row in registered["cases"]]
+                    or noise["fourth_recovery_noise_sha256"] != FOURTH_NOISE):
+                raise ValueError("The fifth cohort requires the entire fourth terminal and CUDA bank")
             cumulative += prior["terminal_cases"]
         if cumulative != roster["previous_recovery_native_requests"]:
             raise ValueError("The paid Recovery denominator changed")
