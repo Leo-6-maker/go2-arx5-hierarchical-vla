@@ -1,4 +1,4 @@
-"""Replay the registered R5 diagnostic prefix with the V6.4 carry handoff."""
+"""Replay closed PLACE diagnostics with the V6.4 carry handoff."""
 
 import argparse
 import json
@@ -17,6 +17,8 @@ from v64_recovery_carry import CarryStall, prepare
 
 
 CLOSED_R5 = "6c4d553d8cf6fc3989fedbbd98c08b5d7dca626922a4aa2ddcd5323797317496"
+CLOSED_A250 = "34bbcc873cc07b64268326cc6b61c813188e704f83ddcadb93dad2262c704022"
+ARCHIVES = {CLOSED_R5: "R5", CLOSED_A250: "ADAPT0250"}
 
 
 def read(path):
@@ -25,8 +27,9 @@ def read(path):
 
 def run(case, output):
     result_path = case / "RESULT.private.json"
-    if digest(result_path) != CLOSED_R5:
-        raise ValueError("Read only the fixed closed R5 diagnostic")
+    original = digest(result_path)
+    if original not in ARCHIVES:
+        raise ValueError("Read only a closed, recorded PLACE diagnostic")
     terminal = read(result_path)
     spec = read(case / "EXECUTION_SPEC.json")
     if (read(case / "control/LEASE.json")["status"] != "CLOSED" or not terminal["shutdown_clean"]
@@ -44,7 +47,7 @@ def run(case, output):
             raise ValueError("More than one query ended at the same native tick")
         consumption[tick] = (command, digest(path))
     if len(consumption) != terminal["detail"]["actual_SLA_queries"]:
-        raise ValueError("The actual R5 query denominator changed")
+        raise ValueError("The actual student query denominator changed")
     first, last = min(consumption)-250, max(consumption)
     scene = Path(spec["model_path"])
     if digest(scene) != spec["frozen_files"][str(scene)]:
@@ -79,20 +82,25 @@ def run(case, output):
             possible.append(event)
             if pilot is None and tick != last:
                 previous = read(queries / f"{command['query']+1:04d}/INPUT_META.private.json")["previous_reference"]
-                teacher, program, _, margin = prepare(initial, sample, spec["mobile_condition"], geometry,
-                    task.instruction, command, previous, base, model)
+                try:
+                    teacher, program, _, margin = prepare(initial, sample, spec["mobile_condition"], geometry,
+                        task.instruction, command, previous, base, model)
+                except ValueError as error:
+                    pilot = dict(event, full_H40_compiled=False, reason=str(error))
+                    continue
                 actual_first_width = float(program.reference_path[0, 9])*MECHANICAL_TRAVEL_M
                 if abs(actual_first_width-previous["width_m"]) > 1e-12:
                     raise ValueError("The first candidate Teacher command moved the holding jaw")
-                pilot = dict(event, teacher_phase=teacher.stage, measured_open_fraction=sample["gripper_open_fraction"],
+                pilot = dict(event, full_H40_compiled=True, teacher_phase=teacher.stage,
+                             measured_open_fraction=sample["gripper_open_fraction"],
                              last_student_issued_width_m=previous["width_m"], first_teacher_width_m=actual_first_width,
                              original_full_H40_margin=margin)
     recorded = terminal["detail"]["score"]
     if (calls or score is None or score.last != last or score.states != last-first+1
             or score.events != recorded["events"] or score.unsafe_states or score.gaps
-            or not np.isclose(score.maximum_lift, recorded["maximum_lift_m"]) or pilot is None):
-        raise ValueError("Validate the original scored trajectory and an actual eligible paused stall")
-    write(output, dict(scope="ARCHIVED_R5_EVALUATION_ONLY", closed_result_sha256=CLOSED_R5,
+            or not np.isclose(score.maximum_lift, recorded["maximum_lift_m"])):
+        raise ValueError("Validate the original scored trajectory")
+    write(output, dict(scope="ARCHIVED_EVALUATION_ONLY", model=ARCHIVES[original], closed_result_sha256=original,
           individual_verified_P10=len(consumption), scored_native_states=score.states,
           eligible_stalls=len(possible), first_handoff_candidate=pilot, candidates=possible,
           actual_teacher_takeovers=0, recovery_train_admissions=0, new_native_integrations=0,
