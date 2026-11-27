@@ -103,11 +103,10 @@ def resume(learner_, parent, expected, start):
     import jax
     import orbax.checkpoint as ocp
 
-    from v65_recovery_extension import original
-
-    _, seal = original(parent)
+    seal = expected
     path = parent / "run" / f"STEP{start:04d}"
-    require(expected == seal and seal["files"] == endpoint_files(path), "Incomplete exact 1K parent bytes")
+    require(seal["step"] == seal["bank_cursor"] == start and seal["files"] == endpoint_files(path),
+            "Incomplete exact continuation parent bytes")
     with ocp.PyTreeCheckpointer() as checkpointer:
         state = checkpointer.restore(path.resolve(), item=snapshot(learner_))
     counts = {key: int(value[0].count) for key, value in state["optimizer"].items()}
@@ -130,19 +129,30 @@ def run(capsule):
     binding_file = capsule / "BINDING.json"
     binding = read(binding_file)
     start, end = binding.get("formal_start", 0), binding["formal_end"]
+    timer = None
     require(binding["plan"] == PLAN and binding["r4_receipt"] == R4
             and binding["formal_prior_updates"] + end-start <= 8000
             and binding["parent"]["sha256"] == PARENT_RELEASE, "Unregistered V6.5 execution")
     if start:
+        from v65_recovery_chain import StepTiming, boundary
         from v65_recovery_extension import BASE_SEAL, BASE_TERMINAL, COURSE, END as EXTENDED, START, extended_bank, original
 
-        require(start == START and end == EXTENDED and binding["course"] == COURSE and binding["engineering_updates"] == 0
+        require(START <= start < end == EXTENDED and binding["course"] == COURSE and binding["engineering_updates"] == 0
                 and binding["base_seal"] == BASE_SEAL and binding["base_terminal"] == BASE_TERMINAL,
                 "Only the scientific 1K-to-3K continuation is registered")
-        previous = Path(binding["base_capsule"])
-        original_binding, parent_seal = original(previous)
+        origin = Path(binding["base_capsule"])
+        previous = origin
+        previous_seal, previous_terminal = BASE_SEAL, BASE_TERMINAL
+        original_binding, parent_seal = original(origin)
         require(all(binding[k] == original_binding[k] for k in ("data", "parent", "source_hold", "r4_receipt")),
                 "Continuation input lineage changed")
+        if start > START:
+            expected = binding["previous_boundary"]
+            previous = Path(expected["path"])
+            recorded, parent_seal = boundary(origin, previous, Path(binding["bank"]["path"]))
+            require(recorded == expected and recorded["step"] == start, "The finite prior state changed since admission")
+            previous_seal, previous_terminal = recorded["seal"], recorded["terminal"]
+        timer = StepTiming()
     else:
         require(end == END and binding["engineering_updates"] == PROBE and PROBE <= binding["engineering_remaining"],
                 "Original V6.5 engineering and 1K boundary changed")
@@ -163,7 +173,7 @@ def run(capsule):
         jax.config.update("jax_compilation_cache_dir", str(capsule / "jit-cache"))
         bank = binding["bank"]
         bank_root = Path(bank["path"]).parent
-        data = extended_bank(previous, bank_root, bank["sha256"]) if start else bind(config, bank_root, bank["sha256"])
+        data = extended_bank(origin, bank_root, bank["sha256"]) if start else bind(config, bank_root, bank["sha256"])
         graphs, inherited, base, ancestry = corrected_parent(Path(paths["custody"]), Path(paths["short"]), r4)
         active, frozen, lora, audit = partitions(inherited, base)
         write(capsule / "PARAMETERS.json", audit)
@@ -183,7 +193,7 @@ def run(capsule):
                 raise TimeoutError("Original stop or checkpoint reserve reached")
 
         def make():
-            return learner(data, graphs, jax.tree.map(lambda x: x, active), frozen, clock)
+            return learner(data, graphs, jax.tree.map(lambda x: x, active), frozen, clock, trace=timer)
 
         @jax.jit
         def finite(parameters):
@@ -192,6 +202,8 @@ def run(capsule):
         def update(current, end):
             guard()
             row = current.update(end, MICRO, 4, guard)
+            if timer is not None:
+                row["timing_spans_s"] = timer.take()
             index = current.step - 1
             target = banks["target"][index]
             parts = dict(Counter(groups[target].tolist()))
@@ -229,12 +241,12 @@ def run(capsule):
             formal.mkdir(mode=0o700)
             contract = formal / "RUN_CONTRACT.json"
             write(contract, dict(plan=PLAN, course=COURSE, seed=SEED, start=start, end=end, ancestry=ancestry,
-                  new_adam_from_r4=False, previous_seal=BASE_SEAL, previous_terminal=BASE_TERMINAL,
+                  new_adam_from_r4=False, previous_seal=previous_seal, previous_terminal=previous_terminal,
                   binding_sha256=sha(binding_file), actual_training_scope_sha256=sha(capsule / "PARAMETERS.json")))
             with closing(make()) as current:
                 state = resume(current, previous, parent_seal, start)
                 require(bool(finite(current.parameters)), "Nonfinite restored trainable parameters")
-                write(formal / "RESUME.json", dict(state, parent_seal=BASE_SEAL, bank_sha256=bank["sha256"],
+                write(formal / "RESUME.json", dict(state, parent_seal=previous_seal, bank_sha256=bank["sha256"],
                                                    engineering_updates=0))
                 train_segment(current, formal, update, save, end, start=start)
             return

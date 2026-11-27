@@ -213,14 +213,14 @@ def host_readback(data, output, *, step=0, bank_sha256):
                        recovery_episodes=demographics_[0][targets[-2:]].tolist(), optimizer_visits=0))
 
 
-def learner(data, graphs, parameters, frozen, rng):
+def learner(data, graphs, parameters, frozen, rng, *, trace=None):
     from v4_long_engine import LongLearner
 
     datasets, tokenizer, banks, slots, rates, _ = data
     return LongLearner(graphs=graphs, parameters=parameters, frozen=frozen, datasets=datasets,
                        tokenizer=tokenizer, banks=banks, auxiliary_slots=slots, auxiliary=datasets["target"].aux,
                        cursors=dict.fromkeys(BATCH, 0), rates=rates, rng=rng, batch_by_domain=BATCH,
-                       gradient_join=partial(reduced_fm, batch=BATCH, aux_weight=AUX), domain_roles={k:k for k in BATCH})
+                       gradient_join=partial(reduced_fm, batch=BATCH, aux_weight=AUX), domain_roles={k:k for k in BATCH}, trace=trace)
 
 
 def host(config, root, expected, output):
