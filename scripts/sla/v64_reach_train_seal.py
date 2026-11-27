@@ -8,6 +8,7 @@ import numpy as np
 
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import write
+from scripts.sla.v62_mobile_qualification import REACH_TRAIN_SCOPES, SCOPES, pinned
 from scripts.sla.v64_reach_qual import train_language
 from v64_a78_delta import boundary_reads, statistics
 from v64_recovery_seal import accepted_rows, actual_queries, ref, typed_labels
@@ -75,14 +76,18 @@ def export_nominal(case, spec, capture, queries, label, destination, stats):
 
 
 def build(wave, state, actions, template, out):
-    roster = ("EF5_T_REACH_01", "EF5_T_REACH_02")
+    wave_lease = read(wave / "control/LEASE.json")
+    wave_spec = read(pin(wave / "EXECUTION_SPEC.json", wave_lease["spec_sha256"]))
+    binding = pinned(wave_spec["v62_mobile_qualification"])
+    require(binding["variant"] in REACH_TRAIN_SCOPES, "Only registered Reach TRAIN can be sealed")
+    _, roster, _ = SCOPES[binding["variant"]]
     parent = read(template)
     stats_refs = {"state_statistics": parent["state_sha256"], "action_statistics": parent["action_sha256"]}
     stats = statistics(dict(statistics_sha256=stats_refs), state, actions)
     terminal_path = wave / "RESULT.private.json"
     group = read(terminal_path)
     rows = group["records"]
-    require(read(wave / "control/LEASE.json")["status"] == "CLOSED" and group["unreconciled"] is None
+    require(wave_lease["status"] == "CLOSED" and group["unreconciled"] is None
             and rows == read(wave / "RECORDS.private.json") and 0 < group["paid_requests"] <= len(roster)
             and tuple(row["condition"] for row in rows) == roster[:len(rows)]
             and group["paid_requests"] == len(rows), "Require the original reconciled Reach TRAIN roster")

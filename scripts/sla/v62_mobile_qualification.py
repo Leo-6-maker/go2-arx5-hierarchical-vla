@@ -41,10 +41,15 @@ REACH_REPAIR_CASE = "b9ffb1cb26774ec7c6e766d82893aec05b2ffc5a0f769934bc1f6519325
 REACH_REPAIR_WAVE = "847c78ede7dcb4b19c6786800007db4f1c0a6933db4c6d9b796a86760812fed8"
 REACH_TRAIN_IDS = ("EF5_T_REACH_01", "EF5_T_REACH_02")
 REACH_TRAIN_GEOMETRY = "1af08a4eb6fc5fac4a26630a378a5963fd2cd363bc29137ffbfe30508c7ca5f6"
+REACH_WAVE2_IDS = ("EF5_T_REACH_03", "EF5_T_REACH_04")
+REACH_WAVE2_GEOMETRY = "3de669760f801209edfb8d5f2641d9c2c7c653a00935ed7d51952cca2b4706ca"
+REACH_WAVE1_TERMINAL = "64cc057a42622225bce85755605a556586df8c4afe7ec6651edc3322c9f731f2"
+REACH_WAVE1_LABELS = "e5c542bc56ccdd5d0bb466110f8b80ea7eeb875a9aa6a8a3eeade895cfb815a8"
 REACH_TRAIN_QUAL = "a2e61eae7f07ee2f06aab25bded6c59af55a9222bcc5c03f2e2e6344ac804f25"
 REACH_TRAIN_READS = ("80dffe79a2c0789665170bd82a58ed1fee5adcfc2e76f6bfc9193380fef415f7",
                      "402f1bab61e1687c93cc38a04e5971352a5bafffa19cc6c2e5d2db344094eb1e")
-REACH_SCOPES = ("REACH_QUAL", "REACH_QUAL_R2", "REACH_TRAIN")
+REACH_TRAIN_SCOPES = ("REACH_TRAIN", "REACH_TRAIN_WAVE2")
+REACH_SCOPES = ("REACH_QUAL", "REACH_QUAL_R2", *REACH_TRAIN_SCOPES)
 FIRST_TRAIN = ("EF5_T_MOBILE_01", "EF5_T_MOBILE_05")
 F1_RED_TRAIN = ("EF5_T_MOBILE_03", "EF5_T_MOBILE_07")
 DIVERSE_PLACE = {
@@ -79,6 +84,7 @@ PLACE_WAVES = {"DIVERSE_PLACE": DIVERSE_PLACE, "DIVERSE_PLACE_WAVE2": DIVERSE_PL
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "REACH_QUAL": ("QUAL", REACH_IDS, GEOMETRY),
           "REACH_QUAL_R2": ("QUAL", REACH_REPAIR_IDS, GEOMETRY),
           "REACH_TRAIN": ("TRAIN", REACH_TRAIN_IDS, REACH_TRAIN_GEOMETRY),
+          "REACH_TRAIN_WAVE2": ("TRAIN", REACH_WAVE2_IDS, REACH_WAVE2_GEOMETRY),
           "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
           "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
           "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY),
@@ -170,6 +176,17 @@ def reach_train_evidence(roster):
             raise ValueError("Reach TRAIN requires matching native success and R4 readback")
 
 
+def reach_wave2_evidence(roster):
+    previous, labels = roster["previous_reach_train"], roster["previous_reach_labels"]
+    terminal = pinned(previous)
+    batch = pinned(labels)
+    if (previous["sha256"] != REACH_WAVE1_TERMINAL or labels["sha256"] != REACH_WAVE1_LABELS
+            or terminal["exit_code"] or terminal["unreconciled"] is not None or terminal["paid_requests"] != 2
+            or batch["wave"] != previous or batch["train"] != 2 or batch["rejected"]
+            or tuple(entry["episode"]["id"] for entry in batch["episodes"]) != REACH_TRAIN_IDS):
+        raise ValueError("The second Reach TRAIN wave requires the sealed original native results")
+
+
 def rows(population, binding):
     roster = pinned(binding)
     variant = roster.get("variant", roster.get("split", "QUAL"))
@@ -190,8 +207,10 @@ def rows(population, binding):
     if variant in REACH_SCOPES:
         if variant == "REACH_QUAL_R2":
             reach_repair_evidence(roster)
-        if variant == "REACH_TRAIN":
+        if variant in REACH_TRAIN_SCOPES:
             reach_train_evidence(roster)
+        if variant == "REACH_TRAIN_WAVE2":
+            reach_wave2_evidence(roster)
         expected = ((identities[0], "F1", "HOLD-red"), (identities[1], "F2", "HOLD-blue"))
         if tuple((r["id"], r["family"], r["instruction"]) for r in selected) != expected:
             raise ValueError("Only the preregistered Reach/Orient scenes have this transport route")
@@ -276,6 +295,8 @@ def rows(population, binding):
 
 
 def capacity_file(root):
+    if root.name in ("REACH-TRAIN-02", "REACH-TRAIN-OVERLAY-02"):
+        return root.parent / "REACH-TRAIN-CAPACITY-02.json"
     if root.name in ("REACH-TRAIN-01", "REACH-TRAIN-OVERLAY-01"):
         return root.parent / "REACH-TRAIN-CAPACITY-01.json"
     if root.name in ("REACH-QUAL-02", "REACH-QUAL-OVERLAY-02"):
@@ -352,7 +373,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
           legacy_red_train=False, place_catalog=None, place_left_proof=None, previous_place_wave=None,
           stop_prefix=None, after_clean_place_wave=False, after_mixed_place_wave=False,
           final_place_labels=None, final_place_sweep=None, reach_qual=False, reach_repair=None,
-          reach_train=None, reach_readbacks=()):
+          reach_train=None, reach_readbacks=(), previous_reach_train=None, previous_reach_labels=None):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
     if legacy_red_train and (qualification or repair):
@@ -372,6 +393,9 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         raise ValueError("Use the independent Reach TRAIN route with its qualification receipts")
     if bool(reach_train) != bool(reach_readbacks):
         raise ValueError("Reach TRAIN requires both R4 qualification readbacks")
+    reach_wave2 = previous_reach_train is not None
+    if reach_wave2 != bool(previous_reach_labels) or (reach_wave2 and not reach_train):
+        raise ValueError("The second Reach TRAIN wave requires the closed first wave and R4 labels")
     if reach_qual and any((qualification, repair, legacy_red_train, place_catalog, previous_place_wave, final_place)):
         raise ValueError("Use the original independent Reach/Orient qualification alone")
     if reach_repair is not None and not reach_qual:
@@ -384,7 +408,8 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         raise ValueError("The successor wave requires closed production and its earlier evidence")
     if stop_prefix and (not (place_catalog and previous_place_wave) or place_left_proof):
         raise ValueError("The fourth wave requires the previous terminal and the two actual contact prefixes")
-    variant = ("REACH_TRAIN" if reach_train else "REACH_QUAL_R2" if reach_repair else "REACH_QUAL" if reach_qual else
+    variant = ("REACH_TRAIN_WAVE2" if reach_wave2 else "REACH_TRAIN" if reach_train else
+               "REACH_QUAL_R2" if reach_repair else "REACH_QUAL" if reach_qual else
                "DIVERSE_PLACE_WAVE7" if final_place else "DIVERSE_PLACE_WAVE6" if after_mixed_place_wave else
                "DIVERSE_PLACE_WAVE5" if after_clean_place_wave else
                "DIVERSE_PLACE_WAVE4" if stop_prefix else
@@ -401,6 +426,12 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         final_refs = dict(reach_parent=ref(reach_train / "RESULT.private.json"),
                           reach_r4_readbacks=[ref(path) for path in reach_readbacks])
         reach_train_evidence(final_refs)
+        if reach_wave2:
+            if plain(previous_reach_train / "control/LEASE.json")["status"] != "CLOSED":
+                raise ValueError("The first Reach production lease must be closed")
+            final_refs.update(previous_reach_train=ref(previous_reach_train / "RESULT.private.json"),
+                              previous_reach_labels=ref(previous_reach_labels))
+            reach_wave2_evidence(final_refs)
     if reach_repair:
         failed = reach_repair / "cases" / REACH_IDS[0]
         if any(plain(folder / "control/LEASE.json")["status"] != "CLOSED" for folder in (reach_repair, failed)):
@@ -465,7 +496,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
                 ("def episode(adapter):\n",
                  "def episode(adapter):\n"
                  "    binding = adapter.spec.get('v62_mobile_qualification')\n"
-                 "    if binding and read_pin(binding).get('variant') in ('REACH_QUAL', 'REACH_QUAL_R2', 'REACH_TRAIN'):\n"
+                 "    if binding and read_pin(binding).get('variant') in " + repr(REACH_SCOPES) + ":\n"
                  "        from scripts.sla.v64_reach_qual import episode as reach\n"
                  "        return reach(adapter)\n"),
             ],
@@ -577,4 +608,6 @@ if __name__ == "__main__":
     parser.add_argument("--reach-repair", type=Path)
     parser.add_argument("--reach-train", type=Path)
     parser.add_argument("--reach-readbacks", type=Path, nargs=2)
+    parser.add_argument("--previous-reach-train", type=Path)
+    parser.add_argument("--previous-reach-labels", type=Path)
     stage(**vars(parser.parse_args()))
