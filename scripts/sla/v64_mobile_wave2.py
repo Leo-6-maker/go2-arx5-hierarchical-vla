@@ -31,6 +31,9 @@ BLUE_ROSTER = (
     ("EF5_T_MOBILE_11", "F1", "MOBILE_GRASP", "blue", (-9, 6), (6, -9), 702311),
     ("EF5_T_MOBILE_12", "F1", "MOBILE_GRASP", "blue", (4, -6), (-6, 5), 702312),
 )
+FINAL_BLUE_ROSTER = (("EF5_T_MOBILE_13", "F1", "MOBILE_GRASP", "blue", (-6, 11), (9, -8), 702313),)
+BLUE_WAVE2 = "9b6a01177d8a99102011f086b666e66e1d1570aa5240054edcd33a1495b68b14"
+BLUE_WAVE2_TERMINAL = "4c2b89eb69fa3bfdfa5826134702a7ab8bcd856da611458ad0e6d797dc1550d2"
 RECOVERY_TRAIN = "e9b7552d4c10779f4c87a04ef23c252ee2f599a69a24df5d8f94624166ad6cba"
 
 
@@ -62,10 +65,13 @@ def module(path):
     return loaded
 
 
-def prepare(site, base_input, train_manifest, qualification, prior, legacy, work, revision, *, blue=False):
+def prepare(site, base_input, train_manifest, qualification, prior, legacy, work, revision, *,
+            blue=False, final_blue=False):
     if work.exists() or not re.fullmatch("[0-9a-f]{40}", revision):
         raise ValueError("A fresh CPU staging root and exact publication commit are required")
+    blue = blue or final_blue
     variant = "BLUE" if blue else "RED"
+    wave = "03" if final_blue else "02"
     qualified = site / ("MOBILE-QUAL-01" if blue else "MOBILE-F1-RED-TRAIN-01")
     result_path = check(qualified / "RESULT.private.json", QUALIFIED_BLUE if blue else QUALIFIED_RED)
     result = load(result_path)
@@ -90,6 +96,14 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
             ("SCENE-FACTORY-MOBILE-F1-RED-02", "090b104d5a8fdc270a39307513ebbf855c12cff48c583ed22ad75db994a40535"),
             ("SCENE-FACTORY-DIVERSE-PLACE-06", "7a5f0a2466cc139c589112b186bdfcd7f76c2fd6b610fc84b43359ea1a15b001"),
         ))
+    if final_blue:
+        earlier_root = site / "MOBILE-F1-BLUE-TRAIN-02"
+        terminal = load(check(earlier_root / "RESULT.private.json", BLUE_WAVE2_TERMINAL))
+        if (load(earlier_root / "control/LEASE.json")["status"] != "CLOSED"
+                or terminal["paid_requests"] != 2 or terminal["admitted_train"] != 2):
+            raise ValueError("The two preceding blue training cards must be sealed")
+        sources.append(check(site / "SCENE-FACTORY-MOBILE-F1-BLUE-02" / "COMPILED_POPULATION.private.json",
+                             BLUE_WAVE2))
     protected = [row for source in sources for row in load(source)["clusters"]]
     held = load(check(site / "RECOVERY-TRAIN-ROSTER-01.json", RECOVERY_TRAIN))["cases"]
     if blue:
@@ -102,9 +116,9 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
     factory = module(compiler_path)
     if tuple(factory.MOBILE_TRAIN[2][0:4]) != ("EF5_T_MOBILE_03", "F1", "MOBILE_GRASP", "red"):
         raise ValueError("The original mobile compiler roster changed")
-    roster = BLUE_ROSTER if blue else ROSTER
+    roster = FINAL_BLUE_ROSTER if final_blue else BLUE_ROSTER if blue else ROSTER
     factory.MOBILE_TRAIN = roster
-    compiled = site / f"SCENE-FACTORY-MOBILE-F1-{variant}-02"
+    compiled = site / f"SCENE-FACTORY-MOBILE-F1-{variant}-{wave}"
     factory.build(base_input, train_manifest, compiled, qualification=qualification, protected_population=exclude)
     population = compiled / "COMPILED_POPULATION.private.json"
     # Preserve the original launcher and change only its fixed TRAIN population.
@@ -119,8 +133,8 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
     compile(body, str(dispatch), "exec")
     with dispatch.open("x") as stream:
         stream.write(body)
-    overlay = site / f"MOBILE-F1-{variant}-TRAIN-OVERLAY-02"
-    root = site / f"MOBILE-F1-{variant}-TRAIN-02"
+    overlay = site / f"MOBILE-F1-{variant}-TRAIN-OVERLAY-{wave}"
+    root = site / f"MOBILE-F1-{variant}-TRAIN-{wave}"
     options = dict(qualification=qualified) if blue else dict(legacy_red_train=True)
     module(dispatch).stage(prior, population, legacy, overlay, root, revision, **options)
     write(work / "ACTUAL.json", dict(stage="V64_F1_MOBILE_GRASP_FOLLOWUP_PREFLIGHT",
@@ -136,4 +150,5 @@ if __name__ == "__main__":
         parser.add_argument(arg, type=Path)
     parser.add_argument("revision")
     parser.add_argument("--blue", action="store_true")
+    parser.add_argument("--final-blue", action="store_true")
     prepare(**vars(parser.parse_args()))
