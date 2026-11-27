@@ -21,15 +21,19 @@ AUDITS = {
     "R4": "820b1ef46077355da86c85c448bd83e2b552ab199f138439d057e82f53f79741",
     "R5": "f63869a7dda6f47a93985becd6811cfb88e80d967cbafb506546b3c24421563c",
 }
+DIVERSE_PLACE_COUNTS = {"CARRY": 2, "LOWER": 3, "OPEN": 4, "WITHDRAW": 3}
 
 
 def run(role, worker, roster, roster_sha, retention, out, *, execute):
     source = read(pin(roster, roster_sha))
     rows = source["rows"]
+    counts = (DIVERSE_PLACE_COUNTS if source.get("diagnostic") == "NEW_RED_PLACE"
+              else {"STILL_CARRYING": 24, "RELEASE_NEIGHBORHOOD": 24})
+    forwards = sum(counts.values())
     require(source["plan"] == PLAN and source["evaluation_only"]
-            and len({r["id"] for r in rows}) == len(rows) == 48
-            and Counter(r["category"] for r in rows) == {"STILL_CARRYING": 24, "RELEASE_NEIGHBORHOOD": 24}
-            and len({r["noise_id"] for r in rows}) == 48,
+            and len({r["id"] for r in rows}) == len(rows) == forwards
+            and Counter(r["category"] for r in rows) == counts
+            and len({r["noise_id"] for r in rows}) == forwards,
             "Use the fixed paired teacher roster")
     spec = read(worker)
     bind_imports(spec)
@@ -65,7 +69,7 @@ def run(role, worker, roster, roster_sha, retention, out, *, execute):
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1, "One Corelab GPU is required")
         out.mkdir(mode=0o700)
         write(out / "START.json", dict(role=role, roster=ref(roster), gpu=gpu,
-                                       checkpoint=manifest["checkpoint_sha256"], max_forwards=48))
+                                       checkpoint=manifest["checkpoint_sha256"], max_forwards=forwards))
         jax.config.update("jax_compilation_cache_dir", str(out / "jit-cache"))
         deadline = time.monotonic() + 900
         acquisition = site_pinned(receiver["input"])["target_D1"]
@@ -98,15 +102,18 @@ def run(role, worker, roster, roster_sha, retention, out, *, execute):
                 metrics = score(actions, observation, old)
                 width = 2 + 40 * actions[:, 9]
                 metrics.update(max_open_p10_mm=float(width[:10].max()), max_open_h40_mm=float(width.max()))
+                if "teacher" in row:
+                    open_atoms = np.flatnonzero(width >= 39.6)
+                    metrics["first_39_6_mm_atom"] = int(open_atoms[0]) if len(open_atoms) else None
             action = stem.with_suffix(".npz")
             with action.open("xb") as f:
                 np.savez(f, normalized=result["normalized"], physical_H40=actions)
             record = dict(row, action=ref(action), metrics=metrics, actual_noise_sha256=seen[-1])
             write(stem.with_suffix(".RETURNED.json"), record)
             results.append(record)
-        require(len(seen) == len(results) == 48, "Incomplete actual teacher-feedback sample")
+        require(len(seen) == len(results) == forwards, "Incomplete actual teacher-feedback sample")
         write(out / "RESULT.json", dict(role=role, checkpoint=manifest["checkpoint_sha256"], roster=ref(roster),
-              rows=results, model_forwards=48, physics_ticks=0, training_updates=0))
+              rows=results, model_forwards=forwards, physics_ticks=0, training_updates=0))
 
 
 if __name__ == "__main__":
