@@ -3,9 +3,9 @@ import argparse
 import hashlib
 from pathlib import Path
 
-from v64_recovery_cohorts import (FIRST_NOISE, FIRST_ROSTER, NOISE, OPEN_ROSTER,
+from v64_recovery_cohorts import (FIRST_NOISE, FIRST_ROSTER, FOURTH_ROSTER, NOISE, OPEN_NOISE, OPEN_ROSTER,
                                  SECOND_NOISE, SECOND_ROSTER, read_roster, roster_ref)
-from v64_recovery_followup import FIRST_RESULT, OPEN_REPLAY, SECOND_RESULT
+from v64_recovery_followup import FIRST_RESULT, OPEN_REPLAY, SECOND_RESULT, THIRD_RESULT
 from v64_recovery_roster import PLAN, QUERIES, TERMINAL, TICKS, fixed, sha
 
 
@@ -27,6 +27,8 @@ def checked_ref(reference, expected):
 def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
     roster, cohort = read_roster(roster_path)
     parent = fixed(parent_path, R4_COMPARISON)
+    if cohort not in NOISE:
+        raise ValueError("Seal and bind the actual qualified CUDA noise before authorizing the cohort")
     noise = fixed(noise_path, NOISE[cohort])
     cards = roster["cases"]
     expected_noise = [(card["id"], query, (card["policy_seed"] + query) % 2**31)
@@ -46,7 +48,7 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
                 or noise["prior_recovery_noise_sha256"] != FIRST_NOISE
                 or roster["max_native_requests_cumulative"] != 20):
             raise ValueError("The followup requires the entire actual first cohort")
-        if cohort == OPEN_ROSTER:
+        if cohort in (OPEN_ROSTER, FOURTH_ROSTER):
             checked_ref(roster["second_prior_roster"], SECOND_ROSTER)
             prior = checked_ref(roster["second_prior_terminal"], SECOND_RESULT)
             replay = checked_ref(roster["supported_open_replay"], OPEN_REPLAY)
@@ -55,6 +57,14 @@ def registration_inputs(roster_path, teacher_wave, parent_path, noise_path):
                     or noise["second_recovery_noise_sha256"] != SECOND_NOISE
                     or replay["new_native_integrations"] or replay["new_model_forwards"]):
                 raise ValueError("The supported OPEN scope requires both paid pairs and the actual shadow evidence")
+            cumulative += prior["terminal_cases"]
+        if cohort == FOURTH_ROSTER:
+            checked_ref(roster["third_prior_roster"], OPEN_ROSTER)
+            prior = checked_ref(roster["third_prior_terminal"], THIRD_RESULT)
+            if (not prior["complete_reconciliation"] or not prior["forward_ledger_reconciled"]
+                    or prior["terminal_cases"] != 2 or prior["train_recovery_count"] != 1
+                    or noise["third_recovery_noise_sha256"] != OPEN_NOISE):
+                raise ValueError("The fourth cohort requires the complete third terminal and realized CUDA bank")
             cumulative += prior["terminal_cases"]
         if cumulative != roster["previous_recovery_native_requests"]:
             raise ValueError("The paid Recovery denominator changed")

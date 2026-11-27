@@ -8,6 +8,7 @@ from v64_recovery_roster import PLAN, PROTECTED, QUERIES, TICKS, fixed, seed, sh
 FIRST_ROSTER = "e9b7552d4c10779f4c87a04ef23c252ee2f599a69a24df5d8f94624166ad6cba"
 FIRST_RESULT = "c59b8c4118397c31c9d05eb45e7a7749e30dcb7fb6b3dc04d9df97015cf0aba2"
 SECOND_RESULT = "9dd1cf7bca7ea087bebb183c2a2d117fb9dbb8d87b890ca85c3357da1b1c4e2c"
+THIRD_RESULT = "70092525ee39111c7df6e6132b8cb72abbecf2774fbc32e963d0c2d917298862"
 OPEN_REPLAY = "bfda1426f0e91c6cbc8efe81df2ab3c590973152c034582d404a11dff805de49"
 FOLLOWUP = (
     ("V64_RECOVERY_TRAIN_03", "EF5_DIVERSE_PLACE_005", "PLACE-blue-left", "03",
@@ -31,13 +32,24 @@ OPEN_FOLLOWUP = (
      "1a7ff398ece8bf3ee79f3271b60937aca05361a907032dc4fc16c81614ddd0d9"),
 )
 OPEN_ROSTER = tuple(row[:3] for row in OPEN_FOLLOWUP)
+FOURTH_FOLLOWUP = (
+    ("V64_RECOVERY_TRAIN_07", "EF5_DIVERSE_PLACE_003", "PLACE-red-right", "02",
+     "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe",
+     "fd4ab7afadf92a45d097e638c23cc488a27d6916c890705be265513c9a62e3e0",
+     "7e5c429d5a28c57ced42b175942adabe8e6501ad53ed1ac1553b088c9ff401e9"),
+    ("V64_RECOVERY_TRAIN_08", "EF5_DIVERSE_PLACE_013", "PLACE-red-right", "07",
+     "daf08131c5c1cfff79aff2dc731c6cac44982f6afa9bb9a435f5612196ccfaaf",
+     "f7015c60e83a9091625144988110c5ebaed2457fd5c55ef9fb322da44dee4873",
+     "d76c2d6465701b0697a9c223c1cc6ca855c8d68bb4c3e73bbc9ec790847aaaee"),
+)
+FOURTH_ROSTER = tuple(row[:3] for row in FOURTH_FOLLOWUP)
 
 
 def ref(path):
     return dict(path=str(path), sha256=sha(path))
 
 
-def bind(site, output, *, prior_open_replay=None):
+def bind(site, output, *, prior_open_replay=None, after_third_wave=False):
     import json
 
     first_path = site / "RECOVERY-TRAIN-ROSTER-01.json"
@@ -53,6 +65,8 @@ def bind(site, output, *, prior_open_replay=None):
     followup = FOLLOWUP
     prior_cases = list(first["cases"])
     history = {}
+    if after_third_wave and prior_open_replay is None:
+        raise ValueError("The fourth wave retains the independently verified OPEN handoff")
     if prior_open_replay is not None:
         from v64_recovery_cohorts import SECOND_ROSTER
 
@@ -71,6 +85,20 @@ def bind(site, output, *, prior_open_replay=None):
         prior_cases.extend(second["cases"])
         history = dict(handoff_protocol="CARRY_OR_SUPPORTED_OPEN", supported_open_replay=ref(prior_open_replay),
                        second_prior_roster=ref(second_path), second_prior_terminal=ref(second_close))
+    if after_third_wave:
+        from v64_recovery_cohorts import OPEN_ROSTER as THIRD_ROSTER
+
+        third_path = site / "RECOVERY-TRAIN-ROSTER-03.json"
+        third_close = site / "RECOVERY-TRAIN-SEALED-03/RESULT.json"
+        third, closed = fixed(third_path, THIRD_ROSTER), fixed(third_close, THIRD_RESULT)
+        if (closed["terminal_cases"] != 2 or closed["denominator"] != 2 or closed["train_recovery_count"] != 1
+                or not closed["complete_reconciliation"] or not closed["forward_ledger_reconciled"]
+                or tuple(row["id"] for row in closed["cases"]) != tuple(row["id"] for row in third["cases"])
+                or any(row["state"] != "CLOSED" for row in closed["cases"])):
+            raise ValueError("Require the entire paid third cohort to be independently closed")
+        followup = FOURTH_FOLLOWUP
+        prior_cases.extend(third["cases"])
+        history.update(third_prior_roster=ref(third_path), third_prior_terminal=ref(third_close))
     taken = blocked | {row["scene_sha256"] for row in prior_cases}
     used_reset = {row["reset"] for row in protected} | {row["reset"] for row in prior_cases}
     used_noise = {row["policy_seed"] % 2**31 for row in prior_cases}
@@ -126,4 +154,5 @@ if __name__ == "__main__":
     cli.add_argument("site", type=Path)
     cli.add_argument("output", type=Path)
     cli.add_argument("--prior-open-replay", type=Path)
+    cli.add_argument("--after-third-wave", action="store_true")
     bind(**vars(cli.parse_args()))

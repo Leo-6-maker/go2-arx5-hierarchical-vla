@@ -6,13 +6,15 @@ import hashlib
 from pathlib import Path
 
 from scripts.pi0292.durable import OwnerLock, write
-from v64_recovery_cohorts import FIRST_NOISE, FIRST_ROSTER, OPEN_ROSTER, SECOND_NOISE, SECOND_ROSTER, read_roster
+from v64_recovery_cohorts import (
+    FIRST_NOISE, FIRST_ROSTER, FOURTH_ROSTER, OPEN_NOISE, OPEN_ROSTER, SECOND_NOISE, SECOND_ROSTER, read_roster,
+)
 from v64_recovery_roster import PLAN, QUERIES, fixed
 
 QUALIFIED_WORKER = "361709e35c2bf427d5644e7af37a925014ab52861c075d4782749afd371d6bfc"
 
 
-def seal(roster, worker, previous, output, *, prior_recovery=None, second_recovery=None):
+def seal(roster, worker, previous, output, *, prior_recovery=None, second_recovery=None, third_recovery=None):
     import jax
     import numpy as np
 
@@ -22,7 +24,8 @@ def seal(roster, worker, previous, output, *, prior_recovery=None, second_recove
     historical = fixed(previous, binding["sha256"])
     if (str(previous.resolve(strict=True)) != binding["path"]
             or (cohort != FIRST_ROSTER) != (prior_recovery is not None)
-            or (cohort == OPEN_ROSTER) != (second_recovery is not None)):
+            or (cohort in (OPEN_ROSTER, FOURTH_ROSTER)) != (second_recovery is not None)
+            or (cohort == FOURTH_ROSTER) != (third_recovery is not None)):
         raise ValueError("The required old CUDA runtime or prior Recovery noise binding changed")
     prior_ids = {row["noise_id"] for row in historical["tensors"]}
     prior_bytes = {row["gpu_sha256"] for row in historical["tensors"]}
@@ -41,6 +44,13 @@ def seal(roster, worker, previous, output, *, prior_recovery=None, second_recove
         prior_ids.update(row["noise_id"] for row in second["tensors"])
         prior_bytes.update(row["gpu_sha256"] for row in second["tensors"])
         history["second_recovery_noise_sha256"] = SECOND_NOISE
+    if third_recovery is not None:
+        third = fixed(third_recovery, OPEN_NOISE)
+        if third["roster_sha256"] != OPEN_ROSTER or len(third["tensors"]) != 2 * QUERIES:
+            raise ValueError("Require the complete third Recovery noise bank")
+        prior_ids.update(row["noise_id"] for row in third["tensors"])
+        prior_bytes.update(row["gpu_sha256"] for row in third["tensors"])
+        history["third_recovery_noise_sha256"] = OPEN_NOISE
 
     def value_sha(noise_id):
         value = np.asarray(jax.random.normal(jax.random.PRNGKey(noise_id), (1, 40, 32), dtype=np.float32))
@@ -74,4 +84,5 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("--prior-recovery", type=Path)
     parser.add_argument("--second-recovery", type=Path)
+    parser.add_argument("--third-recovery", type=Path)
     seal(**vars(parser.parse_args()))
