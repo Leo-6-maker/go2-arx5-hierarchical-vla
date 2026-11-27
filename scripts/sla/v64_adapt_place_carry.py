@@ -11,6 +11,7 @@ from v64_adapt_pregrasp_attribution import digest, journal, read, trajectory
 
 CELLS = ("P01_701", "P01_702", "P02_701", "P02_702")
 ATOM = 25
+VARIANTS = {"A250": "ADAPT0250", "V6.5-1K": "RECOVERY1000"}
 
 
 def measured_carry(case, outcome, zone, half_size, lift):
@@ -60,7 +61,7 @@ def describe(sequence, direction):
                 max_installed_jaw_fraction=max(row["requested_jaw_fraction"] for _, row in sequence))
 
 
-def review(cell, paths):
+def review(cell, paths, *, candidate_role="A250"):
     specs = [read(case / "EXECUTION_SPEC.json") for case in paths]
     outcomes = [read(case / "RESULT.private.json") for case in paths]
     if (any(read(case / "control/LEASE.json")["status"] != "CLOSED" for case in paths)
@@ -71,15 +72,16 @@ def review(cell, paths):
         raise ValueError("The original matched and independently closed PLACE conditions are required")
     identity = dict(cell=cell, policy_seed=specs[0]["comparison_policy_seed"],
                     terminal_sha256=[digest(case / "RESULT.private.json") for case in paths])
+    roles = ("R4", candidate_role)
     if any(result["unsafe"] for result in outcomes):
         return dict(identity, status="SAFETY_TERMINAL_RETAINED",
-                    unsafe=dict(zip(("R4", "A250"), [r["unsafe"] for r in outcomes], strict=True)))
+                    unsafe=dict(zip(roles, [r["unsafe"] for r in outcomes], strict=True)))
     timing = []
     for result in outcomes:
         events = result["detail"]["score"]["events"]
         timing.append({name: events.get(name, {}).get("native_step") for name in (
             "target_grasp", "target_lift20mm", "correct_region", "released")})
-    identity["events"] = dict(zip(("R4", "A250"), timing, strict=True))
+    identity["events"] = dict(zip(roles, timing, strict=True))
     if not all(row["target_lift20mm"] is not None for row in timing):
         return dict(identity, status="NO_PAIRED_LIFT")
 
@@ -104,12 +106,13 @@ def review(cell, paths):
                 common_samples=common, role={
                     name: dict(common=describe(sequence[:common], direction),
                                full=describe(sequence, direction), witness=witness)
-                    for name, (sequence, witness) in zip(("R4", "A250"), held, strict=True)})
+                    for name, (sequence, witness) in zip(roles, held, strict=True)})
 
 
-def run(candidate, parent, output):
-    paired = [review(cell, (parent / f"R4_DEV_0200_{cell}", candidate / f"ADAPT0250_{cell}"))
-              for cell in CELLS]
+def run(candidate, parent, output, *, candidate_role="A250", cell=None):
+    prefix = VARIANTS[candidate_role]
+    paired = [review(key, (parent / f"R4_DEV_0200_{key}", candidate / f"{prefix}_{key}"),
+                     candidate_role=candidate_role) for key in (CELLS if cell is None else (cell,))]
     with output.open("x") as stream:
         json.dump(dict(schema="V64_PAIRED_POST_LIFT_ACCEPTED_REFERENCE", native_integrations=0,
                        model_generations=0, optimizer_updates=0, controller_selected_reference=False,
@@ -121,4 +124,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for argument in ("candidate", "parent", "output"):
         parser.add_argument(argument, type=Path)
+    parser.add_argument("--candidate-role", choices=VARIANTS, default="A250")
+    parser.add_argument("--cell", choices=CELLS)
     run(**vars(parser.parse_args()))
