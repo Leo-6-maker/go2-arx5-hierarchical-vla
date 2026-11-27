@@ -40,6 +40,12 @@ REACH_TRAIN = {
         ("EF5_T_REACH_03", "F1", "REACH_ORIENT", "red", (-8, 5), (11, -9), 702603),
         ("EF5_T_REACH_04", "F2", "REACH_ORIENT", "blue", (9, -8), (-4, 3), 702604),
     ),
+    3: (
+        ("EF5_T_REACH_05", "F1", "REACH_ORIENT", "red", (-6, 11), (5, -9), 702605),
+        ("EF5_T_REACH_06", "F2", "REACH_ORIENT", "blue", (11, -6), (-8, 5), 702606),
+        ("EF5_T_REACH_07", "F1", "REACH_ORIENT", "red", (-2, 6), (8, -4), 702607),
+        ("EF5_T_REACH_08", "F2", "REACH_ORIENT", "blue", (5, -9), (-6, 8), 702608),
+    ),
 }
 DIVERSE_PLACE_TRAIN = (
     ("EF5_DIVERSE_PLACE_001", "F1", "DIVERSE_PLACE", "red", (-1, 3), (-5, 0), 702501),

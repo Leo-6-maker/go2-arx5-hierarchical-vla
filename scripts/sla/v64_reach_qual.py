@@ -7,7 +7,12 @@ from go2arx5_vla.world_model.multitask_carry_geometry_v6 import world_yaw
 
 
 YAW_DEG = {"EF5_Q_REACH_01": 5., "EF5_Q_REACH_01_R2": 5., "EF5_Q_REACH_02": -5.}
-TRAIN_YAW_DEG = {"EF5_T_REACH_01": 5., "EF5_T_REACH_02": -5., "EF5_T_REACH_03": 5., "EF5_T_REACH_04": -5.}
+TRAIN_YAW_DEG = {
+    "EF5_T_REACH_01": 5., "EF5_T_REACH_02": -5.,
+    "EF5_T_REACH_03": 5., "EF5_T_REACH_04": -5.,
+    "EF5_T_REACH_05": 5., "EF5_T_REACH_06": -5.,
+    "EF5_T_REACH_07": 5., "EF5_T_REACH_08": -5.,
+}
 POSITION_LIMIT_M = .005
 ROTATION_LIMIT_RAD = np.deg2rad(2.)
 DWELL_TICKS = 250
