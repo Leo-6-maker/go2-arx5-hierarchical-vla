@@ -37,3 +37,26 @@ def condition_action_tokens(action_tokens, condition, projection):
         raise ValueError("Incompatible Go2 action-token condition")
     residual = (condition @ projection).astype(action_tokens.dtype)
     return action_tokens + jnp.expand_dims(residual, axis=1)
+
+
+class Go2ActionCondition:
+    """Apply V7-A at the shared suffix call used by flow training and sampling."""
+
+    def __init__(self, policy, condition, projection):
+        if not policy.pi05 or policy.action_horizon != 40 or policy.action_dim != 32:
+            raise ValueError("The previous-command context is only defined for the Go2 H40 graph")
+        self._policy = policy
+        self._condition = condition
+        self._projection = projection
+
+    def __getattr__(self, name):
+        return getattr(self._policy, name)
+
+    def embed_suffix(self, observation, noisy_actions, timestep):
+        tokens, padding, causal, time_condition = self._policy.embed_suffix(observation, noisy_actions, timestep)
+        return condition_action_tokens(tokens, self._condition, self._projection), padding, causal, time_condition
+
+    def sample_actions(self, rng, observation, *, num_steps=10, noise=None):
+        from openpi.models.pi0 import Pi0
+
+        return Pi0.sample_actions(self, rng, observation, num_steps=num_steps, noise=noise)
