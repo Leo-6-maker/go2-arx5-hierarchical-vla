@@ -32,6 +32,89 @@ class Release:
                 and self.open_ack_tick <= tick)
 
 
+class ReleaseTracker:
+    """Bind a physical release to one actual increasing OPEN atom."""
+
+    def __init__(self, start, initial_z, selected):
+        if selected not in ("red", "blue") or not math.isfinite(initial_z):
+            raise ValueError("A finite initial position of the selected object is required")
+        self.selected = selected
+        self.initial_z = initial_z
+        self.last = start - 1
+        self.last_width_fraction = None
+        self.grasp_tick = None
+        self.lift_tick = None
+        self.open_interval = None
+        self.open_wire = None
+        self.separation_tick = None
+        self.separation_ticks = []
+        self.recontact_ticks = []
+        self.was_touching = False
+        self.fault = None
+
+    def invalidate(self, tick, reason):
+        if self.fault is None:
+            self.fault = (tick, reason)
+
+    def consumed(self, atom, accepted, is_open):
+        start = atom["native_start_step"]
+        end = atom["native_end_step"]
+        width = atom["installed_EEF10"][9]
+        wire = atom["installed_reference_sha256"]
+        if (start != self.last or end != start + 25 or atom["ticks"] != 25
+                or atom["safety_valid"] is not True
+                or not 0 <= width <= 1
+                or not math.isclose(atom["gripper_command"]["source_native_s"], .002 * start, rel_tol=0, abs_tol=1e-8)
+                or accepted["accepted_wire_sha256"] != wire
+                or accepted["exact_receiver_knot"] is not True
+                or not math.isclose(accepted["native_time_s"], .002 * end, rel_tol=0, abs_tol=1e-8)
+                or not math.isclose(accepted["receiver_knot_time_s"], .002 * end, rel_tol=0, abs_tol=1e-8)):
+            self.invalidate(self.last, "INVALID_ACTUAL_OPEN_RECEIPT")
+            raise ValueError("A complete actual atom and exact accepted boundary are required")
+        if (is_open and self.open_interval is None and self.lift_tick is not None
+                and self.was_touching and self.last_width_fraction is not None
+                and width > self.last_width_fraction + 1e-8):
+            self.open_interval = start, end
+            self.open_wire = wire
+        elif self.open_interval is not None and width < self.last_width_fraction - 1e-8:
+            self.invalidate(start, "NATIVE_GRIP_COMMAND_REVERSED_AFTER_OPEN")
+        self.last_width_fraction = width
+
+    def observe(self, sample):
+        from go2arx5_vla.world_model.multitask_score_v6 import LIFT
+
+        tick = sample["native_step"]
+        target = sample["objects"][self.selected]
+        z = target["pose"][2, 3]
+        if tick != self.last + 1 or not math.isfinite(z):
+            self.invalidate(tick, "NONCONTIGUOUS_OR_NONFINITE_STATE")
+        if not sample["safety_valid"] or not sample["gripper_state_valid"]:
+            self.invalidate(tick, "INVALID_SAFETY_OR_GRIPPER_STATE")
+        self.last = tick
+        if target["native_grasp"] and target["hand_contact"]:
+            if self.grasp_tick is None:
+                self.grasp_tick = tick
+            if self.lift_tick is None and z - self.initial_z >= LIFT:
+                self.lift_tick = tick
+        touching = target["hand_contact"]
+        if self.lift_tick is not None and self.was_touching and not touching:
+            if self.open_interval is None or tick <= self.open_interval[0]:
+                self.invalidate(tick, "SEPARATION_BEFORE_OPEN")
+            elif self.separation_tick is None:
+                self.separation_tick = tick
+                self.separation_ticks.append(tick)
+        if self.separation_tick is not None and touching:
+            self.recontact_ticks.append(tick)
+            self.separation_tick = None
+        self.was_touching = touching
+
+    def result(self):
+        if self.fault is not None or self.separation_tick is None:
+            return None
+        release = Release(self.grasp_tick, self.lift_tick, *self.open_interval, self.separation_tick)
+        return release if release.observed(self.last) else None
+
+
 def contact_permitted(geoms, distance_m, selected, tick, release, *, inside, touching_robot):
     """Add only post-release contact with the exact static bowl floor."""
     from go2arx5_vla.world_model.multitask_contact_v6 import OBJECT_GEOMS, PENETRATION_LIMIT, observer_permitted
