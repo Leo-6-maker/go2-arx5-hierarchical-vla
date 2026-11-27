@@ -1,0 +1,239 @@
+{
+  "schema": "sla-recovery-adapt-v65-1k-v1",
+  "status": "PLAN_ONLY_NOT_DEPLOYED",
+  "date_sgt": "2026-11-27",
+  "user_decision": "TRAIN_1000_THEN_SCIENTIFIC_EVAL",
+  "predecessors": [
+    521,
+    522,
+    523,
+    524,
+    525,
+    526,
+    527
+  ],
+  "evidence": {
+    "hopper_ref": "3bdce937c0334600f88043c32a10a2191e85f281",
+    "core_ref": "f88de4730e1e425b181d6dbf82f9cf9037bfb841",
+    "r4_seal": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+    "r4_release": "0896270957c478197e586a71f2d2d3a55464a5bb7436cf3d390fa14804926433",
+    "a250_promotion": false,
+    "a250_native": {
+      "hold": [
+        0,
+        2
+      ],
+      "grasp": [
+        3,
+        4
+      ],
+      "lift": [
+        2,
+        4
+      ],
+      "in_zone": [
+        1,
+        4
+      ],
+      "place": [
+        0,
+        4
+      ],
+      "safety_stop": 4
+    },
+    "a93": {
+      "complete_episodes": 93,
+      "windows": 7916,
+      "old_episodes": 52,
+      "new_episodes": 41,
+      "increment_manifest": "1069a89550ea667686a5670249f7b41aa950eb3e687b835fc5e600ca61c08773",
+      "hopper_readback": "0a52eb35bd1152cf07f688c0b839eddc875b1d13eb7f1ab6f788553d81797e53"
+    },
+    "r3": {
+      "episodes": 3,
+      "attempts": 6,
+      "windows": 115,
+      "actual_consumed_intervals": 1150,
+      "teacher_suffix_only": true,
+      "hopper_train_readback_required": true,
+      "episode_ids": [
+        "V64_RECOVERY_TRAIN_02",
+        "V64_RECOVERY_TRAIN_04",
+        "V64_RECOVERY_TRAIN_06"
+      ],
+      "label_receipts": [
+        "adc0c371c431017700462ab352532b5cd1df51c776d528f5afc4704f0ec118dc",
+        "89ee4dcefa4d099aac2acadf5830ac90d7d129a3df1514f1486722d0e6e87ca2",
+        "9a788dc687a0f44e3b19e447c1d9ee786176e84d885ef382ff4845cf56130698"
+      ]
+    }
+  },
+  "dispatch": {
+    "next": "V65_A93_R3_1K",
+    "old_source500": "HOLD",
+    "old_a250_continuation": "HOLD",
+    "source608": "PREPARE_ONLY",
+    "vanda": "PAUSED",
+    "parent": "R4-200",
+    "new_optimizer_rng": true,
+    "seed_suggested": 655202611,
+    "formal_end": 1000,
+    "scientific_eval_at": [
+      1000
+    ],
+    "interim_scientific_eval": false,
+    "technical_guards": true,
+    "conditional_later_3k": "SEPARATE_POST_1K_DECISION",
+    "actual_job_id": null
+  },
+  "scope": {
+    "freeze": [
+      "vision_encoder",
+      "vlm_dense",
+      "existing_R4_vlm_lora",
+      "wbc",
+      "l1"
+    ],
+    "train": [
+      "dense_action_expert",
+      "go2_io",
+      "robodojo_io",
+      "libero_io"
+    ],
+    "freeze_existing_lora_values_not_remove": true,
+    "verify_step0_function": true
+  },
+  "recipe": {
+    "fm": {
+      "go2_old": 48,
+      "go2_new": 46,
+      "go2_recovery": 2,
+      "robodojo_old": 8,
+      "robodojo_expanded": 8,
+      "libero": 16,
+      "ville": 0,
+      "sc_vla": 0
+    },
+    "aux": 4,
+    "aux_old": 2,
+    "aux_new": 2,
+    "micro": {
+      "go2": 32,
+      "robodojo": 16,
+      "libero": 16,
+      "aux": 4
+    },
+    "fm_weights": {
+      "go2": 0.75,
+      "robodojo": 0.125,
+      "libero": 0.125
+    },
+    "aux_coefficient": 0.375,
+    "aux_target_ratio": 0.5
+  },
+  "expected_visits": {
+    "fm_total": 128000,
+    "go2_total": 96000,
+    "go2_old": 48000,
+    "go2_new": 46000,
+    "go2_recovery": 2000,
+    "robodojo_old": 8000,
+    "robodojo_expanded": 8000,
+    "libero": 16000,
+    "aux": 4000
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "eps": 1e-8,
+    "weight_decay": 0.00001,
+    "clip_norm": 1,
+    "peak_lr": 8.481070829156122e-7,
+    "warmup": 50,
+    "cosine_end": 1000,
+    "final_lr_fraction": 0.1,
+    "state_dropout": 0.25,
+    "train_dtype": "FP32",
+    "base_dtype": "BF16",
+    "retain_parent_lora_dtype": true
+  },
+  "pbs": {
+    "gpu": "H200",
+    "count": 1,
+    "cpu": 12,
+    "ram_gb_request": 225,
+    "suggested_hours": 3,
+    "original_max_hours": 6,
+    "min_save_reserve_minutes": 15,
+    "save_every_steps": 100,
+    "save_or_minutes": 30,
+    "extra_save": [
+      250,
+      500,
+      1000
+    ],
+    "exact_resume": true
+  },
+  "eval": {
+    "at": 1000,
+    "fixed_feedback": 24,
+    "old_source_dev": 42,
+    "hold": 2,
+    "place": 4,
+    "independent_hold": 4,
+    "native_min_planned": 10,
+    "gate": {
+      "hold_success": 2,
+      "place_grasp": 4,
+      "lift_min": 3,
+      "in_zone_min": 2,
+      "require_new_stage_progress": true,
+      "new_safety_stop": 0,
+      "independent_hold_min": 2,
+      "source_mae_alert_relative": 0.1
+    },
+    "actual_slot_mapping_required": true
+  },
+  "budget": {
+    "formal_default_cap": 8000,
+    "conditional_cap": 15000,
+    "formal_known_used": 500,
+    "formal_after_full_1k_if_no_other": 1500,
+    "formal_default_after_remaining_max": 6500,
+    "engineering_cap": 24,
+    "engineering_known_used": 15,
+    "engineering_max_remaining": 9,
+    "new_engineering_suggested_max": 6,
+    "engineering_if_full_qualification": 21,
+    "main_native_slots_max_if_no_later_use": 44,
+    "new_native_min_planned": 10,
+    "original_gpu_hours": 320,
+    "original_deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "reset": false
+  },
+  "core": {
+    "complete": 93,
+    "remaining": {
+      "container": 4,
+      "push": 3
+    },
+    "recovery": 3,
+    "recovery_first_target": 10,
+    "n2_production_qualified": false,
+    "n4_started": false,
+    "source608_joint_training_qualified": false
+  },
+  "actual_new_actions": {
+    "pbs": 0,
+    "formal_updates": 0,
+    "engineering_updates": 0,
+    "native_starts": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "links": {
+    "plan": "SLA_RECOVERY_ADAPT_V65_PLAN_20261127.md",
+    "runbook": "SLA_RECOVERY_ADAPT_V65_RUNBOOK_20261127.md"
+  }
+}
