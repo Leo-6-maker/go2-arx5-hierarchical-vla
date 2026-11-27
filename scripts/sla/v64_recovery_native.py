@@ -18,6 +18,7 @@ from .v64_recovery_carry import ATOM_TICKS, PREFIX_TICKS, CarryStall, prepare, p
 
 PLAN = "531f826b36c1195db8c253ca71497f1aeb569c80"
 OPEN_REPLAY = "bfda1426f0e91c6cbc8efe81df2ab3c590973152c034582d404a11dff805de49"
+EARLY_REPLAY = "e524b5d6d8e239e019dfe575ea848e8ceb88fbc56abce481be7bd4d7dbda81de"
 
 
 class Pilot:
@@ -51,6 +52,15 @@ class Pilot:
                     or replay["new_native_integrations"] or replay["new_model_forwards"]
                     or len(replay["cases"]) != 4 or not any(row["reached"] for row in replay["cases"])):
                 raise PermissionError("The supported OPEN route requires the sealed four-case boundary replay")
+        early_replay = manifest.get("early_handoff_replay")
+        self.early_enabled = early_replay is not None
+        self.last_consumed_query = None
+        if self.early_enabled:
+            replay = read_pin(early_replay)
+            if (early_replay["sha256"] != EARLY_REPLAY or len(replay["cases"]) != 2
+                    or any(replay[k] for k in ("native_integrations", "model_forwards", "optimizer_updates",
+                                               "new_training_labels"))):
+                raise PermissionError("The early route requires the sealed two-case guard and clock replay")
         self.rejected = False
 
     def maybe_prepare(self, adapter, score, initial, query, folder):
@@ -59,9 +69,12 @@ class Pilot:
         if self.rejected:
             return None
         adapter.guard()
-        row = read(Path(folder) / "QUERY_ACTUAL.private.json")
+        path = Path(folder) / "QUERY_ACTUAL.private.json"
+        row = read(path)
         if query != row["query"] or not row["full_P10"]:
             raise ValueError("The recovery check must follow the current genuine P10 return")
+        if self.early_enabled:
+            self.last_consumed_query = path
         sample = adapter.measured_task_state()
         step = sample["native_step"]
         result = self.stall.observe(score, sample, row)
@@ -100,6 +113,37 @@ class Pilot:
             return None
         event = dict(trigger="SUPPORTED_OPEN", native_step=step, native_time_s=sample["time_s"],
                      actual_previous_width_m=previous["width_m"], physically_supported=True)
+        return dict(event=event, teacher=teacher, program=program, evidence=evidence, margin=margin,
+                    witness=consumed["confirmed_intervals"][-1]["accepted_boundary"], query=query)
+
+    def maybe_early(self, adapter, score, initial, query, path):
+        """Consider only a pre-install G7 refusal at the still-paused Student boundary."""
+        from scripts.pi0292.durable import read
+
+        if not self.early_enabled or self.last_consumed_query is None:
+            return None
+        from .v64_recovery_early_teacher import G7_PREFLIGHT_REFUSAL, prepare_early
+
+        rejected = read(path)
+        if rejected["query"] != query or rejected["rejection"]["reason"] != G7_PREFLIGHT_REFUSAL:
+            return None
+        adapter.guard()
+        sample = adapter.measured_task_state()
+        step = sample["native_step"]
+        if step + PREFIX_TICKS > adapter.spec["max_ticks"] or query + 1 >= adapter.spec["policy_queries"]:
+            return None
+        consumed = read(self.last_consumed_query)
+        previous = confirmed_context(adapter, step, sample["time_s"])
+        try:
+            teacher, program, evidence, margin = prepare_early(
+                initial, sample, score.result(), adapter.spec, rejected, consumed, previous, adapter.base_pose_hold)
+        except ValueError as error:
+            write(adapter.output / "RECOVERY-EARLY-HANDOFF-REJECTED.private.json",
+                  dict(native_step=step, query=query, reason=str(error), first_install_sent=False))
+            return None
+        event = dict(trigger="EARLY_UNINSTALLED_G7", native_step=step, native_time_s=sample["time_s"],
+                     actual_previous_width_m=previous["width_m"], holding_at_handoff=sample["native_grasp"],
+                     rejected_query_sha256=digest(path), consumed_query_sha256=digest(self.last_consumed_query))
         return dict(event=event, teacher=teacher, program=program, evidence=evidence, margin=margin,
                     witness=consumed["confirmed_intervals"][-1]["accepted_boundary"], query=query)
 
@@ -187,6 +231,16 @@ def student_source(text):
          "                    if handoff is not None:\n"
          "                        camera.close()\n"
          "                        return finish(adapter, handoff, frame, stream, reader, score)\n"),
+        ("                               full_H40_compiled=rejection['full_H40_compiled'],rejection=rejection))\n"
+         "                    break\n",
+         "                               full_H40_compiled=rejection['full_H40_compiled'],rejection=rejection))\n"
+         "                    if recovery is not None:\n"
+         "                        path = Path(prepared['metadata']['input']['path']).parent/'QUERY_ACTUAL.private.json'\n"
+         "                        handoff = recovery.maybe_early(adapter, score, initial, query, path)\n"
+         "                        if handoff is not None:\n"
+         "                            camera.close()\n"
+         "                            return finish(adapter, handoff, frame, stream, reader, score)\n"
+         "                    break\n"),
     )
     for before, after in edits:
         if text.count(before) != 1:
