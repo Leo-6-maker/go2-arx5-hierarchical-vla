@@ -28,6 +28,7 @@ def match(trace, archive, *, fixture):
         observed = [json.loads(line) for line in stream]
     if (header["schema"] != "OCS2_SELECTED_REFERENCE_BREAKPOINT_02" or header["fixture"] != fixture
             or not observed or len(observed) > header["max_samples"]
+            or observed[-1].get("diagnostic_capture_limit_reached")
             or [row["sequence"] for row in observed] != list(range(1, len(observed) + 1))):
         raise ValueError("Unexpected observer configuration or a missing sequence")
     wanted = {(row["mpc_init_time_s"], row["trajectory_sha256"], row["active_solution_sha256"]) for row in observed}

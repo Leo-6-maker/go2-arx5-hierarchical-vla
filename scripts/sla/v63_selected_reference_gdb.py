@@ -103,7 +103,8 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
     resume_address = None if fixture else site - 0x2B6C80 + 0x28A589
     if not fixture:
         # Verify the exact direct call instruction at the original wrapper.
-        if raw(resume_address-5, 5) != bytes.fromhex("e8 f7 c6 02 00"):
+        if (raw(resume_address-5, 5) != bytes.fromhex("e8 f7 c6 02 00")
+                or raw(resume_address-0x1a, 5) != bytes.fromhex("49 8d 74 24 10")):
             raise ValueError("Unknown frozen WBC caller")
     stream = Path(output).open("x", buffering=1)
     stream.write(json.dumps(dict(schema="OCS2_SELECTED_REFERENCE_BREAKPOINT_02", binary_sha256=digest,
@@ -122,7 +123,18 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
                 return False
             v = record(int(gdb.parse_and_eval("$rdi")),float(gdb.parse_and_eval("$xmm0.v2_double[0]")),
                        include_solution=not fixture or fixture_solution)
+            if not fixture:
+                # RSI is &SystemObservation::state, passed as r12 + 0x10.
+                state_address = int(gdb.parse_and_eval("$rsi"))
+                if state_address != int(gdb.parse_and_eval("$r12")) + 0x10:
+                    raise ValueError("Controller observation does not use the pinned caller ABI")
+                source_time = struct.unpack("<d", raw(state_address - 8, 8))[0]
+                if not math.isfinite(source_time):
+                    raise ValueError("Invalid controller observation clock")
+                v["native_observation_time_s"] = source_time
             self.count += 1
+            if self.count == max_samples and not fixture:
+                v["diagnostic_capture_limit_reached"] = True
             stream.write(json.dumps(dict(v, sequence=self.count, monotonic_ns=entered,
                                          observer_read_ns=time.monotonic_ns()-entered),allow_nan=False)+"\n")
             if self.count == max_samples:
@@ -134,7 +146,7 @@ def install(output, max_samples, *, fixture=False, fixture_solution=False):
 
 if "SLA_SELECTED_REFERENCE_TRACE" in os.environ:
     LIMIT = int(os.environ.get("SLA_SELECTED_REFERENCE_TRACE_LIMIT","64"))
-    if not 1 <= LIMIT <= 1024:
+    if not 1 <= LIMIT <= 8192:
         raise ValueError("Use a bounded diagnostic trace")
     OBSERVER = install(os.environ["SLA_SELECTED_REFERENCE_TRACE"],LIMIT,
                        fixture=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE")=="1",
