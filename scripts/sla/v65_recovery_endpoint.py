@@ -117,15 +117,22 @@ def r4_provider(root):
 
 
 def export_go2(capsule, parent, destination, proof):
+    require(proof["step"] == END and proof["formal_scientific_endpoint"],
+            "Export only from the independently restored V6.5 1K endpoint")
+    return export_go2_endpoint(capsule / "run/STEP1000", parent, destination, proof, "V65_RECOVERY_ADAPT_1K")
+
+
+def export_go2_endpoint(endpoint, parent, destination, proof, role):
+    """Marshal an already audited endpoint into the original Go2 inference ABI."""
     import jax
     import orbax.checkpoint as ocp
     from flax.traverse_util import flatten_dict
 
-    require(jax.default_backend() == "cpu" and proof["step"] == END and proof["formal_scientific_endpoint"],
+    require(jax.default_backend() == "cpu" and endpoint.name == f"STEP{proof['step']:04d}"
+            and proof["formal_scientific_endpoint"] and proof["complete_training_endpoint"],
             "Export only from the independently restored final endpoint on CPU")
     original, base, lora, digest = r4_provider(parent)
     require(digest == proof["frozen_lora_sha256"], "R4 evaluation export does not carry the actual frozen LoRA bytes")
-    endpoint = capsule / "run/STEP1000"
     with ocp.PyTreeCheckpointer() as reader:
         meta = reader.metadata(endpoint).tree["parameters"]
         groups = {k: meta[k] for k in ("shared", "target")}
@@ -152,8 +159,8 @@ def export_go2(capsule, parent, destination, proof):
         actual = sha(target)
         rows.append(dict(row, sha256=actual, changed=actual != row["sha256"]))
     checkpoint = hashlib.sha256(json.dumps([r["sha256"] for r in rows], separators=(",", ":")).encode()).hexdigest()
-    write(staging / "CHECKPOINT.json", dict(original, phase=END, arrays=rows, checkpoint_sha256=checkpoint,
-          role="V65_RECOVERY_ADAPT_1K", formal_inference_eligible=False, training_receipt_sha256=proof["endpoint_sha256"],
+    write(staging / "CHECKPOINT.json", dict(original, phase=proof["step"], arrays=rows, checkpoint_sha256=checkpoint,
+          role=role, formal_inference_eligible=False, training_receipt_sha256=proof["endpoint_sha256"],
           training_contract_sha256=proof["contract_sha256"], parent_lora_sha256=digest))
     staging.rename(destination)
     return sha(destination / "CHECKPOINT.json")
