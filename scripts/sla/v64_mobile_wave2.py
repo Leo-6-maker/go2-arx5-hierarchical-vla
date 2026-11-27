@@ -121,8 +121,8 @@ def prepare(site, base_input, train_manifest, qualification, prior, legacy, work
         stream.write(body)
     overlay = site / f"MOBILE-F1-{variant}-TRAIN-OVERLAY-02"
     root = site / f"MOBILE-F1-{variant}-TRAIN-02"
-    module(dispatch).stage(prior, population, legacy, overlay, root, revision,
-                           qualification=qualified if blue else None, legacy_red_train=not blue)
+    options = dict(qualification=qualified) if blue else dict(legacy_red_train=True)
+    module(dispatch).stage(prior, population, legacy, overlay, root, revision, **options)
     write(work / "ACTUAL.json", dict(stage="V64_F1_MOBILE_GRASP_FOLLOWUP_PREFLIGHT",
           teacher_qualification_sha256=sha(result_path), scene_population_sha256=sha(population),
           roster_sha256=sha(overlay / "ROSTER.json"), config_sha256=sha(overlay / "CONFIG.json"),
