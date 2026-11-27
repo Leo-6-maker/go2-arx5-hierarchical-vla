@@ -112,11 +112,16 @@ def fixed_card(authority):
 
 
 def controller_argv(spec, output, argv, env):
-    from go2arx5_vla.world_model.storage import digest
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 
-    controller = Path(argv[0])
     identifier = slot_id(read_pin(spec["v64_observation"]))
+    return wrap_controller(spec, output, argv, env, identifier, detach=identifier == DETACH_SLOT)
+
+
+def wrap_controller(spec, output, argv, env, identifier, *, detach):
+    from go2arx5_vla.world_model.storage import digest
+
+    controller = Path(argv[0])
     if (controller != Path(spec["controller_binary"]) or digest(controller) != FROZEN
             or spec["panel_entry_id"] != identifier or spec["max_ticks"] != TICKS):
         raise PermissionError("Only the frozen controller in this observer card can be traced")
@@ -129,7 +134,7 @@ def controller_argv(spec, output, argv, env):
     gdb = ["/usr/bin/gdb", "--nx", "--batch", "-ex", "set startup-with-shell off",
            "-ex", "set disable-randomization off", "-ex", "handle SIGINT nostop noprint pass",
            "-ex", "handle SIGTERM nostop noprint pass", "-ex", "starti", "-x", str(observer), "-ex", "continue"]
-    if identifier == DETACH_SLOT:
+    if detach:
         env["SLA_SELECTED_REFERENCE_DETACH"] = "1"
         supervisor = observer.with_name("v64_observer_detached_child.py")
         gdb[3:3] = ["-ex", "set confirm off"]
