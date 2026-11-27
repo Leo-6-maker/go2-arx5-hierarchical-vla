@@ -76,10 +76,55 @@ def bind_site(base, paired_hold, output):
                        launched_requests=0, physics_ticks=0, model_queries=0, stage="ARCHIVED_MATCHED_INPUTS_VERIFIED"))
 
 
+def bind_preflights(site, archive, output):
+    from v62_source_native import V65, source_role
+
+    inputs = read(archive)
+    role = source_role(1000, V65)
+    require(inputs["plan"] == PLAN and inputs["stage"] == "ARCHIVED_MATCHED_INPUTS_VERIFIED"
+            and inputs["caps"] == dict(physical_requests=10, integrations=397_030, model_queries=1360),
+            "The original matched reservation must cover the fixed comparison")
+    groups, checkpoints = {}, set()
+    for phase, group in (("HOLD", "N02_HOLD"), ("PLACE", "PLACE"), ("INDEPENDENT_HOLD", "INDEPENDENT_HOLD")):
+        root = site / f"{role}-PREFLIGHT-{phase}-01"
+        declaration = root / "COMPARISON.json"
+        panel = read(declaration)
+        call = read(root / f"{role}_PANEL_INVOCATION.json")
+        old = inputs["groups"][group]
+        require(call["executed"] is False and call["phase"] == phase and call["role"] == panel["v4_model_role"] == role
+                and call["comparison_sha256"] == sha(declaration) and panel["source_step"] == 1000
+                and panel["v62_plan"] == PLAN and panel["gpu_noise_sha256"] == old["original_noise"]["sha256"]
+                and call["conditions"] == [row["id"] for row in panel["schedule"]], "The CPU-only bound roster changed")
+        mappings = []
+        for new, previous in zip(panel["schedule"], old["cells"], strict=True):
+            require((new["layout_slot"], new["noise_label"], new["policy_seed"], new["max_ticks"], new["policy_queries"])
+                    == (previous["slot"], previous["noise_label"], previous["seed"], previous["max_ticks"], previous["max_queries"])
+                    and not new["native_started"] and new["link"] == "L1", "A registered condition changed on entry")
+            case = root / new["id"]
+            spec = case / "EXECUTION_SPEC.json"
+            spec = read(spec)
+            require(spec["frozen_files"][spec["model_path"]] == previous["scene_sha256"]
+                    and spec["comparison_policy_seed"] == previous["seed"] and spec["interface_comparison_link"] == "L1",
+                    "The prepared world, seed or original L1 differs from the archived condition")
+            checkpoints.add(new["checkpoint"])
+            mappings.append(dict(id=new["id"], prior_cell=previous["original_id"], geometry=previous["scene_sha256"],
+                                 native_started=False, max_ticks=new["max_ticks"], max_queries=new["policy_queries"]))
+        groups[phase] = dict(preflight=reference(declaration), source_audit=panel["source_audit"], cases=mappings)
+    require(len(checkpoints) == 1 and len({g["source_audit"]["sha256"] for g in groups.values()}) == 1,
+            "All panels must use the same independently restored 1K provider")
+    write(output, dict(plan=PLAN, role=role, matched_archive=reference(archive), groups=groups,
+                       checkpoint=checkpoints.pop(), caps=inputs["caps"], launched_requests=0, native_integrations=0,
+                       stage="NATIVE_ENTRY_MATCHED"))
+
+
 if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     for key in ("base", "paired_hold", "output"):
         cli.add_argument(key, type=Path)
+    cli.add_argument("--preflights", action="store_true")
     args = cli.parse_args()
     require(not args.output.exists(), "Preserve existing matched protocol evidence")
-    bind_site(**vars(args))
+    if args.preflights:
+        bind_preflights(args.base, args.paired_hold, args.output)
+    else:
+        bind_site(args.base, args.paired_hold, args.output)
