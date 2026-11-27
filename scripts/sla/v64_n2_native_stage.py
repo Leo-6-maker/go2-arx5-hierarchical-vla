@@ -84,6 +84,11 @@ def edits():
              "            from scripts.sla.v64_n2_native import transport_environment\n"
              "            env = transport_environment(s, env)\n"
              "        self.native_env=env"),
+            ("            self.launch([sys.executable,'-B',str(receiver)",
+             "            if s.get('v64_n2'):\n"
+             "                from scripts.sla.v64_n2_native import planner_environment\n"
+             "                planner_env = planner_environment(s, planner_env)\n"
+             "            self.launch([sys.executable,'-B',str(receiver)"),
             ("        await_native_startup(self)\n        self.publish(self.modes,'HOLD')",
              "        await_native_startup(self)\n"
              "        if s.get('v64_n2'):\n"
@@ -122,7 +127,8 @@ def overlay_source(old, destination):
     return files
 
 
-def prospective(previous, n1, roster, roles, profile, library, filesystem_proof, root, overlay, commit, pair_number):
+def prospective(previous, n1, roster, roles, profile, library, filesystem_proof, planner_proof, planner_ust,
+                root, overlay, commit, pair_number):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
     from scripts.pi0292.durable import read, write
     from scripts.wm02.multitask_stage_cards_v6 import pin, require_unstarted_cases
@@ -142,6 +148,7 @@ def prospective(previous, n1, roster, roles, profile, library, filesystem_proof,
     original = read_pin(prior)
     write(binding_path, dict(v64=V64, pair=pair_number, roster=pin(roster), roles=pin(roles),
                              profile=pin(profile), library=pin(library), filesystem_proof=pin(filesystem_proof),
+                             planner_proof=pin(planner_proof), planner_ust=pin(planner_ust),
                              original_authority=prior))
     bound, fixed, rows, worlds = binding(pin(binding_path))
     if (original["logical"] != fixed["original_population"] or authority["tolerance"] != fixed["tolerances"]
@@ -240,7 +247,8 @@ if __name__ == "__main__":
     for op in ("verify", "launch"):
         commands.add_parser(op).add_argument("path", type=Path)
     stage = commands.add_parser("prospective")
-    for name in ("previous", "n1", "roster", "roles", "profile", "library", "filesystem_proof", "root", "overlay"):
+    for name in ("previous", "n1", "roster", "roles", "profile", "library", "filesystem_proof", "planner_proof",
+                 "planner_ust", "root", "overlay"):
         stage.add_argument(name, type=Path)
     stage.add_argument("commit")
     stage.add_argument("pair_number", type=int)

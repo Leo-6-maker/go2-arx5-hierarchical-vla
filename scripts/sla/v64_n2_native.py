@@ -21,6 +21,8 @@ ROLE_PROOF = "3f19f601a598898874888ded85086deecfc023de3e203b2d65bde68c893e9ed7"
 PROFILE = "12135d6832dc6e833b52e15eb8ba196bed865b382480736d3294eb813cb94c06"
 LIBRARY = "bf7bbeeb3760302c2d6b9300985f85d5bea140628c7e8e2f0ffa15cf2fe884f2"
 FILESYSTEM_PROOF = "4b61bd7be960f26fec87b0afbec32a426a500eb50eef88317ab17a77931236b5"
+PLANNER_PROOF = "45b904f757f2778573cd4a6656b4cc4c6ecbf8583fa5a41ae1584a620ae03cfd"
+PLANNER_UST = "3dda3aff8ce04c7a1d5f1c5f20bd725d63e686a2042ee4834d8c25cde288f27b"
 TICKS = 10703
 
 TRANSPORT_ENV = (
@@ -38,16 +40,20 @@ def binding(ref):
 
     bound = read_pin(ref)
     checks = {"roster": ROSTER, "roles": ROLE_PROOF, "profile": PROFILE, "library": LIBRARY,
-              "filesystem_proof": FILESYSTEM_PROOF}
+              "filesystem_proof": FILESYSTEM_PROOF, "planner_proof": PLANNER_PROOF, "planner_ust": PLANNER_UST}
     for key, expected in checks.items():
         evidence = bound[key]
         if evidence["sha256"] != expected or digest(evidence["path"]) != expected:
             raise PermissionError(f"N2 input differs from its verified receipt: {key}")
     roster = read_pin(bound["roster"])
     roles = read_pin(bound["roles"])
+    planner = read_pin(bound["planner_proof"])
     pair = [row for row in roster["cases"] if row["pair"] == bound["pair"]]
     slots = {slot["role"]: slot for slot in roster["candidate_worlds"]}
     if (bound["v64"] != V64 or roles["native_requests"] or roles["new_integrations"] or roles["training_updates"]
+            or planner["native_requests"] or planner["native_integrations"]
+            or planner["library_sha256"] != PLANNER_UST
+            or planner["groups"]["early"] != dict(starts=8, ready=8, clean_exits=8, private_pages=8, fastdds_shared=0)
             or len(pair) != 2 or len(slots) != 2 or {row["world_role"] for row in pair} != set(slots)
             or {proof["role"] for proof in roles["roles"]} != set(slots)
             or any(row["slot"]["max_native_ticks"] != TICKS or row["slot"]["max_native_requests"] != 1
@@ -139,6 +145,13 @@ def controller_argv(spec, output, argv, env):
 
     _, row, _ = member(spec)
     return wrap_controller(spec, output, argv, env, row["slot"]["id"], detach=True)
+
+
+def planner_environment(spec, environment):
+    bound, _, _ = member(spec)
+    # Initialize the same UST library before Python loads the ROS extension.
+    preload = f"{bound['library']['path']}:{bound['planner_ust']['path']}"
+    return dict(environment, LD_PRELOAD=preload)
 
 
 def check_paused_transport(adapter):
