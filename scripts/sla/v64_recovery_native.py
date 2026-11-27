@@ -140,8 +140,8 @@ def finish(adapter, prepared, frame, stream, reader, score):
                 cancel=adapter.cancel_reference())
 
 
-def stage_student(source, destination):
-    """Prepare the optional Recovery hook in a separate source overlay."""
+def student_source(text):
+    """Add the optional Recovery hook after the original complete P10 return."""
     edits = (
         ("    queries = atoms = 0\n    rejection = None\n",
          "    queries = atoms = 0\n    rejection = None\n    recovery = None\n"
@@ -157,14 +157,17 @@ def stage_student(source, destination):
          "                        camera.close()\n"
          "                        return finish(adapter, handoff, frame, stream, reader, score)\n"),
     )
-    text = source.read_text()
     for before, after in edits:
         if text.count(before) != 1:
             raise ValueError("The original student source seam changed")
         text = text.replace(before, after)
-    compile(text, str(destination), "exec")
+    compile(text, "<v64-recovery-student>", "exec")
+    return text
+
+
+def stage_student(source, destination):
     with destination.open("x") as stream:
-        stream.write(text)
+        stream.write(student_source(source.read_text()))
 
 
 if __name__ == "__main__":
