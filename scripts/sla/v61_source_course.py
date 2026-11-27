@@ -62,16 +62,14 @@ def checked_readers(record, banks, slots, target, single, old, new, libero):
     return datasets
 
 
-def bind(custody, short, prepared, corrected, extension, single_root, bank_root):
+def source_readers(custody, short, prepared, corrected, extension, single_root):
     from openpi_client.image_tools import resize_with_pad
-    from v4_long_engine import LongLearner
     from v4_long_inputs import inputs
     from v6_reanchored_teacher_labels import bind_dataset
     from v6_robodojo_reader import ExpansionDataset
     from v6_ville_reader import SingleArmReader
 
     predecessor = custody / "HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase03800"
-    record, banks, slots, rates = read_bank(bank_root)
     datasets, tokenizer, _, _, auxiliary, _, _ = inputs(custody, short, prepared, predecessor)
     target, old, libero = (datasets[name] for name in ("target", "robodojo", "libero"))
     command_path = pin(short / "incoming/V3-MAIN-CONSUMED-DATA-02/MANIFEST.json", PINS["target_commands"])
@@ -91,6 +89,15 @@ def bind(custody, short, prepared, corrected, extension, single_root, bank_root)
             and single_proof["by_split"]["TRAIN"]["episodes"] == 30, "The fixed Ville input was not admitted")
     single = SingleArmReader(single_root, PINS["single"], single_root / "raw",
                              split="TRAIN", resize=resize_with_pad)
+    return target, single, old, new, libero, tokenizer, auxiliary
+
+
+def bind(custody, short, prepared, corrected, extension, single_root, bank_root):
+    from v4_long_engine import LongLearner
+
+    record, banks, slots, rates = read_bank(bank_root)
+    target, single, old, new, libero, tokenizer, auxiliary = source_readers(
+        custody, short, prepared, corrected, extension, single_root)
     datasets = checked_readers(record, banks, slots, target, single, old, new, libero)
 
     def factory(graphs, parameters, frozen, rng):
