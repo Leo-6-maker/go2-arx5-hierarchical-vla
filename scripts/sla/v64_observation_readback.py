@@ -30,7 +30,10 @@ def receiver(raw):
     installed = defaultdict(list)
     expired, automatic = 0, 0
     for line, receipt in rows(raw/"planner.jsonl"):
-        kind, wire = receipt["kind"], receipt["ref_id"]
+        kind = receipt["kind"]
+        if kind not in ("accept", "installed"):
+            continue
+        wire = receipt["ref_id"]
         if kind == "accept":
             p = proposed[wire]
             if receipt["monotonic_s"] < p["wall_monotonic_s"]:
