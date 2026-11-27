@@ -36,6 +36,10 @@ TICKS = 35703
 PLACE_TICKS = 50703
 IDS = ("EF5_Q_MOBILE_01", "EF5_Q_MOBILE_02")
 REACH_IDS = ("EF5_Q_REACH_01", "EF5_Q_REACH_02")
+REACH_REPAIR_IDS = ("EF5_Q_REACH_01_R2", "EF5_Q_REACH_02")
+REACH_REPAIR_CASE = "b9ffb1cb26774ec7c6e766d82893aec05b2ffc5a0f769934bc1f651932580ea5"
+REACH_REPAIR_WAVE = "847c78ede7dcb4b19c6786800007db4f1c0a6933db4c6d9b796a86760812fed8"
+REACH_SCOPES = ("REACH_QUAL", "REACH_QUAL_R2")
 FIRST_TRAIN = ("EF5_T_MOBILE_01", "EF5_T_MOBILE_05")
 F1_RED_TRAIN = ("EF5_T_MOBILE_03", "EF5_T_MOBILE_07")
 DIVERSE_PLACE = {
@@ -68,6 +72,7 @@ PLACE_WAVES = {"DIVERSE_PLACE": DIVERSE_PLACE, "DIVERSE_PLACE_WAVE2": DIVERSE_PL
                "DIVERSE_PLACE_WAVE5": DIVERSE_PLACE_WAVE5, "DIVERSE_PLACE_WAVE6": DIVERSE_PLACE_WAVE6,
                "DIVERSE_PLACE_WAVE7": DIVERSE_PLACE_WAVE7}
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "REACH_QUAL": ("QUAL", REACH_IDS, GEOMETRY),
+          "REACH_QUAL_R2": ("QUAL", REACH_REPAIR_IDS, GEOMETRY),
           "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
           "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
           "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY),
@@ -78,6 +83,20 @@ SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "REACH_QUAL": ("QUAL", REACH_IDS, GEO
           "DIVERSE_PLACE_WAVE5": ("TRAIN", tuple(DIVERSE_PLACE_WAVE5), DIVERSE_WAVE5_GEOMETRY),
           "DIVERSE_PLACE_WAVE6": ("TRAIN", tuple(DIVERSE_PLACE_WAVE6), DIVERSE_WAVE6_GEOMETRY),
           "DIVERSE_PLACE_WAVE7": ("TRAIN", tuple(DIVERSE_PLACE_WAVE7), None)}
+
+
+def reach_repair_evidence(roster):
+    group_pin = roster["first_reach_group"]
+    failure_pin = roster["first_reach_failure"]
+    group, failure = pinned(group_pin), pinned(failure_pin)
+    record, = group["records"]
+    if (group_pin["sha256"] != REACH_REPAIR_WAVE or failure_pin["sha256"] != REACH_REPAIR_CASE
+            or group["paid_requests"] != 1 or record["condition"] != REACH_IDS[0]
+            or record["result"]["sha256"] != REACH_REPAIR_CASE or not record["technical_failure"]
+            or failure["actual_native_integrations"] != 5703 or failure["unsafe"] or not failure["technical_failure"]
+            or not failure["shutdown_clean"] or failure["detail"] is not None
+            or "ReachTeacher' object has no attribute 'landing'" not in failure["failure"]):
+        raise ValueError("Only the preserved first Reach interface failure can precede this repair")
 
 
 def wave7_evidence(roster):
@@ -145,8 +164,10 @@ def rows(population, binding):
     by_id = {cluster["id"]: cluster["scene"]["sha256"] for cluster in population["clusters"]}
     if by_id != roster["cards"]:
         raise ValueError("Compiled scenes differ from the qualification allocation")
-    if variant == "REACH_QUAL":
-        expected = (("EF5_Q_REACH_01", "F1", "HOLD-red"), ("EF5_Q_REACH_02", "F2", "HOLD-blue"))
+    if variant in REACH_SCOPES:
+        if variant == "REACH_QUAL_R2":
+            reach_repair_evidence(roster)
+        expected = ((identities[0], "F1", "HOLD-red"), (identities[1], "F2", "HOLD-blue"))
         if tuple((r["id"], r["family"], r["instruction"]) for r in selected) != expected:
             raise ValueError("Only the preregistered Reach/Orient QUAL scenes have this transport route")
     elif variant in PLACE_WAVES:
@@ -230,6 +251,8 @@ def rows(population, binding):
 
 
 def capacity_file(root):
+    if root.name in ("REACH-QUAL-02", "REACH-QUAL-OVERLAY-02"):
+        return root.parent / "REACH-QUAL-CAPACITY-02.json"
     if root.name in ("REACH-QUAL-01", "REACH-QUAL-OVERLAY-01"):
         return root.parent / "REACH-QUAL-CAPACITY-01.json"
     if root.name in ("DIVERSE-PLACE-TRAIN-07", "DIVERSE-PLACE-OVERLAY-07"):
@@ -262,10 +285,12 @@ def build_population(compiled, old, variant):
     cards = []
     split, identities, geometry = SCOPES[variant]
     place = variant in PLACE_WAVES
-    skill = "DIVERSE_PLACE" if place else "REACH_ORIENT" if variant == "REACH_QUAL" else "MOBILE_GRASP"
-    for name in identities:
-        q, = (x for x in compiled["conditions"][split] if x["id"] == name)
-        cluster = clusters[name]
+    skill = "DIVERSE_PLACE" if place else "REACH_ORIENT" if variant in REACH_SCOPES else "MOBILE_GRASP"
+    source_ids = REACH_IDS if variant == "REACH_QUAL_R2" else identities
+    selected_clusters = []
+    for name, source_id in zip(identities, source_ids, strict=True):
+        q, = (x for x in compiled["conditions"][split] if x["id"] == source_id)
+        cluster = dict(clusters[source_id], id=name)
         if (q["skill"] != skill
                 or q["physics_eligible"] or not q["original_2ms"]
                 or cluster["scene"]["sha256"] in historical or cluster["reset"] in resets
@@ -277,7 +302,8 @@ def build_population(compiled, old, variant):
         cards.append(dict(original, id=name, condition_id=name, split=split, instruction=instruction,
                           cluster=name, scene_family=name, reset=q["reset"], reset_seed=q["reset"],
                           scene_seed=q["reset"], native_max_ticks=PLACE_TICKS if place else TICKS))
-    return dict(plan=PLAN, source_geometry_sha256=geometry, clusters=[clusters[x] for x in identities],
+        selected_clusters.append(cluster)
+    return dict(plan=PLAN, source_geometry_sha256=geometry, clusters=selected_clusters,
                 conditions={split: cards})
 
 
@@ -298,7 +324,7 @@ def patch(anchor, path, expected, edits):
 def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None,
           legacy_red_train=False, place_catalog=None, place_left_proof=None, previous_place_wave=None,
           stop_prefix=None, after_clean_place_wave=False, after_mixed_place_wave=False,
-          final_place_labels=None, final_place_sweep=None, reach_qual=False):
+          final_place_labels=None, final_place_sweep=None, reach_qual=False, reach_repair=None):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
     if legacy_red_train and (qualification or repair):
@@ -315,6 +341,8 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
     final_place = final_place_labels is not None or final_place_sweep is not None
     if reach_qual and any((qualification, repair, legacy_red_train, place_catalog, previous_place_wave, final_place)):
         raise ValueError("Use the original independent Reach/Orient qualification alone")
+    if reach_repair is not None and not reach_qual:
+        raise ValueError("A Reach repair must use the Reach qualification route")
     if final_place and (not (final_place_labels and final_place_sweep and place_catalog and previous_place_wave)
                         or any((place_left_proof, stop_prefix, after_clean_place_wave, after_mixed_place_wave))):
         raise ValueError("The final PLACE requires its own fixed replay, prior admission and closed wave")
@@ -323,7 +351,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         raise ValueError("The successor wave requires closed production and its earlier evidence")
     if stop_prefix and (not (place_catalog and previous_place_wave) or place_left_proof):
         raise ValueError("The fourth wave requires the previous terminal and the two actual contact prefixes")
-    variant = ("REACH_QUAL" if reach_qual else
+    variant = ("REACH_QUAL_R2" if reach_repair else "REACH_QUAL" if reach_qual else
                "DIVERSE_PLACE_WAVE7" if final_place else "DIVERSE_PLACE_WAVE6" if after_mixed_place_wave else
                "DIVERSE_PLACE_WAVE5" if after_clean_place_wave else
                "DIVERSE_PLACE_WAVE4" if stop_prefix else
@@ -333,6 +361,13 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
                "F2_REPAIR" if repair else "TRAIN" if qualification else "QUAL")
     split, identities, geometry = SCOPES[variant]
     final_refs = {}
+    if reach_repair:
+        failed = reach_repair / "cases" / REACH_IDS[0]
+        if any(plain(folder / "control/LEASE.json")["status"] != "CLOSED" for folder in (reach_repair, failed)):
+            raise ValueError("Require a closed original Reach driver and case")
+        final_refs = dict(first_reach_group=ref(reach_repair / "RESULT.private.json"),
+                          first_reach_failure=ref(failed / "RESULT.private.json"))
+        reach_repair_evidence(final_refs)
     if final_place:
         final_refs = dict(previous_place_result=ref(previous_place_wave / "RESULT.private.json"),
                           previous_place_labels=ref(final_place_labels), candidate_place_sweep=ref(final_place_sweep))
@@ -390,7 +425,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
                 ("def episode(adapter):\n",
                  "def episode(adapter):\n"
                  "    binding = adapter.spec.get('v62_mobile_qualification')\n"
-                 "    if binding and read_pin(binding).get('variant') == 'REACH_QUAL':\n"
+                 "    if binding and read_pin(binding).get('variant') in ('REACH_QUAL', 'REACH_QUAL_R2'):\n"
                  "        from scripts.sla.v64_reach_qual import episode as reach\n"
                  "        return reach(adapter)\n"),
             ],
@@ -401,6 +436,8 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
                  "    if reach_qualification is not None:\n"
                  "        teacher, score = reach_qualification(initial)\n"
                  "    if adapter.spec['scope'] == RELEASE_SCOPE:"),
+                ("    if placement_teacher is None and teacher.landing is not None:",
+                 "    if reach_qualification is None and placement_teacher is None and teacher.landing is not None:"),
             ],
         }
         for name, edits in reach_edits.items():
@@ -456,7 +493,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         os.posix_fallocate(f.fileno(), 0, 64*1024**2)
         os.fsync(f.fileno())
     reservation = capacity_file(root)
-    if variant in ("QUAL", "REACH_QUAL") or variant in PLACE_WAVES:
+    if variant in ("QUAL", *REACH_SCOPES) or variant in PLACE_WAVES:
         write(reservation, dict(free_bytes=use.free, previous_trace_bytes=demonstrated,
               upcoming_writes_bytes=planned, writable_probe_bytes=64*1024**2, device=root.parent.stat().st_dev))
     elif plain(reservation)["upcoming_writes_bytes"] != planned:
@@ -489,4 +526,5 @@ if __name__ == "__main__":
     parser.add_argument("--final-place-labels", type=Path)
     parser.add_argument("--final-place-sweep", type=Path)
     parser.add_argument("--reach-qual", action="store_true")
+    parser.add_argument("--reach-repair", type=Path)
     stage(**vars(parser.parse_args()))

@@ -6,8 +6,7 @@ from go2arx5_vla.world_model.mobile_continuous_teacher_v2 import ContinuousTeach
 from go2arx5_vla.world_model.multitask_carry_geometry_v6 import world_yaw
 
 
-IDS = ("EF5_Q_REACH_01", "EF5_Q_REACH_02")
-YAW_DEG = dict(zip(IDS, (5.0, -5.0), strict=True))
+YAW_DEG = {"EF5_Q_REACH_01": 5., "EF5_Q_REACH_01_R2": 5., "EF5_Q_REACH_02": -5.}
 POSITION_LIMIT_M = .005
 ROTATION_LIMIT_RAD = np.deg2rad(2.)
 DWELL_TICKS = 250
@@ -87,7 +86,7 @@ def episode(adapter):
 
     spec = adapter.spec
     identity = spec["panel_entry_id"]
-    if (identity not in IDS or spec["collection_split"] != "QUAL" or spec["expert_training_eligible"]
+    if (identity not in YAW_DEG or spec["collection_split"] != "QUAL" or spec["expert_training_eligible"]
             or spec["scope"] != "SLA_CORE_HOPPER_V1_EXPERT" or spec["WBC_changes"] or spec["safety_changes"]):
         raise PermissionError("Reach/Orient must use its own fixed nontraining qualification")
     target = adapter.task.color
