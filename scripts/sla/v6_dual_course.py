@@ -52,12 +52,13 @@ def initialize_single(template):
     return copy
 
 
-def four_domain_adamw(*, beta1, beta2, eps, weight_decay, clip_norm):
+def four_domain_adamw(*, beta1, beta2, eps, weight_decay, clip_norm, domains=tuple(PRIMARY_BATCH)):
     import jax
     import optax
 
     transform = optax.chain(optax.scale_by_adam(b1=beta1, b2=beta2, eps=eps),
                             optax.add_decayed_weights(weight_decay))
+    partitions = {"shared", *domains}
 
     @jax.jit
     def apply_partition(parameters, state, gradient, lr, scale):
@@ -70,7 +71,7 @@ def four_domain_adamw(*, beta1, beta2, eps, weight_decay, clip_norm):
         return {key: transform.init(value) for key, value in parameters.items()}
 
     def apply(parameters, states, gradient, lr):
-        if not set(parameters) == set(states) == set(gradient) == {"shared", *PRIMARY_BATCH}:
+        if not set(parameters) == set(states) == set(gradient) == partitions:
             raise ValueError("Expected the exact independent V6 parameter partitions")
         norm = float(optax.global_norm(gradient))
         if not np.isfinite(norm) or norm <= 0:
