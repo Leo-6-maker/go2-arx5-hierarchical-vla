@@ -1,0 +1,255 @@
+{
+  "schema": "sla-adapt-first-v63-plan-v1",
+  "date_sgt": "2026-11-27",
+  "status": "PLAN_ONLY_NOT_DEPLOYED",
+  "evidence_cutoff_sgt": "2026-11-27T10:04:00+08:00",
+  "predecessors": [
+    521,
+    522,
+    523,
+    524,
+    525
+  ],
+  "evidence": {
+    "report_commit": "9dc5db0d58e3dca735dabbed356943df8ad79c70",
+    "actual_commit": "45302f2d4de4e645c3de12327c98657dc1ee7ccb",
+    "r4_parent_seal": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+    "r4_parent_approval": "0896270957c478197e586a71f2d2d3a55464a5bb7436cf3d390fa14804926433",
+    "source250_job": "736211.hopper-m-02",
+    "source250_updates": 250,
+    "source250_promotion": false,
+    "source250_decision": "5f8000336c3e6871b9947fe2aae6ca72f46bf8edea4781ca87ad58b9300ecc6a",
+    "go2_train_core": 74,
+    "latest_go2": {
+      "episodes": 5,
+      "mobile_hold": 3,
+      "complete_place": 2,
+      "windows": 444,
+      "full_h40": 429,
+      "supported_points": 17460,
+      "new_optimizer_visits": 0
+    },
+    "recovery": {
+      "historical_candidates": 62,
+      "preview_pass": 2,
+      "native_takeover": 0,
+      "admitted": 0
+    },
+    "public608": {
+      "manifest": "165f388dabc4f6d5ecd147f709c1749ee726daa820a828dc560ef985f936877f",
+      "total": 608,
+      "windows": 544694,
+      "robodojo": 499,
+      "ville": 58,
+      "sc_vla": 51,
+      "single_arm": 109,
+      "skill_groups": 6,
+      "sc_h30_hopper_reads": 6,
+      "new_optimizer_visits": 0,
+      "training_ready": false
+    }
+  },
+  "dispatch": {
+    "priority_next_pbs": "ADAPT_A250",
+    "old_source500": "HOLD_NO_SUBMIT",
+    "primary_parent": "R4-200",
+    "alternative_parent": "SOURCE250_MATCHED_CONTROL_ONLY_CONDITIONAL",
+    "core_parallel": [
+      "GO2_A74_READER_BANK",
+      "N1_FULL_OPERATION_74_TO_100",
+      "RECOVERY_TRAIN_NATIVE",
+      "SRC608_READER_BANK",
+      "N2_N4_QUALIFICATION"
+    ],
+    "vanda": "PAUSED",
+    "actual_job_id": null,
+    "actual_new_updates": 0
+  },
+  "recipes": [
+    {
+      "name": "ADAPT_A337",
+      "go2": 64,
+      "ville": 16,
+      "sc_vla": 0,
+      "robodojo_old": 16,
+      "robodojo_expanded": 16,
+      "libero": 16,
+      "aux": 4,
+      "aux_normalized": 0.25,
+      "go2_old": 32,
+      "go2_new": 32,
+      "go2_newest_subset": 8
+    },
+    {
+      "name": "SOURCE608_EXPANDED",
+      "go2": 16,
+      "ville": 32,
+      "sc_vla": 32,
+      "robodojo_old": 16,
+      "robodojo_expanded": 16,
+      "libero": 16,
+      "aux": 4,
+      "aux_normalized": 0.0625
+    },
+    {
+      "name": "ADAPT608_EXPANDED",
+      "go2": 64,
+      "ville": 16,
+      "sc_vla": 16,
+      "robodojo_old": 8,
+      "robodojo_expanded": 8,
+      "libero": 16,
+      "aux": 4,
+      "aux_normalized": 0.25
+    }
+  ],
+  "native_horizons": {
+    "go2": {
+      "h": 40,
+      "hz": 20,
+      "semantic": "actual_consumed_reference"
+    },
+    "robodojo": {
+      "h": 50,
+      "hz": 25,
+      "valid_actions": 14
+    },
+    "ville": {
+      "h": 40,
+      "hz": 20,
+      "valid_actions": 7
+    },
+    "sc_vla": {
+      "h": 30,
+      "hz": 15,
+      "valid_actions": 7,
+      "semantic": "future_recorded_state_not_consumed_command"
+    }
+  },
+  "adapt": {
+    "first_updates": 250,
+    "cumulative_endpoints": [
+      250,
+      500,
+      1000,
+      3000,
+      5000
+    ],
+    "conditional_last": 5000,
+    "lr_peak": 8.481070829156122e-7,
+    "warmup": 100,
+    "cosine_end": 3000,
+    "lr_end_fraction": 0.1,
+    "new_optimizer_rng": true,
+    "minimum_named_fallback": {
+      "old": 52,
+      "latest": 5,
+      "minimum": 57,
+      "go2_old_slots": 56,
+      "go2_new_slots": 8
+    },
+    "expected_first_visits": {
+      "go2": 16000,
+      "ville": 4000,
+      "robodojo_old": 4000,
+      "robodojo_expanded": 4000,
+      "libero": 4000,
+      "aux": 1000
+    },
+    "gate": {
+      "hold_success": 2,
+      "hold_total": 2,
+      "place_grasp": 4,
+      "place_total": 4,
+      "new_safety_stop": 0,
+      "baseline_lift": 3,
+      "baseline_in_zone": 2,
+      "require_stage_progress": true,
+      "source_mae_relative_alert": 0.1,
+      "gripper_speed_mm_s": 40,
+      "unchanged_safety": true
+    },
+    "eval": {
+      "fixed_feedback": 24,
+      "n02_hold": 2,
+      "place": 4,
+      "old_source_dev": 42,
+      "independent_hold_at_1k": 4,
+      "slot_mapping_required": true
+    }
+  },
+  "source608": {
+    "status": "PREPARE_NOT_LAUNCH",
+    "cumulative_endpoints": [
+      250,
+      500,
+      1000,
+      5000,
+      10000
+    ],
+    "conditional_last": 10000,
+    "requires_adapt_promotion": true,
+    "requires_h30_training_qualification": true,
+    "expected_first_visits": {
+      "go2": 4000,
+      "ville": 8000,
+      "sc_vla": 8000,
+      "robodojo_old": 4000,
+      "robodojo_expanded": 4000,
+      "libero": 4000,
+      "aux": 1000
+    }
+  },
+  "core": {
+    "target100": 100,
+    "remaining": {
+      "reach_orient": 8,
+      "mobile_grasp": 5,
+      "diverse_place": 6,
+      "mobile_container": 4,
+      "push": 3
+    },
+    "target200": 200,
+    "recovery_first_target": 10,
+    "recovery_first_request_cap": 20,
+    "recovery_pilot": 2,
+    "recovery_total_target": 40,
+    "sealed_every_new_episodes": 4,
+    "seal_hours_if_changed": 6,
+    "topology": "N1 now; N2 then N4 only after original selected-reference/STOP qualification"
+  },
+  "budgets": {
+    "formal_default_total": 8000,
+    "formal_conditional_total": 15000,
+    "formal_known_used": 250,
+    "formal_default_max_remaining": 7750,
+    "formal_conditional_max_remaining": 14750,
+    "optional_control_total": 1000,
+    "engineering_total": 24,
+    "engineering_known_used": 6,
+    "engineering_max_remaining": 18,
+    "historical_r_updates": 800,
+    "original_gpu_hours": 320,
+    "original_expiry_sgt": "2026-12-05T12:41:52+08:00",
+    "remaining_requires_live_reconciliation": true,
+    "prior_main_student_slots": 62,
+    "known_main_consumed_since_v62": 12,
+    "main_max_remaining_if_no_other_use": 50,
+    "prior_r5_slots": 6,
+    "known_r5_consumed": 2,
+    "r5_remaining_conditional_not_eligible": 4,
+    "reset": false
+  },
+  "actual": {
+    "new_pbs": 0,
+    "updates": 0,
+    "native_starts": 0,
+    "downloads": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "links": {
+    "plan": "SLA_ADAPT_FIRST_V63_PLAN_20261127.md",
+    "runbook": "SLA_ADAPT_FIRST_V63_RUNBOOK_20261127.md"
+  }
+}
