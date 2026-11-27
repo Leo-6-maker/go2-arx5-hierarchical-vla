@@ -39,7 +39,12 @@ REACH_IDS = ("EF5_Q_REACH_01", "EF5_Q_REACH_02")
 REACH_REPAIR_IDS = ("EF5_Q_REACH_01_R2", "EF5_Q_REACH_02")
 REACH_REPAIR_CASE = "b9ffb1cb26774ec7c6e766d82893aec05b2ffc5a0f769934bc1f651932580ea5"
 REACH_REPAIR_WAVE = "847c78ede7dcb4b19c6786800007db4f1c0a6933db4c6d9b796a86760812fed8"
-REACH_SCOPES = ("REACH_QUAL", "REACH_QUAL_R2")
+REACH_TRAIN_IDS = ("EF5_T_REACH_01", "EF5_T_REACH_02")
+REACH_TRAIN_GEOMETRY = "1af08a4eb6fc5fac4a26630a378a5963fd2cd363bc29137ffbfe30508c7ca5f6"
+REACH_TRAIN_QUAL = "a2e61eae7f07ee2f06aab25bded6c59af55a9222bcc5c03f2e2e6344ac804f25"
+REACH_TRAIN_READS = ("80dffe79a2c0789665170bd82a58ed1fee5adcfc2e76f6bfc9193380fef415f7",
+                     "402f1bab61e1687c93cc38a04e5971352a5bafffa19cc6c2e5d2db344094eb1e")
+REACH_SCOPES = ("REACH_QUAL", "REACH_QUAL_R2", "REACH_TRAIN")
 FIRST_TRAIN = ("EF5_T_MOBILE_01", "EF5_T_MOBILE_05")
 F1_RED_TRAIN = ("EF5_T_MOBILE_03", "EF5_T_MOBILE_07")
 DIVERSE_PLACE = {
@@ -73,6 +78,7 @@ PLACE_WAVES = {"DIVERSE_PLACE": DIVERSE_PLACE, "DIVERSE_PLACE_WAVE2": DIVERSE_PL
                "DIVERSE_PLACE_WAVE7": DIVERSE_PLACE_WAVE7}
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "REACH_QUAL": ("QUAL", REACH_IDS, GEOMETRY),
           "REACH_QUAL_R2": ("QUAL", REACH_REPAIR_IDS, GEOMETRY),
+          "REACH_TRAIN": ("TRAIN", REACH_TRAIN_IDS, REACH_TRAIN_GEOMETRY),
           "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
           "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
           "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY),
@@ -147,6 +153,23 @@ def write(path, data):
         os.fsync(handle.fileno())
 
 
+def reach_train_evidence(roster):
+    terminal = pinned(roster["reach_parent"])
+    if (roster["reach_parent"]["sha256"] != REACH_TRAIN_QUAL or terminal["exit_code"] != 0
+            or terminal["unreconciled"] is not None or terminal["paid_requests"] != 2
+            or terminal["admitted_train"] != 0):
+        raise ValueError("Reach TRAIN requires the original closed two-case qualification")
+    for row, identity, read, expected in zip(terminal["records"], REACH_REPAIR_IDS, roster["reach_r4_readbacks"],
+                                             REACH_TRAIN_READS, strict=True):
+        native = pinned(row["result"])
+        witness = pinned(read)
+        if (row["condition"] != identity or read["sha256"] != expected or row["hard_STOP"]
+                or row["technical_failure"] or not native["detail"]["reach_orientation_success"]
+                or not native["shutdown_clean"] or witness["original_native_result_sha256"] != row["result"]["sha256"]
+                or not witness["qualification_only"] or witness["train_admissions"] or witness["windows"] <= 0):
+            raise ValueError("Reach TRAIN requires matching native success and R4 readback")
+
+
 def rows(population, binding):
     roster = pinned(binding)
     variant = roster.get("variant", roster.get("split", "QUAL"))
@@ -167,9 +190,11 @@ def rows(population, binding):
     if variant in REACH_SCOPES:
         if variant == "REACH_QUAL_R2":
             reach_repair_evidence(roster)
+        if variant == "REACH_TRAIN":
+            reach_train_evidence(roster)
         expected = ((identities[0], "F1", "HOLD-red"), (identities[1], "F2", "HOLD-blue"))
         if tuple((r["id"], r["family"], r["instruction"]) for r in selected) != expected:
-            raise ValueError("Only the preregistered Reach/Orient QUAL scenes have this transport route")
+            raise ValueError("Only the preregistered Reach/Orient scenes have this transport route")
     elif variant in PLACE_WAVES:
         history = pinned(roster["qualification"])
         if roster["qualification"]["sha256"] != DIVERSE_LEGACY:
@@ -251,6 +276,8 @@ def rows(population, binding):
 
 
 def capacity_file(root):
+    if root.name in ("REACH-TRAIN-01", "REACH-TRAIN-OVERLAY-01"):
+        return root.parent / "REACH-TRAIN-CAPACITY-01.json"
     if root.name in ("REACH-QUAL-02", "REACH-QUAL-OVERLAY-02"):
         return root.parent / "REACH-QUAL-CAPACITY-02.json"
     if root.name in ("REACH-QUAL-01", "REACH-QUAL-OVERLAY-01"):
@@ -324,7 +351,8 @@ def patch(anchor, path, expected, edits):
 def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None,
           legacy_red_train=False, place_catalog=None, place_left_proof=None, previous_place_wave=None,
           stop_prefix=None, after_clean_place_wave=False, after_mixed_place_wave=False,
-          final_place_labels=None, final_place_sweep=None, reach_qual=False, reach_repair=None):
+          final_place_labels=None, final_place_sweep=None, reach_qual=False, reach_repair=None,
+          reach_train=None, reach_readbacks=()):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
     if legacy_red_train and (qualification or repair):
@@ -339,6 +367,11 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
             or after_clean_place_wave or stop_prefix or place_left_proof):
         raise ValueError("The sixth wave uses the sealed fifth-wave results")
     final_place = final_place_labels is not None or final_place_sweep is not None
+    if reach_train and any((reach_qual, reach_repair, qualification, repair, legacy_red_train, place_catalog,
+                            previous_place_wave, final_place)):
+        raise ValueError("Use the independent Reach TRAIN route with its qualification receipts")
+    if bool(reach_train) != bool(reach_readbacks):
+        raise ValueError("Reach TRAIN requires both R4 qualification readbacks")
     if reach_qual and any((qualification, repair, legacy_red_train, place_catalog, previous_place_wave, final_place)):
         raise ValueError("Use the original independent Reach/Orient qualification alone")
     if reach_repair is not None and not reach_qual:
@@ -351,7 +384,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         raise ValueError("The successor wave requires closed production and its earlier evidence")
     if stop_prefix and (not (place_catalog and previous_place_wave) or place_left_proof):
         raise ValueError("The fourth wave requires the previous terminal and the two actual contact prefixes")
-    variant = ("REACH_QUAL_R2" if reach_repair else "REACH_QUAL" if reach_qual else
+    variant = ("REACH_TRAIN" if reach_train else "REACH_QUAL_R2" if reach_repair else "REACH_QUAL" if reach_qual else
                "DIVERSE_PLACE_WAVE7" if final_place else "DIVERSE_PLACE_WAVE6" if after_mixed_place_wave else
                "DIVERSE_PLACE_WAVE5" if after_clean_place_wave else
                "DIVERSE_PLACE_WAVE4" if stop_prefix else
@@ -361,6 +394,13 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
                "F2_REPAIR" if repair else "TRAIN" if qualification else "QUAL")
     split, identities, geometry = SCOPES[variant]
     final_refs = {}
+    if reach_train:
+        parents = (reach_train, *(reach_train / "cases" / name for name in REACH_REPAIR_IDS))
+        if any(plain(folder / "control/LEASE.json")["status"] != "CLOSED" for folder in parents):
+            raise ValueError("Original Reach qualification leases must be closed")
+        final_refs = dict(reach_parent=ref(reach_train / "RESULT.private.json"),
+                          reach_r4_readbacks=[ref(path) for path in reach_readbacks])
+        reach_train_evidence(final_refs)
     if reach_repair:
         failed = reach_repair / "cases" / REACH_IDS[0]
         if any(plain(folder / "control/LEASE.json")["status"] != "CLOSED" for folder in (reach_repair, failed)):
@@ -418,26 +458,34 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         relative = scope + name
         patch(old_source / relative, source / relative, symbols[relative], edits)
         symbols[relative] = digest(source / relative)
-    if reach_qual:
+    if variant in REACH_SCOPES:
         model_scope = "src/go2arx5_vla/world_model/"
         reach_edits = {
             "multitask_scope_v6.py": [
                 ("def episode(adapter):\n",
                  "def episode(adapter):\n"
                  "    binding = adapter.spec.get('v62_mobile_qualification')\n"
-                 "    if binding and read_pin(binding).get('variant') in ('REACH_QUAL', 'REACH_QUAL_R2'):\n"
+                 "    if binding and read_pin(binding).get('variant') in ('REACH_QUAL', 'REACH_QUAL_R2', 'REACH_TRAIN'):\n"
                  "        from scripts.sla.v64_reach_qual import episode as reach\n"
                  "        return reach(adapter)\n"),
             ],
             "multitask_teacher_episode_v6.py": [
                 ("def episode(adapter, *, placement_teacher=None):",
-                 "def episode(adapter, *, placement_teacher=None, reach_qualification=None):"),
+                 "def episode(adapter, *, placement_teacher=None, reach_qualification=None, capture_language=None):"),
                 ("    if adapter.spec['scope'] == RELEASE_SCOPE:",
                  "    if reach_qualification is not None:\n"
                  "        teacher, score = reach_qualification(initial)\n"
                  "    if adapter.spec['scope'] == RELEASE_SCOPE:"),
                 ("    if placement_teacher is None and teacher.landing is not None:",
                  "    if reach_qualification is None and placement_teacher is None and teacher.landing is not None:"),
+                ("writer = LiveWriter(adapter,frame,camera_factory=TwoObjectCameraSession)",
+                 "writer = LiveWriter(adapter,frame,camera_factory=TwoObjectCameraSession,language=capture_language)"),
+            ],
+            "mfree_capture_v1.py": [
+                ("def __init__(self, adapter, frame, *, camera_factory=LiveCamera):",
+                 "def __init__(self, adapter, frame, *, camera_factory=LiveCamera, language=None):\n"
+                 "        self.language = adapter.spec['language'] if language is None else language"),
+                ("language=self.adapter.spec['language'],", "language=self.language,"),
             ],
         }
         for name, edits in reach_edits.items():
@@ -464,7 +512,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         registered.update(split=split, qualification=ref(result))
     if repair:
         registered.update(variant=variant, repair=ref(repair))
-    if reach_qual:
+    if variant in REACH_SCOPES:
         registered.update(variant=variant, split=split)
     if legacy_red_train:
         registered.update(variant=variant, split=split, qualification=ref(original_output / "RESULT.private.json"))
@@ -527,4 +575,6 @@ if __name__ == "__main__":
     parser.add_argument("--final-place-sweep", type=Path)
     parser.add_argument("--reach-qual", action="store_true")
     parser.add_argument("--reach-repair", type=Path)
+    parser.add_argument("--reach-train", type=Path)
+    parser.add_argument("--reach-readbacks", type=Path, nargs=2)
     stage(**vars(parser.parse_args()))

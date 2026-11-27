@@ -31,6 +31,10 @@ MOBILE_TRAIN = (
     ("EF5_T_MOBILE_07", "F1", "MOBILE_GRASP", "red", (8, 4), (-9, 7), 702307),
     ("EF5_T_MOBILE_08", "F2", "MOBILE_GRASP", "blue", (9, -7), (-8, -4), 702308),
 )
+REACH_TRAIN = (
+    ("EF5_T_REACH_01", "F1", "REACH_ORIENT", "red", (-3, 9), (9, -8), 702601),
+    ("EF5_T_REACH_02", "F2", "REACH_ORIENT", "blue", (7, -5), (-9, 7), 702602),
+)
 DIVERSE_PLACE_TRAIN = (
     ("EF5_DIVERSE_PLACE_001", "F1", "DIVERSE_PLACE", "red", (-1, 3), (-5, 0), 702501),
     ("EF5_DIVERSE_PLACE_002", "F2", "DIVERSE_PLACE", "blue", (4, 4), (2, -3), 702502),
@@ -82,7 +86,7 @@ F2_PLACE_WAVE3 = "a6d6a35dd5f9fc15b6f587c17eed3bcb355b044b68776494a915d602546b30
 
 
 def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False,
-          place_wave=1, place_f2_proof=None, previous_place=None, place_history=()):
+          place_wave=1, place_f2_proof=None, previous_place=None, place_history=(), reach_train=False):
     import mujoco as mj
     from scripts.pi0292.durable import write
     from scripts.wm02.multitask_population_v6 import compile_population
@@ -97,6 +101,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
     require(not diverse_place or (qualification is not None and repair is None),
             "Diverse PLACE requires the existing population exclusions")
     require(place_wave == 1 or diverse_place, "Unexpected diverse PLACE population")
+    require(not reach_train or (qualification is not None and not diverse_place and repair is None),
+            "Reach TRAIN uses the protected qualification population")
     if qualification:
         prior = read(pin(qualification, QUAL))
         require(prior["plan"] == PLAN and
@@ -108,6 +114,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             existing.update(row["scene"]["sha256"] for row in population["clusters"])
             existing_reset.update(row["reset"] for row in population["clusters"])
         split, roster = "TRAIN", DIVERSE_PLACE_TRAIN if diverse_place else MOBILE_TRAIN
+        if reach_train:
+            roster = REACH_TRAIN
         if place_wave == 2:
             roster = DIVERSE_PLACE_TRAIN_V2
         if place_wave == 3:
@@ -215,6 +223,7 @@ if __name__ == "__main__":
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--diverse-place", action="store_true")
+    parser.add_argument("--reach-train", action="store_true")
     parser.add_argument("--place-wave", type=int, choices=range(1, 8), default=1)
     parser.add_argument("--place-f2-proof", type=Path)
     parser.add_argument("--previous-place", type=Path)

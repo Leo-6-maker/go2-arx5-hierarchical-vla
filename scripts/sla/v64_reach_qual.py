@@ -1,4 +1,4 @@
-"""Score independent no-contact Reach/Orient on the frozen mobile Teacher loop."""
+"""Score no-contact Reach/Orient on the frozen mobile Teacher loop."""
 
 import numpy as np
 
@@ -7,6 +7,7 @@ from go2arx5_vla.world_model.multitask_carry_geometry_v6 import world_yaw
 
 
 YAW_DEG = {"EF5_Q_REACH_01": 5., "EF5_Q_REACH_01_R2": 5., "EF5_Q_REACH_02": -5.}
+TRAIN_YAW_DEG = {"EF5_T_REACH_01": 5., "EF5_T_REACH_02": -5.}
 POSITION_LIMIT_M = .005
 ROTATION_LIMIT_RAD = np.deg2rad(2.)
 DWELL_TICKS = 250
@@ -78,7 +79,13 @@ class ReachScore:
 def goals(initial, identity):
     target = np.asarray(initial["object_pose"])
     tcp = np.asarray(initial["tcp"])
-    return target[:3, 3] + GOAL_OFFSET, world_yaw(np.deg2rad(YAW_DEG[identity])) @ tcp[:3, :3]
+    yaw = (YAW_DEG | TRAIN_YAW_DEG)[identity]
+    return target[:3, 3] + GOAL_OFFSET, world_yaw(np.deg2rad(yaw)) @ tcp[:3, :3]
+
+
+def train_language(target, identity):
+    turn = "counterclockwise" if TRAIN_YAW_DEG[identity] > 0 else "clockwise"
+    return f"Reach above the {target} cube, turn the wrist 5 degrees {turn} around the vertical axis, and hold without contact."
 
 
 def episode(adapter):
@@ -86,19 +93,24 @@ def episode(adapter):
 
     spec = adapter.spec
     identity = spec["panel_entry_id"]
-    if (identity not in YAW_DEG or spec["collection_split"] != "QUAL" or spec["expert_training_eligible"]
+    train = identity in TRAIN_YAW_DEG
+    if (identity not in (YAW_DEG | TRAIN_YAW_DEG) or spec["collection_split"] != ("TRAIN" if train else "QUAL")
+            or spec["expert_training_eligible"] != train
             or spec["scope"] != "SLA_CORE_HOPPER_V1_EXPERT" or spec["WBC_changes"] or spec["safety_changes"]):
-        raise PermissionError("Reach/Orient must use its own fixed nontraining qualification")
+        raise PermissionError("Reach/Orient must use its own fixed split and roster")
     target = adapter.task.color
 
     def construct(initial):
         position, orientation = goals(initial, identity)
         return ReachTeacher(initial, position, orientation), ReachScore(initial, target, position, orientation)
 
-    result = teacher_episode(adapter, reach_qualification=construct)
+    result = teacher_episode(adapter, reach_qualification=construct,
+                             capture_language=train_language(target, identity) if train else None)
     reached = result["task_success"]
-    return dict(result, schema="V64_REACH_ORIENT_QUAL_ACTUAL",
+    task = f"REACH-ORIENT-{target}"
+    result = dict(result, schema="V64_REACH_ORIENT_TRAIN_ACTUAL" if train else "V64_REACH_ORIENT_QUAL_ACTUAL",
                 task_success=False, reach_orientation_success=reached,
-                qualification_instruction=f"REACH-ORIENT-{target}",
                 terminal_reason="REACH_ORIENTATION_SUCCESS" if reached else result["terminal_reason"],
                 scored_as_original_hold=False, training_admission=False)
+    result["training_instruction" if train else "qualification_instruction"] = task
+    return result
