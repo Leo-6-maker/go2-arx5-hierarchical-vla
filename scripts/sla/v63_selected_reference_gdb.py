@@ -40,36 +40,59 @@ def vector(address, stride):
 def matrices(address):
     start, count = vector(address, 16)
     rows = []
-    for i in range(count):
-        values, width = struct.unpack("<Qq", raw(start + 16*i, 16))
+    header = raw(start, 16*count) if count else b""
+    for values, width in struct.iter_unpack("<Qq", header):
         if not 0 <= width <= 128:
             raise ValueError("Unexpected Eigen vector width")
         rows.append(list(struct.unpack(f"<{width}d", raw(values, 8*width))) if width else [])
     return rows
 
 
-def record(reference, selected_at):
+def scalars(address, encoding):
+    begin, count = vector(address, 8)
+    return list(struct.unpack(f"<{count}{encoding}", raw(begin, 8*count))) if count else []
+
+
+def identity(payload):
+    raw_json = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(raw_json.encode()).hexdigest()
+
+
+def solution(address):
+    # PrimalSolution and ModeSchedule come from this executable's OCS2 ABI.
+    times = scalars(address, "d")
+    states, inputs = matrices(address + 24), matrices(address + 48)
+    events = scalars(address + 72, "Q")
+    event_times, modes = scalars(address + 96, "d"), scalars(address + 120, "Q")
+    if not times or len(states) != len(times) or len(inputs) != len(times):
+        raise ValueError("Unexpected active OCS2 solution trajectory lengths")
+    return dict(active_solution_sha256=identity(dict(times=times, states=states, inputs=inputs,
+                                                     post_events=events, event_times=event_times, modes=modes)),
+                solution_first_time=times[0], solution_last_time=times[-1], solution_knots=len(times))
+
+
+def record(reference, selected_at, *, include_solution=False):
     command = ptr(reference + 0x10)
     active_policy = ptr(reference + 0x20)
     if not command or not active_policy:
         raise ValueError("No active OCS2 policy/command at evaluatePolicy")
     target = command + 48
-    start, n = vector(target, 8)
-    times = list(struct.unpack(f"<{n}d", raw(start, 8*n)))
+    times = scalars(target, "d")
+    n = len(times)
     poses, inputs = matrices(target + 24), matrices(target + 48)
-    if not (len(poses) == n and len(inputs) in (0, n) and all(a <= b for a,b in zip(times, times[1:]))
+    if not (n and len(poses) == n and len(inputs) in (0, n) and all(a <= b for a,b in zip(times, times[1:]))
             and math.isfinite(selected_at)):
         raise ValueError("Selected target timestamps and values disagree")
-    identity = dict(times=times, poses=poses, inputs=inputs)
-    digest = hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":"),
-                                       allow_nan=False).encode()).hexdigest()
+    digest = identity(dict(times=times, poses=poses, inputs=inputs))
     observed = struct.unpack("<d", raw(command + 8, 8))[0]
-    return dict(eval_time_s=selected_at, mpc_init_time_s=observed, trajectory_sha256=digest,
-                target_knots=n, first_target_time=times[0], last_target_time=times[-1],
-                monotonic_ns=time.monotonic_ns())
+    event = dict(eval_time_s=selected_at, mpc_init_time_s=observed, trajectory_sha256=digest,
+                 target_knots=n, first_target_time=times[0], last_target_time=times[-1])
+    if include_solution:
+        event.update(solution(active_policy))
+    return event
 
 
-def install(output, max_samples, *, fixture=False):
+def install(output, max_samples, *, fixture=False, fixture_solution=False):
     binary = Path(gdb.current_progspace().filename)
     with binary.open("rb") as f:
         digest = hashlib.file_digest(f, "sha256").hexdigest()
@@ -83,8 +106,9 @@ def install(output, max_samples, *, fixture=False):
         if raw(resume_address-5, 5) != bytes.fromhex("e8 f7 c6 02 00"):
             raise ValueError("Unknown frozen WBC caller")
     stream = Path(output).open("x", buffering=1)
-    stream.write(json.dumps(dict(schema="OCS2_SELECTED_REFERENCE_BREAKPOINT_01", binary_sha256=digest,
-                                 fixture=fixture, hardware_breakpoint=True, max_samples=max_samples))+"\n")
+    stream.write(json.dumps(dict(schema="OCS2_SELECTED_REFERENCE_BREAKPOINT_02", binary_sha256=digest,
+                                 fixture=fixture, hardware_breakpoint=True, max_samples=max_samples,
+                                 solution_fields="TRAJECTORIES_POST_EVENTS_AND_MODE_SCHEDULE"))+"\n")
 
     class Observer(gdb.Breakpoint):
         def __init__(self):
@@ -92,12 +116,15 @@ def install(output, max_samples, *, fixture=False):
             self.count = 0
 
         def stop(self):
+            entered = time.monotonic_ns()
             # The return address limits the witness to WbcBridgeCore::Evaluate.
             if resume_address is not None and ptr(int(gdb.parse_and_eval("$rsp"))) != resume_address:
                 return False
-            v = record(int(gdb.parse_and_eval("$rdi")),float(gdb.parse_and_eval("$xmm0.v2_double[0]")))
+            v = record(int(gdb.parse_and_eval("$rdi")),float(gdb.parse_and_eval("$xmm0.v2_double[0]")),
+                       include_solution=not fixture or fixture_solution)
             self.count += 1
-            stream.write(json.dumps(dict(v,sequence=self.count),allow_nan=False)+"\n")
+            stream.write(json.dumps(dict(v, sequence=self.count, monotonic_ns=entered,
+                                         observer_read_ns=time.monotonic_ns()-entered),allow_nan=False)+"\n")
             if self.count == max_samples:
                 self.enabled = False
             return False
@@ -110,4 +137,5 @@ if "SLA_SELECTED_REFERENCE_TRACE" in os.environ:
     if not 1 <= LIMIT <= 1024:
         raise ValueError("Use a bounded diagnostic trace")
     OBSERVER = install(os.environ["SLA_SELECTED_REFERENCE_TRACE"],LIMIT,
-                       fixture=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE")=="1")
+                       fixture=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE")=="1",
+                       fixture_solution=os.environ.get("SLA_SELECTED_REFERENCE_FIXTURE_SOLUTION")=="1")

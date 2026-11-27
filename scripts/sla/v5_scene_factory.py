@@ -46,8 +46,14 @@ DIVERSE_PLACE_TRAIN_V3 = (
     ("EF5_DIVERSE_PLACE_006", "F2", "DIVERSE_PLACE", "red", (3, -6), (-17, 21), 702506),
 )
 PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_005=(3, -2), EF5_DIVERSE_PLACE_006=(-3, 4))
+DIVERSE_PLACE_TRAIN_V4 = (
+    ("EF5_DIVERSE_PLACE_007", "F1", "DIVERSE_PLACE", "blue", (-2, 7), (4, 1), 702507),
+    ("EF5_DIVERSE_PLACE_008", "F1", "DIVERSE_PLACE", "red", (3, 4), (-6, 3), 702508),
+)
+PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_007=(2, 1), EF5_DIVERSE_PLACE_008=(1, -5))
 F2_PLACE_DESCEND = "5578d875d85f925d501a835f79692ba023ee50b4f84924a8d8a21457686c20c1"
 F2_PLACE_WAVE2 = "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe"
+F2_PLACE_WAVE3 = "a6d6a35dd5f9fc15b6f587c17eed3bcb355b044b68776494a915d602546b301e"
 
 
 def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False,
@@ -88,6 +94,11 @@ def build(source, protected, out, *, qualification=None, protected_population=No
                     and offset["feasible_table_and_red"] and offset["minimum_arm_clearance_mm"] > 0,
                     "The F2 successor must match the archived contact and blue-only clearance result")
             roster = DIVERSE_PLACE_TRAIN_V3
+        if place_wave == 4:
+            previous = read(pin(previous_place, F2_PLACE_WAVE3))
+            existing.update(row["scene"]["sha256"] for row in previous["clusters"])
+            existing_reset.update(row["reset"] for row in previous["clusters"])
+            roster = DIVERSE_PLACE_TRAIN_V4
     if repair:
         evidence = read(pin(repair, F2_REPLAY))
         row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
@@ -107,7 +118,9 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             xyz = card["object_positions_world"][color]
             xyz[:2] = [xyz[0] + dx * 1e-3, xyz[1] + dy * 1e-3]
         if diverse_place:
-            side = "left" if identity in {"EF5_DIVERSE_PLACE_004", "EF5_DIVERSE_PLACE_005", "EF5_DIVERSE_PLACE_006"} else "right"
+            left_placements = {"EF5_DIVERSE_PLACE_004", "EF5_DIVERSE_PLACE_005",
+                               "EF5_DIVERSE_PLACE_006", "EF5_DIVERSE_PLACE_007"}
+            side = "left" if identity in left_placements else "right"
             center = card["zones"][side]["center_world_XY"]
             center[:] = [position + delta * 1e-3 for position, delta in
                          zip(center, PLACE_ZONE_OFFSETS_MM[identity], strict=True)]
@@ -155,6 +168,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         actual["repair_trace_sha256"] = F2_REPLAY
     if place_wave == 3:
         actual["f2_failed_place_replay_sha256"] = F2_PLACE_DESCEND
+    if place_wave == 4:
+        actual["protected_previous_place_population_sha256"] = F2_PLACE_WAVE3
     write(out / "ACTUAL.json", actual)
 
 
@@ -166,7 +181,7 @@ if __name__ == "__main__":
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--diverse-place", action="store_true")
-    parser.add_argument("--place-wave", type=int, choices=(1, 2, 3), default=1)
+    parser.add_argument("--place-wave", type=int, choices=(1, 2, 3, 4), default=1)
     parser.add_argument("--place-f2-proof", type=Path)
     parser.add_argument("--previous-place", type=Path)
     build(**vars(parser.parse_args()))
