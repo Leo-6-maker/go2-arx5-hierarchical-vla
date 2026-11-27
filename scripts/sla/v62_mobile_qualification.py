@@ -18,7 +18,9 @@ F2_GEOMETRY = "0e99e023f4348139b8123d5b1c8b4a7da7f4acf2b48d2312f665dba913eb4621"
 F2_REPLAY = "9d0d116a768cfb00f24b42e57e4cb0df1d7ef1e9cf139479ed3b1b6668c697a1"
 F1_RED_LEGACY = "f0015701b5070b877dce21d2292cefb41b9aa13d17ba1e9fc669f7eaa6648f92"
 DIVERSE_GEOMETRY = "838cd05519316ee5fc16d97a051d9a707e9203fdf4d452ba842f9885c8da723b"
+DIVERSE_WAVE2_GEOMETRY = "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe"
 DIVERSE_LEGACY = "05b145f759de77ff7cf00c82db6aee4fdafe21b826c8fa15a410e88c07ebf154"
+DIVERSE_LEGACY_LEFT = "414fa12a17d0527c7ac91ff8eec6254b1714e8ecb00a447a0d57c284b1beebeb"
 TICKS = 35703
 PLACE_TICKS = 50703
 IDS = ("EF5_Q_MOBILE_01", "EF5_Q_MOBILE_02")
@@ -28,10 +30,16 @@ DIVERSE_PLACE = {
     "EF5_DIVERSE_PLACE_001": ("F1", "PLACE-red-right", "CHV1-TRAIN-F1-PLACE-red-right-02"),
     "EF5_DIVERSE_PLACE_002": ("F2", "PLACE-blue-right", "CHV1-TRAIN-F2-PLACE-blue-right-02"),
 }
+DIVERSE_PLACE_WAVE2 = {
+    "EF5_DIVERSE_PLACE_003": ("F1", "PLACE-red-right", "CHV1-TRAIN-F1-PLACE-red-right-02"),
+    "EF5_DIVERSE_PLACE_004": ("F2", "PLACE-red-left", "CHV1-TRAIN-F2-PLACE-red-left-02"),
+}
+PLACE_WAVES = {"DIVERSE_PLACE": DIVERSE_PLACE, "DIVERSE_PLACE_WAVE2": DIVERSE_PLACE_WAVE2}
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
           "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
           "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY),
-          "DIVERSE_PLACE": ("TRAIN", tuple(DIVERSE_PLACE), DIVERSE_GEOMETRY)}
+          "DIVERSE_PLACE": ("TRAIN", tuple(DIVERSE_PLACE), DIVERSE_GEOMETRY),
+          "DIVERSE_PLACE_WAVE2": ("TRAIN", tuple(DIVERSE_PLACE_WAVE2), DIVERSE_WAVE2_GEOMETRY)}
 
 
 def digest(path):
@@ -66,7 +74,7 @@ def rows(population, binding):
     roster = pinned(binding)
     variant = roster.get("variant", roster.get("split", "QUAL"))
     split, identities, geometry = SCOPES[variant]
-    ticks = PLACE_TICKS if variant == "DIVERSE_PLACE" else TICKS
+    ticks = PLACE_TICKS if variant in PLACE_WAVES else TICKS
     selected = population["conditions"][split]
     if (population["plan"] != PLAN or population["source_geometry_sha256"] != geometry
             or roster["plan"] != PLAN or roster["physics_requests"] != len(identities)
@@ -77,13 +85,21 @@ def rows(population, binding):
     by_id = {cluster["id"]: cluster["scene"]["sha256"] for cluster in population["clusters"]}
     if by_id != roster["cards"]:
         raise ValueError("Compiled scenes differ from the qualification allocation")
-    if variant == "DIVERSE_PLACE":
+    if variant in PLACE_WAVES:
         history = pinned(roster["qualification"])
         if roster["qualification"]["sha256"] != DIVERSE_LEGACY:
             raise ValueError("Diverse PLACE requires the original consumed Teacher archive")
         approved = {r["episode"]: r for r in history["episodes"]}
+        if variant == "DIVERSE_PLACE_WAVE2":
+            left = pinned(roster["left_qualification"])
+            if roster["left_qualification"]["sha256"] != DIVERSE_LEGACY_LEFT:
+                raise ValueError("The second wave requires the original complete F2 red-left witness")
+            for admission in left["admissions"]:
+                episode = admission["episode"]
+                if episode["split"] == "TRAIN" and episode["individual_pass"]:
+                    approved[episode["id"]] = admission
         for row in selected:
-            family, instruction, witness = DIVERSE_PLACE[row["id"]]
+            family, instruction, witness = PLACE_WAVES[variant][row["id"]]
             proof = approved[witness]
             if ((row["family"], row["instruction"]) != (family, instruction) or proof["task"] != instruction
                     or not all(proof["phase_windows"].get(phase, 0) > 0 for phase in ("CARRY", "LOWER", "OPEN", "WITHDRAW"))):
@@ -112,9 +128,15 @@ def rows(population, binding):
     return selected
 
 
-def capacity(root):
+def capacity_file(root):
+    if root.name in ("DIVERSE-PLACE-TRAIN-02", "DIVERSE-PLACE-OVERLAY-02"):
+        return root.parent / "DIVERSE-PLACE-CAPACITY-02.json"
     name = "DIVERSE-PLACE-CAPACITY.json" if root.name.startswith("DIVERSE-PLACE-") else "QUAL-CAPACITY.json"
-    planned = plain(root.parent / name)
+    return root.parent / name
+
+
+def capacity(root):
+    planned = plain(capacity_file(root))
     memory = int(next(line.split()[1] for line in Path("/proc/meminfo").read_text().splitlines()
                       if line.startswith("MemAvailable:"))) * 1024
     return shutil.disk_usage(root).free > planned["upcoming_writes_bytes"] and memory >= 13*1024**3
@@ -126,7 +148,7 @@ def build_population(compiled, old, variant):
     resets = {x["reset"] for x in old["clusters"]}
     cards = []
     split, identities, geometry = SCOPES[variant]
-    place = variant == "DIVERSE_PLACE"
+    place = variant in PLACE_WAVES
     for name in identities:
         q, = (x for x in compiled["conditions"][split] if x["id"] == name)
         cluster = clusters[name]
@@ -160,14 +182,17 @@ def patch(anchor, path, expected, edits):
 
 
 def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None,
-          legacy_red_train=False, place_catalog=None):
+          legacy_red_train=False, place_catalog=None, place_left_proof=None):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
     if legacy_red_train and (qualification or repair):
         raise ValueError("F1 red uses only the preserved legacy qualification")
     if place_catalog and (qualification or repair or legacy_red_train):
         raise ValueError("Diverse PLACE requires its own legacy task witness")
-    variant = ("DIVERSE_PLACE" if place_catalog else "F1_RED_TRAIN" if legacy_red_train else
+    if place_left_proof and not place_catalog:
+        raise ValueError("The second PLACE wave also requires the original right-placement witness")
+    variant = ("DIVERSE_PLACE_WAVE2" if place_left_proof else "DIVERSE_PLACE" if place_catalog else
+               "F1_RED_TRAIN" if legacy_red_train else
                "F2_REPAIR" if repair else "TRAIN" if qualification else "QUAL")
     split, identities, geometry = SCOPES[variant]
     ticks = PLACE_TICKS if place_catalog else TICKS
@@ -235,6 +260,8 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         registered.update(variant=variant, split=split, qualification=ref(original_output / "RESULT.private.json"))
     if place_catalog:
         registered.update(variant=variant, split=split, qualification=ref(place_catalog))
+    if place_left_proof:
+        registered["left_qualification"] = ref(place_left_proof)
     write(registry_file, registered)
     write(source_file, symbols)
     use = shutil.disk_usage(root.parent)
@@ -250,11 +277,11 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
     with tempfile.TemporaryFile(dir=root.parent) as f:
         os.posix_fallocate(f.fileno(), 0, 64*1024**2)
         os.fsync(f.fileno())
-    capacity_file = root.parent / ("DIVERSE-PLACE-CAPACITY.json" if place_catalog else "QUAL-CAPACITY.json")
-    if variant in ("QUAL", "DIVERSE_PLACE"):
-        write(capacity_file, dict(free_bytes=use.free, previous_trace_bytes=demonstrated,
+    reservation = capacity_file(root)
+    if variant == "QUAL" or variant in PLACE_WAVES:
+        write(reservation, dict(free_bytes=use.free, previous_trace_bytes=demonstrated,
               upcoming_writes_bytes=planned, writable_probe_bytes=64*1024**2, device=root.parent.stat().st_dev))
-    elif plain(capacity_file)["upcoming_writes_bytes"] != planned:
+    elif plain(reservation)["upcoming_writes_bytes"] != planned:
         raise ValueError("The same native output reservation must cover this two-card TRAIN wave")
     config = dict(old, root=str(root), source_root=str(source), source_sha=revision,
                   population=ref(pop_file), source_members=ref(source_file))
@@ -276,4 +303,5 @@ if __name__ == "__main__":
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--legacy-red-train", action="store_true")
     parser.add_argument("--place-catalog", type=Path)
+    parser.add_argument("--place-left-proof", type=Path)
     stage(**vars(parser.parse_args()))

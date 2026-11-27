@@ -36,9 +36,15 @@ DIVERSE_PLACE_TRAIN = (
     ("EF5_DIVERSE_PLACE_002", "F2", "DIVERSE_PLACE", "blue", (4, 4), (2, -3), 702502),
 )
 PLACE_ZONE_OFFSETS_MM = {"EF5_DIVERSE_PLACE_001": (0, -4), "EF5_DIVERSE_PLACE_002": (5, 4)}
+DIVERSE_PLACE_TRAIN_V2 = (
+    ("EF5_DIVERSE_PLACE_003", "F1", "DIVERSE_PLACE", "red", (5, 2), (-9, 3), 702503),
+    ("EF5_DIVERSE_PLACE_004", "F2", "DIVERSE_PLACE", "red", (3, -6), (-5, 9), 702504),
+)
+PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_003=(3, -6), EF5_DIVERSE_PLACE_004=(-3, 4))
 
 
-def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False):
+def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False,
+          place_wave=1):
     import mujoco as mj
     from scripts.pi0292.durable import write
     from scripts.wm02.multitask_population_v6 import compile_population
@@ -52,6 +58,7 @@ def build(source, protected, out, *, qualification=None, protected_population=No
     require(repair is None or qualification is not None, "Protect the original QUAL population before a repair")
     require(not diverse_place or (qualification is not None and repair is None),
             "Diverse PLACE requires the existing population exclusions")
+    require(place_wave == 1 or (place_wave == 2 and diverse_place), "Unexpected diverse PLACE population")
     if qualification:
         prior = read(pin(qualification, QUAL))
         require(prior["plan"] == PLAN and
@@ -63,6 +70,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             existing.update(row["scene"]["sha256"] for row in population["clusters"])
             existing_reset.update(row["reset"] for row in population["clusters"])
         split, roster = "TRAIN", DIVERSE_PLACE_TRAIN if diverse_place else MOBILE_TRAIN
+        if place_wave == 2:
+            roster = DIVERSE_PLACE_TRAIN_V2
     if repair:
         evidence = read(pin(repair, F2_REPLAY))
         row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
@@ -82,16 +91,17 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             xyz = card["object_positions_world"][color]
             xyz[:2] = [xyz[0] + dx * 1e-3, xyz[1] + dy * 1e-3]
         if diverse_place:
-            right = card["zones"]["right"]["center_world_XY"]
-            right[:] = [position + delta * 1e-3 for position, delta in
-                        zip(right, PLACE_ZONE_OFFSETS_MM[identity], strict=True)]
+            side = "left" if identity == "EF5_DIVERSE_PLACE_004" else "right"
+            center = card["zones"][side]["center_world_XY"]
+            center[:] = [position + delta * 1e-3 for position, delta in
+                         zip(center, PLACE_ZONE_OFFSETS_MM[identity], strict=True)]
         require(reset not in existing_reset, "The proposed reset overlaps a protected experiment")
         existing_reset.add(reset)
         clusters.append(dict(id=identity, family=family, split=split, stage=split, reset=reset, card=card))
         condition = dict(id=identity, cluster=identity, split=split, family=family, reset=reset,
                          skill=skill, target=target, original_2ms=True, physics_eligible=False)
         if diverse_place:
-            condition["instruction"] = f"PLACE-{target}-right"
+            condition["instruction"] = f"PLACE-{target}-{side}"
         conditions.append(condition)
     out.mkdir(mode=0o700)
     prepared = dict(schema="SLA_CORE_EMBODIMENT_FACTORY_V5_S1", plan=PLAN, clusters=clusters,
@@ -138,4 +148,5 @@ if __name__ == "__main__":
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--diverse-place", action="store_true")
+    parser.add_argument("--place-wave", type=int, choices=(1, 2), default=1)
     build(**vars(parser.parse_args()))
