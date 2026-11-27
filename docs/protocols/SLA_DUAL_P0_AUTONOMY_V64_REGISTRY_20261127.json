@@ -1,0 +1,270 @@
+{
+  "schema": "sla-dual-p0-v64-v1",
+  "date_sgt": "2026-11-27",
+  "state": "PLAN_ONLY_NOT_DEPLOYED",
+  "predecessor_prs": [
+    425,
+    521,
+    522,
+    523,
+    524,
+    525,
+    526
+  ],
+  "evidence": {
+    "core": "e45d857e2528808882389c6e0c1ea4b1bb7a22c7",
+    "observer": "d2dc18589f0b8f9226e871d99d31608dcf34e7d9",
+    "hopper": "d6f21ab0b3eee835a1d5bae931b04aa37df2104f",
+    "core_train": 75,
+    "latest_place": {
+      "label_sha256": "955ad71fe4ddeb8e47fc184b2a3c3b8fc49678a8b4d546dfd73f64102d52af69",
+      "windows": 132,
+      "full_h40": 129,
+      "supported_points": 5220,
+      "admitted_to_a74": false
+    },
+    "place_three_waves": {
+      "requests": 6,
+      "qualified": 3,
+      "third_ticks": 57549
+    },
+    "n1": {
+      "first_four_waves": {
+        "requests": 8,
+        "qualified": 5,
+        "occupied_seconds": 3498.42,
+        "seal_seconds": 3660.522,
+        "calendar_seconds": 19952.165,
+        "seal_rate": 4.92,
+        "calendar_rate": 0.9
+      },
+      "place": {
+        "requests": 4,
+        "qualified": 2,
+        "occupied_seconds": 2224.468,
+        "seal_seconds": 2247.771,
+        "occupied_rate": 3.24,
+        "seal_rate": 3.2,
+        "calendar_rate": 0.55
+      },
+      "cpu_sample": {
+        "seconds": 20,
+        "avg_cores": 0.883,
+        "peak_gib": 3.97
+      },
+      "cpu_allowed": 20,
+      "available_ram_gib": 52.35
+    },
+    "observer_actual": {
+      "intervals": 3720,
+      "ambiguous": 1860,
+      "bench_nodes": [
+        41,
+        80
+      ],
+      "native_n1_observer_qualification": false
+    },
+    "hopper_actual": {
+      "job_id": "736456.hopper-m-02",
+      "engineering_updates": 6,
+      "formal_updates": 0,
+      "checkpoint_gb_approx": 6.82,
+      "qualification_save_elapsed_s": 354.05,
+      "source_qualification_save_s": 52.4,
+      "restore_status": "PENDING_AT_FIXED_REPORT",
+      "previous_source500_eligible": false
+    },
+    "a74": {
+      "episodes": 74,
+      "windows": 6544,
+      "increment_episodes": 22,
+      "increment_windows": 2094,
+      "increment_full_h40": 2028,
+      "increment_supported_points": 82440,
+      "manifest": "e3487b9322a6ce7e795a69a596c762a775e7475af3752d6d0142ae5f37d3f0fd",
+      "bank": "1ce0abe57d403f93fa25f71ad8268389c80a4cfbb8bbaa5b499e3db3820b0fa0",
+      "planned_unique_first250_windows": 5482
+    }
+  },
+  "dispatch": {
+    "p0": [
+      "H_A250_FORMAL",
+      "C_N1_OBSERVER_TO_N2_N4"
+    ],
+    "p1": [
+      "FULL_DATA",
+      "RECOVERY",
+      "SRC608_PREP"
+    ],
+    "source500": "HOLD",
+    "vanda": "PAUSED",
+    "stages_hours": [
+      6,
+      24,
+      72
+    ],
+    "no_new_authority": true
+  },
+  "hopper": {
+    "after_probe": {
+      "required": [
+        "closed_old_job_F",
+        "original_name",
+        "no_formal_run",
+        "six_real_engineering_updates",
+        "same_course_and_bank",
+        "sealed_members_match",
+        "prediction_equal_cold_restore",
+        "specific_insufficient_time_error",
+        "actual_peak_capacity_pass",
+        "real_remaining_allocation"
+      ],
+      "formal_start": 0,
+      "qualification_replay_updates": 0
+    },
+    "adapt_endpoints": [
+      250,
+      500,
+      1000,
+      3000,
+      5000
+    ],
+    "first_three_same_a74_bank": true,
+    "conditional_longer": true,
+    "recipe": {
+      "go2_old": 32,
+      "go2_revised": 24,
+      "go2_latest": 8,
+      "ville": 16,
+      "robodojo_old": 16,
+      "robodojo_expanded": 16,
+      "libero": 16,
+      "aux": 4
+    },
+    "planned_first250": {
+      "fm": 32000,
+      "go2": 16000,
+      "aux": 1000
+    },
+    "gate": {
+      "n02_hold": 2,
+      "n02_total": 2,
+      "place_grasp": 4,
+      "place_total": 4,
+      "lift_min": 3,
+      "in_zone_min": 2,
+      "require_new_stage_progress": true,
+      "new_safety_stop": 0,
+      "source_mae_alert_relative": 0.1
+    },
+    "evaluation": {
+      "fixed_feedback": 24,
+      "source_dev": 42,
+      "per_endpoint_native": 6,
+      "independent_hold_at_1k": 4
+    },
+    "save": {
+      "every_steps": 100,
+      "or_minutes": 30,
+      "min_reserve_minutes": 15,
+      "first_pbs_suggested_hours": 2,
+      "original_pbs_max_hours": 6
+    }
+  },
+  "core": {
+    "n1_observer_first_max": 1,
+    "observer_overhead_development_target": 0.1,
+    "n2": {
+      "original_cap": 36,
+      "original_tick_cap": 645308,
+      "matched_speedup_min": 1.5,
+      "reference_place_rate_if_matched": 4.8
+    },
+    "n4": {
+      "original_cap": 28,
+      "original_tick_cap": 429684,
+      "matched_speedup_vs_n2_min": 1.25,
+      "reference_place_rate_if_n2_at_min": 6
+    },
+    "n8": "SEPARATE_FUTURE_SCOPE_NOT_AUTHORIZED",
+    "target100_remaining": {
+      "reach_orient": 8,
+      "mobile_grasp": 5,
+      "diverse_place": 5,
+      "mobile_container": 4,
+      "push": 3
+    },
+    "target200": 200,
+    "recovery": {
+      "pilot": 2,
+      "first_target": 10,
+      "first_request_cap": 20,
+      "total_target": 40,
+      "original_total_request_cap": 80
+    },
+    "fairness": {
+      "student_wait_minutes": 30,
+      "teacher_terminals": 12
+    },
+    "seal": {
+      "new_episodes": 4,
+      "hours_if_changed": 6
+    },
+    "single_world_optimization_original_cap": 12
+  },
+  "source608": {
+    "core_inventory": 608,
+    "robodojo": 499,
+    "ville": 58,
+    "sc_vla": 51,
+    "single_arm": 109,
+    "windows": 544694,
+    "training_qualification_pending": true,
+    "requires_adapt_gate": true,
+    "source_recipe": {
+      "go2": 16,
+      "ville": 32,
+      "sc_vla": 32,
+      "robodojo": 32,
+      "libero": 16,
+      "aux": 4
+    },
+    "adapt_recipe": {
+      "go2": 64,
+      "ville": 16,
+      "sc_vla": 16,
+      "robodojo": 16,
+      "libero": 16,
+      "aux": 4
+    }
+  },
+  "budget": {
+    "formal_default": 8000,
+    "conditional": 15000,
+    "formal_known_used": 250,
+    "formal_max_default_remaining": 7750,
+    "formal_max_conditional_remaining": 14750,
+    "engineering_cap": 24,
+    "engineering_known_used": 12,
+    "engineering_max_remaining": 12,
+    "optional_control_cap": 1000,
+    "original_gpu_hours": 320,
+    "original_deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "main_student_slots_max_if_unchanged": 50,
+    "example_adapt_three_endpoints_plus_independent": 22,
+    "example_source_three_endpoints": 18,
+    "all_slots_must_map": true,
+    "reset": false
+  },
+  "actual_new_actions": {
+    "pbs": 0,
+    "training_updates": 0,
+    "native_starts": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "links": {
+    "plan": "SLA_DUAL_P0_AUTONOMY_V64_PLAN_20261127.md",
+    "runbook": "SLA_DUAL_P0_AUTONOMY_V64_RUNBOOK_20261127.md"
+  }
+}
