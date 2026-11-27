@@ -27,24 +27,38 @@ def reference(path):
     return dict(path=str(path), sha256=sha(path))
 
 
-def source_role(step):
+def source_role(step, plan=V62):
     require(type(step) is int and step in ENDPOINTS, "Unknown SOURCE evaluation milestone")
+    if plan != V62:
+        from v64_adapt_endpoint import END, PLAN as ADAPT_PLAN
+
+        require(plan == ADAPT_PLAN and step == END, "Unknown ADAPT evaluation milestone")
+        return f"ADAPT{step:04d}"
     return f"SOURCE{step:04d}"
 
 
 def checked_manifest(provider, parent, registration):
     step = registration["source_step"]
-    require(registration["v62_plan"] == V62 and registration["v4_model_role"] == source_role(step),
-            "Unregistered SOURCE evaluation role")
+    plan = registration["v62_plan"]
+    require(registration["v4_model_role"] == source_role(step, plan), "Unregistered evaluation role")
     audit = registration["source_audit"]
     proof = read(pin(audit["path"], audit["sha256"]))
-    require(proof["science_plan"] == V62 and proof["bank_receipt_sha256"] == BANK_RECEIPT
-            and proof["parent_sha256"] == MAIN and proof["initial_r4_receipt_sha256"] == R4
+    require(proof["science_plan"] == plan and proof["parent_sha256"] == MAIN and proof["initial_r4_receipt_sha256"] == R4
             and proof["step"] == step and proof["rng_restored"] and proof["complete_training_endpoint"]
-            and proof["actual_visits"] == {name: n*step for name, n in VISITS.items()}
-            and proof["actual_source_visits"] == {name: n*step for name, n in SOURCE_VISITS.items()}
             and proof["adam_counters"] == dict.fromkeys(GROUPS, step)
-            and proof["provider_manifest_sha256"] == provider["sha256"], "Incomplete SOURCE restore or wrong course")
+            and proof["provider_manifest_sha256"] == provider["sha256"], "Incomplete restore or wrong course")
+    if plan == V62:
+        require(proof["bank_receipt_sha256"] == BANK_RECEIPT
+                and proof["actual_visits"] == {name: n*step for name, n in VISITS.items()}
+                and proof["actual_source_visits"] == {name: n*step for name, n in SOURCE_VISITS.items()},
+                "Incomplete SOURCE training exposure")
+    else:
+        from v64_adapt_endpoint import BANK, GO2, VISITS as ADAPT_VISITS
+
+        require(proof["formal"] and proof["bank_receipt_sha256"] == BANK
+                and proof["actual_visits"] == {name: n*step for name, n in ADAPT_VISITS.items()}
+                and proof["actual_go2_population"] == {name: n*step for name, n in GO2.items()},
+                "Incomplete ADAPT training exposure")
     folder = Path(provider["path"])
     model = read(pin(folder / "CHECKPOINT.json", provider["sha256"]))
     require(model["previous_checkpoint_sha256"] == parent["checkpoint_sha256"] == MAIN
@@ -62,10 +76,10 @@ def checked_manifest(provider, parent, registration):
     return model
 
 
-def comparison_rows(phase, places, holds, step):
+def comparison_rows(phase, places, holds, step, plan=V62):
     from v6_r4_native_deploy import ROLE, comparison_rows as matched
 
-    role = source_role(step)
+    role = source_role(step, plan)
     places, holds = matched(phase, places, holds)
     return tuple([dict(row, id=row["id"].replace(ROLE, role), pair_id=row["pair_id"].replace(ROLE, role))
                   for row in rows] for rows in (places, holds))
@@ -83,15 +97,15 @@ def launcher(path):
         ('    require(len(conditions) == (4 if phase == "LONG_PLACE" else 2)',
          '    if "source_step" in registration:\n'
          '        from v62_source_native import source_role\n'
-         '        role = source_role(registration["source_step"])\n'
+         '        role = source_role(registration["source_step"], registration["v62_plan"])\n'
          '        conditions = [dict(c, id=c["id"].replace("LONG_PARENT_", role + "_")) for c in conditions]\n'
          '    require(len(conditions) == (4 if phase == "LONG_PLACE" else 2)'),
         ('        registration = dict(additional, plan=plan)\n        model = comparison_manifest(registration)',
          '        source_step = binding.get("source_step")\n'
          '        if source_step is not None:\n'
          '            from v62_source_native import source_role\n'
-         '            require(binding["role"] == source_role(source_step) and phase == binding["source_phase"],\n'
-         '                    "The SOURCE evaluation role or phase changed")\n'
+         '            require(binding["role"] == source_role(source_step, binding["v62_plan"]) and phase == binding["source_phase"],\n'
+         '                    "The evaluation role or phase changed")\n'
          '            scope = "SLA_" + binding["role"] + "_" + phase.removeprefix("LONG_")\n'
          '            additional.update(source_step=source_step, v62_plan=binding["v62_plan"],\n'
          '                              source_audit=binding["source_audit"])\n'
@@ -101,7 +115,7 @@ def launcher(path):
          '            places, holds = comparison_rows(phase, places, holds)\n'
          '        if source_step is not None:\n'
          '            from v62_source_native import comparison_rows as source_rows\n'
-         '            places, holds = source_rows(phase, places, holds, source_step)\n'),
+         '            places, holds = source_rows(phase, places, holds, source_step, binding["v62_plan"])\n'),
     ):
         require(text.count(before) == 1, "The qualified native launcher seam changed")
         text = text.replace(before, after)
@@ -109,7 +123,7 @@ def launcher(path):
     return text
 
 
-def stage(base, endpoint, overlay, step):
+def stage(base, endpoint, overlay, step, *, adapt=False):
     from scripts.pi0292.durable import write
 
     prior = base / "R4-DEV-0200-PLACE-OVERLAY-01"
@@ -118,7 +132,11 @@ def stage(base, endpoint, overlay, step):
     parent = panel["candidate"]
     source_provider = endpoint / "PROVIDER"
     provider = dict(path=str(source_provider), sha256=sha(source_provider / "CHECKPOINT.json"))
-    registration = dict(v4_model_role=source_role(step), source_step=step, v62_plan=V62,
+    plan = V62
+    if adapt:
+        from v64_adapt_endpoint import PLAN as plan
+    role = source_role(step, plan)
+    registration = dict(v4_model_role=role, source_step=step, v62_plan=plan,
                         source_audit=reference(endpoint / "CPU-ENDPOINT-READBACK.json"))
     model = checked_manifest(provider, read(pin(Path(parent["path"]) / "CHECKPOINT.json", parent["sha256"])), registration)
     code = launcher(prior / SLA / "m38_a_native_v1.py")
@@ -127,19 +145,23 @@ def stage(base, endpoint, overlay, step):
     entry.unlink()
     entry.write_text(code)
     shutil.copy2(__file__, overlay / SLA)
-    for name in ("v62_source_admission", "v62_source_endpoint", "v61_source_course", "v61_source_bank", "v6_dual_course"):
+    modules = ("v62_source_admission", "v62_source_endpoint", "v61_source_course", "v61_source_bank", "v6_dual_course")
+    if adapt:
+        modules += ("v64_adapt_endpoint", "v63_adapt_course", "v63_adapt_data", "v4_long_export")
+    for name in modules:
         member = Path(import_module(name).__file__)
         target = overlay / SLA / member.name
         if target.exists():
             require(sha(target) == sha(member), "Conflicting native evaluation module")
         else:
             shutil.copy2(member, target)
+    prefix = "ADAPT" if adapt else "SOURCE"
     for phase in ("LONG_HOLD", "LONG_PLACE"):
-        places, holds = comparison_rows(phase, panel["place"], panel["hold"], step)
-        registered = dict(registration, role=source_role(step), candidate=provider, source_phase=phase,
+        places, holds = comparison_rows(phase, panel["place"], panel["hold"], step, plan)
+        registered = dict(registration, role=role, candidate=provider, source_phase=phase,
                           checkpoint_sha256=model["checkpoint_sha256"], place=places, hold=holds,
                           parent_panel=reference(prior_panel))
-        write(overlay / f"SOURCE_{phase.removeprefix('LONG_')}_PREFLIGHT.json", dict(panel, **registered))
+        write(overlay / f"{prefix}_{phase.removeprefix('LONG_')}_PREFLIGHT.json", dict(panel, **registered))
 
 
 def read_phase(root, phase, step):
@@ -250,6 +272,8 @@ if __name__ == "__main__":
         for field in fields:
             parser.add_argument(field, type=Path)
         parser.add_argument("step", type=int, choices=ENDPOINTS)
+        if name == "stage":
+            parser.add_argument("--adapt", action="store_true")
     args = vars(cli.parse_args())
     action = args.pop("action")
     {"stage": stage, "settle": settle, "release": release}[action](**args)

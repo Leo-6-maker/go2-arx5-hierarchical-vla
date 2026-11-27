@@ -21,6 +21,7 @@ from v62_source_native import checked_manifest, reference, source_role
 
 DEV_ROSTER = "a6e9a33717d9938ac1870ce479947d3289045cf601ea0977a2cf80d082e80292"
 R4_READBACK = "820b1ef46077355da86c85c448bd83e2b552ab199f138439d057e82f53f79741"
+PAIRED_R4_DEV = "e05d16597cc0386c4c07249f68ab398a2d8986b8eee054e8c84e5f182a86ba17"
 
 
 def restore_groups(endpoint, names, step):
@@ -53,20 +54,21 @@ def load_inputs(dual, single, video, roster):
     return {domain: (reader, sealed["actual_readback"][domain]["rows"]) for domain, reader in readers.items()}
 
 
-def summarize(rows):
+def summarize(rows, candidate_key="source"):
     episodes, tasks = defaultdict(list), defaultdict(list)
     for row in rows:
-        scores = [row["mae"][name] for name in ("r4_init", "source")]
+        scores = [row["mae"][name] for name in ("r4_init", candidate_key)]
         episodes[row["episode"]].append(scores)
         tasks[row["task"]].append(scores)
     matched = np.asarray([np.mean(values, axis=0) for values in episodes.values()])
     parent, candidate = matched.mean(axis=0)
-    return dict(windows=len(rows), episodes=len(episodes), r4_init_mae=float(parent), source_mae=float(candidate),
+    return dict(windows=len(rows), episodes=len(episodes), r4_init_mae=float(parent),
                 episodes_improved=int(np.count_nonzero(matched[:, 1] < matched[:, 0])),
-                task_mae={task: np.mean(data, axis=0).tolist() for task, data in tasks.items()})
+                task_mae={task: np.mean(data, axis=0).tolist() for task, data in tasks.items()},
+                **{candidate_key + "_mae": float(candidate)})
 
 
-def evaluate(worker, endpoint, retention, roster, dual, single, single_video, out, step):
+def evaluate(worker, endpoint, retention, roster, dual, single, single_video, out, step, *, adapt_baseline=None):
     spec = read(worker)
     bind_imports(spec)
 
@@ -84,19 +86,31 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
     from v6_dual_course import initialize_single
 
     _, gate, receiver = accepted(spec)
+    plan, candidate, old_rows = V62, "source", {}
+    if adapt_baseline:
+        from v64_adapt_endpoint import PLAN as ADAPT_PLAN
+
+        plan, candidate = ADAPT_PLAN, "adapt"
+        past = read(pin(adapt_baseline, PAIRED_R4_DEV))
+        require(past["plan"] == V62 and past["model_forwards"] == 84
+                and past["roster"]["sha256"] == DEV_ROSTER
+                and past["physics_ticks"] == past["optimizer_updates"] == 0,
+                "The matched, previously evaluated R4 source baseline is required")
+        old_rows = {name: {row["index"]: row for row in data["rows"]} for name, data in past["domains"].items()}
     parent = read(pin(Path(gate["package"]["path"]) / "CHECKPOINT.json", gate["package"]["sha256"]))
     audit = reference(endpoint / "CPU-ENDPOINT-READBACK.json")
     folder = endpoint / "PROVIDER"
     provider = dict(path=str(folder), sha256=sha(folder / "CHECKPOINT.json"))
-    model = checked_manifest(provider, parent, dict(v4_model_role=source_role(step), source_step=step,
-                            v62_plan=V62, source_audit=audit))
+    model = checked_manifest(provider, parent, dict(v4_model_role=source_role(step, plan), source_step=step,
+                            v62_plan=plan, source_audit=audit))
     r4 = read(pin(retention / "R4_STEP0200_PROVIDER_READBACK.json", R4_READBACK))
     baseline = Path(r4["endpoint"])
     bound = read(pin(baseline.parent / "STEP0200_SEALED.json", R4))
     require(endpoint_files(baseline) == bound["files"] and r4["parent_sha256"] == MAIN,
             "The exact R4 baseline training bytes are required")
-    checkpoint = endpoint / "run" / f"STEP{step:04d}"
-    terminal = read(pin(endpoint / "run/TERMINAL.json", model["training_receipt_sha256"]))
+    run = endpoint / ("A250-FORMAL-R1/run" if adapt_baseline else "run")
+    checkpoint = run / f"STEP{step:04d}"
+    terminal = read(pin(run / "TERMINAL.json", model["training_receipt_sha256"]))
     require(Path(terminal["checkpoint"]["path"]).name == checkpoint.name
             and endpoint_files(checkpoint) == terminal["checkpoint"]["files"], "Wrong SOURCE training bytes")
     inputs = load_inputs(dual, single, single_video, roster)
@@ -110,8 +124,9 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1, "Expected the registered Corelab GPU")
         out.mkdir(mode=0o700)
         jax.config.update("jax_compilation_cache_dir", str(out / "jit-cache"))
-        write(out / "START.json", dict(plan=V62, step=step, provider=provider, roster=reference(roster), gpu=gpu,
-                                      maximum_forwards=84))
+        maximum_forwards = 42 if adapt_baseline else 84
+        write(out / "START.json", dict(plan=plan, step=step, provider=provider, roster=reference(roster), gpu=gpu,
+                                      maximum_forwards=maximum_forwards))
         asset = receiver["model"]
         tokenizer_path = pin(receiver["tokenizer"]["path"], model["tokenizer_sha256"])
         require(asset["parent_manifest"]["sha256"] == model["foundation_sha256"], "Frozen foundation asset changed")
@@ -119,8 +134,9 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
         require(identity["frozen_fingerprint"] == model["frozen_model"]
                 and canonical_hash(identity["inventory"]) == model["partition_sha256"], "Frozen SOURCE model changed")
         tokenizer = Tokenizer(str(tokenizer_path))
-        roles = {"r4_init": restore_groups(baseline, ("shared", "target", "robodojo"), 200),
-                 "source": restore_groups(checkpoint, ("shared", "single", "robodojo"), step)}
+        roles = {candidate: restore_groups(checkpoint, ("shared", "single", "robodojo"), step)}
+        if not adapt_baseline:
+            roles = dict(r4_init=restore_groups(baseline, ("shared", "target", "robodojo"), 200), **roles)
         fields, _ = extracted_fields(batch_v2, pi0)
         output = {}
         started = time.monotonic()
@@ -149,6 +165,14 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
                 target = np.asarray(actions)[0, :, :dimensions]
                 record = dict(row, actual_noise_sha256=hashlib.sha256(np.asarray(noise).tobytes()).hexdigest(),
                               mae={}, prediction_sha256={})
+                if adapt_baseline:
+                    prior = old_rows[domain][index]
+                    require(all(prior[key] == val for key, val in row.items())
+                            and prior["actual_noise_sha256"] == record["actual_noise_sha256"]
+                            and np.isfinite(prior["mae"]["r4_init"]),
+                            "The real R4 baseline does not match this input and sampled noise")
+                    record["mae"]["r4_init"] = prior["mae"]["r4_init"]
+                    record["prediction_sha256"]["r4_init"] = prior["prediction_sha256"]["r4_init"]
                 prefix = out / f"{domain}-{index:07d}"
                 write(prefix.with_suffix(".ENTERED.json"), record)
                 for role, state in active.items():
@@ -158,12 +182,20 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
                     record["prediction_sha256"][role] = hashlib.sha256(prediction.tobytes()).hexdigest()
                 write(prefix.with_suffix(".RETURNED.json"), record)
                 measured.append(record)
-            output[domain] = dict(summary=summarize(measured), rows=measured)
+            output[domain] = dict(summary=summarize(measured, candidate), rows=measured)
         require([len(output[name]["rows"]) for name in ("robodojo", "single")] == [24, 18], "Incomplete development population")
-        improved = all(r["summary"]["source_mae"] < r["summary"]["r4_init_mae"] for r in output.values())
-        write(out / "RESULT.json", dict(plan=V62, source_step=step, checkpoint=model["checkpoint_sha256"], audit=audit,
-                 roster=reference(roster), source_learned=bool(improved), model_forwards=84,
-                 physics_ticks=0, optimizer_updates=0, domains=output))
+        metrics = {name: r["summary"] for name, r in output.items()}
+        proof = dict(plan=plan, source_step=step, checkpoint=model["checkpoint_sha256"], audit=audit,
+                     roster=reference(roster), model_forwards=maximum_forwards,
+                     physics_ticks=0, optimizer_updates=0, domains=output)
+        if adapt_baseline:
+            require(all(r["r4_init_mae"] > 0 for r in metrics.values()), "Invalid R4 baseline MAE")
+            change = {name: r["adapt_mae"] / r["r4_init_mae"] - 1 for name, r in metrics.items()}
+            proof.update(reused_r4=reference(adapt_baseline), relative_mae=change,
+                         retention_alert_domains=[name for name, drift in change.items() if drift > .1])
+        else:
+            proof["source_learned"] = all(r["source_mae"] < r["r4_init_mae"] for r in metrics.values())
+        write(out / "RESULT.json", proof)
 
 
 if __name__ == "__main__":
@@ -171,4 +203,5 @@ if __name__ == "__main__":
     for key in ("worker", "endpoint", "retention", "roster", "dual", "single", "single_video", "out"):
         parser.add_argument(key, type=Path)
     parser.add_argument("step", type=int)
+    parser.add_argument("--adapt-baseline", type=Path)
     evaluate(**vars(parser.parse_args()))
