@@ -99,6 +99,28 @@ def recover(learner_, path):
     learner_.optimizer, learner_.rng, learner_.step = restored["optimizer"], restored["rng"], int(restored["step"])
 
 
+def resume(learner_, parent, expected, start):
+    import jax
+    import orbax.checkpoint as ocp
+
+    from v65_recovery_extension import original
+
+    _, seal = original(parent)
+    path = parent / "run" / f"STEP{start:04d}"
+    require(expected == seal and seal["files"] == endpoint_files(path), "Incomplete exact 1K parent bytes")
+    with ocp.PyTreeCheckpointer() as checkpointer:
+        state = checkpointer.restore(path.resolve(), item=snapshot(learner_))
+    counts = {key: int(value[0].count) for key, value in state["optimizer"].items()}
+    require(state["step"] == start and counts == seal["adam_counts"] == dict.fromkeys(("shared", *BATCH), start)
+            and np.array_equal(state["rng"], learner_.rng) and set(state["parameters"]) == set(learner_.parameters),
+            "The complete training counters or deterministic RNG did not resume")
+    for name, value in state["parameters"].items():
+        learner_.parameters[name].replace_by_pure_dict(value)
+    learner_.optimizer, learner_.rng, learner_.step = state["optimizer"], state["rng"], int(state["step"])
+    jax.block_until_ready(learner_.parameters)
+    return dict(step=start, adam_counters=counts, rng_restored=True, logical_samples={name: start*n for name,n in BATCH.items()})
+
+
 def run(capsule):
     import jax
     import jax.numpy as jnp
@@ -107,10 +129,23 @@ def run(capsule):
 
     binding_file = capsule / "BINDING.json"
     binding = read(binding_file)
-    require(binding["plan"] == PLAN and binding["r4_receipt"] == R4 and binding["formal_end"] == END
-            and binding["engineering_updates"] == PROBE and PROBE <= binding["engineering_remaining"]
-            and binding["formal_prior_updates"] + END <= 8000
+    start, end = binding.get("formal_start", 0), binding["formal_end"]
+    require(binding["plan"] == PLAN and binding["r4_receipt"] == R4
+            and binding["formal_prior_updates"] + end-start <= 8000
             and binding["parent"]["sha256"] == PARENT_RELEASE, "Unregistered V6.5 execution")
+    if start:
+        from v65_recovery_extension import BASE_SEAL, BASE_TERMINAL, COURSE, END as EXTENDED, START, extended_bank, original
+
+        require(start == START and end == EXTENDED and binding["course"] == COURSE and binding["engineering_updates"] == 0
+                and binding["base_seal"] == BASE_SEAL and binding["base_terminal"] == BASE_TERMINAL,
+                "Only the scientific 1K-to-3K continuation is registered")
+        previous = Path(binding["base_capsule"])
+        original_binding, parent_seal = original(previous)
+        require(all(binding[k] == original_binding[k] for k in ("data", "parent", "source_hold", "r4_receipt")),
+                "Continuation input lineage changed")
+    else:
+        require(end == END and binding["engineering_updates"] == PROBE and PROBE <= binding["engineering_remaining"],
+                "Original V6.5 engineering and 1K boundary changed")
     parent_gate(binding["parent"])
     hold = binding["source_hold"]
     require(hold["sha256"] == SOURCE_RELEASE and not read(pin(hold["path"], hold["sha256"]))["released"],
@@ -123,10 +158,12 @@ def run(capsule):
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1
                 and "H200" in jax.local_devices()[0].device_kind, "One allocated H200 is required")
         site["project_award"] = award(binding, capsule, site)
-        site["write_capacity"] = write_capacity(capsule, r4, "1000", 0, END, binding["budget_seconds"])
+        site["write_capacity"] = write_capacity(capsule, r4, str(end), start, end, binding["budget_seconds"])
         write(capsule / "START.json", site)
         jax.config.update("jax_compilation_cache_dir", str(capsule / "jit-cache"))
-        data = bind(config, Path(binding["bank"]["path"]).parent, binding["bank"]["sha256"])
+        bank = binding["bank"]
+        bank_root = Path(bank["path"]).parent
+        data = extended_bank(previous, bank_root, bank["sha256"]) if start else bind(config, bank_root, bank["sha256"])
         graphs, inherited, base, ancestry = corrected_parent(Path(paths["custody"]), Path(paths["short"]), r4)
         active, frozen, lora, audit = partitions(inherited, base)
         write(capsule / "PARAMETERS.json", audit)
@@ -185,6 +222,23 @@ def run(capsule):
             write(directory / f"{path.name}_SEALED.json", proof)
             return path, proof
 
+        if start:
+            require(audit["total_frozen_sha256"] == parent_seal["frozen_weight_sha256"]
+                    and audit["parent_lora_sha256"] == parent_seal["lora_sha256"], "Frozen parent identity changed")
+            formal = capsule / "run"
+            formal.mkdir(mode=0o700)
+            contract = formal / "RUN_CONTRACT.json"
+            write(contract, dict(plan=PLAN, course=COURSE, seed=SEED, start=start, end=end, ancestry=ancestry,
+                  new_adam_from_r4=False, previous_seal=BASE_SEAL, previous_terminal=BASE_TERMINAL,
+                  binding_sha256=sha(binding_file), actual_training_scope_sha256=sha(capsule / "PARAMETERS.json")))
+            with closing(make()) as current:
+                state = resume(current, previous, parent_seal, start)
+                require(bool(finite(current.parameters)), "Nonfinite restored trainable parameters")
+                write(formal / "RESUME.json", dict(state, parent_seal=BASE_SEAL, bank_sha256=bank["sha256"],
+                                                   engineering_updates=0))
+                train_segment(current, formal, update, save, end, start=start)
+            return
+
         qual = capsule / "qualification"
         qual.mkdir(mode=0o700)
         with closing(make()) as current:
@@ -220,27 +274,33 @@ def run(capsule):
               actual_training_scope_sha256=sha(capsule / "PARAMETERS.json"), new_adam_from_r4=True))
         with closing(make()) as current:
             require(current.step == 0 and frozen_fingerprint(lora) == audit["parent_lora_sha256"], "Start from R4 step 0")
-            status, previous, latest = "TECHNICAL_INTERRUPTION", time.monotonic(), None
-            totals = Counter()
-            try:
-                with (formal / "UPDATES.jsonl").open("x", buffering=1) as history:
-                    while current.step < END:
-                        row = update(current, END)
-                        history.write(json.dumps(row, allow_nan=False)+"\n")
-                        totals.update(row["go2"])
-                        totals.update(robodojo_old=row["robodojo_old"], robodojo_expanded=row["robodojo_expanded"],
-                                      libero=row["components"]["libero"]["visits"], aux=row["components"]["auxiliary"]["visits"])
-                        if current.step % 100 == 0 or current.step == 250 or time.monotonic()-previous >= 1800:
-                            _, latest = save(current, formal)
-                            previous = time.monotonic()
-                status = "FORMAL_V65_1K_COMPLETE"
-            except TimeoutError:
-                status = "SAVED_AT_FINITE_BOUNDARY"
-            finally:
-                if latest is None or latest["step"] != current.step:
+            train_segment(current, formal, update, save, END)
+
+
+def train_segment(current, formal, update, save, end, *, start=0):
+    status, last_save, latest = "TECHNICAL_INTERRUPTION", time.monotonic(), None
+    totals, accounted_step = Counter(), start
+    try:
+        with (formal / "UPDATES.jsonl").open("x", buffering=1) as history:
+            while current.step < end:
+                row = update(current, end)
+                history.write(json.dumps(row, allow_nan=False)+"\n")
+                accounted_step = current.step
+                totals.update(row["go2"])
+                totals.update(robodojo_old=row["robodojo_old"], robodojo_expanded=row["robodojo_expanded"],
+                              libero=row["components"]["libero"]["visits"], aux=row["components"]["auxiliary"]["visits"])
+                if current.step % 100 == 0 or current.step == 250 or time.monotonic()-last_save >= 1800:
                     _, latest = save(current, formal)
-                write(formal / "TERMINAL.json", dict(status=status, formal_updates=current.step, engineering_updates=PROBE,
-                      checkpoint=latest, optimizer_visits=dict(totals), contract_sha256=sha(formal / "RUN_CONTRACT.json")))
+                    last_save = time.monotonic()
+        status = "FORMAL_V65_3K_COMPLETE" if start else "FORMAL_V65_1K_COMPLETE"
+    except TimeoutError:
+        status = "SAVED_AT_FINITE_BOUNDARY"
+    finally:
+        if current.step == accounted_step and (latest is None or latest["step"] != accounted_step):
+            _, latest = save(current, formal)
+        segment = dict(start=start, end=end, resumed_from_formal_1k=True, segment_updates=accounted_step-start) if start else {}
+        write(formal / "TERMINAL.json", dict(status=status, formal_updates=accounted_step, engineering_updates=0 if start else PROBE,
+              checkpoint=latest, optimizer_visits=dict(totals), contract_sha256=sha(formal / "RUN_CONTRACT.json"), **segment))
 
 
 if __name__ == "__main__":

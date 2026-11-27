@@ -71,7 +71,7 @@ def demographics(target):
     return np.asarray(episodes), np.asarray(phases), np.asarray(groups)
 
 
-def target_schedule(target, rng):
+def target_schedule(target, rng, *, start=0, end=END):
     episodes, phases, groups = demographics(target)
     masks = np.asarray([target.support(i).all() for i in range(len(target))])
     pools = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -111,7 +111,7 @@ def target_schedule(target, rng):
     rows, slots = [], []
     roster = sorted(recovery)
     require(len(roster) == 3 and len(target) == 8031, "Recovery strata changed")
-    for step in range(END):
+    for step in range(start, end):
         row, selected = [], set()
         for group in ("old", "new"):
             before = len(row)
@@ -132,15 +132,15 @@ def schedule(step):
     return PEAK * (step/50 if step <= 50 else .1 + .45*(1+np.cos(np.pi*(step-50)/950)))
 
 
-def validate(datasets, banks, slots, rates):
+def validate(datasets, banks, slots, rates, *, end=END, rate_schedule=schedule):
     for role, value in banks.items():
-        require(value.shape == (END, BATCH[role]) and value.dtype == np.int64
+        require(value.shape == (end, BATCH[role]) and value.dtype == np.int64
                 and 0 <= value.min() <= value.max() < len(datasets[role]), "Invalid actual reader index or batch width")
     target = datasets["target"]
     indices, robo = banks["target"], banks["robodojo"]
     episodes, phases, groups = demographics(target)
     selected = np.take_along_axis(indices, slots, axis=1)
-    require(slots.shape == (END, 4) and slots.dtype == np.int64
+    require(slots.shape == (end, 4) and slots.dtype == np.int64
             and (groups[selected] == ["old", "old", "new", "new"]).all()
             and all(target.support(int(i)).all() for i in np.unique(selected))
             and (np.diff(np.sort(indices, axis=1), axis=1) > 0).all()
@@ -151,7 +151,7 @@ def validate(datasets, banks, slots, rates):
             and (np.isin(phases[indices[:, :94]], tuple(TRANSPORT)).sum(axis=1) >= 8).all()
             and (robo[:, :8] < datasets["robodojo"].base_length).all()
             and (robo[:, 8:] >= datasets["robodojo"].base_length).all()
-            and np.array_equal(rates, [schedule(i) for i in range(1, END+1)]), "V6.5 all-row curriculum disagrees")
+            and np.array_equal(rates, [rate_schedule(i) for i in range(1, end+1)]), "V6.5 all-row curriculum disagrees")
     return episodes, phases, groups
 
 
@@ -194,21 +194,22 @@ def bind(config, root, expected):
     return datasets, tokenizer, banks, slots, rates, demographics_
 
 
-def host(config, root, expected, output):
+def host_readback(data, output, *, step=0, bank_sha256):
     from go2arx5_vla.sla_adapter.scale20k_training import prepare_host_batch
 
-    datasets, tokenizer, banks, slots, _, demographics_ = bind(config, root, expected)
+    datasets, tokenizer, banks, slots, _, demographics_ = data
     shapes = {}
     for role, data in datasets.items():
-        batch = prepare_host_batch(data, tokenizer, role, range(BATCH[role]), banks[role][0])
+        cursor = step * BATCH[role]
+        batch = prepare_host_batch(data, tokenizer, role, range(cursor, cursor+BATCH[role]), banks[role][step])
         shapes[role] = list(batch["actions"].shape)
-    targets = banks["target"][0]
+    targets = banks["target"][step]
     mask = np.asarray([datasets["target"].support(int(i)) for i in targets])
-    prior, widths = datasets["target"].aux(targets[slots[0]])
+    prior, widths = datasets["target"].aux(targets[slots[step]])
     require(shapes == {"target": [96, 40, 32], "robodojo": [16, 50, 32], "libero": [16, 10, 32]}
             and widths.shape == (4, 40) and prior.shape == (4,) and np.isfinite(widths).all()
             and mask[-2:, :10].all(), "Real training input shapes or mask differ")
-    write(output, dict(plan=PLAN, bank=expected, actual_shapes=shapes, auxiliary_shape=list(widths.shape),
+    write(output, dict(plan=PLAN, bank=bank_sha256, cursor=step, actual_shapes=shapes, auxiliary_shape=list(widths.shape),
                        recovery_episodes=demographics_[0][targets[-2:]].tolist(), optimizer_visits=0))
 
 
@@ -220,6 +221,10 @@ def learner(data, graphs, parameters, frozen, rng):
                        tokenizer=tokenizer, banks=banks, auxiliary_slots=slots, auxiliary=datasets["target"].aux,
                        cursors=dict.fromkeys(BATCH, 0), rates=rates, rng=rng, batch_by_domain=BATCH,
                        gradient_join=partial(reduced_fm, batch=BATCH, aux_weight=AUX), domain_roles={k:k for k in BATCH})
+
+
+def host(config, root, expected, output):
+    host_readback(bind(config, root, expected), output, bank_sha256=expected)
 
 
 if __name__ == "__main__":
