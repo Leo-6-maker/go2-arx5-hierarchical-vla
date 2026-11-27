@@ -28,6 +28,10 @@ Corelab 用现场读取器重新读取全部 Recovery3。其双 RGB、归一化�
 
 **20:16:57 SGT** 回读正式 step 100 完整封存，20 个成员，四个 Adam 计数和采样游标均为 100，冻结 LoRA 指纹与 R4 相同。前 100 步实际消费 **12,800 FM、400 个 H40 辅助位**，含 4,800 旧 Go2、4,600 新 Go2、200 Recovery。去前五步的更新中位数 **4.96 s**。检查时正式作业已推进至第 107 步。checkpoint `6c7e10652f3998314890d13f60bdf6fbc14f13ae5955d71ebee2299dea4a983e`，百步真实账本 `2f4b676a88e3c8ddba883c76bd7df774e89fa4a8ea87bba005dd3632051ef395`。这是训练完整性记录，科学评价仍安排在完成 1K 后。
 
+**20:30:10 SGT** 回读第 200 和 250 步完整封存，四个 Adam 计数与游标各自一致。第 200 步累计 **25,600 FM／800 辅助**，第 250 步累计 **32,000 FM／1,000 辅助**，其中 24,000 Go2 和 500 Recovery。两个封存均绑定原 LoRA 指纹。第 100／200／250 步 checkpoint 各约 **4.85 GB**，Orbax 元数据从初始化到原子 commit 分别为 **3.001／3.006／2.929 s**，不含后续自读成员指纹。前 250 步去前 5 步的更新中位数为 **4.959 s**。同一作业现场已记录第 263 步。本确认未启动科学评价。
+
+200 封存 `f3c43e2b21e0d865f502ee8c790299ea4f0fa5ae6aa5bade13f3d6eb8e300cf0`，账本 `d4ccce1a51705f489102d9c7429940b27c77bfa39cb8b9b48edb138c7b61807c`。250 封存 `62dc5ac501842356b7c080608e12e01864e2b46fc5a3573786f6af6df6e0bd3e`，账本 `f9fd3d0c949610bdbe62e1bb25a7c8c9e0bb3e55f8480e77dad584c682f957a1`。
+
 ## Corelab 并行结果
 
 两张移动容器 QUAL 均在开爪前触发原安全门。完整 **0/2**，共 60,204 tick，STOP 后均为 0 tick。红卡已抓持并搬运，蓝卡止于抓持前。固定数据库存为 Embodiment **93/100**、Recovery **3/10**。容器接触与净空复算见 [Corelab 两卡终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/684c0ad6/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/V64_CORE_SELECTED_REFERENCE_ACTUAL_20261127.md#两张-mobile-container-qual-在开爪前触发原安全门)。
