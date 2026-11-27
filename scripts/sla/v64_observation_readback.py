@@ -52,6 +52,31 @@ def receiver(raw):
     return installed, proposed, expired, automatic
 
 
+def grant_timing(raw, first_active, end):
+    grants = defaultdict(list)
+    for _, receipt in rows(raw/"CLOCK_RESUME_REQUESTS.jsonl"):
+        grants[receipt["requested_step"]].append(receipt["monotonic_s"])
+    elapsed, allowed_after = [], []
+    for start, (_, entered) in first_active.items():
+        (grant,) = grants[start+25]
+        elapsed.append((entered-grant)*1000)
+        for next_grant in grants[start+50]:
+            allowed_after.append((next_grant-entered)*1000)
+
+    def describe(values):
+        if not values:
+            return None
+        ordered = sorted(values)
+        return dict(count=len(ordered), minimum=ordered[0], p50=median(ordered),
+                    p95=ordered[(95*len(ordered)+99)//100-1], maximum=ordered[-1])
+
+    return dict(grants_after_terminal_step=sum(len(values) for step, values in grants.items() if step > end),
+                active_before_current_clock_grant=sum(x < 0 for x in elapsed),
+                grant_to_first_active_ms=describe(elapsed),
+                first_active_to_following_grant_ms=describe(allowed_after),
+                basis="ORIGINAL_GRANTED_CLOCK_TRACE_NO_CHANGE_TO_FIXED_WAIT")
+
+
 def readback(case):
     from go2arx5_vla.world_model.multitask_state_v6 import packets
 
@@ -117,7 +142,7 @@ def readback(case):
             target not in current and target in interval_targets.get(start-25, ()))
         active = atom["installed_reference_sha256"]
         if unique_installs == {active}:
-            first_active.setdefault(start, source - start)
+            first_active.setdefault(start, (source-start, entered))
         elif unique_installs:
             marks["selected_other_installed_wire"] += 1
             if start in first_active:
@@ -138,17 +163,18 @@ def readback(case):
         ordinal["early_receipts"] = sum(arm["monotonic_s"] < ns/1e9
             for (_, ns), arm in zip(observed_order, chronological_arms, strict=True))
     stop = detail.get("expected_project_STOP")
-    grants_after = sum(row["requested_step"] > end for _, row in rows(raw/"CLOCK_RESUME_REQUESTS.jsonl"))
+    timing = grant_timing(raw, first_active, end)
     proposal_past_deadline = sum(p["sim_time_s"] > p["deadline_s"] for p in proposals.values())
     duration = sorted(row["observer_read_ns"]/10**6 for row in calls)
     return dict(status="OBSERVED_DIAGNOSTIC_EVIDENCE", scope="SINGLE_REGISTERED_WORLD", native_range=[begin, end],
                 controller_calls=len(calls), coverage=dict(marks), all_native_packets=len(all_steps),
                 arm_request_order_diagnostic=ordinal,
-                first_active_wire_ticks=dict(Counter(first_active.values())),
+                first_active_wire_ticks=dict(Counter(ticks for ticks, _ in first_active.values())),
                 intervals_reverting_after_active_wire=len(returned_to_older),
                 fully_clocked_intervals=len(coverage), native_intervals=len(atoms),
                 observer_read_ms=dict(p50=median(duration),p95=duration[(95*len(duration)+99)//100-1],maximum=max(duration)),
-                project_stop=stop, clean_shutdown=final["shutdown_clean"], grants_after_terminal_step=grants_after,
+                project_stop=stop, clean_shutdown=final["shutdown_clean"], grant_timing=timing,
+                grants_after_terminal_step=timing["grants_after_terminal_step"],
                 late_proposals=proposal_past_deadline, late_receiver_accepts=expired, automatic_start_installs=automatic,
                 terminal_integrations=final["actual_native_integrations"], records=details)
 
