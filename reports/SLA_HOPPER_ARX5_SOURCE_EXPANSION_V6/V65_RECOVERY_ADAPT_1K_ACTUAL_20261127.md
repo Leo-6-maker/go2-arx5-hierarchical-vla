@@ -18,6 +18,14 @@ PBS `737361.hopper-m-02` 已通过原 held-job 资源核对并释放。2026-11-2
 
 完整端点写入项目 scratch，预留约 **194.1 GB**，实际 64 MiB 持久化写入探针通过。签发 `4c265be366e162032116570ad088c0c7eca5a23535b160318e8979723a165c2f`，数据与实现绑定 `fa3bb01098fe04cef47be8f180ccee2584a535d98bc4b4122529612fbf1532d5`，写入容量 `f8eb653381f1a595e1b05883d25a2175aae2b8529e4db8b885002c25fe4de9c5`。PBS `R` 为现场运行状态。GPU 资格、实际优化步数和正式端点将在相应回执出现后结算。
 
+## GPU 资格通过，正式训练已开始
+
+Corelab 用现场读取器重新读取全部 Recovery3。其双 RGB、归一化状态、修订动作和逐点掩码的回执与 Hopper **逐字节一致**。实际 GPU 参数审计确认 Action Expert **427,932,672** 参数，三个独立 IO 各 **2,165,792** 参数。冻结的既有 LoRA **27,869,184** 参数保留原值。从完整 R4 固定输入生成的 step 0 原始 H40 与新参数分区逐元素相同。Recovery 隔离诊断真实读取两窗，各 40 个有效时间点，共享与 Go2 梯度 L2 分别为 **0.54045／0.33020**。该诊断没有更新参数。
+
+两次实际工程更新均完成，完整冷恢复后固定 H40 相同，四个 Adam 计数均为 2。JAX 峰值约 **23.67 GiB**，运行额度约 **104.85 GiB**。资格回执 `5bd97f14c1062ef1c2042222264bf0317d787cf88aca5be6a316a1630e499a17`，step 0 与 Recovery 梯度回执 `f1050cad39b72ad87987a08d609988383ab935bbaa9e1b8c04e6f910060a424e`。工程累计 **17/24**。
+
+同一 PBS 随即从 R4-200、全新正式 Adam/RNG step 0 起跑。**20:12:01 SGT** 实际正式账本 **49/1,000 步**，去前 5 步的每步中位数约 **4.98 s**。正式绑定 `e7348a2dbc242cf8687999139313c2e6f4dec0423794e3deca9810ee8c8ce55e`。这是还在推进的训练样本，尚无正式末端或闭环评价。
+
 ## Corelab 并行结果
 
 两张移动容器 QUAL 均在开爪前触发原安全门。完整 **0/2**，共 60,204 tick，STOP 后均为 0 tick。红卡已抓持并搬运，蓝卡止于抓持前。固定数据库存为 Embodiment **93/100**、Recovery **3/10**。容器接触与净空复算见 [Corelab 两卡终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/684c0ad6/reports/SLA_CORE_EMBODIMENT_FACTORY_V5/V64_CORE_SELECTED_REFERENCE_ACTUAL_20261127.md#两张-mobile-container-qual-在开爪前触发原安全门)。
