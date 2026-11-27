@@ -11,16 +11,18 @@ from m38_gpu_preflight_v1 import pin, read, require, sha
 
 
 RESULT = "987c5499236556823e227c6a3b06f1a25d16a431fdfc2cb5ad71d49386f868a2"
+PLACE_DESCEND = "e51850de5b2bc386cbc6fa288cdfa3e175d8d400f3733f1d6e69b561236d5c8e"
 OFFSETS_MM = (-12, -8, -4, 0, 4, 8, 12)
 
 
-def screen(case, out):
+def screen(case, out, *, place_red_left=False):
     import mujoco as mj
     from go2arx5_vla.world_model.native_replay import forbid_integration
     from scripts.pi0292.durable import write
 
     spec = read(case / "EXECUTION_SPEC.json")
-    terminal = read(pin(case / "RESULT.private.json", RESULT))
+    expected = PLACE_DESCEND if place_red_left else RESULT
+    terminal = read(pin(case / "RESULT.private.json", expected))
     stop, = terminal["physics_stops"]
     require(read(case / "control/LEASE.json")["status"] == "CLOSED" and stop["reason"] == "ILLEGAL_CONTACT"
             and terminal["trace_audit"]["integrations_after_first_STOP"] == 0 and mj.__version__ == "3.2.7",
@@ -28,11 +30,16 @@ def screen(case, out):
     step = stop["steps"]
     trace = case / "native-01/physics.jsonl"
     rows = []
+    sampled = -1
     with trace.open() as stream:
         for line in stream:
             item = json.loads(line)
-            if item["kind"] == "sample" and step-125 <= item["step"] <= step:
+            if item["kind"] != "sample":
+                continue
+            tick = item["step"]
+            if step-125 <= tick <= step or (place_red_left and 5703 <= tick < step-125 and tick-sampled >= 25):
                 rows.append(item)
+                sampled = tick
     require(rows[-1]["step"] == step and rows[-1]["contact_stop"]
             and all(not row["illegal_contact"] for row in rows[:-1]), "No first forbidden contact in the native trace")
 
@@ -69,7 +76,7 @@ def screen(case, out):
     nominal, = (row for row in sweeps if row["blue_offset_mm"] == [0,0])
     require(nominal["minimum_arm_clearance_mm"] < 0, "The unmodified stop must reproduce the original overlap")
     contact = hits[0]
-    write(out, dict(result_sha256=RESULT, native_trace_sha256=sha(trace), scene_sha256=sha(path), stop=stop,
+    write(out, dict(result_sha256=expected, native_trace_sha256=sha(trace), scene_sha256=sha(path), stop=stop,
                     native_contact=contact, contact_bodies=[model.body(model.geom_bodyid[contact[key]]).name
                     for key in ("geom1", "geom2")], fixed_achieved_samples=len(rows), offsets=sweeps,
                     native_integrations=0, model_forwards=0))
@@ -80,4 +87,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("case", type=Path)
     parser.add_argument("out", type=Path)
+    parser.add_argument("--place-red-left", action="store_true")
     screen(**vars(parser.parse_args()))

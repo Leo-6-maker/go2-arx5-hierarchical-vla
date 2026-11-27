@@ -41,10 +41,17 @@ DIVERSE_PLACE_TRAIN_V2 = (
     ("EF5_DIVERSE_PLACE_004", "F2", "DIVERSE_PLACE", "red", (3, -6), (-5, 9), 702504),
 )
 PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_003=(3, -6), EF5_DIVERSE_PLACE_004=(-3, 4))
+DIVERSE_PLACE_TRAIN_V3 = (
+    ("EF5_DIVERSE_PLACE_005", "F1", "DIVERSE_PLACE", "blue", (-6, 2), (2, 3), 702505),
+    ("EF5_DIVERSE_PLACE_006", "F2", "DIVERSE_PLACE", "red", (3, -6), (-17, 21), 702506),
+)
+PLACE_ZONE_OFFSETS_MM.update(EF5_DIVERSE_PLACE_005=(3, -2), EF5_DIVERSE_PLACE_006=(-3, 4))
+F2_PLACE_DESCEND = "5578d875d85f925d501a835f79692ba023ee50b4f84924a8d8a21457686c20c1"
+F2_PLACE_WAVE2 = "25c15ab27d2fa528dca803432f7de2f4d0c3a423f13255c427da7099ad9bd6fe"
 
 
 def build(source, protected, out, *, qualification=None, protected_population=None, repair=None, diverse_place=False,
-          place_wave=1):
+          place_wave=1, place_f2_proof=None, previous_place=None):
     import mujoco as mj
     from scripts.pi0292.durable import write
     from scripts.wm02.multitask_population_v6 import compile_population
@@ -58,7 +65,7 @@ def build(source, protected, out, *, qualification=None, protected_population=No
     require(repair is None or qualification is not None, "Protect the original QUAL population before a repair")
     require(not diverse_place or (qualification is not None and repair is None),
             "Diverse PLACE requires the existing population exclusions")
-    require(place_wave == 1 or (place_wave == 2 and diverse_place), "Unexpected diverse PLACE population")
+    require(place_wave == 1 or diverse_place, "Unexpected diverse PLACE population")
     if qualification:
         prior = read(pin(qualification, QUAL))
         require(prior["plan"] == PLAN and
@@ -72,6 +79,15 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         split, roster = "TRAIN", DIVERSE_PLACE_TRAIN if diverse_place else MOBILE_TRAIN
         if place_wave == 2:
             roster = DIVERSE_PLACE_TRAIN_V2
+        if place_wave == 3:
+            replay = read(pin(place_f2_proof, F2_PLACE_DESCEND))
+            prior_place = read(pin(previous_place, F2_PLACE_WAVE2))
+            original, = (c for c in prior_place["clusters"] if c["id"] == "EF5_DIVERSE_PLACE_004")
+            offset, = (r for r in replay["offsets"] if r["blue_offset_mm"] == [-12, 12])
+            require(replay["scene_sha256"] == original["scene"]["sha256"] and replay["native_integrations"] == 0
+                    and offset["feasible_table_and_red"] and offset["minimum_arm_clearance_mm"] > 0,
+                    "The F2 successor must match the archived contact and blue-only clearance result")
+            roster = DIVERSE_PLACE_TRAIN_V3
     if repair:
         evidence = read(pin(repair, F2_REPLAY))
         row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
@@ -91,7 +107,7 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             xyz = card["object_positions_world"][color]
             xyz[:2] = [xyz[0] + dx * 1e-3, xyz[1] + dy * 1e-3]
         if diverse_place:
-            side = "left" if identity == "EF5_DIVERSE_PLACE_004" else "right"
+            side = "left" if identity in {"EF5_DIVERSE_PLACE_004", "EF5_DIVERSE_PLACE_005", "EF5_DIVERSE_PLACE_006"} else "right"
             center = card["zones"][side]["center_world_XY"]
             center[:] = [position + delta * 1e-3 for position, delta in
                          zip(center, PLACE_ZONE_OFFSETS_MM[identity], strict=True)]
@@ -137,6 +153,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
         actual.update(protected_qualification_sha256=QUAL, protected_population_sha256=sha(protected_population))
     if repair:
         actual["repair_trace_sha256"] = F2_REPLAY
+    if place_wave == 3:
+        actual["f2_failed_place_replay_sha256"] = F2_PLACE_DESCEND
     write(out / "ACTUAL.json", actual)
 
 
@@ -148,5 +166,7 @@ if __name__ == "__main__":
     parser.add_argument("--protected-population", type=Path)
     parser.add_argument("--repair", type=Path)
     parser.add_argument("--diverse-place", action="store_true")
-    parser.add_argument("--place-wave", type=int, choices=(1, 2), default=1)
+    parser.add_argument("--place-wave", type=int, choices=(1, 2, 3), default=1)
+    parser.add_argument("--place-f2-proof", type=Path)
+    parser.add_argument("--previous-place", type=Path)
     build(**vars(parser.parse_args()))
