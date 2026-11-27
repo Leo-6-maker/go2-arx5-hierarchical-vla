@@ -8,19 +8,26 @@ from v62_source_native import FEEDBACK_ROSTER, V65, checked_manifest, reference,
 from v64_adapt_endpoint import END, PLAN
 
 
-def evaluate(root, worker, roster, endpoint, output, *, execute, recovery=False):
+def evaluate(root, worker, roster, endpoint, output, *, execute, recovery=False, step=None):
     import v4_long_watch
 
     pin(roster, FEEDBACK_ROSTER)
-    plan, end = (V65, 1000) if recovery else (PLAN, END)
+    plan, default_step = (V65, 1000) if recovery else (PLAN, END)
+    end = default_step if step is None else step
+    require(end == default_step or (recovery and end == 3000), "Wrong fixed offline evaluation endpoint")
     package = endpoint / "PROVIDER"
     audit = endpoint / "CPU-ENDPOINT-READBACK.json"
-    registration = dict(v4_model_role=source_role(end, plan), source_step=end, v62_plan=plan,
-                        source_audit=reference(audit))
+    endpoint_proof = reference(audit)
 
     def model_manifest(folder, original, step, supplied_audit):
         require(folder == package and step == end and supplied_audit == audit, "Wrong adaptation evaluation provider")
         provider = dict(path=str(folder), sha256=sha(folder / "CHECKPOINT.json"))
+        if recovery and end == 3000:
+            from v65_recovery_3k_endpoint import check_offline_provider
+
+            return check_offline_provider(provider, original, endpoint_proof)
+        registration = dict(v4_model_role=source_role(end, plan), source_step=end, v62_plan=plan,
+                            source_audit=endpoint_proof)
         return checked_manifest(provider, original, registration)
 
     original = v4_long_watch.candidate
@@ -38,4 +45,5 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--recovery", action="store_true")
+    parser.add_argument("--step", type=int)
     evaluate(**vars(parser.parse_args()))

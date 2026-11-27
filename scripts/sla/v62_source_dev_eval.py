@@ -107,8 +107,14 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
     audit = reference(endpoint / "CPU-ENDPOINT-READBACK.json")
     folder = endpoint / "PROVIDER"
     provider = dict(path=str(folder), sha256=sha(folder / "CHECKPOINT.json"))
-    model = checked_manifest(provider, parent, dict(v4_model_role=source_role(step, plan), source_step=step,
-                            v62_plan=plan, source_audit=audit))
+    continuation = recovery_baseline is not None and step == 3000
+    if continuation:
+        from v65_recovery_3k_endpoint import check_offline_provider
+
+        model = check_offline_provider(provider, parent, audit)
+    else:
+        model = checked_manifest(provider, parent, dict(v4_model_role=source_role(step, plan), source_step=step,
+                                 v62_plan=plan, source_audit=audit))
     r4 = read(pin(retention / "R4_STEP0200_PROVIDER_READBACK.json", R4_READBACK))
     baseline = Path(r4["endpoint"])
     bound = read(pin(baseline.parent / "STEP0200_SEALED.json", R4))
@@ -119,7 +125,8 @@ def evaluate(worker, endpoint, retention, roster, dual, single, single_video, ou
     if recovery_baseline:
         verified = read(pin(audit["path"], audit["sha256"]))
         terminal = read(pin(run / "TERMINAL.json", verified["training_terminal_sha256"]))
-        require(terminal["status"] == "FORMAL_V65_1K_COMPLETE" and terminal["formal_updates"] == step
+        expected = "FORMAL_V65_3K_COMPLETE" if continuation else "FORMAL_V65_1K_COMPLETE"
+        require(terminal["status"] == expected and terminal["formal_updates"] == step
                 and sha(run / f"STEP{step:04d}_SEALED.json") == model["training_receipt_sha256"],
                 "V6.5 restore and formal terminal disagree")
     else:

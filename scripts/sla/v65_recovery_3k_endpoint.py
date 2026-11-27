@@ -10,7 +10,7 @@ from v61_source_course import MAIN, R4
 from v62_source_endpoint import restore
 from v65_recovery_chain import ledger
 from v65_recovery_course import BATCH, PLAN, SEED
-from v65_recovery_endpoint import VISITS, export_go2_endpoint
+from v65_recovery_endpoint import VISITS, checked_go2_provider, export_go2_endpoint
 from v65_recovery_extension import BASE_SEAL, BASE_TERMINAL, COURSE, END
 
 
@@ -18,6 +18,7 @@ RANGES = ((0, 1000), (1000, 1800), (1800, 2200), (2200, 2500), (2500, 2800), (28
 BANK = "f412a728fdc3fa1b8bf677b6b6b2b9aa107a704e320c563a182dda2b1e0c6a3e"
 ORIGINAL_CPU_PROOF = "c422f63baca6b6641c4bc4c0cc5309dd1c5d89202b1c45c4ada5180d9b0f6843"
 FINAL_PBS_JOB = "737978.hopper-m-02"
+PROVIDER_ROLE = "V65_RECOVERY_ADAPT_3K"
 
 
 def audit(capsule, hopper_sha, original):
@@ -80,6 +81,20 @@ def audit(capsule, hopper_sha, original):
                 native_admission=False, hardware_allowed=False, physics_ticks=0, **state)
 
 
+def check_offline_provider(provider, parent, audit):
+    """Bind the cold-restored 3K for the previously fixed offline observations."""
+    proof = read(pin(audit["path"], audit["sha256"]))
+    require(proof["plan"] == PLAN and proof["step"] == END and proof["formal_scientific_endpoint"]
+            and proof["initial_r4_receipt_sha256"] == R4 and proof["complete_training_endpoint"]
+            and proof["rng_restored"] and proof["adam_counters"] == dict.fromkeys(("shared", *BATCH), END)
+            and proof["bank_receipt_sha256"] == BANK and proof["original_corelab_readback_sha256"] == ORIGINAL_CPU_PROOF
+            and proof["fm_visits"] == 384_000 and proof["go2_visits"] == 288_000
+            and proof["actual_visits"] == {key: count * END for key, count in VISITS.items()}
+            and proof["provider_manifest_sha256"] == provider["sha256"],
+            "The 3K offline score requires the exact independently restored provider")
+    return checked_go2_provider(provider, parent, proof, PROVIDER_ROLE)
+
+
 if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     for name in ("capsule", "original", "output"):
@@ -92,5 +107,5 @@ if __name__ == "__main__":
     proof = audit(args.capsule, args.hopper_sha, args.original)
     if args.provider:
         proof["provider_manifest_sha256"] = export_go2_endpoint(
-            args.capsule / f"run/STEP{END:04d}", args.r4_provider, args.provider, proof, "V65_RECOVERY_ADAPT_3K")
+            args.capsule / f"run/STEP{END:04d}", args.r4_provider, args.provider, proof, PROVIDER_ROLE)
     write(args.output, proof)

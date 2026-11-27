@@ -175,9 +175,13 @@ def check_eval_provider(provider, parent, audit):
             and proof["fm_visits"] == 128_000 and proof["go2_visits"] == 96_000
             and proof["actual_visits"] == {key: n*END for key, n in VISITS.items()}
             and proof["provider_manifest_sha256"] == provider["sha256"], "V6.5 evaluation requires the cold-restored 1K")
+    return checked_go2_provider(provider, parent, proof, "V65_RECOVERY_ADAPT_1K")
+
+
+def checked_go2_provider(provider, parent, proof, role):
     root = Path(provider["path"])
     model = read(pin(root / "CHECKPOINT.json", provider["sha256"]))
-    require(model["role"] == "V65_RECOVERY_ADAPT_1K" and model["phase"] == END
+    require(model["role"] == role and model["phase"] == proof["step"]
             and model["previous_checkpoint_sha256"] == parent["checkpoint_sha256"] == MAIN
             and model["training_receipt_sha256"] == proof["endpoint_sha256"]
             and model["training_contract_sha256"] == proof["contract_sha256"]
