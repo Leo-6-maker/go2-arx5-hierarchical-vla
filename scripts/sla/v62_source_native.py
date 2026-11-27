@@ -194,6 +194,7 @@ def read_phase(root, phase, step):
                 "Native seed or transport changed")
         bind_native(spec)
         score = read_arm(case, expected)[0]
+        score["policy_seed"] = spec["comparison_policy_seed"]
         require(score["native_ticks"] <= row["max_ticks"] and score["forwards"] <= row["policy_queries"],
                 "Unreconciled native budgets")
         if "grasp" not in score:
