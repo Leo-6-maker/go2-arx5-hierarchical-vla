@@ -1,21 +1,53 @@
 """Replay arm-request identity from ROS receipts, scoring against the debugger trace."""
 
 import argparse
+from bisect import bisect_right
 from collections import Counter
 import json
 from pathlib import Path
+from struct import Struct
 from time import perf_counter_ns
 
 import numpy as np
 
 from v64_observation_readback import rows, tick
 from v64_selected_policy_match import identity
-from v64_wbc_arm_request_join import arm_trajectory, interpolate_signature
-from v64_wbc_entry_readback import TICK, sha, stamp
+from v64_wbc_arm_request_join import arm_trajectory
+from v64_wbc_entry_readback import ARM_LOOKAHEAD, TICK, sha, stamp
 
 
 DELAY_COMPENSATION = .010
 REQUEST_STAMP_SLACK_TICKS = 3
+PROJECTION_CACHE_SIZE = 2 * (REQUEST_STAMP_SLACK_TICKS + 1)
+PACK_POSITIONS = Struct("<6f").pack
+
+
+class ArmProjection:
+    """Reuse one observed policy's six-channel interpolation and recent results."""
+
+    def __init__(self, trajectory):
+        times, positions = trajectory
+        self.times = tuple(times.tolist())
+        self.positions = positions.T.tolist()
+        self.slopes = (np.diff(positions, axis=1) / np.diff(times)).T.tolist()
+        self.recent = {}
+
+    def request(self, observed, time):
+        if observed in self.recent:
+            return self.recent[observed]
+        request_time = min(time + ARM_LOOKAHEAD, self.times[-1])
+        index = bisect_right(self.times, request_time) - 1
+        if index < 0:
+            return None
+        positions = self.positions[index]
+        if request_time != self.times[index]:
+            offset = request_time - self.times[index]
+            positions = [start + offset*slope for start, slope in zip(positions, self.slopes[index], strict=True)]
+        signature = PACK_POSITIONS(*(min(3.7, max(-3.2, position)) for position in positions))
+        if len(self.recent) >= PROJECTION_CACHE_SIZE:
+            del self.recent[next(iter(self.recent))]
+        self.recent[observed] = signature
+        return signature
 
 
 def predict(recent, stamp_tick, signature):
@@ -23,10 +55,10 @@ def predict(recent, stamp_tick, signature):
     for observed in range(stamp_tick-REQUEST_STAMP_SLACK_TICKS, stamp_tick+1):
         time = observed * TICK
         evaluation = time + DELAY_COMPENSATION
-        for trajectory, reference in recent:
-            grid = trajectory[0]
+        for projection, reference in recent:
+            grid = projection.times
             if (reference[0] <= time + 1e-8 and grid[0] <= evaluation <= grid[-1]
-                    and signature == interpolate_signature(trajectory, time)):
+                    and signature == projection.request(observed, time)):
                 found.add((observed, reference))
     return found
 
@@ -41,12 +73,12 @@ class ArmReceiptMatcher:
         if message["time_trajectory"]:
             trajectory = arm_trajectory(message)
             if trajectory is not None:
-                self.recent.append((trajectory, identity(message)))
+                self.recent.append((ArmProjection(trajectory), identity(message)))
 
     def request(self, message, *, match=True):
         stamp_tick = tick(stamp(message))
         earliest = (stamp_tick - REQUEST_STAMP_SLACK_TICKS) * TICK + DELAY_COMPENSATION
-        self.recent = [(trajectory, ref) for trajectory, ref in self.recent if trajectory[0][-1] >= earliest]
+        self.recent = [(projection, reference) for projection, reference in self.recent if projection.times[-1] >= earliest]
         if not match:
             return set()
         signature = np.asarray(message["points"][0]["positions"], dtype="<f4").tobytes()
