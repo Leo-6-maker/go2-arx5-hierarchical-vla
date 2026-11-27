@@ -40,10 +40,15 @@ def analyze(case):
     if handoff_path.exists():
         intent = json.loads(handoff_path.read_bytes())
         handoff = intent["native_step"]
+        query_dir = raw / "g7-queries" / f"{intent['actual_student_queries'] - 1:04d}"
+        last_query = json.loads((query_dir / "QUERY_ACTUAL.private.json").read_bytes())
+        prior_wire = last_query["confirmed_intervals"][-1]["wire_sha256"]
         if (not intent["clock_owner_unchanged"] or intent["next_role"] != "TEACHER"
-                or handoff not in intervals or intervals.get(handoff - 25) != intent["original_wire_sha256"]):
+                or not last_query["full_P10"] or last_query["terminal_native_step"] != handoff
+                or intervals.get(handoff - 25) != prior_wire
+                or intent.get("original_wire_sha256", prior_wire) != prior_wire):
             raise ValueError("The recorded Recovery handoff must name the actual preceding installed wire")
-        handoff_intervals = {step: Counter() for step in range(handoff - 50, handoff + 50, 25)}
+        handoff_intervals = {step: Counter() for step in range(handoff - 50, handoff + 50, 25) if step in intervals}
 
     installed, _, expired, _ = receiver(raw)
     if expired:
