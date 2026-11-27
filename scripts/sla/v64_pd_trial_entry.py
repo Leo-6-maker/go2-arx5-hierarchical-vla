@@ -109,7 +109,8 @@ def edits():
              "        from scripts.sla.v64_pd_trial_entry import card\n"
              "        return card(authority,bound)\n"
              '    old = read_pin(bound["original_authority"])\n'),
-            ('detach=identifier == DETACH_SLOT)', 'detach=identifier in (DETACH_SLOT,"MEV1-ENG-INTERFACE-03"))'),
+            ('    if identifier == DETACH_SLOT:\n',
+             '    if identifier in (DETACH_SLOT, "MEV1-ENG-INTERFACE-03"):\n'),
             ('            validate(case)\n', "            if 'phase_trial' in bound:\n"
              "                from scripts.sla.v64_pd_trial_entry import bind_case\n"
              "                bind_case(case)\n"
@@ -150,7 +151,8 @@ def stage(previous, proof_path, root, overlay, revision):
     old = read(previous/"EXECUTION_SPEC.json")
     closed = read(previous/"control/LEASE.json")
     terminal = read_pin(dict(path=str(previous/"RESULT.private.json"),sha256=OBSERVER))
-    if (closed["status"] != "CLOSED" or terminal["exit_code"] or not terminal["observer_shutdown"]["detached_native_exit"]
+    if (closed["status"] != "CLOSED" or closed["spec_sha256"] != digest(previous/"EXECUTION_SPEC.json")
+            or terminal["exit_code"] or not terminal["observer_shutdown"]["detached_native_exit"]
             or old["uid"] != os.getuid() or old["host"] != os.uname().nodename or root.exists()):
         raise PermissionError("Require the exact closed original observation and a new output root")
     proof_ref = pin(proof_path)
