@@ -122,11 +122,13 @@ def overlay_source(old, destination):
     return files
 
 
-def prospective(previous, n1, roster, roles, profile, library, root, overlay, commit, pair_number):
+def prospective(previous, n1, roster, roles, profile, library, filesystem_proof, root, overlay, commit, pair_number):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
     from scripts.pi0292.durable import read, write
     from scripts.wm02.multitask_stage_cards_v6 import pin, require_unstarted_cases
 
+    if len(commit) != 40 or any(char not in "0123456789abcdef" for char in commit):
+        raise ValueError("The full overlay Git revision is required")
     old = read(previous / "EXECUTION_SPEC.json")
     authority = read_pin(old["sim_only_project_authorization"])
     observer = read(previous / "RESULT.private.json")
@@ -139,7 +141,8 @@ def prospective(previous, n1, roster, roles, profile, library, root, overlay, co
     prior = read(n1 / "EXECUTION_SPEC.json")["sim_only_project_authorization"]
     original = read_pin(prior)
     write(binding_path, dict(v64=V64, pair=pair_number, roster=pin(roster), roles=pin(roles),
-                             profile=pin(profile), library=pin(library), original_authority=prior))
+                             profile=pin(profile), library=pin(library), filesystem_proof=pin(filesystem_proof),
+                             original_authority=prior))
     bound, fixed, rows, worlds = binding(pin(binding_path))
     if (original["logical"] != fixed["original_population"] or authority["tolerance"] != fixed["tolerances"]
             or authority["world_lock"] != fixed["original_global_lock"] or original["world_lock"] != authority["world_lock"]):
@@ -237,7 +240,7 @@ if __name__ == "__main__":
     for op in ("verify", "launch"):
         commands.add_parser(op).add_argument("path", type=Path)
     stage = commands.add_parser("prospective")
-    for name in ("previous", "n1", "roster", "roles", "profile", "library", "root", "overlay"):
+    for name in ("previous", "n1", "roster", "roles", "profile", "library", "filesystem_proof", "root", "overlay"):
         stage.add_argument(name, type=Path)
     stage.add_argument("commit")
     stage.add_argument("pair_number", type=int)

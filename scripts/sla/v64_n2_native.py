@@ -20,12 +20,14 @@ ROSTER = "5896bbde4474aeccb11cf4653bbd48daef447a4eb1919f6ffd361b584df993e3"
 ROLE_PROOF = "3f19f601a598898874888ded85086deecfc023de3e203b2d65bde68c893e9ed7"
 PROFILE = "12135d6832dc6e833b52e15eb8ba196bed865b382480736d3294eb813cb94c06"
 LIBRARY = "bf7bbeeb3760302c2d6b9300985f85d5bea140628c7e8e2f0ffa15cf2fe884f2"
+FILESYSTEM_PROOF = "4b61bd7be960f26fec87b0afbec32a426a500eb50eef88317ab17a77931236b5"
 TICKS = 10703
 
 TRANSPORT_ENV = (
     "ROS_DOMAIN_ID", "ROS_AUTOMATIC_DISCOVERY_RANGE", "ROS_STATIC_PEERS",
     "RMW_IMPLEMENTATION", "RMW_FASTRTPS_USE_QOS_FROM_XML", "FASTDDS_DEFAULT_PROFILES_FILE",
     "FASTRTPS_DEFAULT_PROFILES_FILE", "LTTNG_HOME", "LTTNG_UST_REGISTER_TIMEOUT", "SLA_MULTIWORLD_UST_REALM",
+    "XDG_RUNTIME_DIR", "XDG_CONFIG_HOME",
 )
 REMOVED_ENV = ("ROS_LOCALHOST_ONLY", "ROS_DISCOVERY_SERVER")
 
@@ -35,7 +37,8 @@ def binding(ref):
     from go2arx5_vla.world_model.storage import digest
 
     bound = read_pin(ref)
-    checks = {"roster": ROSTER, "roles": ROLE_PROOF, "profile": PROFILE, "library": LIBRARY}
+    checks = {"roster": ROSTER, "roles": ROLE_PROOF, "profile": PROFILE, "library": LIBRARY,
+              "filesystem_proof": FILESYSTEM_PROOF}
     for key, expected in checks.items():
         evidence = bound[key]
         if evidence["sha256"] != expected or digest(evidence["path"]) != expected:
@@ -76,6 +79,19 @@ def transport_environment(spec, environment):
     return result
 
 
+def role_root(spec, slot):
+    return Path(spec["v64_n2"]["path"]).parent / "roles" / slot["role"]
+
+
+def native_role_environment(spec, slot, folder, bound):
+    paths = role_root(spec, slot)
+    return role_environment(spec["native_environment"], slot, folder, bound["profile"]["path"],
+                            paths / "ust", bound["library"]["path"]) | {
+        "XDG_RUNTIME_DIR": str(paths / "runtime"),
+        "XDG_CONFIG_HOME": str(paths / "config"),
+    }
+
+
 def validate_member(case, authority):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
     from scripts.sla.core_hopper_expert import OWNER
@@ -85,8 +101,7 @@ def validate_member(case, authority):
     template = read_pin(row["reference"])
     folder = Path(case["registered_root"])
     env = case["native_environment"]
-    expected_env = role_environment(env, slot, folder, bound["profile"]["path"], folder / "ust",
-                                    bound["library"]["path"])
+    expected_env = native_role_environment(case, slot, folder, bound)
     exact_fields = (
         "mobile_guard_qualification", "mobile_safety_binding", "frozen_files", "task_instruction_id",
         "multitask_geometry", "policy_from_world", "model_path", "d2_probe_motion", "carry_repair",
@@ -104,7 +119,7 @@ def validate_member(case, authority):
             or case["collection_split"] != "ENGINEERING" or case["expert_training_eligible"] is not False
             or case["resident_server_spec"] is not None or case.get("d2_isolated_live_control") is not None
             or not all(case.get(key) == template.get(key) for key in exact_fields)
-            or any(env.get(key) != expected_env[key] for key in (*TRANSPORT_ENV, "LD_PRELOAD", "XDG_RUNTIME_DIR"))
+            or any(env.get(key) != expected_env[key] for key in (*TRANSPORT_ENV, "LD_PRELOAD"))
             or any(key in env for key in REMOVED_ENV)
             or env.get("LIBGL_ALWAYS_SOFTWARE") != "1"
             or env.get("__EGL_VENDOR_LIBRARY_FILENAMES") != "/usr/share/glvnd/egl_vendor.d/50_mesa.json"):
@@ -146,14 +161,17 @@ def check_paused_transport(adapter):
     for name, pid in processes.items():
         path = Path("/proc") / str(pid)
         maps = (path / "maps").read_text()
-        if any(str(page) not in maps for page in pages) or "/dev/shm/fastrtps_" in maps:
-            raise PermissionError(f"N2 {name} did not establish the private DDS and UST transport")
-        evidence[name] = dict(pid=pid, private_page_inodes=[page.stat().st_ino for page in pages])
-    if set(adapter.node.get_node_names()).isdisjoint({adapter.node.get_name()}):
-        raise PermissionError("N2 ROS graph did not register its native driver")
+        evidence[name] = dict(pid=pid, private_pages_mapped=[str(page) in maps for page in pages],
+                              private_page_inodes=[page.stat().st_ino for page in pages],
+                              fastdds_shared_memory_mapped="/dev/shm/fastrtps_" in maps)
+    names = adapter.node.get_node_names()
     write(adapter.output / "N2_PAUSED_TRANSPORT.private.json",
           dict(processes=evidence, domain=spec["ROS_DOMAIN_ID"], renderer="MATCHED_SOFTWARE",
-               known_nodes=adapter.node.get_node_names(), native_control_time_s=adapter.control()["sim_time_s"]))
+               known_nodes=names, native_control_time_s=adapter.control()["sim_time_s"]))
+    rejected = [name for name, detail in evidence.items() if not all(detail["private_pages_mapped"])
+                or detail["fastdds_shared_memory_mapped"]]
+    if rejected or adapter.node.get_name() not in names:
+        raise PermissionError(f"N2 paused DDS or UST transport rejected: {rejected}")
 
 
 def prepare_case(spec, row, slot, bound, lease, deadline):
@@ -162,21 +180,27 @@ def prepare_case(spec, row, slot, bound, lease, deadline):
     role = dict(spec, mobile_world_lock=slot["world_lock"], ROS_DOMAIN_ID=slot["ROS_DOMAIN_ID"], cpus=slot["cpus"])
     folder, case = make_case(role, short_card(row), lease, deadline)
     case.update(scope=SCOPE, registry_scope=SCOPE, v64_n2=spec["v64_n2"])
-    case["native_environment"] = role_environment(case["native_environment"], slot, folder,
-                                                 bound["profile"]["path"], folder / "ust",
-                                                 bound["library"]["path"])
+    case["native_environment"] = native_role_environment(case, slot, folder, bound)
     return folder, case
 
 
-def case_dirs(folder):
+def case_dirs(folder, runtime_root):
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs
 
     dirs(folder)
+    runtime_root.mkdir(mode=0o700, parents=True)
     for name in ("config", "runtime", "ust"):
-        (folder / name).mkdir(mode=0o700)
+        child = runtime_root / name
+        child.mkdir(mode=0o700)
+        stat = child.stat()
+        if stat.st_uid != os.getuid() or stat.st_mode & 0o077:
+            raise PermissionError("N2 private runtime requires a filesystem honoring owner and mode")
     for name in ("user.wait", "global.wait"):
-        with (folder / "ust" / name).open("xb") as stream:
-            stream.truncate(os.sysconf("SC_PAGE_SIZE"))
+        fd = os.open(runtime_root / "ust" / name, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        try:
+            os.ftruncate(fd, os.sysconf("SC_PAGE_SIZE"))
+        finally:
+            os.close(fd)
 
 
 def require_capacity(root, spec):
@@ -241,7 +265,7 @@ def run_member(spec, row, folder, case, descriptors):
         result["observer"] = shutdown_receipt(folder, detached=True)
         result["paused_transport"] = pin(folder / "native-01/N2_PAUSED_TRANSPORT.private.json")
         result["comparison"] = measurement(spec, short_card(row), case, terminal, receipt["terminal"])
-    except (OSError, RuntimeError, ValueError, PermissionError) as exc:
+    except (OSError, RuntimeError, ValueError) as exc:
         return dict(result, status="NATIVE_EVIDENCE_FAILED", failure=str(exc))
     return dict(result, status=result["comparison"]["status"])
 
@@ -289,7 +313,7 @@ def run(spec):
                                   lock_inode=identity.st_ino, lock_device=identity.st_dev, condition=row["slot"]["id"]))
                 folder, case = prepare_case(spec, row, slot, bound, pin(lease), end)
                 validate(case)
-                case_dirs(folder)
+                case_dirs(folder, role_root(case, slot))
                 entries.append((folder, case))
                 launches.append((label, partial(run_member, spec, row, folder, case)))
             register(spec, entries)
