@@ -1,148 +1,49 @@
-# V7 Codex 执行手册 · 三类失效的最小对照
+# SLA V7 V3 · Codex 长程接力执行手册
+[计划](SLA_CONTROL_AWARE_POSTTRAIN_V7_PLAN_20261128.md) · [登记](SLA_CONTROL_AWARE_POSTTRAIN_V7_REGISTRY_20261128.json) · [PR #529](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/529)。
+证据固定 9ada3206728ffc10e6608c9cab64a5d648cd3eee。本手册优先于旧V2等待A的顺序；已有现场实际回执优先于本快照。状态/资源不明先读实际，不能重复作业。代码、只读、数据准备自主并行；只在原合法资源、owner、资格与已登记名册内执行。
 
-2026-11-28 SGT · v2。入口：[完整计划](SLA_CONTROL_AWARE_POSTTRAIN_V7_PLAN_20261128.md) · [登记表](SLA_CONTROL_AWARE_POSTTRAIN_V7_REGISTRY_20261128.json) · [PR #529](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/529)。
+## 0. 接力前置核验
+- [ ] 读最新 execution branch、实际B6账本、PBS738836或合法后继；核R4/frozen/bank/noise/LR、原quota/project award、期限与owner。账本称17:45 SGT为R，非本次live qstat，先核真实状态。
+- [ ] V65-3K与V7-A双500+20格均ACTUAL_CLOSED不晋级，不重新资格/重复训练、不从失败端点自动续长；B6资格738822 F/0已用2工程步且Core冷恢复通过。
+- [ ] 实际正式基础4600，B6双100为200计划非已执行，工程已知23/24，学生46/50、Recovery14/20（已知有效/尝试，按现场实耗扣）；期限2026-12-05 12:41:52 SGT、原320 GPUh，真实剩余较小者优先。
+- [ ] 读取 PLAN/REGISTRY 与现场 9ada3206728ffc10e6608c9cab64a5d648cd3eee / 之后新回执；不将文档分支当运行源码；各站独立owner/capsule，不热改活跃作业。优先不受阻塞事项，资源不足才登记具体缺口。
 
-## 0. 当前已经闭合的事项
+## 1. Hopper 主线 B6
+- [ ] 继续/等待实际738836双100结束并封存；原两臂LAMBDA_ZERO/SHARED_L2SP、lambda0/.009245659257303812、R4共享平方和（不是分层mean）、原A93/R3、48/46/2+16/16、aux4/.375，原500步日程前缀和真实CUDA流。
+- [ ] 双100独立Core恢复；封存独立TRAIN面板（成功R4状态含72/84诊断、普通教师早/晚、真实失败/纠正；按episode/phase）；同实际输入/noise比较R4、双100；raw/L1/原门/P10物理、原有安全/新动作、参数距离、分项梯度/clip/Adam及实际更新，记录源离线。
+- [ ] 审查实际 scripts/sla/v7_parent_anchor_formal.py 从新R4/新目录起步。**100续训入口未在该代码中实现**，不得只改end_step重跑。复用原完整restore，独立新capsule，逐臂从各自合法step+1恢复Adam/RNG/cursor、父锚定和原rates/noise；完整回读/负例/下一行真实数组匹配、原15min保存余量；任何新真实优化计成本。工程余≤1；如需更多资格且无权限，暂停正式接力。
+- [ ] 100后按PLAN 2.3门：技术或安全退化停；非零作用、有改善/合理弱早期效应且未见新增损害时条件双250；250需一致方向性改善方双500。不能热改lambda、重置LR、只延长一臂。实际中断保留失败更新；若终态已有合法更长，直接读回不重跑。
+- [ ] 选唯一完整同step端点后先登记原生名册：余≤4时每臂同 N03_202 + P02_702（原条件/噪声/安全），合计4，方向筛选不晋级；实际不足不做不对称。完整双十格门需明确新增槽或合法现存资源，不能宣称4格等于20。相对零臂机制与相对R4保持独立报告。
 
-| 工作 | 已提交状态 | 下一个动作 |
-| --- | --- | --- |
-| V6.5 3K | ACTUAL_CLOSED；完整恢复与十张原生评价完成，未晋级 | 保留负结果，停止自动延长观察 |
-| V7-A 父选择 | R4-200 两组共同父已确定 | 在完整模型资格中使用真实 R4 |
-| A93+R3 上一命令 | 8,031/8,031 原生来源核验 | 保持该数据版本和语义 |
-| A 两臂采样 | 500步共同bank已封存 | 验收实际noise、完整图、optimizer |
-| A 动作侧接线 | 部分 CPU/实际动作数组台架通过 | 三条全模型路径与冷恢复待实测 |
-| 早期 Recovery | 蓝LIFT/红PREGRASP CPU候选通过；0动态准入 | 新前瞻TRAIN动态资格 |
-| V7 正式训练 | 最新证据中尚未启动 | AQ通过及现场条件核对后执行已封存A |
+## 2. 并行 P0-S/E/D/L（当前不等B6）
+| 任务 | 立即执行 | 下一真实资格 |
+|---|---|---|
+| S0 | 原8031物理分箱与fresh TRAIN q01/q99已测，补旧52 reader和全库标签回放；state-only统计、每bin跨度/旧token变化、SO3实际距离 | S1固定权重旧/新state统计同噪声；旧token严重变化则S2零初始化连续补充。保持ACTION统计，候选各250，独立资格 |
+| E0 | 扩R4/1K/3K/A/B6同状态矩阵；12轨迹分叉、raw→L1→accepted→inferred selected→actual arm/PD→base/q/TCP，错目标语言对照 | A2-TRACK全8031因果残差来源、首窗mask、真实三路径；之后BASE/ARM/HISTORY分别 |
+| D1 | 静态提前量已有5/10/15/20mm证据；补TRAIN成功误触发和教师实际延迟；候选20mm优先、在独立TRAIN固定一项触发，不作为新安全门 | 新R4两卡PREGRASP低净空/LIFT停滞，原合法完整P10且未STOP；序号577→578修复实际验证；原Recovery余≤6，先2再2留2 |
+| L1 | 固定3–5个真实TRAIN梯度批/有完整Adam的端点，重构old/new/R3、P10/suffix、7/25、phase、aux；比较原Adam方向/零持久重评 | B2/B4/B3择一有证据实验；B1/B5低优先；不把单批方向当总因果 |
+| R0 | 继续独立TRAIN成功P10直接selected/消费anchor（现0准入）；固定父安全状态同noise；参数漂移/功能漂移分开 | 仅合法anchor后B6行为保持；禁止失败R4后段/保护样本/未来H40标签 |
+| RTC/SFA0 | 固定权重RTC因果离线、同步暂停；核官方组件/版本/许可/feature mask与真实梯度路径 | 不改当前B6；RTC原生需合法槽；SFA F/L/LA独立变量 |
+| 原Core | A93→100 Container/Push、N2/N4资格、SOURCE608准备 | 原生产与健康租约优先级保持；未合格并发不作数据工厂；Vanda暂停 |
 
-证据头：V65 2bf6ab7a663099be27bc85a9b424256eed03920b；Core f67fe887a2cc3e3b9309c122db6773febbefb697；V7-A 3de6774e02b3c266e1b36c4c1843217ed9390f8b。开始时检查是否有更新，只读取变化的相关回执，不用反复重扫整个历史。
+D1原教师特权几何仅用于采集触发，学生无新增GT；任何硬STOP后零积分，teacher-assisted与学生失败分别记。两波早期四张已结束0准入，不能重开旧卡。保留原R3，不热换B6。新纠偏入库必须真实消费/逆重锚/有效mask/完整成功/独立TRAIN，短纠正另立版本，采集起点而非窗数计覆盖。
 
-## 1. 立即推进的工作包
+## 3. 后继调度（只择一主正式实验，其他并行准备）
+- [ ] B6机制有效且原门保持后，优先根据真实缺口选S1/S2或A2/C1；无保持收益先B6行为锚点或一种Expert更新约束，缺锚点不可伪造。
+- [ ] C1必须至少2独立早期接管起点；Control=普通教师早期2槽 vs Treatment=学生纠正2槽，48+44+2R3+2+16+16=128；FM/aux/noise等匹配，新bank；不复用旧control。后续比例4→8→16独立。
+- [ ] B2首候选P10权重2:1，按有效权重归一化；B4仅换合法完整H40 aux槽，不同时改变FM；B3 delta不能替代命令；B1/B5须多批证据。对照父、数据、参数、训练日程、真实noise、全块门与新增输入路径明确唯一变量。新候选一般双250，条件500；非现有资源许可不派发。
+- [ ] SFA三臂F冻结/L开放现有VLM LoRA/LA同L加真实空间对齐；先F/L后L/LA，完全匹配才能复用L。官方0.5/EMA .999为参考，不是当前已验证最优。EMA读出另独立，不热改B6。SOURCE608、RECAP/Residual RL只准备，稳定自主完整操作和合法资源后另登记。
+- [ ] 旧20格已证明A不晋级；新增候选不得用保护格选超参。完整晋级原门：N02 2/2、独立HOLD≥2/4、PLACE grasp4/4、lift≥3/4、in-zone≥2/4、无新增硬安全STOP、源告警不触发、完整≥1/4优先或真实阶段进步且前项不退。完整确认资源不足只报告局部机制。
+- [ ] 更新实际接力表及每波≤12h真实回执，固定sha和完整原生结果。时间目标T0–6h核B6及独立P0；6–24h条件接力/早期新卡；24–72h择一后继；第4–7天条件独立确认，原截止到停止。不因单包阻塞停止其余合法工作，不重置总预算、无限重跑或自动5K/10K。
 
-### WP-AQ：把“动作侧接线”推进到真实完整模型资格
-
-负责人角色：现有 Hopper 训练执行者；Corelab 可完成读回与 CPU 部分。使用独立工作副本和新capsule，避免把文档分支当作完整执行源码。
-
-已有位置：
-
-- scripts/sla/v7_previous_command.py
-- scripts/sla/v7_recovery_context_audit.py
-- scripts/sla/v7_a93_previous_width_audit.py
-- 当前训练 worker、实际 FM/aux 构图和 provider 导出入口，按现场加载模块定位，不从旧文件名猜入口。
-
-建议新增可复用的资格入口名为 scripts/sla/v7_full_model_qualification.py，若项目已有同职责实现则扩展现有入口。这个名称是待实现建议，不是已经可运行的命令。
-
-步骤：
-
-- [ ] 恢复同一 R4 父，核 frozen/trainable 分区、原19个活动推理张量及新投影、源域IO路由。不要以3K动作侧台架替代R4端到端。
-- [ ] 按封存bank取真实RGB、prompt、state、支持/attention/state-drop mask；FM noise、tau、aux noise独立按稳定样本/路径身份绑定，实际数组对账。新条件初始化不扰动旧随机流。
-- [ ] 完整原图、Control、Treatment在零投影时同输入输出一致。记录同backend/dtype重放基线和预登记数值容差。
-- [ ] 检查 FM、部署10步采样、aux完整H40的10步采样全部使用条件；包含cache/JIT闭包；用非零注入验证三条路径的真实敏感性。
-- [ ] 验证Treatment投影有限非零梯度、Control零梯度；公共参数裁剪前梯度匹配；记录含新叶全局clip因子和实际Adam更新，不能只看名义loss。
-- [ ] 各1–2工程更新内完成新投影、Adam、RNG、cursor、checkpoint导出/恢复及下一更新一致；正式两臂另从共同父新建状态。
-- [ ] 首窗暖启动、query−25 tick、未来/过期/跨回合/错误单位/不完整消费负例，源码未启用时保持旧行为。数据无缺失；线上缺失按共同预声明异常处理。
-- [ ] 输出资格回执、输入数组哈希、参数树、训练路径调用证据、保存恢复结果、实际工程成本。没有完整模型证据则状态仍为 NEEDS_FULL_MODEL_QUALIFICATION。
-
-完成后才能标 GPU_QUALIFIED。不要为低风险文档或小实现改动新增审批；相关实际资源与owner核对复用已有机制。
-
-### WP-E：定位3K四张PLACE最早分叉
-
-负责人角色：Corelab，优先旧归档和CPU分析，可在训练并行期完成。
-
-- [ ] 逐卡 P01_701、P02_702、P02_701、P01_702 对齐R4/1K/3K，从共同初态找到最早动作/运动分叉。
-- [ ] 导出原始normalized H40、完整40点解码、原全块检查/L1、实际P10、accepted、selected推断/真值、arm/base请求、实测TCP/base/q/qdot及首接触；保持原调用顺序，不提前截断。
-- [ ] 50ms共同完整区间与2ms细节分开，所有字段带单位、坐标、tick、identity和证据类型。不要以最后250ms的共同差异冒充全过程首因。
-- [ ] 将失败按 raw-reference / reference-selection / tracking / whole-body-geometry / grip-seam 分类，可多因，标先后及缺证。
-- [ ] 在独立TRAIN做同输入R4/1K/3K交叉前向；保护归档仅归因与原评分，不能变训练。
-- [ ] 错蓝块案例增加同图同状态noise的合法红/蓝、HOLD/PLACE文字诊断，区分语义方向与路径/姿态。
-- [ ] 若发现参考正确而响应分离，形成A2-TRACK候选；若主要姿态歧义，分别准备BASE/ARM。未证明在线来源的selected或仿真GT只留诊断。
-
-建议输出名：V7_E0_FIRST_DIVERGENCE_ACTUAL_20261128.md/json。报告必须区分零新增积分的归档回放与真实动态反事实；不能写成已经修复。
-
-### WP-D：动态验证早期Recovery，并扩独立起点
-
-负责人角色：Corelab现有N1物理owner，沿原TRAIN名册及资源规则。
-
-- [ ] 首波采集学生固定R4-200完整身份；固定新蓝LIFT、红PREGRASP两卡的合格TRAIN几何/教师、reset/noise、触发和预算。新几何先资格；旧失败卡不可恢复，不能自动用未晋级3K。
-- [ ] 原G7预安装拒绝时，确认零当前ACK/安装/消费、上一P10完整、原暂停tick及未硬STOP。
-- [ ] 继承上一实耗命令，实际教师H40/P10走原门、真实2ms/50ms动态。终态记录所有尝试，包括G7和接触失败。
-- [ ] 成功接管只计assisted；原学生拒绝仍为失败。无有效动态结果不能增加4/10或155窗。
-- [ ] 回读目标标签逐原子消费、mask、首窗继承、RGB/状态、R4重锚与split；完整成功后缀按原准入加入新版本。
-- [ ] 第一波后按实际缺口再安排2–4卡，优先早期接缝、接近、LIFT；保留资源采下一版学生的新状态。每波冷封存，A的R3与bank不热换。
-- [ ] 单列independent_handoff_count、场景族、干预时长/次数与全部attempts。不要把teacher接管后的115窗称为115个学生失败起点。
-- [ ] 构造C1共同池和匹配早期槽：48旧+44新+2原R3+2普通早期/学生纠正，源域16+16，aux从共同旧/新池固定。
-
-建议输出名：V7_D0_EARLY_RECOVERY_ACTUAL_20261128.md 及新版本manifest。没有动态准入时只更新候选状态；部分安全纠正另存，不暗中进正式成功后缀。
-
-### WP-LR：训练目标与原能力保持
-
-负责人角色：训练执行者配合Corelab；优先固定权重、零优化更新分析。
-
-- [ ] 固定现场实际loss/reader模块指纹，复用真实TRAIN bank、noise/tau、dtype；分项重构原loss和总梯度。
-- [ ] 分旧/新/R3/源域/aux、7物理/25padding、P10/后缀、XYZ/rotation/gripper、phase。
-- [ ] 报告梯度范数、cosine、加权合成、global clip，以及已有Adam预条件后的实际更新方向对旧能力目标的影响；范数比例不是可加的贡献份额。
-- [ ] 统计G7 max罚的argmax在seam/后缀的分布、非零梯度覆盖及与width/OPEN目标的冲突。delta首点previous抵消，不能称其为状态补全。
-- [ ] 建独立RETENTION_ANCHOR_TRAIN和validator，source=R4_student_safe_consumed，旧Recovery前缀仍train_eligible=false。逐条有真实消费及局部阶段成功证据；标raw、L1、selected/consumed，不能以accepted或inferred-selected替代消费。保护评价格、失败CARRY/OPEN、未执行后缀排除。
-- [ ] 确认anchor池和未来数据池的scene grouping，按整回合/场景分组，不把重叠query随机拆成train/confirm。
-- [ ] 为B6实现独立flag：候选每步2个anchor、阶段/回合平衡、窗内有效支持均值再跨窗归约；物理平移/SO(3)/开度尺度固定。主实验用可回放原noise子集，缺失另记；新noise回归另设计。两臂同anchor读取/noise/前向，λ=0恢复原更新。
-- [ ] 只用独立TRAIN标定一个λ，固定模型SHA、样本、noise、共享Expert/Go2 IO/条件scope及含原aux的梯度；θ=R4零保持梯度时使用已合法非零漂移位置，不能除零放大。记录applied≠raw初始偏置；无合法anchor时待采或独立L2-SP。
-- [ ] B1/B2/B3/B4/B5仅在诊断支持时进入下一对照；不把多个变量一起改进A。
-
-建议输出名：V7_L0_GRADIENT_AND_RETENTION_ACTUAL_20261128.md/json。脚本可叫 scripts/sla/v7_loss_attribution.py、v7_retention_anchor_audit.py；未实现前不得声称可执行。
-
-## 2. 正式A运行与评价
-
-两臂固定：
-
-- R4-200共同父；同结构、同初始化、同数据/noise/mask/步数、独立新AdamW。
-- 各500；B128=Go2 96/Robo16/LIBERO16，Go2 48旧/46新/2R3。
-- aux4旧2新2、0.375；peak8.481070829156122e-7、warm50、cosine500至0.1peak。
-- 唯一输入差异：Control中性 vs Treatment真实上一消费开度。
-- manifest ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024。
-- 采样数组 a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff。
-- 条件数组 7573a2a63170b2a5bf47d51314e08f0c24724ec5a508bed6c61e9fbb4b85fda2。
-- 候选seed529202611仍需实际noise验收。
-
-- [ ] AQ通过后核实际Hopper状态、owner、存储/期限；复用原调度机制，避免重复作业。两臂顺序事先固定。
-- [ ] 资格结果不带进正式权重。正式恢复使用各自完整状态，真实失败/未封存更新计实耗。
-- [ ] 固定500为科学端点；中间checkpoint用于恢复与预登记TRAIN诊断，不按保护成绩选择最佳步数。不要一臂改到1K另一臂留500。
-- [ ] 端点完整导出、Core独立恢复；原24反馈与42源窗按原协议回读。
-- [ ] 两臂各原十格完整配对，先核实际名额。若只够HOLD6/臂则如实报告部分评价、未满足完整晋级，不能挑好格替代。
-- [ ] 报告R4/Control/Treatment逐卡、原成功格丢失/新增、query暴露及接触STOP造成的G7删失。
-- [ ] 原保持门与机制筛选分开。Treatment较Control进步而仍退于R4时，只记机制收益。
-- [ ] 无自动延长；根据下面选择一个后续训练。所有失败保留。
-
-建议实际报告名：V7_A_CONTEXT_500_ACTUAL_20261128.md；日期按真实完成日命名，不预造结果。
-
-## 3. A之后的分支决定
-
-| 证据 | 第一优先 | 固定条件 |
-| --- | --- | --- |
-| 同一R4安全输入上两臂均出现明显坏动作/前段丢失 | B6行为保持；无anchor则独立L2-SP | 同父/输入/原bank/步数/LR，单一保持项 |
-| 教师状态正常，当前学生早期状态明显失败 | C1早期纠正数据 | 同父输入；48+44+2+2匹配；aux保持共同 |
-| A减少seam但腕碰仍由跟踪分离解释 | A2-TRACK | 同父/数据/训练，仅新增残差信息 |
-| 主要arm或base姿态歧义 | A3-ARM或A3-BASE择一 | 先证明部署传感来源，不混两组 |
-| R3有FM但生成G7坏，aux未覆盖 | B4 | 同FM，只改变合法完整H40 aux来源 |
-| 归因仍不清 | 补E/L/TRAIN诊断 | 不启动组合超参搜索 |
-
-后续是否延长、组合或扩大Recovery比例，另在冷边界固定对应父、数据、输入和原生名册。C1 Treatment为late2+early2，总Recovery4；后续比例实验从总4→8→16另立。C1 Control普通早期分层改变bank，不能直接复用A-Control；相同control只有完整父/数据/步数/noise/损失/优化器等逐项一致才可复用。不同父或不同预算的旧结果不能冒充因果对照。
-
-RTC先固定R4做离线连续生成对照，保持当前物理暂停。训练prefix/异步部署与动作参数化属于独立实验；不占用A配对变量。SOURCE608、RECAP/value/RL保持准备，当前优先前段恢复。
-
-## 4. 现有记账与执行边界
-
-已提交正式实耗3,600；A双500后4,600。在原默认8,000范围内示例余3,400；工程已知17/24、A建议≤4；均以最新现场账本为准。早期学生原生最多余24，A20后最多余4；后续B/C完整原生确认需要明确资源安排，不能默认为有无限名额。Recovery首期最多余10，先2再2–4。原320 GPUh和2026-12-05 12:41:52 SGT截止依现场有效合同核对。
-
-这些是工作分配与成本记录，不创建新的批准流程。可独立的代码、数据核验、只读诊断继续推进；仅资源不足的具体运行待资源解决。不改基础设施，不删用户checkpoint，不改WBC，不热改活跃capsule，不重复调度不明状态作业。
-
-## 5. Codex首个回执和每个科学端点必须回答
-
-1. 当前真实代码/权重/数据与最新账本是否仍匹配；哪些依赖已经完成？
-2. AQ的完整模型、真实noise、三路径、梯度和冷恢复分别处于什么状态？
-3. E0最早分叉在哪一层，证据是直接观测、被动推断还是静态反事实？
-4. D0实际启动几次、成功准入几条、独立学生起点几处？哪些仍只有CPU候选？
-5. L0有哪些真实梯度/更新测量？R4合法TRAIN anchor是否足够？
-6. A两臂分别真实执行多少更新、原生条件、成本；保持门与相对收益分别如何？
-7. 下一个选择为什么是B6/C1/A2或其他单项；未选择项的依据是什么？
-
-每个工作包保留一份简洁实际报告和必要machine receipt，不创建重复调度器或大量无结果计划PR。已有稳定证据按SHA复用；输入/实现变化时核受影响部分。计划、台架、完整GPU资格、实际闭环成功必须分别陈述。GitHub推送本身不表示远端Codex、PBS或MuJoCo已经启动。
-
+## 4. 实际账本模板（由现场填，不预造结果）
+| 包 | 状态 | 实际代码/数据/端点/receipt SHA | 实耗/剩余/阻塞 | 下一合法动作 |
+|---|---|---|---|---|
+| B6双100 | FORMAL_RUNNING_AT_REPORTED_SNAPSHOT | 738836，须实时核 | 待终态 | 双端点恢复+TRAIN筛选 |
+| B6-resume | PREPARED_REQUIRED | 当前worker无显式resume | 工程余≤1 | 冷恢复下一行回归 |
+| S0/S1/S2 | CPU部分实测 | E-S | 未训练 | 状态-only对照/连续补充择一 |
+| E/A2 | CPU部分实测 | E-E | 286诊断非全库 | 因果源全量readback |
+| D1 | PREPARED（回溯提前量） | E-D | 14/20,4条155窗 | 独立前瞻两卡 |
+| L0/B2/B4 | 单批实测 | E-L | 多批待 | 零持久诊断 |
+| R0/RTC/SFA | PREPARE | 0正式anchor | 无新正式 | 合法数据/组件准备 |
+每个回执说明真实工作与未做，资源不足明确缺口。推送计划本身不代表已启动Codex或新增现场作业。
