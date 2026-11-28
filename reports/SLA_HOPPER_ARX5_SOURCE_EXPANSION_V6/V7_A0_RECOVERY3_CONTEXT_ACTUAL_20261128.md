@@ -39,3 +39,11 @@ Corelab 已从 V6.5 实际训练清单重放前 **500** 步的样本顺序，并
 [V6.5 3K 原生结算](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/2bf6ab7a663099be27bc85a9b424256eed03920b/reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/V65_RECOVERY_ADAPT_1K_ACTUAL_20261127.md#3k-十张原生闭环全部结算)确定两组采用 **R4-200**。采样清单独立于父模型，施工记录仍保留生成时的原状态。采样封存实耗 **0** 次正式更新、**0** 次模型前向、**0** 次物理积分。
 
 清单 SHA-256 `ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024`，采样数组 `a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff`，实耗夹爪条件数组 `7573a2a63170b2a5bf47d51314e08f0c24724ec5a508bed6c61e9fbb4b85fda2`。
+
+## 完整模型资格的现场输入与接线准备
+
+从封存 TRAIN 数据中回读第一批的六个真实窗口。旧 Go2、新 Go2、Recovery 各有一张保留状态、一张执行原状态丢弃。使用原 tokenizer 及图像缩放，原入口与 Control、Treatment 的 RGB、图像掩码、token、状态、动作逐字段字节相等。Treatment 的上一命令只在原状态可见的三格进入输入，Control 为中性零。数据来自公开的封存副本。原完整模型和原三域训练 reader 的端到端比对仍待资格。回执 `f305e55390a91ebd97b329f96548cfe211996a9a230d4a865ed66273d87aac56`。
+
+用原 JAX 抽样函数与正式 bank 第一行，在 Corelab CPU 独立生成两次三域 FM noise／tau 及四槽 aux noise，实际数组相等。Go2 的 96 个输入中有 72 个原状态可见。同一个 CPU 回执中，小型动作主干通过十步 aux、零投影一致、Control／Treatment 投影梯度 **0／0.005639**，以及原 AdamW 更新台架。台架训练成本与正式工程步分开。回执 `f2d4b307e12007da512593cd6cc94a02a72171835e843705dea0e6881897d1eb`。
+
+在 Hopper 新目录以真实 V6.5 engine `2e890ac06865ba30addfccbe02c9ecad5baeaffcb038d91ebb47ca658b995031` 生成并编译条件接线，生成文件 `bb9a12ea3d7418e166b7c6c9140ced1048fa40492f041a33098e5865b91dba91`。新投影进入现有 target IO 的优化器树，FM 和 aux 批分别通过原 cursor 和实际槽传条件。当前仍为 **NEEDS_FULL_MODEL_QUALIFICATION**。完整 R4、CUDA 实际噪声、三路径输出／梯度、推理导出、冷恢复尚待实测。新 PBS、真实模型前向、真实优化器更新及原生积分均为 **0**。
