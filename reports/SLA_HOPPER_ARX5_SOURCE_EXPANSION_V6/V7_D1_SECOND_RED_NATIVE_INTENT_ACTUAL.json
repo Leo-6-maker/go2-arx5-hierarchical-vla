@@ -1,0 +1,52 @@
+{
+  "scope": "D1_SECOND_RED_PRECONTACT_ONE_NEW_TRAIN_START",
+  "reviewed_plan": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "state": "CPU_PREFLIGHT_PASSED_NOT_STARTED",
+  "source_roster": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-NATIVE-PREP-03/PROSPECTIVE.private.json",
+    "sha256": "b8b0acb983691997b2870a5dcd54660a45f82394606f2c84bc436ad024757ca9"
+  },
+  "comparison": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-NATIVE-PREP-03/PREFLIGHT/COMPARISON.json",
+    "sha256": "9d49d50588b415a6dc8b169c22903382b32ee26f4f7965a5952240ee862b581c"
+  },
+  "noise_sha256": "c8dd3987dd22131aaaf35baf9449d48b8494699a16e9fd89e378101dbd916513",
+  "runtime_roster_sha256": "06cbfb29f48e495baa3b361835abe825e325e2531018dcb66126aef0b62219ee",
+  "execute_ids": [
+    "V7_D1_EARLY_TRAIN_19"
+  ],
+  "disabled_ids": [
+    "V7_D1_EARLY_TRAIN_20"
+  ],
+  "prior_16_18_unstarted": true,
+  "maximum_new_native_requests": 1,
+  "maximum_ticks": 50703,
+  "maximum_frozen_forwards": 180,
+  "prior_attempts": 16,
+  "prior_admissions": 5,
+  "prior_admitted_windows": 255,
+  "prior_early_starts": 1,
+  "total_after_max": 17,
+  "recovery_cap": 20,
+  "minimum_reserved_next_student": 2,
+  "independent_layout_claim": false,
+  "same_red_task_family_replication": true,
+  "blue_failure_retained": true,
+  "unchanged_live_mechanism_and_safety_files": {
+    "v7_d1_live_hook.py": "f522fd6a4f8e6c86fe4303c372e76a98f00b0a2f8b435d00264840bb4d18fe66",
+    "v7_precontact_teacher.py": "8809ab201580a14e9b9b5b25fea71a196423abb6286bd606d9055a5f4d62d1d7",
+    "v64_recovery_native.py": "628e3c68e82a13590d4e8a9a7c1daf978ca6c53cc8c2c4a92d793c4d47444b2e",
+    "v64_m38_recovery_wave5.py": "d3ff16c58c468f184de50658f0ae7b8858f482c99679d9ad1ac114a19de9c204"
+  },
+  "model_updates": 0,
+  "actual_native_requests": 0,
+  "inherited_remaining_fields_correction": {
+    "snapshot_legacy_values": {
+      "before": 8,
+      "after": 6
+    },
+    "authoritative_before": 4,
+    "authoritative_after_this_card": 3,
+    "basis": "20_CAP_MINUS_16_ACTUAL_PLUS_AT_MOST_ONE_NEW_START"
+  }
+}

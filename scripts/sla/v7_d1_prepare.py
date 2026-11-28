@@ -220,11 +220,85 @@ def build_followup(site,stage):
     print('D1_FOLLOWUP',stage,sha(stage/'PROSPECTIVE.private.json'),flush=True)
 
 
+def build_second_red(site,stage):
+    """Register one independent red start after retaining the failed blue card.
+
+    This is a second start in the same qualified task/geometry family, not an
+    independent layout or evidence of blue transfer. The second roster row
+    remains an unawarded placeholder required by the original pair runner.
+    """
+    require(not stage.exists(),'Preserve the previous second-red registration')
+    earlier=site/'V7-D1-NATIVE-PREP-01'
+    red=read(pin(earlier/'PROSPECTIVE.private.json',
+                 'dfa845ca8bde4d239794ea70c1557608fffd1abc71b1f074e5a4b7a64853c9b9'))
+    blue_runtime=read(pin(site/'V7-D1-NATIVE-PREP-02/overlay/V7-D1-NATIVE-ROSTER.private.json',
+                         'e51f05b6f87ff2ee5906c40bd36e207c225503813a6f3ca050f2931f7604dda5'))
+    blue=read(pin(blue_runtime['prospective']['path'],blue_runtime['prospective']['sha256']))
+    terminal=site/'V7-D1-EARLY-SEALED-03/RESULT.json'
+    closed=read(pin(terminal,'ec470d104b47c6d4afec06383f39f79c4123730a5bea19e7d6d8ecfa665cd9fc'))
+    require(closed['complete_reconciliation'] and closed['terminal_cases']==1
+            and closed['cases'][0]['id']=='V7_D1_EARLY_TRAIN_17'
+            and closed['cases'][0]['state']=='CLOSED' and closed['cases'][0]['safety_stop']
+            and not closed['cases'][0]['recovery_admitted'] and closed['cases'][1]['state']=='NOT_STARTED',
+            'Retain the failed blue card and the unstarted conditional entry')
+    success=read(pin(site/'V7-D1-EARLY-SEALED-02/RESULT.json',
+                     'd165dc95a7d134feac6767533077b0ac5961b002cefcca7d5ceb2e0c2d0b546c'))
+    require(success['train_recovery_count']==1 and success['cases'][0]['recovery_admitted'],
+            'Require the closed independently executed first early red suffix')
+    protected=read(pin(site/'v63-place-core-code-01/PROTECTED_POPULATION.json',
+                       'a1dfa32f329cb91d474e20488cbeeafa3dc41858f32dacd6cd593dbed61bbb26'))
+    used_resets={r['reset'] for r in protected['clusters']};used_noise=set()
+    for i in range(1,6):
+        for card in read(site/f'RECOVERY-TRAIN-ROSTER-{i:02d}.json')['cases']:
+            used_resets.add(card['reset']);used_noise.update((card['policy_seed']+q)%2**31 for q in range(180))
+    for wave,ids in (('01',('V7_D0_EARLY_TRAIN_11','V7_D0_EARLY_TRAIN_12')),
+                     ('02',('V7_D0_EARLY_TRAIN_13','V7_D0_EARLY_TRAIN_14'))):
+        for name in ids:
+            case=site/f'V7-D0-EARLY-NATIVE-{wave}'/name
+            lease=read(case/'control/LEASE.json');spec=read(pin(case/'EXECUTION_SPEC.json',lease['spec_sha256']))
+            require(lease['status']=='CLOSED','An older native actor is not closed')
+            used_resets.add(spec['mobile_condition']['reset'])
+            used_noise.update((spec['comparison_policy_seed']+q)%2**31 for q in range(180))
+    for previous in (red,blue):
+        for card in previous['cases']:
+            used_resets.add(card['reset']);used_noise.update((card['policy_seed']+q)%2**31 for q in range(180))
+    sources=read(earlier/'TEACHER-SOURCES.private.json');cards=[];teachers={}
+    for source,name,enabled in ((IDS[0],'V7_D1_EARLY_TRAIN_19',True),(IDS[1],'V7_D1_EARLY_TRAIN_20',False)):
+        card=copy.deepcopy(next(r for r in red['cases'] if r['id']==source))
+        key=lambda purpose:int.from_bytes(hashlib.sha256(f'{REVIEW}|{name}|{purpose}'.encode()).digest()[:4],'little')%2**31
+        reset,seed=key('reset'),key('noise')
+        require(reset not in used_resets and all((seed+q)%2**31 not in used_noise for q in range(180)),
+                'The second-red start overlaps a registered reset or noise')
+        used_resets.add(reset);used_noise.update((seed+q)%2**31 for q in range(180))
+        card.update(id=name,reset=reset,policy_seed=seed,native_enabled=enabled,
+            trigger='PRECONTACT_20MM' if enabled else 'LIFT_STALL_1S',
+            not_started_reason=None if enabled else 'UNAWARDED_PLACEHOLDER_NO_QUALIFIED_LIFT_STALL')
+        cards.append(card);teachers[name]=copy.deepcopy(sources[source])
+    replay=site/'v7-d1-teacher-replay._fjo98ci/ACTUAL.json'
+    pin(replay,'4ea185c077832f560e2d94cde9773ef64f9304cdc748b46f7ca428d1f3f9215e')
+    roster=dict(red,cases=cards,past_attempts=16,past_admissions=5,max_new_requests=1,actual_starts=0,
+        native_dispatch_ids=[cards[0]['id']],conditional_unstarted_ids=[cards[1]['id']],
+        prior_actual_noise=[dict(path=str(p/'CUDA-NOISE.private.json'),sha256=sha(p/'CUDA-NOISE.private.json'))
+                            for p in (earlier,site/'V7-D1-NATIVE-PREP-02')],
+        previous_cohort=dict(path=str(terminal),sha256=sha(terminal)),
+        precontact_replay=dict(path=str(replay),sha256=sha(replay)),
+        minimum_attempts_reserved_for_next_student=2,new_registered_maximum_starts=17,
+        new_training_curriculum=False,independent_layout_claim=False,
+        selection='SECOND_INDEPENDENT_RED_START_IN_PREVIOUSLY_QUALIFIED_TASK_FAMILY_AFTER_RETAINED_BLUE_FAILURE',
+        blue_generalization_claim=False,previous_unstarted_cards_retained=[IDS[1],'V7_D1_EARLY_TRAIN_18'])
+    require(roster['new_registered_maximum_starts']<=20-roster['minimum_attempts_reserved_for_next_student'],
+            'The candidate consumes the reserved future-student attempts')
+    stage.mkdir(mode=0o700);write(stage/'PROSPECTIVE.private.json',roster)
+    write(stage/'TEACHER-SOURCES.private.json',teachers)
+    print('D1_SECOND_RED',stage,sha(stage/'PROSPECTIVE.private.json'),flush=True)
+
+
 if __name__=='__main__':
-    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('mode',choices=('build','build-followup','noise','finalize'))
+    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('mode',choices=('build','build-followup','build-second-red','noise','finalize'))
     cli.add_argument('site',type=Path);cli.add_argument('stage',type=Path);cli.add_argument('extra',type=Path,nargs='?')
     a=cli.parse_args()
     if a.mode=='build':build(a.site,a.stage)
     elif a.mode=='build-followup':build_followup(a.site,a.stage)
+    elif a.mode=='build-second-red':build_second_red(a.site,a.stage)
     elif a.mode=='noise':noise(a.site,a.stage,a.extra)
     else:finalize(a.site,a.stage,a.extra)
