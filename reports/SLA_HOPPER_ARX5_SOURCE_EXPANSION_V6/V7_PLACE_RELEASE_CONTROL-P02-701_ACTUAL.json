@@ -1,0 +1,215 @@
+{
+  "native": {
+    "id": "V7CTRL0500_P02_701",
+    "link": "L1",
+    "native_ticks": 44484,
+    "forwards": 156,
+    "valid_science": true,
+    "unsafe": true,
+    "result_sha256": "91db3961c957471afd4b025a625417daabbafecf9769ae04a3bfc3f18faba558",
+    "grasp_tick": 19291,
+    "grasp": true,
+    "post_grasp_returns_confirmed": 101,
+    "returns_confirmed": 156,
+    "lift20": true,
+    "maximum_lift_m": 0.03884676621655181,
+    "hold_s": 9.788000000011962,
+    "task_success": false,
+    "task_events": {
+      "base80mm": {
+        "native_step": 9795,
+        "native_time_s": 19.59000000000002
+      },
+      "target_grasp": {
+        "native_step": 19291,
+        "native_time_s": 38.58200000000119
+      },
+      "target_lift20mm": {
+        "native_step": 22254,
+        "native_time_s": 44.50800000000843
+      },
+      "released": {
+        "native_step": 44391,
+        "native_time_s": 88.78199999997449
+      }
+    },
+    "terminal_reason": null,
+    "terminal_object": {
+      "inside_selected_region": false,
+      "released": false,
+      "stable_release_condition": false,
+      "target_grasp": false,
+      "lift_m": -0.00026417458836336394,
+      "longest_stable_released_retreat_s": 0.0
+    },
+    "named_rejection": null,
+    "retimed_queries": [
+      52,
+      55,
+      56,
+      154
+    ],
+    "retiming_consumption": [
+      {
+        "query": 52,
+        "start_tick": 18703,
+        "confirmed_atoms": 10,
+        "original_jaw_peak_m_s": 0.0410938747196625,
+        "retimed_jaw_peak_m_s": 0.02054693735983125,
+        "bridge_s": 0.05,
+        "stretch": 2,
+        "original_timing_rejection": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "source_waypoints_confirmed": 5,
+        "observed_TCP_error_peak_m_at_50ms_bounds": 0.009145256563290183
+      },
+      {
+        "query": 55,
+        "start_tick": 19453,
+        "confirmed_atoms": 10,
+        "original_jaw_peak_m_s": 0.05374245124242019,
+        "retimed_jaw_peak_m_s": 0.029005961184024702,
+        "bridge_s": 0.30000000000000004,
+        "stretch": 1,
+        "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "source_waypoints_confirmed": 5,
+        "observed_TCP_error_peak_m_at_50ms_bounds": 0.0082420369125208
+      },
+      {
+        "query": 56,
+        "start_tick": 19703,
+        "confirmed_atoms": 10,
+        "original_jaw_peak_m_s": 0.12539123201184627,
+        "retimed_jaw_peak_m_s": 0.03637893768244926,
+        "bridge_s": 0.30000000000000004,
+        "stretch": 1,
+        "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "source_waypoints_confirmed": 5,
+        "observed_TCP_error_peak_m_at_50ms_bounds": 0.00641308919257874
+      },
+      {
+        "query": 154,
+        "start_tick": 44203,
+        "confirmed_atoms": 10,
+        "original_jaw_peak_m_s": 0.04373944098335424,
+        "retimed_jaw_peak_m_s": 0.033521590349402455,
+        "bridge_s": 0.15000000000000002,
+        "stretch": 1,
+        "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "source_waypoints_confirmed": 8,
+        "observed_TCP_error_peak_m_at_50ms_bounds": 0.03543200188973386
+      }
+    ],
+    "after_native_stop": 0,
+    "actual_stop": {
+      "reason": "ILLEGAL_CONTACT",
+      "native_tick": 44484,
+      "forbidden_contacts": [
+        {
+          "geom0": "",
+          "geom1": "task_cube_geom",
+          "distance_m": -5.893703681404683e-06,
+          "body0": "x5_link6",
+          "body1": "task_cube"
+        }
+      ],
+      "after_stop_publications_or_accepts": 0,
+      "after_stop_grants": 0
+    },
+    "policy_seed": 29670101
+  },
+  "registration_sha256": "2a7c5526a1cec31050f1d104835296dc4300a3d9539305b3165182d51c549ab0",
+  "journal_sha256": "6c9589d6c021c06d91a81ca6ebe2b59bd7830ae7b6e3f0cac588b947d9cba588",
+  "transition_samples": [
+    {
+      "tick": 44390,
+      "finger_mm": [
+        16.452707614407917,
+        22.989118183420395
+      ],
+      "native_grasp": false,
+      "hand_contact": true,
+      "table_contact": true,
+      "left_pad": false,
+      "right_pad": true,
+      "relative_motion_valid": false,
+      "inside_zone": false,
+      "target_offset_xy_mm": [
+        10.152556834463478,
+        28.66517987611539
+      ],
+      "TCP_from_object_mm": 23.16862391577601
+    },
+    {
+      "tick": 44391,
+      "finger_mm": [
+        16.431758248831716,
+        22.88786787318068
+      ],
+      "native_grasp": false,
+      "hand_contact": false,
+      "table_contact": true,
+      "left_pad": false,
+      "right_pad": false,
+      "relative_motion_valid": false,
+      "inside_zone": false,
+      "target_offset_xy_mm": [
+        10.152868609671462,
+        28.66537733151931
+      ],
+      "TCP_from_object_mm": 23.047166356085686
+    },
+    {
+      "tick": 44392,
+      "finger_mm": [
+        16.45084636599211,
+        22.84988938835445
+      ],
+      "native_grasp": false,
+      "hand_contact": true,
+      "table_contact": true,
+      "left_pad": true,
+      "right_pad": true,
+      "relative_motion_valid": false,
+      "inside_zone": false,
+      "target_offset_xy_mm": [
+        10.152584489392268,
+        28.664780941600895
+      ],
+      "TCP_from_object_mm": 22.94900610333766
+    },
+    {
+      "tick": 44484,
+      "finger_mm": [
+        18.95347355736115,
+        23.9555673653628
+      ],
+      "native_grasp": false,
+      "hand_contact": true,
+      "table_contact": true,
+      "left_pad": false,
+      "right_pad": true,
+      "relative_motion_valid": false,
+      "inside_zone": false,
+      "target_offset_xy_mm": [
+        10.204703008769467,
+        28.84244430064217
+      ],
+      "TCP_from_object_mm": 14.322683026051088
+    }
+  ],
+  "jaw": {
+    "query": 154,
+    "query_tick": 44203,
+    "raw_max_P10_jaw_mm": 20.09839197986194,
+    "raw_max_H40_jaw_mm": 40.4352507806813,
+    "interval_start_tick": 44378,
+    "interval_end_tick": 44403,
+    "emitted_width_mm": 16.055072240563632,
+    "width_before_query_mm": 8.348200370235174,
+    "full_open_command_mm": 39.599999999999994
+  },
+  "uses_eval_truth_as_model_input": false,
+  "new_integrations": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}

@@ -1,0 +1,113 @@
+{
+  "control": {
+    "id": "V7CTRL0500_P01_702",
+    "link": "L1",
+    "native_ticks": 23629,
+    "forwards": 72,
+    "valid_science": true,
+    "unsafe": true,
+    "result_sha256": "30a4d60a0517054157c0e9212271f09b0fd451b3dcccfdde369c6a2e6314d56c",
+    "grasp_tick": null,
+    "grasp": false,
+    "post_grasp_returns_confirmed": 0,
+    "returns_confirmed": 72,
+    "lift20": false,
+    "maximum_lift_m": 0.0,
+    "hold_s": 0.0,
+    "task_success": false,
+    "task_events": {
+      "base80mm": {
+        "native_step": 9567,
+        "native_time_s": 19.134000000000274
+      }
+    },
+    "terminal_reason": null,
+    "terminal_object": {
+      "inside_selected_region": false,
+      "released": false,
+      "stable_release_condition": false,
+      "target_grasp": false,
+      "lift_m": -5.305620645046361e-07,
+      "longest_stable_released_retreat_s": 0.0
+    },
+    "named_rejection": null,
+    "retimed_queries": [],
+    "retiming_consumption": [],
+    "after_native_stop": 0,
+    "actual_stop": {
+      "reason": "ILLEGAL_CONTACT",
+      "native_tick": 23629,
+      "forbidden_contacts": [
+        {
+          "geom0": "",
+          "geom1": "task_cube_geom",
+          "distance_m": -1.6074733343203473e-06,
+          "body0": "x5_link6",
+          "body1": "task_cube"
+        }
+      ],
+      "after_stop_publications_or_accepts": 0,
+      "after_stop_grants": 0
+    },
+    "policy_seed": 29670401,
+    "prior_cell": "ADAPT0250_P01_702"
+  },
+  "geometry": {
+    "cell": "V7CTRL0500_P01_702",
+    "terminal_sha256": "30a4d60a0517054157c0e9212271f09b0fd451b3dcccfdde369c6a2e6314d56c",
+    "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+    "stop_tick": 23629,
+    "stop_pair": {
+      "geom0": "",
+      "geom1": "task_cube_geom",
+      "distance_m": -1.6074733343203473e-06,
+      "body0": "x5_link6",
+      "body1": "task_cube"
+    },
+    "earlier_tick": 23506,
+    "r4_tick": 23629,
+    "clearance_mm": {
+      "actual": -0.008262991314240964,
+      "earlier_candidate": 1.1292303611706718,
+      "r4": 13.07256693780881,
+      "restore_earlier_candidate_base": 0.13698034470125894,
+      "substitute_r4_base": 6.654407495583388,
+      "substitute_r4_arm": 18.58391008041752,
+      "substitute_r4_fingers": -0.008262991314240964
+    },
+    "last_shared_boundary": 23628,
+    "candidate_minus_r4_mm": {
+      "reference": [
+        14.930874109268188,
+        6.778985261917114,
+        -27.065277099609375
+      ],
+      "tcp": [
+        11.356744727201662,
+        3.8167420791753655,
+        -19.810370674707812
+      ],
+      "mount": [
+        13.30753112876848,
+        7.7075392957057405,
+        3.8911800202440228
+      ]
+    },
+    "evidence": [
+      {
+        "exact_receiver_log": "15506f1e39a22b973f0f6e321249bee5c23871e0880a454b4fb74b74cbb59ba5",
+        "native_samples": "e7f2db29aaf8d9b1a070eaecf9680db1432c28932e166844ef74b702ca70c085"
+      },
+      {
+        "exact_receiver_log": "09a0923c505f060ca6c671d11525e74c8e08da3d46ff74f8e1ae93055264e0ba",
+        "native_samples": "f263ac4bae6b5e8b7dbf98e30b58937daeee1600befcf0c8be7cb04958088ba0"
+      }
+    ],
+    "physics_sha256": [
+      "352a3ea52944e70cb55d65f17eb80c13abe02e973369173a10bdab3839f955c9",
+      "064b57549bfce2f698ec5650009f5e69c5a63116204e8688013e01563eb80d50"
+    ]
+  },
+  "new_integrations": 0,
+  "new_model_forwards": 0
+}
