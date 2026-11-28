@@ -1,0 +1,65 @@
+{
+  "plan": "531f826b36c1195db8c253ca71497f1aeb569c80",
+  "comparison": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/COMPARISON.json",
+    "sha256": "679d9844b2c49e3ec942cdd0e187e7def3a6ae7c13b1a07dd756ca641b755a46"
+  },
+  "pair_close": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/PAIR_CLOSE.private.json",
+    "sha256": "ff97ca5e4fa7df0df1a062ea39c1f71ef4b9e796e8bb4c764023d2b3f1e43325"
+  },
+  "worker": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/worker/RESULT.private.json",
+    "sha256": "116560d70af6720055b3e77a91a77e88aa6180db5a608ec2b22f031aea12bf34"
+  },
+  "denominator": 2,
+  "terminal_cases": 1,
+  "cases": [
+    {
+      "id": "V7_D1_EARLY_TRAIN_17",
+      "state": "CLOSED",
+      "ticks": 28584,
+      "forwards": 50,
+      "result": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/V7_D1_EARLY_TRAIN_17/RESULT.private.json",
+        "sha256": "d88e246379089963f253a9d5faf31ebfb4c62c69f03eda82ffc299c2f242926c"
+      },
+      "safety_stop": true,
+      "shutdown_clean": true,
+      "technical_failure": false,
+      "native_stop": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 28584
+        }
+      ],
+      "after_first_stop_ticks": 0,
+      "teacher_intent": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/V7_D1_EARLY_TRAIN_17/native-01/RECOVERY-HANDOFF-INTENT.private.json",
+        "sha256": "0dde4e4ffe6c7dc4d40adf0defdc12670a102b23e11087eed1c78a16467e53cb"
+      },
+      "failed_handoff": null,
+      "raw_capture": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-02/V7_D1_EARLY_TRAIN_17/native-01/LIVE_DATA/MANIFEST.private.json",
+        "sha256": "09c8f3f2d9a53e63d2bac4226ca09b087e1c19838b7bdfb88da10dbc5f5254a4"
+      },
+      "student_task_success": false,
+      "teacher_task_success": false,
+      "confirmed_teacher_atoms": null,
+      "recovery_admitted": false
+    },
+    {
+      "id": "V7_D1_EARLY_TRAIN_18",
+      "state": "NOT_STARTED",
+      "recovery_admitted": false
+    }
+  ],
+  "native_ticks": 28584,
+  "actual_forwards": 50,
+  "worker_actual_forwards": 50,
+  "forward_ledger_reconciled": true,
+  "train_recovery_count": 0,
+  "complete_reconciliation": true,
+  "actual_training_updates": 0
+}

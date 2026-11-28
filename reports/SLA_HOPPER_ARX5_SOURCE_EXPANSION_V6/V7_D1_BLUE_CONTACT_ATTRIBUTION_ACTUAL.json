@@ -1,0 +1,186 @@
+{
+  "status": "ARCHIVED_BLUE_D1_CONTACT_FAILURE_ATTRIBUTED_WITH_STATIC_FK",
+  "case": "V7_D1_EARLY_TRAIN_17",
+  "result_sha256": "d88e246379089963f253a9d5faf31ebfb4c62c69f03eda82ffc299c2f242926c",
+  "capture_sha256": "09c8f3f2d9a53e63d2bac4226ca09b087e1c19838b7bdfb88da10dbc5f5254a4",
+  "original_queries_sha256": "0414daafd6f1901af800096b64e6cd7b08e8eaac96e3e9f1196aeb7f9b0afcf7",
+  "original_model_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+  "state_journal_sha256": "c052fe47b1503aa17103c5f50753200cdbbc614ce87f2000d8e605373a2d27f5",
+  "native_samples_sha256": "9b21d13926b5d57d230a9a014d8ae36183206b8c6e06ba45662d1aca64d19fea",
+  "native_commands_sha256": "6fb09d2864ec7eafd40526d094a0cc1fbac2a3a3b9523f2b16d0bffca52a983e",
+  "teacher_queries": 42,
+  "full_teacher_atoms": 415,
+  "first_teacher_sequence": 628,
+  "last_full_teacher_sequence": 1042,
+  "partial_inflight_ticks": 6,
+  "stop_tick": 28584,
+  "stop_phase": "CLOSE",
+  "stop_contacts": [
+    {
+      "geoms": [
+        "task_table",
+        "task_right_pad"
+      ],
+      "distance_m": -0.00012082225640576601,
+      "normal_force_N": 9.784755120588555
+    },
+    {
+      "geoms": [
+        "task_table",
+        "task_right_pad"
+      ],
+      "distance_m": -3.661927086226183e-05,
+      "normal_force_N": 11.259075068952075
+    }
+  ],
+  "phase_queries": {
+    "CLOSE": 2,
+    "DESCEND": 27,
+    "PREGRASP": 13
+  },
+  "snapshots": [
+    {
+      "tick": 27953,
+      "tcp_world_mm": [
+        348.5340345501623,
+        28.24127896597139,
+        638.6073710443246
+      ],
+      "mount_world_mm": [
+        51.349639310979,
+        35.08829121836058,
+        435.6043054572259
+      ],
+      "accepted_reference_world_mm": [
+        338.65219354629517,
+        36.61360219120979,
+        632.3025226593018
+      ]
+    },
+    {
+      "tick": 28203,
+      "tcp_world_mm": [
+        348.3800512828076,
+        27.664027717491106,
+        636.3886888494404
+      ],
+      "mount_world_mm": [
+        51.32572157909092,
+        34.773256829568645,
+        435.7554195712094
+      ],
+      "accepted_reference_world_mm": [
+        337.3557925224304,
+        36.51458024978638,
+        628.9920806884766
+      ]
+    },
+    {
+      "tick": 28453,
+      "tcp_world_mm": [
+        348.4791013390666,
+        27.690350995975074,
+        634.8064569076585
+      ],
+      "mount_world_mm": [
+        51.03138954776887,
+        34.802271831753295,
+        435.94660279619643
+      ],
+      "accepted_reference_world_mm": [
+        336.0343873500824,
+        36.862991750240326,
+        627.0196437835693
+      ]
+    },
+    {
+      "tick": 28578,
+      "tcp_world_mm": [
+        348.78046709113227,
+        24.47860431958542,
+        623.6778891125464
+      ],
+      "mount_world_mm": [
+        51.887347295425,
+        35.40797289727776,
+        417.9559586001874
+      ],
+      "accepted_reference_world_mm": [
+        335.41610836982727,
+        37.10762411355972,
+        626.5692114830017
+      ]
+    },
+    {
+      "tick": 28584,
+      "tcp_world_mm": [
+        349.46377991638656,
+        25.288157254168937,
+        620.871497354325
+      ],
+      "mount_world_mm": [
+        52.01458384239668,
+        35.93961246602716,
+        415.74415212526986
+      ],
+      "accepted_reference_world_mm": null
+    }
+  ],
+  "static_TCP_z_decompositions": [
+    {
+      "first_tick": 27953,
+      "last_tick": 28578,
+      "actual_tcp_z_change_mm": -14.929481931778232,
+      "floating_base_shapley_z_mm": -17.150207826644337,
+      "six_arm_joints_shapley_z_mm": 2.2207258948661046,
+      "other_joint_fk_residual_mm": 0.0
+    },
+    {
+      "first_tick": 27953,
+      "last_tick": 28584,
+      "actual_tcp_z_change_mm": -17.735873689999625,
+      "floating_base_shapley_z_mm": -20.16308065810296,
+      "six_arm_joints_shapley_z_mm": 2.427206968103335,
+      "other_joint_fk_residual_mm": 0.0
+    },
+    {
+      "first_tick": 28203,
+      "last_tick": 28578,
+      "actual_tcp_z_change_mm": -12.71079973689404,
+      "floating_base_shapley_z_mm": -17.192763041660065,
+      "six_arm_joints_shapley_z_mm": 4.4819633047660234,
+      "other_joint_fk_residual_mm": 0.0
+    },
+    {
+      "first_tick": 28203,
+      "last_tick": 28584,
+      "actual_tcp_z_change_mm": -15.517191495115433,
+      "floating_base_shapley_z_mm": -20.20511701371719,
+      "six_arm_joints_shapley_z_mm": 4.687925518601754,
+      "other_joint_fk_residual_mm": 0.0
+    },
+    {
+      "first_tick": 28453,
+      "last_tick": 28578,
+      "actual_tcp_z_change_mm": -11.128567795112065,
+      "floating_base_shapley_z_mm": -16.487786095816027,
+      "six_arm_joints_shapley_z_mm": 5.359218300703961,
+      "other_joint_fk_residual_mm": 0.0
+    },
+    {
+      "first_tick": 28453,
+      "last_tick": 28584,
+      "actual_tcp_z_change_mm": -13.93495955333346,
+      "floating_base_shapley_z_mm": -19.499837845112555,
+      "six_arm_joints_shapley_z_mm": 5.564878291779096,
+      "other_joint_fk_residual_mm": 0.0
+    }
+  ],
+  "attribution_scope": "Static kinematic decomposition of archived states; not a causal controller intervention or pad-clearance decomposition",
+  "controller_selected_reference_directly_observed": false,
+  "admitted_recovery": false,
+  "post_STOP_integrations": 0,
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}
