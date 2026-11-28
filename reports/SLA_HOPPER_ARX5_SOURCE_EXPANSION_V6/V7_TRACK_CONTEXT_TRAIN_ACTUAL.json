@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "episode": "V7_D0_EARLY_TRAIN_11",
+      "source_result_sha256": "8dfcb2e6cc2a330e190139fd2c7ebec752c9e0a43984a8e4438870f17a2ca48a",
+      "total_queries": 180,
+      "matched_prior_accepted_queries": 179,
+      "first_query_has_no_previous_model_prefix": true,
+      "key_queries": [
+        {
+          "query": 72,
+          "tick": 23703,
+          "accepted_minus_measured_xyz_mm": [
+            7.604427168130368,
+            4.501611060023118,
+            -4.895744785667122
+          ],
+          "accepted_minus_measured_l2_mm": 10.102481462368962,
+          "accepted_minus_measured_angle_deg": 5.839596287036638,
+          "observation_sha256": "5b43f1661ad43c5b5dfcf90a71344e8663e9eed582a93e7078c78ca78bef25c1",
+          "previous_consumption_sha256": "333cedee332e9a366eaeaf19939b8d33c8c27284efe77ab26378cb9ea92c8d74",
+          "accepted_wire_sha256": "67c9f1c25cdfaf563a30e5f743e4b60a7ef1f36d266e5a55a2dcf0240e93ea7d"
+        },
+        {
+          "query": 84,
+          "tick": 26703,
+          "accepted_minus_measured_xyz_mm": [
+            10.006304251600984,
+            6.0108791256140055,
+            6.199513328013162
+          ],
+          "accepted_minus_measured_l2_mm": 13.217063143624719,
+          "accepted_minus_measured_angle_deg": 5.763861743634492,
+          "observation_sha256": "cd9ab17da087d75cfb46b497e86e19a067b0548c615d63fef01cb25d59b57797",
+          "previous_consumption_sha256": "db65921fd91c1227f1349d919c507bce76def034f70c3465711d465cf9880bf2",
+          "accepted_wire_sha256": "711a0f885ea3fa0bd180e39fad3b726291e79ce0a2cc6707344eb4d1167f5cf8"
+        }
+      ],
+      "translation_p95_mm": 26.791551975884307,
+      "rotation_p95_deg": 6.028820390403237
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_09",
+      "source_result_sha256": "669c70da7d2de72f072acde9d3b878f9cc883824761e5c4f9a1d9667f2beeed9",
+      "total_queries": 62,
+      "matched_prior_accepted_queries": 61,
+      "first_query_has_no_previous_model_prefix": true,
+      "key_queries": [
+        {
+          "query": 61,
+          "tick": 20953,
+          "accepted_minus_measured_xyz_mm": [
+            -4.955775325835909,
+            13.318608312737082,
+            -1.2292719921108697
+          ],
+          "accepted_minus_measured_l2_mm": 14.263805456429274,
+          "accepted_minus_measured_angle_deg": 5.653594874721146,
+          "observation_sha256": "dea6361c897544f6384bd4f20bd4052b5ca1e4a70c078153aaed5c8854e844cd",
+          "previous_consumption_sha256": "8ca3c4546bedf31533b3dbed34e516a2fb6fe5e4700e82e8f6853b00489495b9",
+          "accepted_wire_sha256": "9919c6ec196f5324acc5e4b92735b0de2203115f1b0eca9d9185daa2372733e6"
+        }
+      ],
+      "translation_p95_mm": 28.64197754017146,
+      "rotation_p95_deg": 5.653594874721146
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_10",
+      "source_result_sha256": "e10c1348f74e976131b9b68c56c751f615acd378a84a3415a706a4d759fa882b",
+      "total_queries": 47,
+      "matched_prior_accepted_queries": 46,
+      "first_query_has_no_previous_model_prefix": true,
+      "key_queries": [
+        {
+          "query": 46,
+          "tick": 17203,
+          "accepted_minus_measured_xyz_mm": [
+            -0.03336838121981156,
+            -2.422247001117095,
+            0.4564918461504863
+          ],
+          "accepted_minus_measured_l2_mm": 2.465112327843879,
+          "accepted_minus_measured_angle_deg": 4.990011366871441,
+          "observation_sha256": "d348fca03b597216741e6c49599d3dc9b7b338c381caa1467bc4ea7ae5ae38e6",
+          "previous_consumption_sha256": "d8c59cdef1a15152632547fd4314ba287248aa617e37dfd95cccee4445ab8cb1",
+          "accepted_wire_sha256": "b822962b46c09d466f7f3dc1cbf6cf432ee16c1cd195407879b20866769af228"
+        }
+      ],
+      "translation_p95_mm": 31.138831012710533,
+      "rotation_p95_deg": 4.907907226396058
+    }
+  ],
+  "linked_queries": 286,
+  "scope": "PRE_INFERENCE_ACCEPTED_REFERENCE_DIAGNOSTIC",
+  "controller_selected_reference_available": false,
+  "training_or_deployment_condition_enabled": false,
+  "native_integrations": 0,
+  "model_forwards": 0,
+  "optimizer_updates": 0,
+  "full_receipt_sha256": "13b9caa2dc0539cbe00ec9b12ebfed37f23a0e790811674128c37190630577c8"
+}
