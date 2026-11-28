@@ -1,0 +1,63 @@
+{
+  "plan": "531f826b36c1195db8c253ca71497f1aeb569c80",
+  "comparison": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/COMPARISON.json",
+    "sha256": "9d49d50588b415a6dc8b169c22903382b32ee26f4f7965a5952240ee862b581c"
+  },
+  "pair_close": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/PAIR_CLOSE.private.json",
+    "sha256": "e18bf1a9dcd1af58d748a585806136b0a8dea4a54f6204afcc4dfa4d7e4efbd0"
+  },
+  "worker": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/worker/RESULT.private.json",
+    "sha256": "c1d8d8fb5ef0a44190e0c1f692f6c40952b0bb066ad892d2f34977c2af81fdff"
+  },
+  "denominator": 2,
+  "terminal_cases": 1,
+  "cases": [
+    {
+      "id": "V7_D1_EARLY_TRAIN_19",
+      "state": "CLOSED",
+      "ticks": 46203,
+      "forwards": 48,
+      "result": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/RESULT.private.json",
+        "sha256": "f7884d82843070ef80204e2466de595a72932ab6f652e1935963f54015f5c435"
+      },
+      "safety_stop": false,
+      "shutdown_clean": true,
+      "technical_failure": false,
+      "native_stop": [],
+      "after_first_stop_ticks": null,
+      "teacher_intent": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/RECOVERY-HANDOFF-INTENT.private.json",
+        "sha256": "865a1e5070537a25eecd99f6279252f1a756bc7a134ddc7724a137260dd92532"
+      },
+      "failed_handoff": null,
+      "raw_capture": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/MANIFEST.private.json",
+        "sha256": "d8f9c7e3084b591bc0e838f4f252a83c13ea815cdcf9de52f04fa99b1e6d2ac2"
+      },
+      "student_task_success": false,
+      "teacher_task_success": true,
+      "confirmed_teacher_atoms": 1140,
+      "recovery_admitted": true,
+      "recovery_label": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-SEALED-04/V7_D1_EARLY_TRAIN_19/ACTUAL.json",
+        "sha256": "e73574b7e4ea0758e8b3eaf24088cb798800b610c09ff5ea3da528f59166536e"
+      }
+    },
+    {
+      "id": "V7_D1_EARLY_TRAIN_20",
+      "state": "NOT_STARTED",
+      "recovery_admitted": false
+    }
+  ],
+  "native_ticks": 46203,
+  "actual_forwards": 48,
+  "worker_actual_forwards": 48,
+  "forward_ledger_reconciled": true,
+  "train_recovery_count": 1,
+  "complete_reconciliation": true,
+  "actual_training_updates": 0
+}

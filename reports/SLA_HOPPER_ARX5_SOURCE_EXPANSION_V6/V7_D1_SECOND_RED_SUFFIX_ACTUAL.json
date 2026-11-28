@@ -1,0 +1,213 @@
+{
+  "schema": "V64_RECOVERY_R4_ACTUAL_CONSUMED_SUFFIX",
+  "actual_recovery": true,
+  "native_result": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/RESULT.private.json",
+    "sha256": "f7884d82843070ef80204e2466de595a72932ab6f652e1935963f54015f5c435"
+  },
+  "capture": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/MANIFEST.private.json",
+    "sha256": "d8f9c7e3084b591bc0e838f4f252a83c13ea815cdcf9de52f04fa99b1e6d2ac2"
+  },
+  "actual_native_samples": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/MOBILE_SAMPLES.private.jsonl",
+    "sha256": "6f94f5b7d3068eea39dbe8165118c901d8af67ba8c70ae615f4a03d5312810c8"
+  },
+  "scene": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+  "reset": 932461869,
+  "task": "PLACE-red-right",
+  "training_windows": 114,
+  "labels": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-SEALED-04/V7_D1_EARLY_TRAIN_19/LABELS.npz",
+    "sha256": "172958d17202d9d4deb68344256f1b3d485be930b066358af47bbacfeb8e4006"
+  },
+  "maximum_roundtrip_mm_deg": [
+    5.047891118829688e-07,
+    5.3009249251214386e-08
+  ],
+  "maximum_P10_roundtrip_mm_deg": [
+    1.2153272724903848e-07,
+    1.1721870589144312e-08
+  ],
+  "native_teacher_start_tick": 17703,
+  "actual_teacher_atoms": 1140,
+  "phase_windows": {
+    "PREGRASP": 20,
+    "DESCEND": 23,
+    "CLOSE": 3,
+    "LIFT": 9,
+    "CARRY": 30,
+    "LOWER": 16,
+    "OPEN": 4,
+    "WITHDRAW": 9
+  },
+  "rgb": {
+    "shards": [
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-000.npz",
+        "sha256": "191733d8ac644460dce7be39137f4c3b1f683426372de4be3456a8370f2c1781",
+        "count": 16,
+        "first_query": 0
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-001.npz",
+        "sha256": "8ebe21aa402110e8226d7be7835b1c8fc099fa83615a065f0647951e80b47601",
+        "count": 16,
+        "first_query": 16
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-002.npz",
+        "sha256": "0331483f94d29d5f0b484ef5406ed228cae2f676ae59e1b509b126869c9f090b",
+        "count": 16,
+        "first_query": 32
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-003.npz",
+        "sha256": "b472ae42b2e2d3ed0305fadbc1c1324b9d0d12b13d0ff784ecaee12f81b9637a",
+        "count": 16,
+        "first_query": 48
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-004.npz",
+        "sha256": "61797b04da66ec38569c1cbf697bd8c05d37a16e5f15d7df28aed369755f7612",
+        "count": 16,
+        "first_query": 64
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-005.npz",
+        "sha256": "ad9c66a6598a4d5546397b991543e0d2cea87abbbf4665efe1d1d3823a4c40fc",
+        "count": 16,
+        "first_query": 80
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-006.npz",
+        "sha256": "0e86525258df92970e01c736a5ef19cced7df91773936675d098e38a2d0242cd",
+        "count": 16,
+        "first_query": 96
+      },
+      {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-NATIVE-03/V7_D1_EARLY_TRAIN_19/native-01/LIVE_DATA/frames-007.npz",
+        "sha256": "2dbc19979b0bca989c09300739220b9b502f58e75836eb8390e8bbe5bd34c4ca",
+        "count": 2,
+        "first_query": 112
+      }
+    ],
+    "original_reader_boundary_reads": [
+      {
+        "native_tick": 17703,
+        "images_sha256": {
+          "base_0_rgb": "c7a9988205a7cfeef52b775ea981d8cfaa97018566709499d2ae40c0236d4f54",
+          "left_wrist_0_rgb": "ecda540b3fad6485a3909a6e0f21431ac1e2b408679da6f52786276b4cee0f58"
+        }
+      },
+      {
+        "native_tick": 21453,
+        "images_sha256": {
+          "base_0_rgb": "e5cf84757041b5347dc4c990665267e0130961e09ee18a1e0d10708caad58176",
+          "left_wrist_0_rgb": "51ec0eb8fdd97bc4d6c51ce68848b4cb8c4dd8889853b6ec26419ace66f40372"
+        }
+      },
+      {
+        "native_tick": 21703,
+        "images_sha256": {
+          "base_0_rgb": "f99b7fa16cc9c18fb3bd508ef4cf1404c282a6f8f693a44b033b55618a57665a",
+          "left_wrist_0_rgb": "58e7fbe70c7afada29a52bacf729b8f7484314183d41b35401ed7dbffd26a6c3"
+        }
+      },
+      {
+        "native_tick": 25453,
+        "images_sha256": {
+          "base_0_rgb": "7617e9465f7096ec35bb501d3fd292e18ce4c89e4828a2665052bb951123f6cd",
+          "left_wrist_0_rgb": "c7b732f44497d9c210bc089b37e5dca08e005f2a439fdea60b83e5ee91cf1c20"
+        }
+      },
+      {
+        "native_tick": 25703,
+        "images_sha256": {
+          "base_0_rgb": "486917c3e255851e8616e1099ad8c47338e4a43525241fe02d0b55b942bf89d2",
+          "left_wrist_0_rgb": "6762397cb79e059e501d1110b6671c42b29f0a8f5413fd7e4b06bbec0e493927"
+        }
+      },
+      {
+        "native_tick": 29453,
+        "images_sha256": {
+          "base_0_rgb": "7442d540a9806d3b3bf56d9ca87098780bad2a0dff3ae4d6013eda7541befa04",
+          "left_wrist_0_rgb": "1b2f625c0c0fa42d0f6f932e5982fc373b03102dffb30c236490fa8d71f70ca9"
+        }
+      },
+      {
+        "native_tick": 29703,
+        "images_sha256": {
+          "base_0_rgb": "e11c764516dd1be27489bc2d614f82f618554e1af2cbbdfaaf8dcee774adff8b",
+          "left_wrist_0_rgb": "47a028b16f123be7bf0efa28553dc127e321c72abb4a7890b245733f2779231f"
+        }
+      },
+      {
+        "native_tick": 33453,
+        "images_sha256": {
+          "base_0_rgb": "f163dc84610eeb97e0e9542aea3e595ad4aea64c8f8bcf70f7305e9dba26fb3d",
+          "left_wrist_0_rgb": "be45f3a8efe164703a4b0ed4d2b20ffe6d7e55870ef98c5176a2bc9645aafc72"
+        }
+      },
+      {
+        "native_tick": 33703,
+        "images_sha256": {
+          "base_0_rgb": "36cf0d1d5837990eb81ba1c1b1e40992db61510f34688162d1644f245e18a449",
+          "left_wrist_0_rgb": "8a38269709c93d69caf44c41ec70e1e9d9376b94ecc0ff3d83145aa7b3ace05a"
+        }
+      },
+      {
+        "native_tick": 37453,
+        "images_sha256": {
+          "base_0_rgb": "6904e7379f95de460965af60bc45e4995ee002b58754641f6ce8236cabb6a3fa",
+          "left_wrist_0_rgb": "17c21fc7aa3d9139db0cb32b5b65b74734d550b731932f9a17c96a64571ff2cf"
+        }
+      },
+      {
+        "native_tick": 37703,
+        "images_sha256": {
+          "base_0_rgb": "fd21efcefc192cf2a2fa7504f03381a93197ca6376ccbcd93311f0e328dc6a84",
+          "left_wrist_0_rgb": "cdd94e368d453465e6501234721b744c8b184744d8c5d263ceb7bcbde0735eac"
+        }
+      },
+      {
+        "native_tick": 41453,
+        "images_sha256": {
+          "base_0_rgb": "17cb95ea4b827c6553e3020848d8bb14a8c5605a1536426886f1dbc0b1ca899a",
+          "left_wrist_0_rgb": "0e52a8c979e3df3cd6e1941e8ad3e356feb1beeec2cb674cb281ff64dad561c9"
+        }
+      },
+      {
+        "native_tick": 41703,
+        "images_sha256": {
+          "base_0_rgb": "ac45ebb26871e97e13945d67e059c7d5883b5d6dcad05170fdac2ff0c36bd41f",
+          "left_wrist_0_rgb": "d58cb4125ffa5d91c6ad568b705bcf818d8b944041d6a195935c8b967e22eb9d"
+        }
+      },
+      {
+        "native_tick": 45453,
+        "images_sha256": {
+          "base_0_rgb": "1c4fdd6ba8e3ed7f3d8790e58c7086e146f21e3199a9a64539a075978b2a5307",
+          "left_wrist_0_rgb": "4ac3472f015359de79099f74d2a2bc790d3b07eb0b741e1b437dbbce98805d0b"
+        }
+      },
+      {
+        "native_tick": 45703,
+        "images_sha256": {
+          "base_0_rgb": "552f6db028e32cf2e4281ca895e8f45f0ac04021ab431f65a874dbe6ab270b5c",
+          "left_wrist_0_rgb": "385da853cd415f053dbffb55d8c363bccc6ade73df87571e4b5837e98d80e598"
+        }
+      },
+      {
+        "native_tick": 45953,
+        "images_sha256": {
+          "base_0_rgb": "0fd3e26fee518e666c7cc9866d7fa66e901e38d48b56bd2090254acb8bf7fe9f",
+          "left_wrist_0_rgb": "92175874c7fb9977d17ace71e5f471ba6f9fbf2b015bd20630668c0776f7add2"
+        }
+      }
+    ]
+  },
+  "original_control_npz_compared": false,
+  "optimizer_visits": 0,
+  "new_integrations": 0
+}

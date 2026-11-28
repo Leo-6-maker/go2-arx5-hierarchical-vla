@@ -1,0 +1,88 @@
+{
+  "status": "SECOND_RED_D1_NATIVE_SCORE_AND_CONSUMPTION_INDEPENDENTLY_VERIFIED",
+  "native_result_sha256": "f7884d82843070ef80204e2466de595a72932ab6f652e1935963f54015f5c435",
+  "reconciliation_sha256": "8f4e1cbf851949b3e370e5d42472257e169240d8cfcceb9f0c3652bdd26a3624",
+  "actual_ticks": 46203,
+  "actual_frozen_forwards": 48,
+  "teacher_queries": 114,
+  "actual_teacher_atoms": 1140,
+  "handoff_tick": 17703,
+  "handoff_wrist_gap_mm": 19.557231133900906,
+  "previous_student_sequence": 607,
+  "first_teacher_sequence": 608,
+  "last_teacher_sequence": 1747,
+  "sequence_and_tick_continuity": true,
+  "score": {
+    "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+    "instruction": "PLACE-red-right",
+    "task_success": true,
+    "native_step": 46203,
+    "base_directional_motion_m": 0.20150122505612045,
+    "lift_m": 0.0,
+    "inside_selected_region": true,
+    "target_grasp": false,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": true,
+    "gripper_open_fraction": 0.9545445266233848,
+    "TCP_retreat_m": 0.0564043905255239,
+    "stable_release_condition": true,
+    "states": 40501,
+    "missing_native_intervals": 0,
+    "unsafe_states": 0,
+    "ever_target_grasp": true,
+    "ever_target_lift20mm": true,
+    "maximum_lift_m": 0.028695868762213195,
+    "longest_grasp_lift_hold_s": 6.899999999988118,
+    "longest_stable_released_retreat_s": 1.1579999999973012,
+    "events": {
+      "base80mm": {
+        "native_step": 10226,
+        "native_time_s": 20.451999999999543
+      },
+      "target_grasp": {
+        "native_step": 29025,
+        "native_time_s": 58.05000000002498
+      },
+      "target_lift20mm": {
+        "native_step": 31408,
+        "native_time_s": 62.816000000030805
+      },
+      "correct_region": {
+        "native_step": 38042,
+        "native_time_s": 76.08400000000408
+      },
+      "released": {
+        "native_step": 43444,
+        "native_time_s": 86.8879999999789
+      },
+      "retreated50mm": {
+        "native_step": 45624,
+        "native_time_s": 91.24799999996874
+      }
+    },
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM"
+  },
+  "student_autonomous_success": false,
+  "teacher_assisted_success": true,
+  "recovery_attempts_total": 17,
+  "recovery_admissions_total": 6,
+  "recovery_windows_total": 369,
+  "admitted_early_takeover_starts": 2,
+  "new_independent_layouts": 0,
+  "blue_generalization_established": false,
+  "unsafe": false,
+  "technical_failure": false,
+  "all_leases_closed": true,
+  "process_gone": true,
+  "neural_owner_lock_released": true,
+  "trace_audit_status": "RECORDED_TRACE_CHECKS_PASS",
+  "source_spec_sha256": "7817add136ebdb6448badcfa7a91d69c5b8d3d8a6690f946fe518a6031eed313",
+  "capture_sha256": "d8f9c7e3084b591bc0e838f4f252a83c13ea815cdcf9de52f04fa99b1e6d2ac2",
+  "actual_samples_sha256": "6f94f5b7d3068eea39dbe8165118c901d8af67ba8c70ae615f4a03d5312810c8",
+  "query_labels_sha256": "62816e053f9a1c8976dce9dd7db166f504b12294f22080c2bed2423c47cdc01f",
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}
