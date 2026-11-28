@@ -1,0 +1,220 @@
+{
+  "scope": "P02_702_ORIGINAL_NATIVE",
+  "treatment": {
+    "id": "V7TREAT0500_P02_702",
+    "link": "L1",
+    "native_ticks": 20151,
+    "forwards": 58,
+    "valid_science": true,
+    "unsafe": true,
+    "result_sha256": "2493347bd26439db2c914eed8c4cb8b1c292bf621178900212bc68c1311f6bdc",
+    "grasp_tick": null,
+    "grasp": false,
+    "post_grasp_returns_confirmed": 0,
+    "returns_confirmed": 58,
+    "lift20": false,
+    "maximum_lift_m": 0.0,
+    "hold_s": 0.0,
+    "task_success": false,
+    "task_events": {
+      "base80mm": {
+        "native_step": 8829,
+        "native_time_s": 17.658000000001092
+      }
+    },
+    "terminal_reason": null,
+    "terminal_object": {
+      "inside_selected_region": false,
+      "released": false,
+      "stable_release_condition": false,
+      "target_grasp": false,
+      "lift_m": -1.2927405979024087e-07,
+      "longest_stable_released_retreat_s": 0.0
+    },
+    "named_rejection": null,
+    "retimed_queries": [],
+    "retiming_consumption": [],
+    "after_native_stop": 0,
+    "actual_stop": {
+      "reason": "ILLEGAL_CONTACT",
+      "native_tick": 20151,
+      "forbidden_contacts": [
+        {
+          "geom0": "",
+          "geom1": "task_cube_geom",
+          "distance_m": -1.8570194009089047e-06,
+          "body0": "x5_link6",
+          "body1": "task_cube"
+        }
+      ],
+      "after_stop_publications_or_accepts": 0,
+      "after_stop_grants": 0
+    },
+    "policy_seed": 29670401
+  },
+  "control": {
+    "id": "V7CTRL0500_P02_702",
+    "link": "L1",
+    "native_ticks": 18155,
+    "forwards": 50,
+    "valid_science": true,
+    "unsafe": true,
+    "result_sha256": "440968b8fb40fa34f436adc2cf06d568d473935a8723715f93e7157861f49f41",
+    "grasp_tick": null,
+    "grasp": false,
+    "post_grasp_returns_confirmed": 0,
+    "returns_confirmed": 50,
+    "lift20": false,
+    "maximum_lift_m": 0.0,
+    "hold_s": 0.0,
+    "task_success": false,
+    "task_events": {
+      "base80mm": {
+        "native_step": 8690,
+        "native_time_s": 17.380000000001246
+      }
+    },
+    "terminal_reason": null,
+    "terminal_object": {
+      "inside_selected_region": false,
+      "released": false,
+      "stable_release_condition": false,
+      "target_grasp": false,
+      "lift_m": -2.7691462578527393e-07,
+      "longest_stable_released_retreat_s": 0.0
+    },
+    "named_rejection": null,
+    "retimed_queries": [],
+    "retiming_consumption": [],
+    "after_native_stop": 0,
+    "actual_stop": {
+      "reason": "ILLEGAL_CONTACT",
+      "native_tick": 18155,
+      "forbidden_contacts": [
+        {
+          "geom0": "",
+          "geom1": "task_cube_geom",
+          "distance_m": -2.0080504780986552e-06,
+          "body0": "x5_link6",
+          "body1": "task_cube"
+        }
+      ],
+      "after_stop_publications_or_accepts": 0,
+      "after_stop_grants": 0
+    },
+    "policy_seed": 29670401,
+    "prior_cell": "ADAPT0250_P02_702"
+  },
+  "R4_grasp": true,
+  "geometry": {
+    "cell": "V7TREAT0500_P02_702",
+    "terminal_sha256": "2493347bd26439db2c914eed8c4cb8b1c292bf621178900212bc68c1311f6bdc",
+    "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+    "stop_tick": 20151,
+    "stop_pair": {
+      "geom0": "",
+      "geom1": "task_cube_geom",
+      "distance_m": -1.8570194009089047e-06,
+      "body0": "x5_link6",
+      "body1": "task_cube"
+    },
+    "earlier_tick": 20026,
+    "r4_tick": 20149,
+    "clearance_mm": {
+      "actual": -0.00409098140026834,
+      "earlier_candidate": 0.13391994893633546,
+      "r4": 7.332609674175782,
+      "restore_earlier_candidate_base": 0.35464547502694554,
+      "substitute_r4_base": 10.963542161091217,
+      "substitute_r4_arm": -2.7361851533609616,
+      "substitute_r4_fingers": -0.00409098140026834
+    },
+    "last_shared_boundary": 20128,
+    "candidate_minus_r4_mm": {
+      "reference": [
+        19.17150616645813,
+        21.476227790117264,
+        0.4500746726989746
+      ],
+      "tcp": [
+        12.349002154835143,
+        11.341472410834143,
+        -2.9065786285858985
+      ],
+      "mount": [
+        7.496585925761967,
+        8.727343010987743,
+        -0.22945851425593133
+      ]
+    },
+    "evidence": [
+      {
+        "exact_receiver_log": "0b4d237820edd619ab340707669a2c37fb502843d2114c9385a0c69eb2edf83f",
+        "native_samples": "8efca68664922910d5fc71c2155046f1d93461cf6178c2bfd1d94c90f112a975"
+      },
+      {
+        "exact_receiver_log": "472fd5d9c255f8b75e9aebb144b63e0cbfe994e87de585bfbc4e59e651639130",
+        "native_samples": "5d331e3703c6809d1ef1fa8fd17f0851f601a8deb5dc733f6f235b8f0f43801f"
+      }
+    ],
+    "physics_sha256": [
+      "990f1f9056ec93f9f137f6decd2a7fee6834fe7e30bd42b83c3ec81894afb7ba",
+      "8d4d7b5dac156dd89206fdb3f550323f0f4ee3fbc949a7d08a358b85a808b80f"
+    ]
+  },
+  "same_noise_queries": 50,
+  "common_boundaries": 498,
+  "last_common_boundary": {
+    "tick": 18153,
+    "accepted_xyz_mm": 19.667415538592447,
+    "tcp_xyz_mm": 9.029303396625336,
+    "mount_xyz_mm": 5.633471129763375,
+    "parent_accepted_z_m": 0.6510866284370422,
+    "candidate_accepted_z_m": 0.6638693809509277,
+    "parent_tcp_z_m": 0.654879629405273,
+    "candidate_tcp_z_m": 0.6613597970526196,
+    "parent_mount_z_m": 0.4423661660079392,
+    "candidate_mount_z_m": 0.4400905018401053,
+    "nominal_target_xyz_mm": 19.667397145618747,
+    "parent_accepted_vs_nominal_mm": 1.5048654233577587e-05,
+    "candidate_accepted_vs_nominal_mm": 1.7953511125326738e-05,
+    "parent_grasp": false,
+    "candidate_grasp": false
+  },
+  "first_query_crossings": {
+    "decoded_h40_xyz_mm": {
+      "0.1": 5703,
+      "1.0": 8203,
+      "2.0": 8703
+    },
+    "decoded_p10_xyz_mm": {
+      "0.1": 5703,
+      "1.0": 8203,
+      "2.0": 8703
+    },
+    "state_xyz_mm": {
+      "0.1": 7203,
+      "1.0": 8203,
+      "2.0": 8703
+    }
+  },
+  "first_boundary_crossings": {
+    "accepted_xyz_mm": {
+      "0.1": 5953,
+      "1.0": 9178,
+      "2.0": 11778
+    },
+    "tcp_xyz_mm": {
+      "0.1": 7103,
+      "1.0": 8003,
+      "2.0": 8003
+    },
+    "mount_xyz_mm": {
+      "0.1": 7978,
+      "1.0": 8003,
+      "2.0": 8003
+    }
+  },
+  "new_physics_ticks": 0,
+  "new_model_forwards": 0
+}

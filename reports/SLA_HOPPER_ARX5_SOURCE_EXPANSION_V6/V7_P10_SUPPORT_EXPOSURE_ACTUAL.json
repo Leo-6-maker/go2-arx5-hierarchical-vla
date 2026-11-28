@@ -1,0 +1,67 @@
+{
+  "full_receipt_sha256": "755feca1388e983201ea3da2c08b8873f3df0f1c31a2db8235812c4e70030b2c",
+  "public_index_sha256": "9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56",
+  "matched_inputs_sha256": "ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024",
+  "bank_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+  "training_receipt": {
+    "formal_updates": 1000,
+    "matched_cuda_steps": 500,
+    "visits_each": {
+      "old": 24000,
+      "new": 23000,
+      "recovery": 1000,
+      "robodojo": 8000,
+      "libero": 8000,
+      "auxiliary": 2000
+    }
+  },
+  "p10_mask_audit": {
+    "actual_go2_fm_support_histogram": {
+      "10": 813,
+      "20": 847,
+      "30": 850,
+      "40": 45490
+    },
+    "actual_aux_support_histogram": {
+      "40": 2000
+    },
+    "step_251_support_histogram": {
+      "10": 4,
+      "30": 4,
+      "40": 88
+    },
+    "step_251_by_pool": {
+      "old": {
+        "10": 2,
+        "30": 2,
+        "40": 44
+      },
+      "new": {
+        "10": 2,
+        "30": 1,
+        "40": 43
+      },
+      "recovery": {
+        "30": 1,
+        "40": 1
+      }
+    },
+    "step_251_original_prefix_weight_fraction": 0.2847222222222222,
+    "step_251_candidate_prefix_weight_fraction": 0.4291666666666667,
+    "actual_prefix_weight_fraction_range": [
+      0.25,
+      0.3055555555555555
+    ],
+    "candidate_prefix_weight_fraction_range": [
+      0.39999999999999997,
+      0.4447916666666667
+    ],
+    "fully_supported_steps": 5,
+    "candidate_normalization": "32 * (valid_count + 10)"
+  },
+  "target_fm_visits_per_arm": 48000,
+  "target_aux_visits_per_arm": 2000,
+  "new_integrations": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}

@@ -40,13 +40,32 @@ def label_rows(root, index, matched):
         # Count transitions from a below-threshold prior command. Exclude maintenance of an already open jaw.
         crossing = (prior[:, None] < threshold) & valid & (jaw >= threshold)
         opens.extend(zip(crossing[:, :10].any(axis=1), crossing.any(axis=1), strict=True))
-        supported.extend(valid.all(axis=1).tolist())
+        supported.extend(valid.sum(axis=1).tolist())
         phases.extend(phase.tolist())
         tasks.extend([entry["task"]] * n)
         episodes.extend([name] * n)
         start += n
     require(start == 8031 and len(set(episodes)) == 96, "Incomplete registered A93 and Recovery3 population")
     return np.asarray(phases), np.asarray(tasks), np.asarray(episodes), np.asarray(opens), np.asarray(supported)
+
+
+def p10_mask_audit(support, target, slots):
+    sizes = support[target]
+    require(sizes.shape == (500, 96) and np.all((sizes >= 10) & (sizes <= 40)), "Changed actual Go2 FM masks")
+    unweighted = 10. / sizes
+    weighted = 20. / (sizes + 10.)
+    groups = np.repeat(("old", "new", "recovery"), (4450, 3466, 115))[target[250]]
+    return dict(
+        actual_go2_fm_support_histogram=dict(sorted(Counter(sizes.ravel().tolist()).items())),
+        actual_aux_support_histogram=dict(sorted(Counter(np.take_along_axis(sizes, slots, axis=1).ravel().tolist()).items())),
+        step_251_support_histogram=dict(sorted(Counter(sizes[250].tolist()).items())),
+        step_251_by_pool={group: dict(sorted(Counter(sizes[250, groups == group].tolist()).items()))
+                          for group in ("old", "new", "recovery")},
+        step_251_original_prefix_weight_fraction=float(unweighted[250].mean()),
+        step_251_candidate_prefix_weight_fraction=float(weighted[250].mean()),
+        actual_prefix_weight_fraction_range=[float(unweighted.mean(axis=1).min()), float(unweighted.mean(axis=1).max())],
+        candidate_prefix_weight_fraction_range=[float(weighted.mean(axis=1).min()), float(weighted.mean(axis=1).max())],
+        fully_supported_steps=int((sizes == 40).all(axis=1).sum()), candidate_normalization="32 * (valid_count + 10)")
 
 
 def audit(root, bank, capsule):
@@ -60,12 +79,12 @@ def audit(root, bank, capsule):
                 "Requires the complete formal pair")
         pin(run / "UPDATES.jsonl", terminal["optimizer_ledger_sha256"])
     training = paired_ledger(capsule, bank)
-    phase, task, episode, opened, complete = label_rows(root, index, matched)
+    phase, task, episode, opened, support = label_rows(root, index, matched)
     with np.load(pin(bank / "BANK.npz", ARRAYS), allow_pickle=False) as payload:
         target, slots = payload["target"], payload["auxiliary_slots"]
     fm = np.bincount(target.ravel(), minlength=len(phase))
     aux = np.bincount(np.take_along_axis(target, slots, axis=1).ravel(), minlength=len(phase))
-    require(fm.sum() == 48000 and aux.sum() == 2000 and complete[aux > 0].all(), "Actual target or aux support changed")
+    require(fm.sum() == 48000 and aux.sum() == 2000 and (support[aux > 0] == 40).all(), "Actual target or aux support changed")
     groups = np.repeat(("old", "new", "recovery"), (4450, 3466, 115))
     output = defaultdict(dict)
     for role in ("old", "new", "recovery"):
@@ -85,6 +104,7 @@ def audit(root, bank, capsule):
                                   "visits_each": training["visits_each"]},
                 open_threshold_mm=1000 * OPEN_FRACTION * OPEN_RANGE_M, target_fm_visits_per_arm=int(fm.sum()),
                 target_aux_visits_per_arm=int(aux.sum()), place_by_source_and_instruction=dict(output),
+                p10_mask_audit=p10_mask_audit(support, target, slots),
                 uses_evaluation_windows=False, new_integrations=0, new_model_forwards=0, new_updates=0)
 
 
