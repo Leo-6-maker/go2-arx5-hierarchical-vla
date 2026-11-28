@@ -34,11 +34,20 @@ Core独立验证两个完整checkpoint的全部文件、四组参数/Adam/RNG及
 
 ## 源域审查与后继工作
 
-两个模型的原42格源域保持审查独立启动，完成后继续公布。即使源域没有告警，也不会撤销已经记录的TRAIN无新增损害门失败，不会启动本轮500。
+两个模型的原42格源域保持审查已经完成，合计84次真实前向，完整实际CUDA噪声及源窗口与R4基线相同。相对R4的episode均值MAE变化如下：
 
-下一步优先形成第二条独立早期纠正起点。蓝色旧LIFT停滞卡仍未启动；固定20mm PREGRASP规则在两条已关闭蓝块TRAIN轨迹上首次出现于距旧终态2.582/6.500s之前，两个教师前缀均通过11/11原静态结点与四项无效边界拒绝检查。由此单独登记新蓝卡17，只派发一张；18为条件未启动项，原卡16保持未启动。新卡已经完成实际CUDA噪声去重、CPU执行入口预检，尚未开始物理积分。保留至少两次Recovery尝试给下一版合格学生。
+| 固定源域 | 零臂250 | L2-SP250 |
+|---|---:|---:|
+| RoboDojo，24窗 | -0.22101% | -0.15490% |
+| Ville，18窗 | -0.01985% | -0.01282% |
+
+均未触发原10%告警。Ville使用固定原R4单臂IO，只测共享表征保持；这些小幅离线误差变化不是源技能闭环成功或有统计保证的知识增长。源域无告警没有撤销已经记录的TRAIN无新增损害门失败，本轮不启动500。
+
+下一步优先形成第二条独立早期纠正起点。蓝色旧LIFT停滞卡仍未启动；固定20mm PREGRASP规则在两条已关闭蓝块TRAIN轨迹上首次出现于距旧终态2.582/6.500s之前，两个教师前缀均通过11/11原静态结点与四项无效边界拒绝检查。由此单独登记新蓝卡17，只派发一张；18为条件未启动项，原卡16保持未启动。新卡已完成实际CUDA噪声去重、CPU执行入口预检，并在源域两个进程退出后于21:32进入新的有界启动流程。现场可用RAM约46.2GiB、SSD57.5GiB、HDD479GiB，GPU0空闲26,642MiB；尚无本卡任务结果，不能提前计为第二条成功后缀。保留至少两次Recovery尝试给下一版合格学生。
 
 若蓝卡再产出合格早期后缀，才检查C1的两个独立起点、PREGRASP/LIFT监督和普通教师匹配池。原A93＋R3不热换，新数据目前训练访问为0。S1已观察到初始raw退化，S2连续状态仍是独立候选；不同时修改状态、数据、loss及参数冻结方式来掩盖单项失败。
+
+补充CPU实读：同场景、同任务的普通Teacher红/蓝控制池分别有63/73个早期完整H40窗口，已准入红色纠正对应45个。已逐一读取原tar标签、核对阶段和有效位；这些是候选匹配池，尚未生成新采样bank，也未放行C1训练。[池审计](V7_C1_SAME_SCENE_EARLY_POOL_AUDIT_ACTUAL.json)
 
 ## 回执
 
@@ -46,4 +55,6 @@ Core独立验证两个完整checkpoint的全部文件、四组参数/Adam/RNG及
 - [逐叶参数距离](V7_B6_MATCHED_250_PARAMETER_DISTANCE_ACTUAL.json)
 - [148新前向与74精确复用](V7_B6_MATCHED_250_TRAIN_FORWARD_ACTUAL.json) · [完整37格行为指标](V7_B6_MATCHED_250_TRAIN_PANEL_ACTUAL.json)
 - [停止续训的固定决策](V7_B6_MATCHED_250_NO_EXTENSION_DECISION_ACTUAL.json)
+- [零臂源域结果](V7_B6_MATCHED_250_CONTROL_SOURCE_ACTUAL.json) · [锚定源域结果](V7_B6_MATCHED_250_L2SP_SOURCE_ACTUAL.json) · [两臂源域独立结算](V7_B6_MATCHED_250_SOURCE_PAIR_READBACK_ACTUAL.json)
 - [蓝块两个历史前缀静态回放](V7_D1_BLUE_PRECONTACT_PREFIX_REPLAY_ACTUAL.json) · [新蓝卡CPU登记](V7_D1_BLUE_PRECONTACT_FOLLOWUP_CPU_REGISTRY_ACTUAL.json) · [有界原生意图](V7_D1_BLUE_PRECONTACT_NATIVE_INTENT_ACTUAL.json)
+- [新蓝卡owner与进程启动回读，任务结果待定](V7_D1_BLUE_PRECONTACT_LAUNCH_READBACK_ACTUAL.json)
