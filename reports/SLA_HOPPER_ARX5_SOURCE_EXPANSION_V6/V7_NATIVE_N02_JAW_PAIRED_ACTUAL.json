@@ -1,0 +1,216 @@
+{
+  "full_receipt_sha256": "1d23fd3bd589281c032ea08b4cacffef23ef841f77d496dcf8696b81dd40645b",
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "phase": "HOLD",
+  "read_only": true,
+  "score_sha256": [
+    "1ee0fde54f87cb83f17ed42b251f5404539310fb6bd0549093364bd0b05414da",
+    "d5352799e38052279c73a2178f1acb7e4355c8ac988c86ccd3c2a07ced410482"
+  ],
+  "cases": [
+    {
+      "case": "ADAPT0250_N02_A",
+      "common_until_tick": 20692,
+      "same_grasp_phase": 60,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 60,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 599,
+          "confirmed_P10s": 59,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.016218366839695905
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 85,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 844,
+          "confirmed_P10s": 84,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.09420685612557257
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 60,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 599,
+          "confirmed_P10s": 59,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.016218366839695905
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 60,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 599,
+          "confirmed_P10s": 59,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.020569777880695413
+        }
+      },
+      "same_query_at_any_over_limit": {
+        "CONTROL_NEUTRAL": [],
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": []
+      }
+    },
+    {
+      "case": "ADAPT0250_N02_B",
+      "common_until_tick": 22703,
+      "same_grasp_phase": 68,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 68,
+          "first_seam_over_limit": 2,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 680,
+          "confirmed_P10s": 68,
+          "retimed_with_confirmed_prefix": 2,
+          "p95_first_seam_mm_s": 26.8142272121145
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 68,
+          "first_seam_over_limit": 1,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 680,
+          "confirmed_P10s": 68,
+          "retimed_with_confirmed_prefix": 1,
+          "p95_first_seam_mm_s": 21.24215480804162
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 68,
+          "first_seam_over_limit": 2,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 680,
+          "confirmed_P10s": 68,
+          "retimed_with_confirmed_prefix": 2,
+          "p95_first_seam_mm_s": 26.8142272121145
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 68,
+          "first_seam_over_limit": 1,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 680,
+          "confirmed_P10s": 68,
+          "retimed_with_confirmed_prefix": 1,
+          "p95_first_seam_mm_s": 21.24215480804162
+        }
+      },
+      "same_query_at_any_over_limit": {
+        "CONTROL_NEUTRAL": [
+          {
+            "query": 54,
+            "native_tick": 19203,
+            "actual_cuda_noise_sha256": "b2f79dceaf65ad7b0f65d40fb0efc8ff94d746274a6c336b63fa07344ad433de",
+            "past_first_grasp": false,
+            "previous_mm": 30.28083268089294,
+            "measured_mm": 30.297236787653027,
+            "first_seam_mm_s": 62.055796377026155,
+            "peak_inside_mm_s": 35.96540108586496,
+            "first_seam_over_limit": true,
+            "interior_over_limit": false,
+            "originally_reported_g7": true,
+            "confirmed_atoms": 10,
+            "last_confirmed_jaw_mm": 23.812819565958716,
+            "retimed_verified": {
+              "query": 54,
+              "start_tick": 19203,
+              "confirmed_atoms": 10,
+              "original_jaw_peak_m_s": 0.062055796377026295,
+              "retimed_jaw_peak_m_s": 0.036007684317533734,
+              "bridge_s": 0.15000000000000002,
+              "stretch": 1,
+              "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "source_waypoints_confirmed": 8,
+              "observed_TCP_error_peak_m_at_50ms_bounds": 0.01443553674722015
+            },
+            "action_sha256": "67985eec64f8200eeeab7e564837103102a375199de317d1bedbb8247320bb9c"
+          },
+          {
+            "query": 56,
+            "native_tick": 19703,
+            "actual_cuda_noise_sha256": "83b083674de8e484fa5ebd4e6a027778e863dd90eaa9e712fb4d834906e8159d",
+            "past_first_grasp": true,
+            "previous_mm": 11.08922449181894,
+            "measured_mm": 19.367075678200994,
+            "first_seam_mm_s": 109.71686104443424,
+            "peak_inside_mm_s": 7.787833776258758,
+            "first_seam_over_limit": true,
+            "interior_over_limit": false,
+            "originally_reported_g7": true,
+            "confirmed_atoms": 10,
+            "last_confirmed_jaw_mm": 4.6871417132175175,
+            "retimed_verified": {
+              "query": 56,
+              "start_tick": 19703,
+              "confirmed_atoms": 10,
+              "original_jaw_peak_m_s": 0.10971686104443422,
+              "retimed_jaw_peak_m_s": 0.031831434994372895,
+              "bridge_s": 0.30000000000000004,
+              "stretch": 1,
+              "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "source_waypoints_confirmed": 5,
+              "observed_TCP_error_peak_m_at_50ms_bounds": 0.015021527425873246
+            },
+            "action_sha256": "e64355612dd45b8ad76dc8d9fb8d40626b0124eebce3ad3ef0346d080a557406"
+          }
+        ],
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": [
+          {
+            "query": 54,
+            "native_tick": 19203,
+            "actual_cuda_noise_sha256": "b2f79dceaf65ad7b0f65d40fb0efc8ff94d746274a6c336b63fa07344ad433de",
+            "past_first_grasp": false,
+            "previous_mm": 36.21071037037067,
+            "measured_mm": 36.15095360913441,
+            "first_seam_mm_s": 36.68986162491616,
+            "peak_inside_mm_s": 32.256926058340376,
+            "first_seam_over_limit": false,
+            "interior_over_limit": false,
+            "originally_reported_g7": true,
+            "confirmed_atoms": 10,
+            "last_confirmed_jaw_mm": 25.728433324348224,
+            "retimed_verified": null,
+            "action_sha256": "53813a96acd042d81a4688219f2e6e5be7a93b8f1850b237c5dd3eedff59ce34"
+          },
+          {
+            "query": 56,
+            "native_tick": 19703,
+            "actual_cuda_noise_sha256": "83b083674de8e484fa5ebd4e6a027778e863dd90eaa9e712fb4d834906e8159d",
+            "past_first_grasp": true,
+            "previous_mm": 11.411265040213847,
+            "measured_mm": 19.332067775522813,
+            "first_seam_mm_s": 106.68667738083508,
+            "peak_inside_mm_s": 9.913882942608025,
+            "first_seam_over_limit": true,
+            "interior_over_limit": false,
+            "originally_reported_g7": true,
+            "confirmed_atoms": 10,
+            "last_confirmed_jaw_mm": 4.69081125991363,
+            "retimed_verified": {
+              "query": 56,
+              "start_tick": 19703,
+              "confirmed_atoms": 10,
+              "original_jaw_peak_m_s": 0.10668667738083507,
+              "retimed_jaw_peak_m_s": 0.03895343964529047,
+              "bridge_s": 0.25,
+              "stretch": 1,
+              "original_timing_rejection": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "source_waypoints_confirmed": 6,
+              "observed_TCP_error_peak_m_at_50ms_bounds": 0.016686079027287082
+            },
+            "action_sha256": "ec52b0e595438dc5650e48ae443eb5466a44d38c0093defb946015b9c3825ef1"
+          }
+        ]
+      }
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}
