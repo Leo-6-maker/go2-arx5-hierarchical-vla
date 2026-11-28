@@ -5,9 +5,10 @@ from collections import Counter
 from pathlib import Path
 
 import mujoco
+import numpy as np
 
 from go2arx5_vla.world_model.mobile_wbc_reference_v1 import START
-from go2arx5_vla.world_model.multitask_score_v6 import LIFT, OPEN_FRACTION, Score, Task
+from go2arx5_vla.world_model.multitask_score_v6 import LIFT, OPEN_FRACTION, Score, Task, footprint_inside
 from go2arx5_vla.world_model.multitask_state_v6 import TwoObjectState, packets
 from go2arx5_vla.world_model.native_replay import forbid_integration
 from m38_gpu_preflight_v1 import pin, read, require, sha
@@ -115,10 +116,83 @@ def audit(case, expected_result):
                 new_integrations=0, new_model_forwards=0, new_updates=0)
 
 
+def release_transition(case, expected_result, registration):
+    """Read the native release boundary even when the terminal STOP omits a progress score."""
+    from v62_source_native import read_case
+
+    pin(case / "RESULT.private.json", expected_result)
+    bind = read(registration)
+    row, = [row for row in bind["schedule"] if row["id"] == case.name]
+    panel = bind["v4_panel"]
+    noise = read(pin(panel["path"], panel["sha256"]))["noise"]["place"]
+    require(noise["sha256"] == bind["gpu_noise_sha256"], "Changed original PLACE noise")
+    draws = read(pin(noise["path"], noise["sha256"]))["tensors"]
+    authority = read_case(case, row, {draw["noise_id"]: draw["gpu_sha256"] for draw in draws})
+    require(authority["valid_science"] and authority["result_sha256"] == expected_result,
+            "Release attribution requires an independently scored native case")
+    release = authority["task_events"]["released"]["native_step"]
+    stop = authority["native_ticks"]
+    lease = read(case / "control/LEASE.json")
+    spec = read(pin(case / "EXECUTION_SPEC.json", lease["spec_sha256"]))
+    task = Task.parse(spec["task_instruction_id"])
+    geometry = spec["multitask_geometry"]
+    scene = spec["model_path"]
+    model = mujoco.MjModel.from_binary_path(str(pin(scene, spec["frozen_files"][scene])))
+    reader = TwoObjectState(model, task.color)
+    phase = geometry["zones"][task.destination]
+    half = geometry["object_half_sizes"][task.color]
+    selected = {release - 1, release, release + 1, stop}
+    journal = case / "native-01/state.bin.journal"
+    samples = []
+    with forbid_integration(mujoco) as integrations:
+        for packet in packets(journal):
+            tick = packet["step"]
+            if tick not in selected:
+                continue
+            state = reader.update(packet)
+            obj = state["objects"][task.color]
+            samples.append(dict(tick=tick, finger_mm=(1000 * state["finger_q"]).tolist(),
+                                native_grasp=obj["native_grasp"], hand_contact=obj["hand_contact"],
+                                table_contact=obj["table_contact"], left_pad=obj["left_object_contact"],
+                                right_pad=obj["right_object_contact"], relative_motion_valid=obj["relative_motion_valid"],
+                                inside_zone=footprint_inside(obj["pose"], half, phase),
+                                target_offset_xy_mm=(1000 * (obj["pose"][:2, 3] - phase["center_world_XY"])).tolist(),
+                                TCP_from_object_mm=1000 * float(np.linalg.norm(state["tcp"][:3, 3] - obj["pose"][:3, 3]))))
+    require(not integrations and {r["tick"] for r in samples} == selected,
+            "Missing exact original release or terminal native packet")
+    previous, current = (next(r for r in samples if r["tick"] == t) for t in (release - 1, release))
+    require((previous["hand_contact"] or previous["native_grasp"]) and not current["hand_contact"]
+            and not current["native_grasp"], "Native packets disagree with the stable scorer's first release event")
+
+    query = None
+    for item in queries(case):
+        if item["tick"] > release:
+            break
+        query = item
+    require(query is not None, "The prefix containing the release must be archived")
+    report = read(case / "native-01/g7-queries" / f"{query['index']:04d}/QUERY_ACTUAL.private.json")
+    interval, = [item for item in report["confirmed_intervals"] if item["native_start_step"] < release <= item["native_end_step"]]
+    witness = interval["accepted_boundary"]
+    require(witness["exact_receiver_knot"] and witness["accepted_wire_sha256"] == interval["wire_sha256"],
+            "Release command needs the actual consumed wire witness")
+    return dict(native=authority, registration_sha256=sha(registration), journal_sha256=sha(journal),
+                transition_samples=samples, jaw=dict(query=query["index"], query_tick=query["tick"],
+                  raw_max_P10_jaw_mm=1000 * OPEN_RANGE_M * float(query["decoded"][:10, 9].max()),
+                  raw_max_H40_jaw_mm=1000 * OPEN_RANGE_M * float(query["decoded"][:, 9].max()),
+                  interval_start_tick=interval["native_start_step"], interval_end_tick=interval["native_end_step"],
+                  emitted_width_mm=1000 * interval["emitted_gripper_width_m"],
+                  width_before_query_mm=1000 * query["previous_width_m"],
+                  full_open_command_mm=1000 * OPEN_FRACTION * OPEN_RANGE_M),
+                uses_eval_truth_as_model_input=False, new_integrations=0, new_model_forwards=0, new_updates=0)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("case", type=Path)
     parser.add_argument("result_sha256")
     parser.add_argument("output", type=Path)
+    parser.add_argument("--registration", type=Path, help="Read the first native detached transition using the original PLACE registration")
     settings = parser.parse_args()
-    write(settings.output, audit(settings.case, settings.result_sha256))
+    report = (audit(settings.case, settings.result_sha256) if settings.registration is None
+              else release_transition(settings.case, settings.result_sha256, settings.registration))
+    write(settings.output, report)
