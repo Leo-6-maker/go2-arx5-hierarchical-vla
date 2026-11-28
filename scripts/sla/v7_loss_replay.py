@@ -142,16 +142,19 @@ def run(capsule, output, deadline):
         joint, parts, metrics = learner.components(START, learner.prepared(START, START + 1), MICRO, 4, stop)
         require({k: list(v) for k, v in observation.items()} == expected["noise"], "Actual replay CUDA noise/tau differs")
         require(all(metrics[k]["visit_sha256"] == expected["components"][k]["visit_sha256"] for k in BATCH)
-                and metrics["auxiliary"]["slots"].tolist() == expected["components"]["auxiliary"]["slots"],
+                and list(metrics["auxiliary"]["slots"]) == expected["components"]["auxiliary"]["slots"],
                 "Replay did not visit the recorded TRAIN examples")
         rate = float(rates[START])
         require(rate == expected["lr"], "Scheduled LR differs")
+        norms = {name: float(optax.global_norm(part)) for name, part in parts.items()}
+        write(output / "INPUT-REPLAY.json", dict(step=START + 1, noise=expected["noise"],
+            sample_visits=expected["go2"], rate=rate, component_norms=norms, joint_norm=float(optax.global_norm(joint)),
+            archived_joint_norm=expected["global_gradient_norm"], committed_updates=0))
         advanced, shadow, norm = learner.apply(learner.parameters, learner.optimizer, joint, rate)
         delta = jax.tree.map(jnp.subtract, advanced, learner.parameters)
         require(all(int(state[0].count) == START + 1 for state in shadow.values()), "Wrong shadow Adam time")
         del advanced, shadow
         weights = {**{name: size / 128 for name, size in BATCH.items()}, "auxiliary": AUX}
-        norms = {name: float(optax.global_norm(part)) for name, part in parts.items()}
         couples = {}
         for left, right in itertools.combinations(parts, 2):
             value = float(dot(parts[left]["shared"], parts[right]["shared"]))
