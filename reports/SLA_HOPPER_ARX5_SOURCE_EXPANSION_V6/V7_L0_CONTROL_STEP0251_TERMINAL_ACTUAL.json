@@ -1,0 +1,72 @@
+{
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "step": 251,
+  "initial_seal": "522f9a0bb26e9cde8eb913b2f85aeb9353f743a098040750929b00c0ff3773f5",
+  "formal_terminal": "8995ff3926e25bde34632d75859e4d5c5578e986ff27a2a9b587ed065be54da8",
+  "gradient_replay_sha256": "2223bc2a0a1fc1f82deddb95cb2993c831713f2b14bd6bf67b46005ba1497f8b",
+  "go2_fm_breakdowns": {
+    "population": {
+      "terms": {
+        "old": {
+          "loss": 0.005537107586860657,
+          "gradient_l2": 0.03307311609387398,
+          "proposed_parameter_delta_dot_gradient": -1.2073957122993306e-07
+        },
+        "new": {
+          "loss": 0.014186258427798748,
+          "gradient_l2": 0.09516685456037521,
+          "proposed_parameter_delta_dot_gradient": -6.530259724968346e-06
+        },
+        "recovery": {
+          "loss": 0.00034609594149515033,
+          "gradient_l2": 0.005497545935213566,
+          "proposed_parameter_delta_dot_gradient": 8.943551677020878e-08
+        }
+      },
+      "gradient_reconstruction_l2": 0.00017443789693061262
+    },
+    "physical_channels": {
+      "terms": {
+        "xyz": {
+          "loss": 0.004678772762417793,
+          "gradient_l2": 0.04465780407190323,
+          "proposed_parameter_delta_dot_gradient": -2.22141920858121e-06
+        },
+        "rotation": {
+          "loss": 0.013337932527065277,
+          "gradient_l2": 0.07847294211387634,
+          "proposed_parameter_delta_dot_gradient": -8.49419848236721e-06
+        },
+        "gripper": {
+          "loss": 0.0019633607007563114,
+          "gradient_l2": 0.025986870750784874,
+          "proposed_parameter_delta_dot_gradient": 4.153454938204959e-06
+        },
+        "padding": {
+          "loss": 8.939471445046365e-05,
+          "gradient_l2": 0.004353719297796488,
+          "proposed_parameter_delta_dot_gradient": -1.0203144995557523e-09
+        }
+      },
+      "gradient_reconstruction_l2": 0.000332538882503286
+    },
+    "horizon": {
+      "terms": {
+        "p10": {
+          "loss": 0.0016556093469262123,
+          "gradient_l2": 0.016260480508208275,
+          "proposed_parameter_delta_dot_gradient": -2.8178524402733274e-08
+        },
+        "suffix": {
+          "loss": 0.018413852900266647,
+          "gradient_l2": 0.09552104026079178,
+          "proposed_parameter_delta_dot_gradient": -6.5294038904539775e-06
+        }
+      },
+      "gradient_reconstruction_l2": 0.0003155244921799749
+    }
+  },
+  "shadow_optimizer_evaluations": 1,
+  "committed_updates": 0,
+  "native_integrations": 0
+}

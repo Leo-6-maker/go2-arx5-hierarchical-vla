@@ -1,0 +1,72 @@
+{
+  "step": 251,
+  "components": {
+    "target": {
+      "loss": 0.020069461315870285,
+      "gradient_l2": 0.09949546307325363,
+      "expected_gradient_l2": 0.09949546307325363,
+      "expected_loss": 0.020069461315870285,
+      "proposed_parameter_delta_dot_gradient": -6.5616145548119675e-06
+    },
+    "robodojo": {
+      "loss": 0.006938528269529343,
+      "gradient_l2": 0.04384493827819824,
+      "expected_gradient_l2": 0.04384493827819824,
+      "expected_loss": 0.006938528269529343,
+      "proposed_parameter_delta_dot_gradient": -1.321753416050342e-06
+    },
+    "libero": {
+      "loss": 0.034493423998355865,
+      "gradient_l2": 0.16723041236400604,
+      "expected_gradient_l2": 0.16723041236400604,
+      "expected_loss": 0.034493423998355865,
+      "proposed_parameter_delta_dot_gradient": -1.5476063708774745e-05
+    },
+    "auxiliary": {
+      "loss": 1.4581781115907688e-08,
+      "gradient_l2": 8.206413895095466e-07,
+      "expected_gradient_l2": 8.206413895095466e-07,
+      "expected_loss": 1.4581781115907688e-08,
+      "proposed_parameter_delta_dot_gradient": 2.1621555240658452e-11
+    }
+  },
+  "pairwise": {
+    "target+robodojo": {
+      "dot": -8.495608199154958e-06,
+      "cosine": -0.0019474742977707957,
+      "weighted_cross_term": -1.5929265373415546e-06
+    },
+    "target+libero": {
+      "dot": -4.04028469347395e-05,
+      "cosine": -0.0024282501814804273,
+      "weighted_cross_term": -7.575533800263656e-06
+    },
+    "target+auxiliary": {
+      "dot": 3.8589370587871485e-10,
+      "cosine": 0.004726188078106017,
+      "weighted_cross_term": 2.170652095567771e-10
+    },
+    "robodojo+libero": {
+      "dot": -3.539877070579678e-05,
+      "cosine": -0.004827846538260585,
+      "weighted_cross_term": -1.1062115845561493e-06
+    },
+    "robodojo+auxiliary": {
+      "dot": 4.6610795223500645e-09,
+      "cosine": 0.1295429051394212,
+      "weighted_cross_term": 4.3697620522031855e-10
+    },
+    "libero+auxiliary": {
+      "dot": -1.6214796172420165e-09,
+      "cosine": -0.011815247297865,
+      "weighted_cross_term": -1.5201371411643905e-10
+    }
+  },
+  "joint_norm": 0.07762161642313004,
+  "logged_joint_norm": 0.07762161642313004,
+  "gram_reconstructed_norm": 0.07762161232167725,
+  "global_clip_factor": 1.0,
+  "actual_noise_and_visits_match": true,
+  "shadow_optimizer_evaluations": 1,
+  "committed_updates": 0
+}
