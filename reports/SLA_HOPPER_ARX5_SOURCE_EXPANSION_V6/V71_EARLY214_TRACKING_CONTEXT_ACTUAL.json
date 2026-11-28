@@ -1,0 +1,211 @@
+{
+  "status": "EARLY214_CAUSAL_ACCEPTED_TRACKING_CONTEXT_PASS",
+  "code_sha256": "e75af0658738ed694e3a7f906f7ac74bbc9e044ee5dfc65048d114397dc45668",
+  "episodes": [
+    {
+      "episode": "V7_D1_EARLY_TRAIN_15",
+      "reset": 1339192566,
+      "first": 0,
+      "count": 100,
+      "cold_manifest_sha256": "34e4d7432c4372e3eb8d4ff6b8cf4757c99c409f732d2c848cef7ad117f5a029",
+      "native_result_sha256": "f165596c1c87bb62a18ea167ffa05e71da952532477e709e1ea236372deab931",
+      "query_sha256": "9e6340275f7af1a410313d53066f333c4824def8ac5e671037e6dbfb81aa1974",
+      "sample_log_sha256": "75af1ea8997ea32ccc58dc0e836018a1a270d15493f17555aafd6d0245ca6f09",
+      "first_teacher_tick": 16453,
+      "fixed_world_from_mount": [
+        [
+          0.9994096578307936,
+          0.0056854153310551435,
+          0.033882324109287806,
+          -0.0549103309154218
+        ],
+        [
+          -0.00410773667694604,
+          0.9989120546861111,
+          -0.04645248650139454,
+          -0.0011426047192439198
+        ],
+        [
+          -0.03410956367247015,
+          0.04628588397430444,
+          0.9983457089659816,
+          0.43690741074281264
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "episode": "V7_D1_EARLY_TRAIN_19",
+      "reset": 932461869,
+      "first": 100,
+      "count": 114,
+      "cold_manifest_sha256": "697a31cc889ec6f48e31ede16f25bd94936ffcb26d281bc72d42dcd58fb8e51a",
+      "native_result_sha256": "f7884d82843070ef80204e2466de595a72932ab6f652e1935963f54015f5c435",
+      "query_sha256": "62816e053f9a1c8976dce9dd7db166f504b12294f22080c2bed2423c47cdc01f",
+      "sample_log_sha256": "6f94f5b7d3068eea39dbe8165118c901d8af67ba8c70ae615f4a03d5312810c8",
+      "first_teacher_tick": 17703,
+      "fixed_world_from_mount": [
+        [
+          0.9992178900770451,
+          0.012890049730726652,
+          0.03738254630061553,
+          -0.056178533692706104
+        ],
+        [
+          -0.010918725182617278,
+          0.9985629780022134,
+          -0.052466755224022915,
+          0.0025861254811906965
+        ],
+        [
+          -0.03800512584329579,
+          0.05201755070445407,
+          0.9979227348990224,
+          0.4368165753842502
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "checked_windows": 214,
+  "context": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/v71-early-tracking-context.7fn4vw5o/CONTEXT.npz",
+    "sha256": "0be6cc5e80b5527ca47dd4b53e129edc4a886869e2a3e34326f5cea4a6e1af3d"
+  },
+  "original_context_sha256": "411eec762c8c81cd59adcefe828a675967ce68efb733bbb0d448dea74cf2ff37",
+  "proposed_combined_windows": 8245,
+  "definition": "Accepted boundary minus actual TCP: XYZ metres and SO3 log radians in episode-fixed mount",
+  "causal_previous_25_ticks_exact_wire_verified": true,
+  "first_handoff_included": true,
+  "original_8031_reaudited": false,
+  "combined_training_reader_qualified": false,
+  "controller_selected_reference_directly_observed": false,
+  "phase_statistics": {
+    "PREGRASP": {
+      "windows": 33,
+      "position_norm_mm_p50_p95_max": [
+        11.737335832688508,
+        17.564902457648806,
+        18.195535988959914
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        4.309560274045154,
+        4.98828845318649,
+        5.040231818814942
+      ]
+    },
+    "DESCEND": {
+      "windows": 43,
+      "position_norm_mm_p50_p95_max": [
+        11.538239534682198,
+        18.452560410509545,
+        26.887194503284515
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        4.580215819849198,
+        5.51704219687131,
+        5.688675460764491
+      ]
+    },
+    "CLOSE": {
+      "windows": 6,
+      "position_norm_mm_p50_p95_max": [
+        7.126219276957951,
+        8.49032264074995,
+        8.63242146949857
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.644550098244301,
+        5.736926313113383,
+        5.745911177988078
+      ]
+    },
+    "LIFT": {
+      "windows": 18,
+      "position_norm_mm_p50_p95_max": [
+        4.378748566198923,
+        8.000188129187608,
+        9.030843099397636
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.825200344002276,
+        6.055513521191879,
+        6.1271894499401265
+      ]
+    },
+    "CARRY": {
+      "windows": 58,
+      "position_norm_mm_p50_p95_max": [
+        14.59094227112233,
+        17.566782175757098,
+        25.155826310007605
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.143697739230287,
+        5.429337256757662,
+        5.562249710200071
+      ]
+    },
+    "LOWER": {
+      "windows": 30,
+      "position_norm_mm_p50_p95_max": [
+        9.27279225218212,
+        12.937150881564252,
+        13.405753218223058
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.531864348213465,
+        6.069659556826387,
+        6.074986613547629
+      ]
+    },
+    "OPEN": {
+      "windows": 8,
+      "position_norm_mm_p50_p95_max": [
+        8.33137961843034,
+        9.500340229682415,
+        9.679091876374967
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.998227798261844,
+        6.045845498786177,
+        6.046305414146761
+      ]
+    },
+    "WITHDRAW": {
+      "windows": 18,
+      "position_norm_mm_p50_p95_max": [
+        7.863500362229283,
+        9.594621792645317,
+        9.744887333135214
+      ],
+      "rotation_norm_deg_p50_p95_max": [
+        5.512749233959337,
+        5.795993594523446,
+        5.796905979908334
+      ]
+    }
+  },
+  "c2_time_tier_counts": {
+    "HANDOFF": 2,
+    "EARLY_0_2S": 8,
+    "LATER": 204
+  },
+  "c2_strata_are_training_changes": false,
+  "teacher_or_object_metadata_used_as_model_input": false,
+  "model_input_changed": false,
+  "training_accesses": 0,
+  "new_model_forwards": 0,
+  "optimizer_updates": 0,
+  "physics_integrations": 0
+}
