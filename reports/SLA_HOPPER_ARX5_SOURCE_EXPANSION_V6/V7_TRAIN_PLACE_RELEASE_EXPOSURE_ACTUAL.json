@@ -1,0 +1,404 @@
+{
+  "public_index_sha256": "9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56",
+  "matched_inputs_sha256": "ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024",
+  "bank_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+  "training_receipt": {
+    "formal_updates": 1000,
+    "matched_cuda_steps": 500,
+    "visits_each": {
+      "old": 24000,
+      "new": 23000,
+      "recovery": 1000,
+      "robodojo": 8000,
+      "libero": 8000,
+      "auxiliary": 2000
+    }
+  },
+  "open_threshold_mm": 39.599999999999994,
+  "target_fm_visits_per_arm": 48000,
+  "target_aux_visits_per_arm": 2000,
+  "place_by_source_and_instruction": {
+    "old": {
+      "PLACE-red-right": {
+        "CARRY": {
+          "windows": 456,
+          "episodes": 16,
+          "fm_visits": 2029,
+          "aux_visits": 95,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 225,
+          "episodes": 16,
+          "fm_visits": 935,
+          "aux_visits": 42,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 64,
+          "episodes": 16,
+          "fm_visits": 639,
+          "aux_visits": 8,
+          "open_transition_P10_windows": 16,
+          "open_transition_H40_supported_windows": 64,
+          "open_transition_P10_episodes": 16,
+          "open_transition_P10_fm_visits": 156,
+          "open_transition_P10_aux_visits": 3,
+          "open_transition_H40_supported_fm_visits": 639
+        },
+        "WITHDRAW": {
+          "windows": 157,
+          "episodes": 16,
+          "fm_visits": 1682,
+          "aux_visits": 28,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 1940,
+          "episodes": 16,
+          "fm_visits": 6695,
+          "aux_visits": 361,
+          "open_transition_P10_windows": 16,
+          "open_transition_H40_supported_windows": 64,
+          "open_transition_P10_episodes": 16,
+          "open_transition_P10_fm_visits": 156,
+          "open_transition_P10_aux_visits": 3,
+          "open_transition_H40_supported_fm_visits": 639
+        }
+      }
+    },
+    "new": {
+      "PLACE-blue-left": {
+        "CARRY": {
+          "windows": 147,
+          "episodes": 5,
+          "fm_visits": 860,
+          "aux_visits": 22,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 62,
+          "episodes": 5,
+          "fm_visits": 364,
+          "aux_visits": 12,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 20,
+          "episodes": 5,
+          "fm_visits": 195,
+          "aux_visits": 7,
+          "open_transition_P10_windows": 5,
+          "open_transition_H40_supported_windows": 20,
+          "open_transition_P10_episodes": 5,
+          "open_transition_P10_fm_visits": 49,
+          "open_transition_P10_aux_visits": 2,
+          "open_transition_H40_supported_fm_visits": 195
+        },
+        "WITHDRAW": {
+          "windows": 81,
+          "episodes": 5,
+          "fm_visits": 669,
+          "aux_visits": 18,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 657,
+          "episodes": 5,
+          "fm_visits": 3384,
+          "aux_visits": 138,
+          "open_transition_P10_windows": 5,
+          "open_transition_H40_supported_windows": 20,
+          "open_transition_P10_episodes": 5,
+          "open_transition_P10_fm_visits": 49,
+          "open_transition_P10_aux_visits": 2,
+          "open_transition_H40_supported_fm_visits": 195
+        }
+      },
+      "PLACE-blue-right": {
+        "CARRY": {
+          "windows": 70,
+          "episodes": 1,
+          "fm_visits": 1402,
+          "aux_visits": 46,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "episodes": 1,
+          "fm_visits": 251,
+          "aux_visits": 8,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "episodes": 1,
+          "fm_visits": 166,
+          "aux_visits": 4,
+          "open_transition_P10_windows": 1,
+          "open_transition_H40_supported_windows": 4,
+          "open_transition_P10_episodes": 1,
+          "open_transition_P10_fm_visits": 43,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 166
+        },
+        "WITHDRAW": {
+          "windows": 13,
+          "episodes": 1,
+          "fm_visits": 538,
+          "aux_visits": 4,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 170,
+          "episodes": 1,
+          "fm_visits": 3360,
+          "aux_visits": 107,
+          "open_transition_P10_windows": 1,
+          "open_transition_H40_supported_windows": 4,
+          "open_transition_P10_episodes": 1,
+          "open_transition_P10_fm_visits": 43,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 166
+        }
+      },
+      "PLACE-red-left": {
+        "CARRY": {
+          "windows": 30,
+          "episodes": 1,
+          "fm_visits": 850,
+          "aux_visits": 23,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "episodes": 1,
+          "fm_visits": 346,
+          "aux_visits": 10,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "episodes": 1,
+          "fm_visits": 208,
+          "aux_visits": 2,
+          "open_transition_P10_windows": 1,
+          "open_transition_H40_supported_windows": 4,
+          "open_transition_P10_episodes": 1,
+          "open_transition_P10_fm_visits": 61,
+          "open_transition_P10_aux_visits": 1,
+          "open_transition_H40_supported_fm_visits": 208
+        },
+        "WITHDRAW": {
+          "windows": 11,
+          "episodes": 1,
+          "fm_visits": 516,
+          "aux_visits": 7,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 142,
+          "episodes": 1,
+          "fm_visits": 3369,
+          "aux_visits": 113,
+          "open_transition_P10_windows": 1,
+          "open_transition_H40_supported_windows": 4,
+          "open_transition_P10_episodes": 1,
+          "open_transition_P10_fm_visits": 61,
+          "open_transition_P10_aux_visits": 1,
+          "open_transition_H40_supported_fm_visits": 208
+        }
+      },
+      "PLACE-red-right": {
+        "CARRY": {
+          "windows": 232,
+          "episodes": 8,
+          "fm_visits": 847,
+          "aux_visits": 32,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 113,
+          "episodes": 8,
+          "fm_visits": 469,
+          "aux_visits": 20,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 32,
+          "episodes": 8,
+          "fm_visits": 242,
+          "aux_visits": 4,
+          "open_transition_P10_windows": 8,
+          "open_transition_H40_supported_windows": 32,
+          "open_transition_P10_episodes": 8,
+          "open_transition_P10_fm_visits": 61,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 242
+        },
+        "WITHDRAW": {
+          "windows": 78,
+          "episodes": 8,
+          "fm_visits": 547,
+          "aux_visits": 8,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 973,
+          "episodes": 8,
+          "fm_visits": 3388,
+          "aux_visits": 140,
+          "open_transition_P10_windows": 8,
+          "open_transition_H40_supported_windows": 32,
+          "open_transition_P10_episodes": 8,
+          "open_transition_P10_fm_visits": 61,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 242
+        }
+      }
+    },
+    "recovery": {
+      "PLACE-red-right": {
+        "CARRY": {
+          "windows": 26,
+          "episodes": 3,
+          "fm_visits": 249,
+          "aux_visits": 0,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "LOWER": {
+          "windows": 50,
+          "episodes": 3,
+          "fm_visits": 252,
+          "aux_visits": 0,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "OPEN": {
+          "windows": 12,
+          "episodes": 3,
+          "fm_visits": 251,
+          "aux_visits": 0,
+          "open_transition_P10_windows": 3,
+          "open_transition_H40_supported_windows": 12,
+          "open_transition_P10_episodes": 3,
+          "open_transition_P10_fm_visits": 59,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 251
+        },
+        "WITHDRAW": {
+          "windows": 27,
+          "episodes": 3,
+          "fm_visits": 248,
+          "aux_visits": 0,
+          "open_transition_P10_windows": 0,
+          "open_transition_H40_supported_windows": 0,
+          "open_transition_P10_episodes": 0,
+          "open_transition_P10_fm_visits": 0,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 0
+        },
+        "ALL_PHASES": {
+          "windows": 115,
+          "episodes": 3,
+          "fm_visits": 1000,
+          "aux_visits": 0,
+          "open_transition_P10_windows": 3,
+          "open_transition_H40_supported_windows": 12,
+          "open_transition_P10_episodes": 3,
+          "open_transition_P10_fm_visits": 59,
+          "open_transition_P10_aux_visits": 0,
+          "open_transition_H40_supported_fm_visits": 251
+        }
+      }
+    }
+  },
+  "uses_evaluation_windows": false,
+  "new_integrations": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}
