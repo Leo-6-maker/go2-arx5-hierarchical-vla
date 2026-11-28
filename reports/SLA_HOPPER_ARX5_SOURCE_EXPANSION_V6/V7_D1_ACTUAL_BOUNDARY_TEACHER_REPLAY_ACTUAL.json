@@ -1,0 +1,106 @@
+{
+  "scope": "D1_ACTUAL_JOURNAL_PRECONTACT_AND_LIFT_STALL_REPLAY",
+  "cases": [
+    {
+      "case": "V7_D0_EARLY_TRAIN_14",
+      "stage": "PREGRASP",
+      "terminal_sha256": "22cfe4d9f1b6988584fb0bcf4c47fdfa7655e9feae850071a1cf80b9d19cb5ea",
+      "total_complete_pre_stop_queries": 74,
+      "warning_eligible_queries": 74,
+      "rejected_boundaries": [],
+      "non_full_or_bootstrap_query_records": 1,
+      "first_warning": {
+        "event": {
+          "trigger": "PRECONTACT_20MM",
+          "native_step": 17203,
+          "native_time_s": 34.405999999996084,
+          "wrist_target_mm": 19.562371433578022,
+          "threshold_mm": 20.0,
+          "teacher_privileged_geometry": true
+        },
+        "query": 45,
+        "consumed_sha256": "c1801019f1a642fcc93da1d04fecd9b627f6148e6988b09ba29c741f1e629da6",
+        "seconds_before_archived_terminal": 14.34,
+        "target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "previous_width_m": 0.041994936947838936,
+        "preview_prepared": true,
+        "original_full_H40_margin": {
+          "first_seam_speed_m_s": 1.3877787807814457e-16,
+          "maximum_speed_m_s": 4.73870631526041e-06,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "static_prefix": {
+          "knot_count": 11,
+          "passed_knots": 11,
+          "first_failure": null,
+          "closest_pair": {
+            "knot": 0,
+            "forbidden_geometry_gap_m": 0.019562371433578023,
+            "geometry_names": [
+              "",
+              "task_cube_geom"
+            ],
+            "robot_body": "x5_link6"
+          },
+          "movable_arm": true,
+          "held_target_assumed_rigid_translation": false,
+          "original_contact_predicate": true,
+          "native_motion_qualified": false
+        },
+        "teacher_stage": "PREGRASP",
+        "teacher_first_width_m": 0.04199493694783894,
+        "desired_P10_delta_m": [
+          -0.0002556705479901389,
+          3.72902217997545e-05,
+          0.0016944582341702485
+        ]
+      },
+      "invalid_boundary_fixtures_rejected": [
+        "post_stop",
+        "partial_P10",
+        "unconfirmed_ticks",
+        "score_clock_mismatch"
+      ],
+      "retrospective_only": true,
+      "new_native_integrations": 0,
+      "new_training_labels": 0
+    },
+    {
+      "case": "V7_D0_EARLY_TRAIN_13",
+      "stage": "LIFT",
+      "terminal_sha256": "640b22232122fdf4ba66240854ced1c0b353faee23058b51835920629321a451",
+      "total_complete_pre_stop_queries": 54,
+      "warning_eligible_queries": 54,
+      "rejected_boundaries": [],
+      "non_full_or_bootstrap_query_records": 1,
+      "first_warning": null,
+      "invalid_boundary_fixtures_rejected": null,
+      "retrospective_only": true,
+      "new_native_integrations": 0,
+      "new_training_labels": 0
+    },
+    {
+      "case": "V64_RECOVERY_TRAIN_09",
+      "stage": "LIFT",
+      "terminal_sha256": "669c70da7d2de72f072acde9d3b878f9cc883824761e5c4f9a1d9667f2beeed9",
+      "total_complete_pre_stop_queries": 60,
+      "warning_eligible_queries": 60,
+      "rejected_boundaries": [],
+      "non_full_or_bootstrap_query_records": 1,
+      "first_warning": null,
+      "invalid_boundary_fixtures_rejected": null,
+      "retrospective_only": true,
+      "new_native_integrations": 0,
+      "new_training_labels": 0
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0,
+  "new_training_labels": 0,
+  "prospective_native_qualified": false
+}
