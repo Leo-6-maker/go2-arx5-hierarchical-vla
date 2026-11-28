@@ -1,0 +1,1066 @@
+{
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "phase": "PLACE",
+  "score_sha256": [
+    "58629d9dafd984c49156c7ec90638dc31a041bb8d7e1633bd94b32576d8a713d",
+    "71097b9aea3cc1e2c5aa4c2b688ff593c40db4481d51854541ae65d53a81a8fa"
+  ],
+  "r4_score_sha256": "ce7077c88ed98d00277340098a3851fff1acfe6e35dc529d0b69e65c96e9806d",
+  "panels": {
+    "R4-200": [
+      {
+        "case": "ADAPT0250_P01_701",
+        "episode": "R4_DEV_0200_P01_701",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": true,
+          "region": true,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          55
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "9eb583a58853f641dec9aa803c3ed270372b8cbd49658236881910481a2548b2"
+      },
+      {
+        "case": "ADAPT0250_P02_702",
+        "episode": "R4_DEV_0200_P02_702",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          55
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "c6b1e04570e6f679a2f5b4a223421a59b0b4bfbfa4df4ad3fa989cd6eecda3fa"
+      },
+      {
+        "case": "ADAPT0250_P02_701",
+        "episode": "R4_DEV_0200_P02_701",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": true,
+          "region": true,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          50
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "ff976ad5c1cd2e351d095a67dcf50efa0954150ecb2795b80de4eb2d69cf744c"
+      },
+      {
+        "case": "ADAPT0250_P01_702",
+        "episode": "R4_DEV_0200_P01_702",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": true,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          60,
+          61,
+          62
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "a3f6f1eccd941c09cc14372f49a470ab9568fc4c1c07d753106bb59e00e08b61"
+      }
+    ],
+    "CONTROL_NEUTRAL": [
+      {
+        "case": "ADAPT0250_P01_701",
+        "episode": "V7CTRL0500_P01_701",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": true,
+          "region": true,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          53,
+          54,
+          154,
+          156
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "4f3689b358b4a07ff6e63eb980bcca0cf0cac1c8ea9cc2c06a0a5ce8ac3e5685"
+      },
+      {
+        "case": "ADAPT0250_P02_702",
+        "episode": "V7CTRL0500_P02_702",
+        "valid_science": true,
+        "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+        "stages": {
+          "grasp": false,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [],
+        "actual_stop": {
+          "reason": "ILLEGAL_CONTACT",
+          "native_tick": 18155,
+          "forbidden_contacts": [
+            {
+              "geom0": "",
+              "geom1": "task_cube_geom",
+              "distance_m": -2.0080504780986552e-06,
+              "body0": "x5_link6",
+              "body1": "task_cube"
+            }
+          ],
+          "after_stop_publications_or_accepts": 0,
+          "after_stop_grants": 0
+        },
+        "model_forwards": 50,
+        "native_ticks": 18155,
+        "result_sha256": "440968b8fb40fa34f436adc2cf06d568d473935a8723715f93e7157861f49f41"
+      },
+      {
+        "case": "ADAPT0250_P02_701",
+        "episode": "V7CTRL0500_P02_701",
+        "valid_science": true,
+        "mechanism": "AFTER_FIRST_GRASP:ILLEGAL_CONTACT",
+        "stages": {
+          "grasp": true,
+          "lift": true,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": true,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          55,
+          56,
+          154
+        ],
+        "actual_stop": {
+          "reason": "ILLEGAL_CONTACT",
+          "native_tick": 44484,
+          "forbidden_contacts": [
+            {
+              "geom0": "",
+              "geom1": "task_cube_geom",
+              "distance_m": -5.893703681404683e-06,
+              "body0": "x5_link6",
+              "body1": "task_cube"
+            }
+          ],
+          "after_stop_publications_or_accepts": 0,
+          "after_stop_grants": 0
+        },
+        "model_forwards": 156,
+        "native_ticks": 44484,
+        "result_sha256": "91db3961c957471afd4b025a625417daabbafecf9769ae04a3bfc3f18faba558"
+      },
+      {
+        "case": "ADAPT0250_P01_702",
+        "episode": "V7CTRL0500_P01_702",
+        "valid_science": true,
+        "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+        "stages": {
+          "grasp": false,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [],
+        "actual_stop": {
+          "reason": "ILLEGAL_CONTACT",
+          "native_tick": 23629,
+          "forbidden_contacts": [
+            {
+              "geom0": "",
+              "geom1": "task_cube_geom",
+              "distance_m": -1.6074733343203473e-06,
+              "body0": "x5_link6",
+              "body1": "task_cube"
+            }
+          ],
+          "after_stop_publications_or_accepts": 0,
+          "after_stop_grants": 0
+        },
+        "model_forwards": 72,
+        "native_ticks": 23629,
+        "result_sha256": "30a4d60a0517054157c0e9212271f09b0fd451b3dcccfdde369c6a2e6314d56c"
+      }
+    ],
+    "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": [
+      {
+        "case": "ADAPT0250_P01_701",
+        "episode": "V7TREAT0500_P01_701",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          57,
+          124,
+          149,
+          153,
+          158
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "05d8edd39c7a3034fd656c2e45a36ead43a86dda0d4a7c05a73b79a01b827f2a"
+      },
+      {
+        "case": "ADAPT0250_P02_702",
+        "episode": "V7TREAT0500_P02_702",
+        "valid_science": true,
+        "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+        "stages": {
+          "grasp": false,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [],
+        "actual_stop": {
+          "reason": "ILLEGAL_CONTACT",
+          "native_tick": 20151,
+          "forbidden_contacts": [
+            {
+              "geom0": "",
+              "geom1": "task_cube_geom",
+              "distance_m": -1.8570194009089047e-06,
+              "body0": "x5_link6",
+              "body1": "task_cube"
+            }
+          ],
+          "after_stop_publications_or_accepts": 0,
+          "after_stop_grants": 0
+        },
+        "model_forwards": 58,
+        "native_ticks": 20151,
+        "result_sha256": "2493347bd26439db2c914eed8c4cb8b1c292bf621178900212bc68c1311f6bdc"
+      },
+      {
+        "case": "ADAPT0250_P02_701",
+        "episode": "V7TREAT0500_P02_701",
+        "valid_science": true,
+        "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "stages": {
+          "grasp": true,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [
+          151,
+          154,
+          155,
+          157
+        ],
+        "actual_stop": null,
+        "model_forwards": 160,
+        "native_ticks": 45703,
+        "result_sha256": "bd9cfa47cfc55081b4fb59e1df26cfbbad9362838f022ffab4523384b211f1f2"
+      },
+      {
+        "case": "ADAPT0250_P01_702",
+        "episode": "V7TREAT0500_P01_702",
+        "valid_science": true,
+        "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+        "stages": {
+          "grasp": false,
+          "lift": false,
+          "region": false,
+          "released": false,
+          "stable_release": false,
+          "withdrawn": false,
+          "complete": false
+        },
+        "first_release_observed": false,
+        "terminal_g7": false,
+        "confirmed_g7_retiming_queries": [],
+        "actual_stop": {
+          "reason": "ILLEGAL_CONTACT",
+          "native_tick": 22192,
+          "forbidden_contacts": [
+            {
+              "geom0": "",
+              "geom1": "task_cube_geom",
+              "distance_m": -1.1452783350469897e-06,
+              "body0": "x5_link6",
+              "body1": "task_cube"
+            }
+          ],
+          "after_stop_publications_or_accepts": 0,
+          "after_stop_grants": 0
+        },
+        "model_forwards": 66,
+        "native_ticks": 22192,
+        "result_sha256": "8291185ef896160e7122dbcf77fd5874e2a8d13f3bd3a9de4df64384266d5c6a"
+      }
+    ]
+  },
+  "counts": {
+    "R4-200": {
+      "valid": 4,
+      "mechanisms": {
+        "FIXED_TASK_BUDGET_EXHAUSTED": 4
+      },
+      "event_count": {
+        "grasp": 4,
+        "lift": 3,
+        "region": 2,
+        "released": 0,
+        "stable_release": 0,
+        "withdrawn": 0,
+        "complete": 0
+      },
+      "first_release_observed": 0,
+      "ticks": 182812,
+      "forwards": 640
+    },
+    "CONTROL_NEUTRAL": {
+      "valid": 4,
+      "mechanisms": {
+        "FIXED_TASK_BUDGET_EXHAUSTED": 1,
+        "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 2,
+        "AFTER_FIRST_GRASP:ILLEGAL_CONTACT": 1
+      },
+      "event_count": {
+        "grasp": 2,
+        "lift": 2,
+        "region": 1,
+        "released": 0,
+        "stable_release": 0,
+        "withdrawn": 0,
+        "complete": 0
+      },
+      "first_release_observed": 1,
+      "ticks": 131971,
+      "forwards": 438
+    },
+    "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+      "valid": 4,
+      "mechanisms": {
+        "FIXED_TASK_BUDGET_EXHAUSTED": 2,
+        "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 2
+      },
+      "event_count": {
+        "grasp": 2,
+        "lift": 0,
+        "region": 0,
+        "released": 0,
+        "stable_release": 0,
+        "withdrawn": 0,
+        "complete": 0
+      },
+      "first_release_observed": 0,
+      "ticks": 133749,
+      "forwards": 444
+    }
+  },
+  "pairs": {
+    "against_R4": {
+      "CONTROL_NEUTRAL": {
+        "grasp": {
+          "kept": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "both_failed": [],
+          "technical": []
+        },
+        "lift": {
+          "kept": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P01_702"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702"
+          ],
+          "technical": []
+        },
+        "region": {
+          "kept": [
+            "ADAPT0250_P01_701"
+          ],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P02_701"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "released": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "stable_release": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "withdrawn": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "complete": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        }
+      },
+      "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+        "grasp": {
+          "kept": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "both_failed": [],
+          "technical": []
+        },
+        "lift": {
+          "kept": [],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702"
+          ],
+          "technical": []
+        },
+        "region": {
+          "kept": [],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "released": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "stable_release": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "withdrawn": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "complete": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        }
+      }
+    },
+    "treatment_against_control": {
+      "grasp": {
+        "kept": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_701"
+        ],
+        "gained": [],
+        "lost": [],
+        "both_failed": [
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "lift": {
+        "kept": [],
+        "gained": [],
+        "lost": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_701"
+        ],
+        "both_failed": [
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "region": {
+        "kept": [],
+        "gained": [],
+        "lost": [
+          "ADAPT0250_P01_701"
+        ],
+        "both_failed": [
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P02_701",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "released": {
+        "kept": [],
+        "gained": [],
+        "lost": [],
+        "both_failed": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P02_701",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "stable_release": {
+        "kept": [],
+        "gained": [],
+        "lost": [],
+        "both_failed": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P02_701",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "withdrawn": {
+        "kept": [],
+        "gained": [],
+        "lost": [],
+        "both_failed": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P02_701",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      },
+      "complete": {
+        "kept": [],
+        "gained": [],
+        "lost": [],
+        "both_failed": [
+          "ADAPT0250_P01_701",
+          "ADAPT0250_P02_702",
+          "ADAPT0250_P02_701",
+          "ADAPT0250_P01_702"
+        ],
+        "technical": []
+      }
+    }
+  },
+  "jaw": [
+    {
+      "case": "ADAPT0250_P01_701",
+      "common_until_tick": 45703,
+      "same_grasp_phase": 156,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 160,
+          "first_seam_over_limit": 4,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 1600,
+          "confirmed_P10s": 160,
+          "retimed_with_confirmed_prefix": 4,
+          "p95_first_seam_mm_s": 32.99982990939188
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 160,
+          "first_seam_over_limit": 5,
+          "interior_over_limit": 1,
+          "confirmed_50ms_intervals": 1600,
+          "confirmed_P10s": 160,
+          "retimed_with_confirmed_prefix": 6,
+          "p95_first_seam_mm_s": 34.88797301268452
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 160,
+          "first_seam_over_limit": 4,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 1600,
+          "confirmed_P10s": 160,
+          "retimed_with_confirmed_prefix": 4,
+          "p95_first_seam_mm_s": 32.99982990939188
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 160,
+          "first_seam_over_limit": 5,
+          "interior_over_limit": 1,
+          "confirmed_50ms_intervals": 1600,
+          "confirmed_P10s": 160,
+          "retimed_with_confirmed_prefix": 6,
+          "p95_first_seam_mm_s": 34.88797301268452
+        }
+      },
+      "matched_phase": {
+        "False": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 53,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 530,
+            "confirmed_P10s": 53,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 3.061595176006235
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 53,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 530,
+            "confirmed_P10s": 53,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.02266177946716463
+          }
+        },
+        "True": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 103,
+            "first_seam_over_limit": 2,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 1030,
+            "confirmed_P10s": 103,
+            "retimed_with_confirmed_prefix": 2,
+            "p95_first_seam_mm_s": 33.59305527019166
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 103,
+            "first_seam_over_limit": 5,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 1030,
+            "confirmed_P10s": 103,
+            "retimed_with_confirmed_prefix": 5,
+            "p95_first_seam_mm_s": 39.51720665459729
+          }
+        }
+      }
+    },
+    {
+      "case": "ADAPT0250_P02_702",
+      "common_until_tick": 18155,
+      "same_grasp_phase": 50,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 50,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 498,
+          "confirmed_P10s": 49,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.02652516097755712
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 58,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 577,
+          "confirmed_P10s": 57,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.023877445240926
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 50,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 498,
+          "confirmed_P10s": 49,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.02652516097755712
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 50,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 498,
+          "confirmed_P10s": 49,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.02423746376752772
+        }
+      },
+      "matched_phase": {
+        "False": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 50,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 498,
+            "confirmed_P10s": 49,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.02652516097755712
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 50,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 498,
+            "confirmed_P10s": 49,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.02423746376752772
+          }
+        },
+        "True": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 0,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 0,
+            "confirmed_P10s": 0,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": null
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 0,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 0,
+            "confirmed_P10s": 0,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": null
+          }
+        }
+      }
+    },
+    {
+      "case": "ADAPT0250_P02_701",
+      "common_until_tick": 44484,
+      "same_grasp_phase": 149,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 156,
+          "first_seam_over_limit": 3,
+          "interior_over_limit": 1,
+          "confirmed_50ms_intervals": 1551,
+          "confirmed_P10s": 155,
+          "retimed_with_confirmed_prefix": 4,
+          "p95_first_seam_mm_s": 32.415557917618
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 160,
+          "first_seam_over_limit": 4,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 1600,
+          "confirmed_P10s": 160,
+          "retimed_with_confirmed_prefix": 4,
+          "p95_first_seam_mm_s": 36.82560227411276
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 156,
+          "first_seam_over_limit": 3,
+          "interior_over_limit": 1,
+          "confirmed_50ms_intervals": 1551,
+          "confirmed_P10s": 155,
+          "retimed_with_confirmed_prefix": 4,
+          "p95_first_seam_mm_s": 32.415557917618
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 156,
+          "first_seam_over_limit": 3,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 1551,
+          "confirmed_P10s": 155,
+          "retimed_with_confirmed_prefix": 2,
+          "p95_first_seam_mm_s": 35.399940822422145
+        }
+      },
+      "matched_phase": {
+        "False": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 48,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 480,
+            "confirmed_P10s": 48,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.033181600249738964
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 48,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 480,
+            "confirmed_P10s": 48,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.24493761555816723
+          }
+        },
+        "True": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 101,
+            "first_seam_over_limit": 3,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 1001,
+            "confirmed_P10s": 100,
+            "retimed_with_confirmed_prefix": 3,
+            "p95_first_seam_mm_s": 34.41161565282746
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 101,
+            "first_seam_over_limit": 3,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 1001,
+            "confirmed_P10s": 100,
+            "retimed_with_confirmed_prefix": 2,
+            "p95_first_seam_mm_s": 37.85318967512189
+          }
+        }
+      }
+    },
+    {
+      "case": "ADAPT0250_P01_702",
+      "common_until_tick": 22192,
+      "same_grasp_phase": 66,
+      "full": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 72,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 717,
+          "confirmed_P10s": 71,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.02116441466502167
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 66,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 659,
+          "confirmed_P10s": 65,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.025802290878687573
+        }
+      },
+      "matched_clock": {
+        "CONTROL_NEUTRAL": {
+          "model_returns": 66,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 659,
+          "confirmed_P10s": 65,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.02111085237625071
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "model_returns": 66,
+          "first_seam_over_limit": 0,
+          "interior_over_limit": 0,
+          "confirmed_50ms_intervals": 659,
+          "confirmed_P10s": 65,
+          "retimed_with_confirmed_prefix": 0,
+          "p95_first_seam_mm_s": 0.025802290878687573
+        }
+      },
+      "matched_phase": {
+        "False": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 66,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 659,
+            "confirmed_P10s": 65,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.02111085237625071
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 66,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 659,
+            "confirmed_P10s": 65,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": 0.025802290878687573
+          }
+        },
+        "True": {
+          "CONTROL_NEUTRAL": {
+            "model_returns": 0,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 0,
+            "confirmed_P10s": 0,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": null
+          },
+          "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+            "model_returns": 0,
+            "first_seam_over_limit": 0,
+            "interior_over_limit": 0,
+            "confirmed_50ms_intervals": 0,
+            "confirmed_P10s": 0,
+            "retimed_with_confirmed_prefix": 0,
+            "p95_first_seam_mm_s": null
+          }
+        }
+      }
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}
