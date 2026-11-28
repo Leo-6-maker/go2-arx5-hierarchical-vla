@@ -1,0 +1,226 @@
+{
+  "plan": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "source_step": 250,
+  "decision": "NO_EXTENSION_TRAIN_GATE_FAILED",
+  "source_complete_at_decision": false,
+  "source_alerts": {},
+  "shared_squared_distance_reduction": 0.701456144156061,
+  "new_raw_illegal_relative_to_control": [
+    {
+      "frame": "TEACHER-4-OPEN",
+      "control": {
+        "first_seam_speed_m_s": 0.032133688646986125,
+        "maximum_speed_m_s": 0.03801631079916337,
+        "training_margin_exceeded": true,
+        "original_execution_speed_exceeded": false,
+        "labels_not_retimed": true,
+        "representation": "DENSE_REFERENCE_G7_V6"
+      },
+      "treatment": {
+        "first_seam_speed_m_s": 0.05252608588206961,
+        "maximum_speed_m_s": 0.05252608588206961,
+        "training_margin_exceeded": true,
+        "original_execution_speed_exceeded": true,
+        "labels_not_retimed": true,
+        "representation": "DENSE_REFERENCE_G7_V6"
+      }
+    }
+  ],
+  "lift_requests": [
+    {
+      "frame": "TEACHER-0-LIFT",
+      "control_up_mm": 2.886317527330595,
+      "treatment_up_mm": 2.937541516953468
+    },
+    {
+      "frame": "TEACHER-1-LIFT",
+      "control_up_mm": 2.0755965268266507,
+      "treatment_up_mm": 2.067801357255372
+    },
+    {
+      "frame": "TEACHER-2-LIFT",
+      "control_up_mm": 3.124516542963418,
+      "treatment_up_mm": 3.1463361352797037
+    },
+    {
+      "frame": "TEACHER-3-LIFT",
+      "control_up_mm": 2.705094363079752,
+      "treatment_up_mm": 2.733365843044955
+    },
+    {
+      "frame": "R4_SAFE_LIFT",
+      "control_up_mm": 3.50005632336603,
+      "treatment_up_mm": 3.551139112012658
+    },
+    {
+      "frame": "BLUE_LIFT-PLACE-blue-left",
+      "control_up_mm": 2.489945309502528,
+      "treatment_up_mm": 2.505528519086031
+    }
+  ],
+  "lower_lift_request_relative_to_control": [
+    {
+      "frame": "TEACHER-1-LIFT",
+      "control_up_mm": 2.0755965268266507,
+      "treatment_up_mm": 2.067801357255372
+    }
+  ],
+  "original_safe_states": {
+    "R4_SAFE_GRASP": {
+      "R4": {
+        "frame": "R4_SAFE_GRASP",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_grasp",
+        "model": "R4",
+        "p10_xyz_rms_from_r4_mm": 0.0,
+        "p10_rotation_mean_from_r4_deg": 0.0,
+        "p10_jaw_mean_from_r4_mm": 0.0,
+        "first_width_mm": 21.153171574447533,
+        "p10_up_request_mm": 1.8075591000195068,
+        "g7": {
+          "first_seam_speed_m_s": 0.026319058898445352,
+          "maximum_speed_m_s": 0.03685629758767399,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      },
+      "LAMBDA_ZERO": {
+        "frame": "R4_SAFE_GRASP",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_grasp",
+        "model": "LAMBDA_ZERO",
+        "p10_xyz_rms_from_r4_mm": 0.1356024404946909,
+        "p10_rotation_mean_from_r4_deg": 0.004269791234915982,
+        "p10_jaw_mean_from_r4_mm": 1.263535698798675,
+        "first_width_mm": 22.068099364508445,
+        "p10_up_request_mm": 1.446516935980413,
+        "g7": {
+          "first_seam_speed_m_s": 0.04461761469966352,
+          "maximum_speed_m_s": 0.04461761469966352,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      },
+      "SHARED_L2SP": {
+        "frame": "R4_SAFE_GRASP",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_grasp",
+        "model": "SHARED_L2SP",
+        "p10_xyz_rms_from_r4_mm": 0.12194715060185375,
+        "p10_rotation_mean_from_r4_deg": 0.00360767744472299,
+        "p10_jaw_mean_from_r4_mm": 1.8760141465394948,
+        "first_width_mm": 22.816324433940373,
+        "p10_up_request_mm": 1.4620311370120431,
+        "g7": {
+          "first_seam_speed_m_s": 0.059582116088302134,
+          "maximum_speed_m_s": 0.059582116088302134,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      }
+    },
+    "R4_SAFE_LIFT": {
+      "R4": {
+        "frame": "R4_SAFE_LIFT",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_lift20mm",
+        "model": "R4",
+        "p10_xyz_rms_from_r4_mm": 0.0,
+        "p10_rotation_mean_from_r4_deg": 0.0,
+        "p10_jaw_mean_from_r4_mm": 0.0,
+        "first_width_mm": 2.3688406184037163,
+        "p10_up_request_mm": 3.8802958655869135,
+        "g7": {
+          "first_seam_speed_m_s": 0.007098919655231881,
+          "maximum_speed_m_s": 0.007098919655231881,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      },
+      "LAMBDA_ZERO": {
+        "frame": "R4_SAFE_LIFT",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_lift20mm",
+        "model": "LAMBDA_ZERO",
+        "p10_xyz_rms_from_r4_mm": 0.17020123644765628,
+        "p10_rotation_mean_from_r4_deg": 0.005885068053086687,
+        "p10_jaw_mean_from_r4_mm": 0.049784177815348184,
+        "first_width_mm": 2.6865424013706023,
+        "p10_up_request_mm": 3.50005632336603,
+        "g7": {
+          "first_seam_speed_m_s": 0.013452955314569599,
+          "maximum_speed_m_s": 0.013452955314569599,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      },
+      "SHARED_L2SP": {
+        "frame": "R4_SAFE_LIFT",
+        "episode": "V7_D0_EARLY_TRAIN_11",
+        "phase": "target_lift20mm",
+        "model": "SHARED_L2SP",
+        "p10_xyz_rms_from_r4_mm": 0.1594440103263796,
+        "p10_rotation_mean_from_r4_deg": 0.004471198742978395,
+        "p10_jaw_mean_from_r4_mm": 0.052907271375091096,
+        "first_width_mm": 2.678843265714625,
+        "p10_up_request_mm": 3.551139112012658,
+        "g7": {
+          "first_seam_speed_m_s": 0.013298972601450063,
+          "maximum_speed_m_s": 0.013298972601450063,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "repeat_max_abs": 0.0
+      }
+    }
+  },
+  "scientific_promotion": false,
+  "dynamic_L1_or_WBC_tested": false,
+  "proposed_new_formal_updates": 0,
+  "cumulative_formal_updates": 5100,
+  "formal_cap": 8000,
+  "engineering_actual": 24,
+  "engineering_cap": 24,
+  "preserved_student_native_screen_slots": 4,
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0,
+  "inputs": [
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/TRAIN-PANEL/PANEL.json",
+      "sha256": "a52c72a1d0c14ac4823f084ab51f5dd0a67c5ad80fa0433285e39a3a3afb0afd"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/CORE-PROVIDERS/ACTUAL.json",
+      "sha256": "c22d2bf4dd6c05411cea0d3b0874254c366bc2b0d4a1aec6e44074151ada7771"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/TRAIN-PANEL-OUTPUT/SUMMARY.json",
+      "sha256": "6808bcca08172699134886a93b9956286a37ffa68c3dd77956f694c019f78d30"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/TRAIN-PANEL-OUTPUT/ACTUAL.json",
+      "sha256": "08fcd9cac0437b78dfaed9dc3762c244c665607a56866886406fde324aff7b97"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/PARAMETER-DISTANCE.json",
+      "sha256": "f9f2d84d36d4ac8525e45b0f36644b0f10a7450efab5cec063edee67e34db372"
+    }
+  ]
+}

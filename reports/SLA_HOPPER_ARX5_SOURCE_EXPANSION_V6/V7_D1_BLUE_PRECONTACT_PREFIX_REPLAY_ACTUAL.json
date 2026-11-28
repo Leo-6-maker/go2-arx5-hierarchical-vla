@@ -1,0 +1,148 @@
+{
+  "scope": "D1_FIXED_20MM_BLUE_PRECONTACT_TEACHER_PREFIX_REPLAY",
+  "threshold_mm": 20.0,
+  "cases": [
+    {
+      "case": "V7_D0_EARLY_TRAIN_13",
+      "stage": "PREGRASP",
+      "terminal_sha256": "640b22232122fdf4ba66240854ced1c0b353faee23058b51835920629321a451",
+      "total_complete_pre_stop_queries": 54,
+      "warning_eligible_queries": 54,
+      "rejected_boundaries": [],
+      "non_full_or_bootstrap_query_records": 1,
+      "first_warning": {
+        "event": {
+          "trigger": "PRECONTACT_20MM",
+          "native_step": 17953,
+          "native_time_s": 35.90599999999792,
+          "wrist_target_mm": 19.210742957792743,
+          "threshold_mm": 20.0,
+          "teacher_privileged_geometry": true
+        },
+        "query": 48,
+        "consumed_sha256": "871f1961a0df902846a5909846a72c46df1ccd3d3cc1285ff4de8ee459a4f551",
+        "seconds_before_archived_terminal": 2.582,
+        "target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "previous_width_m": 0.041994861679849074,
+        "preview_prepared": true,
+        "original_full_H40_margin": {
+          "first_seam_speed_m_s": 1.3877787807814457e-16,
+          "maximum_speed_m_s": 4.809152537726957e-06,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "static_prefix": {
+          "knot_count": 11,
+          "passed_knots": 11,
+          "first_failure": null,
+          "closest_pair": {
+            "knot": 0,
+            "forbidden_geometry_gap_m": 0.019210742957792744,
+            "geometry_names": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "robot_body": "x5_link6"
+          },
+          "movable_arm": true,
+          "held_target_assumed_rigid_translation": false,
+          "original_contact_predicate": true,
+          "native_motion_qualified": false
+        },
+        "teacher_stage": "PREGRASP",
+        "teacher_first_width_m": 0.04199486167984908,
+        "desired_P10_delta_m": [
+          -1.1355814218017013e-05,
+          -0.0002599106300130785,
+          0.0016941854110423815
+        ]
+      },
+      "invalid_boundary_fixtures_rejected": [
+        "post_stop",
+        "partial_P10",
+        "unconfirmed_ticks",
+        "score_clock_mismatch"
+      ],
+      "retrospective_only": true,
+      "new_native_integrations": 0,
+      "new_training_labels": 0
+    },
+    {
+      "case": "V64_RECOVERY_TRAIN_09",
+      "stage": "PREGRASP",
+      "terminal_sha256": "669c70da7d2de72f072acde9d3b878f9cc883824761e5c4f9a1d9667f2beeed9",
+      "total_complete_pre_stop_queries": 60,
+      "warning_eligible_queries": 60,
+      "rejected_boundaries": [],
+      "non_full_or_bootstrap_query_records": 1,
+      "first_warning": {
+        "event": {
+          "trigger": "PRECONTACT_20MM",
+          "native_step": 17703,
+          "native_time_s": 35.405999999997306,
+          "wrist_target_mm": 18.888679734026947,
+          "threshold_mm": 20.0,
+          "teacher_privileged_geometry": true
+        },
+        "query": 47,
+        "consumed_sha256": "756ee61a6f5f30f59cf7c53be9f912aea47c05e69a3a793724bb2f79ecdddf6b",
+        "seconds_before_archived_terminal": 6.5,
+        "target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "previous_width_m": 0.041994633687497826,
+        "preview_prepared": true,
+        "original_full_H40_margin": {
+          "first_seam_speed_m_s": 1.3877787807814457e-16,
+          "maximum_speed_m_s": 5.022539396187797e-06,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "static_prefix": {
+          "knot_count": 11,
+          "passed_knots": 11,
+          "first_failure": null,
+          "closest_pair": {
+            "knot": 1,
+            "forbidden_geometry_gap_m": 0.011650804081757636,
+            "geometry_names": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "robot_body": "x5_link8"
+          },
+          "movable_arm": true,
+          "held_target_assumed_rigid_translation": false,
+          "original_contact_predicate": true,
+          "native_motion_qualified": false
+        },
+        "teacher_stage": "PREGRASP",
+        "teacher_first_width_m": 0.04199463368749783,
+        "desired_P10_delta_m": [
+          0.00026516628789230445,
+          0.000171341603418515,
+          0.0016847182529439175
+        ]
+      },
+      "invalid_boundary_fixtures_rejected": [
+        "post_stop",
+        "partial_P10",
+        "unconfirmed_ticks",
+        "score_clock_mismatch"
+      ],
+      "retrospective_only": true,
+      "new_native_integrations": 0,
+      "new_training_labels": 0
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0,
+  "new_training_labels": 0,
+  "previous_LIFT_stall_card_kept_unstarted": true,
+  "prospective_native_qualified": false
+}

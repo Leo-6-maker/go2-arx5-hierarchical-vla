@@ -1,4 +1,4 @@
-"""Bind one qualified red PREGRASP D1 card; retain the unqualified LIFT card unstarted."""
+"""Bind fixed D1 cohorts, dispatching only independently qualified early cards."""
 import argparse
 from contextlib import closing
 import copy
@@ -89,6 +89,8 @@ def noise(site,stage,worker):
         from v7_d0_noise import OLD_NOISE,FIRST_NOISE
         for path,expected in (*OLD_NOISE,FIRST_NOISE):
             used.update(r['gpu_sha256'] for r in read(pin(site/path,expected))['tensors'])
+        for reference in roster.get('prior_actual_noise', []):
+            used.update(r['gpu_sha256'] for r in read(pin(reference['path'],reference['sha256']))['tensors'])
         result=[]
         for card in roster['cases']:
             for query in range(180):
@@ -97,7 +99,8 @@ def noise(site,stage,worker):
                 used.add(value);result.append(dict(case=card['id'],query=query,noise_id=seed,gpu_sha256=value))
         write(stage/'CUDA-NOISE.private.json',dict(plan=PLAN,split='TRAIN',roster_sha256=sha(stage/'PROSPECTIVE.private.json'),
             worker_spec_sha256=sha(worker),prior_noise_manifest_sha256=spec['sample_noise']['sha256'],
-            prior_recovery=[sha(old/'CUDA-NOISE.private.json')],matched_archived_cuda_sentinels=3,tensors=result,
+            prior_recovery=[sha(old/'CUDA-NOISE.private.json')]+[r['sha256'] for r in roster.get('prior_actual_noise',[])],
+            matched_archived_cuda_sentinels=3,tensors=result,
             model_forwards=0,native_integrations=0,optimizer_updates=0))
     print('D1_NOISE',sha(stage/'CUDA-NOISE.private.json'),flush=True)
 
@@ -106,6 +109,9 @@ def finalize(site,stage,code):
     old=site/OLD;output=stage/'overlay'
     require(not output.exists(),'Preserve the previous D1 overlay')
     prospective=stage/'PROSPECTIVE.private.json';roster=read(prospective)
+    cohort_ids=tuple(c['id'] for c in roster['cases'])
+    stages=tuple(c['required_stage'] for c in roster['cases'])
+    require(len(cohort_ids)==len(set(cohort_ids))==2,'Use the fixed two-entry native roster')
     noise_path=stage/'CUDA-NOISE.private.json';sample=read(noise_path)
     require(sample['roster_sha256']==sha(prospective),'CUDA bank no longer binds the prospective cards')
     shutil.copytree(old/'overlay',output,symlinks=True)
@@ -114,7 +120,7 @@ def finalize(site,stage,code):
     runtime=dict(previous,cases=roster['cases'],prospective=dict(path=str(prospective),sha256=sha(prospective)),
         teacher_sources=read(stage/'TEACHER-SOURCES.private.json'),handoff_protocol='PRECONTACT_OR_LIFT_STALL_V1',
         realized_noise=dict(path=str(noise_path),sha256=sha(noise_path)),reviewed_plan=REVIEW,
-        precontact_replay=roster['precontact_replay'],past_attempts=14,max_new_requests=1,
+        precontact_replay=roster['precontact_replay'],past_attempts=roster['past_attempts'],max_new_requests=1,
         dispatch_ids=roster['native_dispatch_ids'])
     runtime_path=output/'V7-D1-NATIVE-ROSTER.private.json';write(runtime_path,runtime)
     for name in ('v7_precontact_teacher.py',):shutil.copyfile(code/name,scripts/name)
@@ -123,9 +129,9 @@ def finalize(site,stage,code):
         'PROSPECTIVE = "4e10cfdd865ade7fe6e360664d2601530ba5737e9160e14d1c9abdde4edfe761"':f'PROSPECTIVE = "{sha(prospective)}"',
         'FOLLOWUP_PROSPECTIVE = "3a719a4f644cf2b5513eb1b0b5dcaaff6c040cd5cdfad9ebcab1e11cdae3310d"':f'FOLLOWUP_PROSPECTIVE = "{sha(prospective)}"',
         'NOISE = "1073abde8dae989e6534fe298b30063a6c770767808add685ce565ea4e7f48e6"':f'NOISE = "{sha(noise_path)}"',
-        'IDS = ("V7_D0_EARLY_TRAIN_11", "V7_D0_EARLY_TRAIN_12")':f'IDS = {IDS!r}',
-        'FOLLOWUP_IDS = ("V7_D0_EARLY_TRAIN_13", "V7_D0_EARLY_TRAIN_14")':f'FOLLOWUP_IDS = {IDS!r}',
-        'STAGES = ("LIFT", "PREGRASP")':'STAGES = ("PREGRASP", "LIFT")',
+        'IDS = ("V7_D0_EARLY_TRAIN_11", "V7_D0_EARLY_TRAIN_12")':f'IDS = {cohort_ids!r}',
+        'FOLLOWUP_IDS = ("V7_D0_EARLY_TRAIN_13", "V7_D0_EARLY_TRAIN_14")':f'FOLLOWUP_IDS = {cohort_ids!r}',
+        'STAGES = ("LIFT", "PREGRASP")':f'STAGES = {stages!r}',
         'V7-D0-NATIVE-ROSTER.private.json':'V7-D1-NATIVE-ROSTER.private.json',
         'EARLY_UNINSTALLED_G7_ONLY':'PRECONTACT_OR_LIFT_STALL_V1'}
     for before,after in changes.items():
@@ -158,10 +164,67 @@ def finalize(site,stage,code):
     print('D1_RUNTIME',runtime_path,sha(runtime_path),flush=True)
 
 
+def build_followup(site,stage):
+    """A new blue PREGRASP card; keep the previous LIFT allocation untouched."""
+    require(not stage.exists(),'Resolve the existing follow-up registration')
+    earlier=site/'V7-D1-NATIVE-PREP-01'
+    prior=read(pin(earlier/'PROSPECTIVE.private.json',
+                   'dfa845ca8bde4d239794ea70c1557608fffd1abc71b1f074e5a4b7a64853c9b9'))
+    closed=read(pin(site/'V7-D1-EARLY-SEALED-02/RESULT.json',
+                    'd165dc95a7d134feac6767533077b0ac5961b002cefcca7d5ceb2e0c2d0b546c'))
+    replay_path=site/'v7-d1-blue-prefix-replay.pp68ijpw/ACTUAL.json'
+    replay=read(pin(replay_path,'c88d4bac09f924d7e93a91b7a558c7c3c35576d60beb57a8146f2e3e8111d3a3'))
+    require(closed['complete_reconciliation'] and closed['train_recovery_count']==closed['terminal_cases']==1
+            and closed['cases'][0]['recovery_admitted'] and closed['cases'][1]['state']=='NOT_STARTED'
+            and replay['threshold_mm']==20. and all(r['first_warning']['preview_prepared']
+                and r['first_warning']['static_prefix']['passed_knots']==11
+                and len(r['invalid_boundary_fixtures_rejected'])==4 for r in replay['cases']),
+            'The closed first card and both independent static blue prefixes are required')
+    protected=read(pin(site/'v63-place-core-code-01/PROTECTED_POPULATION.json',
+                       'a1dfa32f329cb91d474e20488cbeeafa3dc41858f32dacd6cd593dbed61bbb26'))
+    used_resets={r['reset'] for r in protected['clusters']};used_noise=set()
+    for i in range(1,6):
+        for card in read(site/f'RECOVERY-TRAIN-ROSTER-{i:02d}.json')['cases']:
+            used_resets.add(card['reset']);used_noise.update((card['policy_seed']+q)%2**31 for q in range(180))
+    for wave,ids in (('01',('V7_D0_EARLY_TRAIN_11','V7_D0_EARLY_TRAIN_12')),
+                     ('02',('V7_D0_EARLY_TRAIN_13','V7_D0_EARLY_TRAIN_14'))):
+        for name in ids:
+            case=site/f'V7-D0-EARLY-NATIVE-{wave}'/name
+            lease=read(case/'control/LEASE.json');spec=read(pin(case/'EXECUTION_SPEC.json',lease['spec_sha256']))
+            require(lease['status']=='CLOSED','An earlier actual native owner remains active')
+            used_resets.add(spec['mobile_condition']['reset'])
+            used_noise.update((spec['comparison_policy_seed']+q)%2**31 for q in range(180))
+    for card in prior['cases']:
+        used_resets.add(card['reset']);used_noise.update((card['policy_seed']+q)%2**31 for q in range(180))
+    sources=read(earlier/'TEACHER-SOURCES.private.json');cards=[];teachers={}
+    for source,name,enabled in ((IDS[1],'V7_D1_EARLY_TRAIN_17',True),(IDS[0],'V7_D1_EARLY_TRAIN_18',False)):
+        card=copy.deepcopy(next(r for r in prior['cases'] if r['id']==source))
+        key=lambda purpose:int.from_bytes(hashlib.sha256(f'{REVIEW}|{name}|{purpose}'.encode()).digest()[:4],'little')%2**31
+        reset,seed=key('reset'),key('noise')
+        require(reset not in used_resets and all((seed+q)%2**31 not in used_noise for q in range(180)),
+                'The new blue reset or noise reuses a registered condition')
+        used_resets.add(reset);used_noise.update((seed+q)%2**31 for q in range(180))
+        card.update(id=name,reset=reset,policy_seed=seed,required_stage='PREGRASP',native_enabled=enabled,
+                    trigger='PRECONTACT_20MM',not_started_reason=None if enabled else 'CONDITIONAL_ENTRY_NOT_DISPATCHED')
+        cards.append(card);teachers[name]=copy.deepcopy(sources[source])
+    noise_path=earlier/'CUDA-NOISE.private.json'
+    roster=dict(prior,cases=cards,past_attempts=15,past_admissions=5,max_new_requests=1,actual_starts=0,
+                native_dispatch_ids=[cards[0]['id']],conditional_unstarted_ids=[cards[1]['id']],
+                prior_actual_noise=[dict(path=str(noise_path),sha256=sha(noise_path))],
+                previous_cohort=dict(path=str(site/'V7-D1-EARLY-SEALED-02/RESULT.json'),sha256=sha(site/'V7-D1-EARLY-SEALED-02/RESULT.json')),
+                precontact_replay=dict(path=str(replay_path),sha256=sha(replay_path)),
+                minimum_attempts_reserved_for_next_student=2,new_training_curriculum=False,
+                previous_LIFT_card_kept_unstarted=IDS[1],new_registered_maximum_starts=16)
+    stage.mkdir(mode=0o700);write(stage/'PROSPECTIVE.private.json',roster)
+    write(stage/'TEACHER-SOURCES.private.json',teachers)
+    print('D1_FOLLOWUP',stage,sha(stage/'PROSPECTIVE.private.json'),flush=True)
+
+
 if __name__=='__main__':
-    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('mode',choices=('build','noise','finalize'))
+    cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('mode',choices=('build','build-followup','noise','finalize'))
     cli.add_argument('site',type=Path);cli.add_argument('stage',type=Path);cli.add_argument('extra',type=Path,nargs='?')
     a=cli.parse_args()
     if a.mode=='build':build(a.site,a.stage)
+    elif a.mode=='build-followup':build_followup(a.site,a.stage)
     elif a.mode=='noise':noise(a.site,a.stage,a.extra)
     else:finalize(a.site,a.stage,a.extra)

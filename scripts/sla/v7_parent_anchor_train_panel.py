@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import shutil
 import tarfile
 
 import numpy as np
@@ -75,7 +76,7 @@ def freeze(site, package, output):
           max_forwards=2*3*len(frames), protected_conditions=0, optimizer_updates=0, native_integrations=0))
 
 
-def measure(panel, panel_sha, worker, providers, output):
+def measure(panel, panel_sha, worker, providers, output, *, reuse_r4=None, reuse_r4_sha=None):
     import jax
     from go2arx5_vla.sla_adapter.adapt5k_data import AdaptTargetDataset
     from go2arx5_vla.sla_adapter.gripper_v2 import GripLogitCodec
@@ -92,6 +93,18 @@ def measure(panel, panel_sha, worker, providers, output):
     require(roster["split"] == "TRAIN_DIAGNOSTIC" and not output.exists(), "Use a new fixed TRAIN evaluation")
     proof = read(providers / "ACTUAL.json")
     original = read(Path(panel).parent.parent / "R4_REFERENCE.json")
+    baseline = None
+    if reuse_r4 is not None:
+        require(reuse_r4_sha is not None, "Pin the immutable reused R4 output")
+        prior = read(pin(reuse_r4 / "ACTUAL.json", reuse_r4_sha))
+        require(prior["complete"] and prior["panel_sha256"] == panel_sha
+                and read(reuse_r4.parent / "R4_REFERENCE.json") == original,
+                "The original R4, inputs or fixed TRAIN panel changed")
+        selected = [row for row in prior["rows"] if row["model"] == "R4"]
+        baseline = {(row["frame"], row["repeat"]): row for row in selected}
+        require(len(selected) == len(baseline) == 2 * len(roster["frames"])
+                and set(baseline) == {(frame["id"], repeat) for frame in roster["frames"] for repeat in range(2)},
+                "The reused R4 panel is incomplete or duplicated")
     module_path = pin(original["provider_source"]["path"], original["provider_source"]["sha256"])
     module = importlib.util.spec_from_file_location("b6_original_provider", module_path)
     provider_module = importlib.util.module_from_spec(module)
@@ -104,12 +117,32 @@ def measure(panel, panel_sha, worker, providers, output):
         target = AdaptTargetDataset(source["legacy"], source["captures"], resize_with_pad=resize_with_pad)
         target.bind_state(source["statistics"])
         output.mkdir(mode=0o700)
-        write(output / "START.json", dict(gpu=gpu, panel_sha256=panel_sha, max_forwards=roster["max_forwards"]))
+        reused = 0 if baseline is None else len(baseline)
+        write(output / "START.json", dict(gpu=gpu, panel_sha256=panel_sha,
+              max_forwards=roster["max_forwards"] - reused, reused_old_forwards=reused,
+              r4_manifest_sha256=original["manifest_sha256"], reuse_r4_sha256=reuse_r4_sha))
         models = {"R4": (Path(original["root"]), original["manifest_sha256"])}
         models.update({arm: (providers / arm, proof["arms"][arm]["provider_sha256"]) for arm in ARMS})
         rows = []
         for name, (root, digest) in models.items():
             manifest = read(pin(root / "CHECKPOINT.json", digest))
+            if name == "R4" and baseline is not None:
+                for frame in roster["frames"]:
+                    noise = np.asarray(jax.random.normal(jax.random.PRNGKey(frame["noise_id"]), (1,40,32)))
+                    noise_sha = hashlib.sha256(noise.tobytes()).hexdigest()
+                    require(frame["observed_noise_sha256"] in (None, noise_sha), "Archived CUDA noise changed")
+                    pin(frame["input"]["path"], frame["input"]["sha256"])
+                    for repeat in range(2):
+                        row = baseline[frame["id"], repeat]
+                        artifact = Path(row["artifact"])
+                        require(row["noise_sha256"] == noise_sha and artifact.name == str(artifact),
+                                "The reused R4 noise or artifact path differs")
+                        source = pin(reuse_r4 / artifact, row["action_sha256"])
+                        shutil.copyfile(source, output / artifact)
+                        require(sha(output / artifact) == row["action_sha256"], "R4 copy changed")
+                        write(output / f"R4-{frame['id']}-R{repeat}.json", row)
+                        rows.append(row)
+                continue
             model = provider_module.provider_from_manifest(root, manifest, receiver["model"], target, receiver["tokenizer"]["path"])
             for frame in roster["frames"]:
                 noise = np.asarray(jax.random.normal(jax.random.PRNGKey(frame["noise_id"]), (1,40,32)))
@@ -143,7 +176,9 @@ def measure(panel, panel_sha, worker, providers, output):
             jax.clear_caches()
             gc.collect()
         require(len(rows) == roster["max_forwards"], "Incomplete fixed panel")
-        write(output / "ACTUAL.json", dict(panel_sha256=panel_sha, rows=rows, actual_forwards=len(rows),
+        write(output / "ACTUAL.json", dict(panel_sha256=panel_sha, rows=rows,
+              actual_forwards=len(rows) - reused, reused_old_forwards=reused,
+              total_measured_outputs=len(rows), reuse_r4_sha256=reuse_r4_sha,
               optimizer_updates=0, native_integrations=0, complete=True))
 
 
@@ -185,17 +220,21 @@ def summarize(panel, output):
                 changes.append(change)
     write(output / "SUMMARY.json", dict(panel_sha256=sha(panel), actual_sha256=sha(output/"ACTUAL.json"),
           rows=changes, measurements="RAW_POLICY_ACTIONS_ONLY_NO_DYNAMIC_L1_OR_WBC_EXECUTION",
-          actual_forwards=result["actual_forwards"], native_integrations=0, optimizer_updates=0))
+          actual_forwards=result["actual_forwards"], reused_old_forwards=result.get("reused_old_forwards", 0),
+          native_integrations=0, optimizer_updates=0))
 
 
 if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("mode", choices=("freeze", "measure", "summarize"))
     cli.add_argument("paths", nargs="+")
+    cli.add_argument("--reuse-r4", type=Path)
+    cli.add_argument("--reuse-r4-sha")
     args = cli.parse_args()
     if args.mode == "freeze":
         freeze(*(Path(p) for p in args.paths))
     elif args.mode == "measure":
-        measure(Path(args.paths[0]), args.paths[1], *(Path(p) for p in args.paths[2:]))
+        measure(Path(args.paths[0]), args.paths[1], *(Path(p) for p in args.paths[2:]),
+                reuse_r4=args.reuse_r4, reuse_r4_sha=args.reuse_r4_sha)
     else:
         summarize(*(Path(p) for p in args.paths))

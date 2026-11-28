@@ -1,0 +1,276 @@
+{
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "split": "TRAIN",
+  "cases": [
+    {
+      "id": "V7_D1_EARLY_TRAIN_17",
+      "original_teacher": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+      "task": "PLACE-blue-left",
+      "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+      "scene_path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-static-geometry-20261122-01/MEV1-TRAIN-F1-NEAR_NEG-00.mjb",
+      "geometry": {
+        "added_actuators": 0,
+        "added_equalities": 0,
+        "added_mocap": 0,
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "expected_ABI": {
+          "nq": 41,
+          "nu": 20,
+          "nv": 38
+        },
+        "native_dispatch_qualified": false,
+        "object_half_sizes": {
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ],
+          "red": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "objects": {
+          "blue": {
+            "body": "task_blue_cube",
+            "geom": "task_blue_cube_geom",
+            "joint": "task_blue_cube_free"
+          },
+          "red": {
+            "body": "task_cube",
+            "geom": "task_cube_geom",
+            "joint": "task_cube_free"
+          }
+        },
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "table_top_world_z": 0.6,
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        }
+      },
+      "reset": 280491093,
+      "policy_seed": 1880133012,
+      "family": "F1",
+      "max_ticks": 50703,
+      "maximum_queries": 180,
+      "required_stage": "PREGRASP",
+      "historical_failure": "V64_RECOVERY_TRAIN_09",
+      "teacher_provenance": {
+        "spec_sha256": "3fe2ef846f37c82a22e661d43c6b03a72b5d195e2532519ddf7571b34101fffb",
+        "result_sha256": "e63da8aefefcde287712120dae8251c455356856e6ccf835a504363eafa07d73",
+        "labels_sha256": "acdaa698c0c30bc1e68ea4f48556cd0f69c6c434da407c245d10c118a85f4027",
+        "original_teacher": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left"
+      },
+      "native_enabled": true,
+      "trigger": "PRECONTACT_20MM",
+      "not_started_reason": null
+    },
+    {
+      "id": "V7_D1_EARLY_TRAIN_18",
+      "original_teacher": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "task": "PLACE-red-right",
+      "scene_sha256": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+      "scene_path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-static-geometry-20261122-01/MEV1-TRAIN-F1-NEAR_NEG-01.mjb",
+      "geometry": {
+        "added_actuators": 0,
+        "added_equalities": 0,
+        "added_mocap": 0,
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "expected_ABI": {
+          "nq": 41,
+          "nu": 20,
+          "nv": 38
+        },
+        "native_dispatch_qualified": false,
+        "object_half_sizes": {
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ],
+          "red": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "objects": {
+          "blue": {
+            "body": "task_blue_cube",
+            "geom": "task_blue_cube_geom",
+            "joint": "task_blue_cube_free"
+          },
+          "red": {
+            "body": "task_cube",
+            "geom": "task_cube_geom",
+            "joint": "task_cube_free"
+          }
+        },
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "table_top_world_z": 0.6,
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        }
+      },
+      "reset": 716329688,
+      "policy_seed": 1402624219,
+      "family": "F1",
+      "max_ticks": 50703,
+      "maximum_queries": 180,
+      "required_stage": "PREGRASP",
+      "historical_failure": "V64_RECOVERY_TRAIN_10",
+      "teacher_provenance": {
+        "spec_sha256": "f6dcf7531aae2bd0e6f1d9680ffa8f6388ddedeea554a321c9ded6ad54865c42",
+        "result_sha256": "e88be44ed6d0e4eda27f5cbad3489bf236ce1343995bee7fd29f833d7ba39471",
+        "labels_sha256": "acdaa698c0c30bc1e68ea4f48556cd0f69c6c434da407c245d10c118a85f4027",
+        "original_teacher": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right"
+      },
+      "native_enabled": false,
+      "trigger": "PRECONTACT_20MM",
+      "not_started_reason": "CONDITIONAL_ENTRY_NOT_DISPATCHED"
+    }
+  ],
+  "student_provider": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v6-retention-20261126-01/R4_STEP0200_PROVIDER",
+    "sha256": "e825a48ed540b5d4d6c3623da24ac56d5aa3b51f2bf3aa488b313f21e044da5e"
+  },
+  "checkpoint_sha256": "3eae531b9a0bea5cf2da8f3e19ebf77bb3ac152d9db0cd96a57b49210f7245e6",
+  "r4_training_receipt_sha256": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+  "protected_scene_sha256": [
+    "01b5c397097a8369efac05dd176655ed2593d2e98cd9418c4a389c58d96f727c",
+    "1424b49816757cd766fe97b4f61398122fbe50786e574e6fa6c86d1d304d9a27",
+    "15c53f2e950f4e2be245b2d592844ac60b12db8e2fb8f5c951b5fcbb1a44a868",
+    "18bd88c68b1280c29d816e0bb9540a87ed0c51296e25d35f71b405ed143dcc87",
+    "2902248faaf06cf5666a55fdd3b6919e721e7250ae18b43292386d889cce885e",
+    "2b6c28cfa851b254091833eb1d49ec569edc0cead172fd77ac3f458f6e817b78",
+    "2e02f42a41f3c49facaa2614db74b1a967afe054c4183b79cd4296138cf45d53",
+    "2eced69ad7ebd1992a4a5105f2ca0bf9c53ec3cca2eb52c69342b4b4dbeab21b",
+    "3092b0afd003483a9741f4420036122ae1da42a194ef43a431841020a21350b1",
+    "324db16cef7bbbae20f566be6bd1493dcdc2e584a46f9ab83b99efbd4df36af3",
+    "35bf64daebd9e71a94952babde45f9ed23c1d2dccafe037fd511320313b9ab82",
+    "378b1fabadcfa3943f0d44f62af2dfbde27cca3ea342fe58a00be3ca34f21db9",
+    "3f6c2b76fca6a0c6512f7071e50f9e0662aacd52d8807ccfbc7998d2dce83892",
+    "40738b95b55cce6b169917eb2eb311b1842a7910836bbe8bea069ed2b3ae95d7",
+    "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+    "5e34c10564efb76244f572c367fecb3ecf6d3841ed7101dfdf4624946e235f41",
+    "5f022c52037b4742442c520f3e04dda0739a176952b039689c771fa27be922c0",
+    "6fd8ec7242ea75b3534639f1460c92ff9586695d1a6b3303bedb9a59d283d330",
+    "733420e83651d5cae3cbd32afd586eefda740efb51f3ece2e838e539d66fed27",
+    "77d807a3cb6e0a7f88c655b387be94a24ef467afd62adbdb1e7db2dfe76b6594",
+    "7facbd0f49f692299706d8c8a8c9e3a2bba68b5a17c56f9413199fee044e574e",
+    "9012d806e460c9191049745d4d4703eb75bf94018c22290f145359886675cec6",
+    "929efdad11b7d47197df1748cca9f644801fc4c887c2877bdc7124bc58d63dd5",
+    "93b04848eca212cc01ba3e74de80b3ef9fbc09e8e2cbd7ca7a6a3a8303de1158",
+    "9506cd8247180178582896aa1c7b05348442fac193f77d7843bcceadf8ce6b68",
+    "9804d997a66882ff291f6f14a8067923cb31f9d90e870b96c7a8d49348db8a24",
+    "9aca2ffd9394a093039f9d72e63ac4dda26f54feacaa8911db54e0834ca0c527",
+    "9b60991b7af616817be79841c1765140f8f007762d4a511adaee09b607966f6c",
+    "9bd9e9fb5fe7f5dfdde82dbd9e5ce4ad251f46348e82905bd66046c44a1d478f",
+    "b1a0891596ebb1018b927bc437898cc82647a356cbcd2c7af4e5adf689cedc9f",
+    "b2e26f59ae2c07b7dfefa97b9f507e83241c08d532cbdc5b78a6a678a4cbd5c4",
+    "bbe9d5d0ddc94d89121d537c3a81319f7b0285fa80a10ffeb5b7fccb3c4094b2",
+    "c4b3cde6488f6d342b0c57e67ee4ef7f18570cc5dea526b362c6da2ecc8d6d42",
+    "c732dfdd474500ebec0c20c1d83faf0e2da6d4388240d6c5d29a5a44330abd3f",
+    "d043ede0c90746045964699731a5c973925c86b8b02f454f1c3cb5a47c747fde",
+    "d3b0a51a8434159e580a914b41bcdd72936eb1687bdfad825bba0ae925695060",
+    "d65517f94927596dd2d4df7333b2a285e5a343202cb0daa553ec1ffb272e045c",
+    "df305f35b4456bbb040d46d646d5dc23c10de1ad065d176374266ad124ba78a5",
+    "e8489ca83842672488bd56cda67a93dd243689b518acef734b33144b0e20354d",
+    "ed810a165bde286e500b6a0f15c117c7235cda20b90e203c0ab107cca8f459d3",
+    "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+    "f9e7a88870fefee0ea869453c7bc33846dcde7a1efae35853b22fa3666c8d726",
+    "fe409f5b570198a723a64a17ecc5fbf6b2afdba893cf0361b0bae4ae8b83d8d6"
+  ],
+  "archive_replay_sha256": "e524b5d6d8e239e019dfe575ea848e8ceb88fbc56abce481be7bd4d7dbda81de",
+  "past_attempts": 15,
+  "past_admissions": 5,
+  "allowed_trigger": "PRECONTACT_20MM_OR_ORIGINAL_UNINSTALLED_G7",
+  "max_new_requests": 1,
+  "max_ticks": 101406,
+  "max_queries": 360,
+  "authorized_native_runtime": false,
+  "actual_starts": 0,
+  "model_forwards": 0,
+  "actual_integrations": 0,
+  "actual_admissions": 0,
+  "earlier_early_roster_sha256": "4e10cfdd865ade7fe6e360664d2601530ba5737e9160e14d1c9abdde4edfe761",
+  "earlier_early_result_sha256": "61051e05a5bbecabd2a0da00b7117d69871c1bd000d7e85f2d0b35bf305d2576",
+  "sequence_fix_cpu_sha256": "f226da4f79d41c7389fabe202886fa75995b163369a8232b660b9f726ba7ecd2",
+  "remaining_before": 8,
+  "remaining_after": 6,
+  "reviewed_plan": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "native_dispatch_ids": [
+    "V7_D1_EARLY_TRAIN_17"
+  ],
+  "conditional_unstarted_ids": [
+    "V7_D1_EARLY_TRAIN_18"
+  ],
+  "native_dispatch_max_ticks": 50703,
+  "precontact_replay": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/v7-d1-blue-prefix-replay.pp68ijpw/ACTUAL.json",
+    "sha256": "c88d4bac09f924d7e93a91b7a558c7c3c35576d60beb57a8146f2e3e8111d3a3"
+  },
+  "prior_actual_noise": [
+    {
+      "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-NATIVE-PREP-01/CUDA-NOISE.private.json",
+      "sha256": "a28264a415e8a44be09ee3fc11c522f764144587aad5c05bb3f90a51b950f610"
+    }
+  ],
+  "previous_cohort": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D1-EARLY-SEALED-02/RESULT.json",
+    "sha256": "d165dc95a7d134feac6767533077b0ac5961b002cefcca7d5ceb2e0c2d0b546c"
+  },
+  "minimum_attempts_reserved_for_next_student": 2,
+  "new_training_curriculum": false,
+  "previous_LIFT_card_kept_unstarted": "V7_D1_EARLY_TRAIN_16",
+  "new_registered_maximum_starts": 16
+}
