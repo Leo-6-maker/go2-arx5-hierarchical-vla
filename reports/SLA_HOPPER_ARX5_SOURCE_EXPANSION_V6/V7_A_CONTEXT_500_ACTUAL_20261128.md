@@ -109,7 +109,7 @@ Control 源域回执 `8963679c9d9a8bc1af6bd9fc8d32538d948f906b66ee4d35436fc4ae43
 | Control 500 | 29.37 mm | 429 tick | 0／66 | 4.70 mm | 区外，tick 33,593 |
 | R4-200 | 20.94 mm | 58 tick | 0／65 | 3.36 mm | 区外，tick 32,495 |
 
-两者入区后最大解码开度均出现在 P10 内，Control **2.98 mm**、R4 **1.49 mm**。两者在目标区内均无桌面接触，实测开度最高分别为 **43.39%** 和 **43.13%**。这对归档把 PLACE 的失败定位到区内下放与张爪两处。尚须等待 Treatment 同格，才能估计上一实耗命令条件化的作用。回放新增积分、前向和更新均为 **0**。[Control 回执](V7_PLACE_RELEASE_CONTROL-P01-701_ACTUAL.json) · [R4 回执](V7_PLACE_RELEASE_R4-P01-701_ACTUAL.json) · [回读代码](../../scripts/sla/v7_place_release_readout.py)
+按原 `FiftyMsProgram` 的 **2–42 mm** 工作行程转换模型比例，两者入区后最大名义开度均出现在 P10 内，Control **4.70 mm**、R4 **3.36 mm**。两者在目标区内均无桌面接触，实测开度最高分别为 **43.39%** 和 **43.13%**。这对归档把 PLACE 的失败定位到区内下放与张爪两处。尚须等待 Treatment 同格，才能估计上一实耗命令条件化的作用。回放新增积分、前向和更新均为 **0**。[Control 回执](V7_PLACE_RELEASE_CONTROL-P01-701_ACTUAL.json) · [R4 回执](V7_PLACE_RELEASE_R4-P01-701_ACTUAL.json) · [回读代码](../../scripts/sla/v7_place_release_readout.py)
 
 ### Control 第二张 PLACE 终态
 
@@ -123,7 +123,7 @@ Control 源域回执 `8963679c9d9a8bc1af6bd9fc8d32538d948f906b66ee4d35436fc4ae43
 
 终态回执 `91db3961c957471afd4b025a625417daabbafecf9769ae04a3bfc3f18faba558`。Control 已闭合的三张 PLACE 中，**2／3** 正确抓持并抬升 20 mm，**0／3** 完成放置。第四张按原登记继续。
 
-逐条回读 `P02_701` 的原生释放边界。tick **44,390** 仍有右侧指垫接触，tick **44,391** 的原 scorer 首次记录离手，下一 tick 双指垫接触便恢复。三个时刻物体均由桌面支撑并在目标区外。两个手指在那次离手时的原生开度均略小于上一 tick。覆盖该时刻的确认区间实耗开度为 **16.06 mm**。同一模型查询的 P10 仅预测到 **20.10 mm**，完整 H40 后缀才达到 **40.44 mm**，超过张爪比较幅度 **39.6 mm**。这格把短暂接触丢失与足幅开爪分开，也给出了后缀张爪意图未进入本次实耗前缀的实测案例。全回合未达正确区域，因而不能用这一后缀推断放置结果。Corelab 回执 `04b1d476fd9c726e8d5c04007a0aa0967fd645fdee5cc591c1186763ea42fba3`。新增积分、前向和训练更新均为 **0**。[事件回执](V7_PLACE_RELEASE_CONTROL-P02-701_ACTUAL.json) · [回读脚本](../../scripts/sla/v7_place_release_readout.py)
+逐条回读 `P02_701` 的原生释放边界。tick **44,390** 仍有右侧指垫接触，tick **44,391** 的原 scorer 首次记录离手，下一 tick 双指垫接触便恢复。三个时刻物体均由桌面支撑并在目标区外。两个手指在那次离手时的原生开度均略小于上一 tick。覆盖该时刻的确认区间实耗开度为 **16.06 mm**。同一查询按原工作行程重算，P10 最大 **20.27 mm**，H40 最大 **38.76 mm**，两者均低于 **39.6 mm**。此前的 **40.44 mm** 误用了机械 44 mm 比例，随之撤回后缀达到张爪幅度的判断。三份回执已从封存输入重算，原生终态、接触样本和实耗开度均已逐项复核。新回执 `eb7d0cafa6f6426093ff1c4de0c42b7825dcf4e39df2bfa20ed5f0f6bb3cd0b0`。新增积分、前向和训练更新均为 **0**。[事件回执](V7_PLACE_RELEASE_CONTROL-P02-701_ACTUAL.json) · [回读脚本](../../scripts/sla/v7_place_release_readout.py)
 
 ### Control PLACE 组结算
 
@@ -160,3 +160,13 @@ Control 的十张原生卡均已闭合，共 **254,653 tick／793 次冻结前�
 新增只读结算入口，从原封存结算派生每格的抓持、抬升、进区、终态释放、稳定释放、撤离和完整成功。另记录瞬时离手、抓持前后 STOP，以及被原 L1 接续并确认实际消费的 G7 查询。每个阶段分别列出相对 R4、Treatment 相对 Control 的保留、新增、丢失、共同失败及技术中断。沿用原评分与晋级结果。
 
 已用 `P01_701` 放置耗尽和 `P02_702` 抓前 STOP 两份真实回执核验单卡读数，另以构造样本核验整组分母和配对分类。完整 20 张原生卡结算后才产生正式配对读数。[结算脚本](../../scripts/sla/v7_native_mechanisms.py)
+
+### 24 个固定反馈窗的 G7 故障定位
+
+用原输入、实际消费上一开度和已封存的 H40 重算 G7，两臂各 **1／24** 个首缝超限，均为 `CONFIRM_N02_202`。该窗实测开度 **19.39 mm**、上一实耗指令 **9.23 mm**，Control／Treatment 首缝分别为 **67.24／67.21 mm/s**。实测与上一指令相差超过 **2 mm** 的五窗中，Treatment 有四窗首缝更小，中位变化为 **−0.12 mm/s**，该子集的超限数两臂均为 **1／5**。
+
+Treatment 新增的 G7 超限来自 `LONG_PARENT_P02_701_Q0047` 的块内第 **7** 点。块内峰值由 Control **38.48 mm/s** 增至 **42.18 mm/s**，Treatment 首缝仅 **2.73 mm/s**。这个变化同时解释了固定窗中多出的一次 H40 失败。原 **40 mm/s** 阈值、观察和实际 CUDA 噪声均按散列核对。新增积分、前向与更新均为 **0**。[24 窗回执](V7_PAIRED_FEEDBACK_JAW_ACTUAL.json) · [回读代码](../../scripts/sla/v7_feedback_jaw_audit.py)
+
+### Treatment 首张 N02 HOLD
+
+`N02_A` 是有效失败样本。Treatment 完成 **85 次冻结前向／26,810 tick**，在正确抓持前触发原 `REGISTERED_JOINT_SAFETY`，最高物体位移约 **2.16 mm**。STOP 后积分、参考发布或接受、增量许可均为 **0**。Control 同格在 **20,692 tick** 因腕部触碰蓝块停止，R4 同格成功。两臂该格均未完成，终止机制不同。`N02_B` 按原名册继续。[原评分回读](V7_TREATMENT_HOLD_N02_A_ACTUAL.json)

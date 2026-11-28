@@ -1,0 +1,696 @@
+{
+  "feedback_input_sha256": [
+    "33b302f2cce088ba60f58e924013426aaf7e14abb73d362b4b8253f057c1a9f9",
+    "8cf4162b6cbac27a495b364120e141df0bed8155b59994bc964bc3222a38fb13"
+  ],
+  "original_roster_sha256": "a6e24bfd71bcd7034f18a9a5007cc0061f74190950ae1f4d080a4f466ddd698a",
+  "first_seam_range_mm": 2.0,
+  "fixed_observation_diagnostic_only": true,
+  "summary": {
+    "all": {
+      "windows": 24,
+      "arms": {
+        "control": {
+          "first_seam_rejections": 1,
+          "interior_rejections": 0
+        },
+        "treatment": {
+          "first_seam_rejections": 1,
+          "interior_rejections": 1
+        }
+      },
+      "improved_seams": 8,
+      "median_treatment_minus_control_mm_s": 0.0005021653780301616
+    },
+    "gap_over_seam_range": {
+      "windows": 5,
+      "arms": {
+        "control": {
+          "first_seam_rejections": 1,
+          "interior_rejections": 0
+        },
+        "treatment": {
+          "first_seam_rejections": 1,
+          "interior_rejections": 0
+        }
+      },
+      "improved_seams": 4,
+      "median_treatment_minus_control_mm_s": -0.11905620045348542
+    }
+  },
+  "windows": [
+    {
+      "id": "M_DEV_P01_301",
+      "phase": "PLACE_ENTRY",
+      "previous_mm": 41.99999999999999,
+      "measured_mm": 42.000036397700114,
+      "measured_minus_previous_mm": 3.639770011776289e-05,
+      "input_sha256": "970b89d34a5eab65a4f9e5af2853336649e4298c4fa199e51119705044ec5520",
+      "original_noise_sha256": "859e740cb89c17494eab7a3f186dd31fcb8ce3fd1ea3746c7a6573d77552da61",
+      "control": {
+        "raw_first_width_mm": 41.994855211339036,
+        "first_seam_mm_s": 0.10289577321923038,
+        "peak_inside_mm_s": 0.007985899531381957,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99483714571484,
+        "first_seam_mm_s": 0.10325708570319003,
+        "peak_inside_mm_s": 0.01081567206184797,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "M_DEV_P02_301",
+      "phase": "PLACE_ENTRY",
+      "previous_mm": 41.99999999999999,
+      "measured_mm": 42.0000236841324,
+      "measured_minus_previous_mm": 2.3684132405277225e-05,
+      "input_sha256": "92d8f12e537561a9ad863a0db575abbdfb82f042ef2adc73f364a4e07dba5de6",
+      "original_noise_sha256": "859e740cb89c17494eab7a3f186dd31fcb8ce3fd1ea3746c7a6573d77552da61",
+      "control": {
+        "raw_first_width_mm": 41.99487397350958,
+        "first_seam_mm_s": 0.10252052980830317,
+        "peak_inside_mm_s": 0.008457195289773844,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99478846359309,
+        "first_seam_mm_s": 0.10423072813819934,
+        "peak_inside_mm_s": 0.009502111777692779,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "H_REG_N02_A",
+      "phase": "HOLD_ENTRY",
+      "previous_mm": 41.99999999999999,
+      "measured_mm": 42.00003915737892,
+      "measured_minus_previous_mm": 3.9157378922682895e-05,
+      "input_sha256": "606654a787b83b767e56f97cd6c102816c14553a66dcec00b0f67dbbea575f96",
+      "original_noise_sha256": "837d46eb55fbffe66cb7374845df4fa4291656371d4e6d6d35e17eb3e16b8045",
+      "control": {
+        "raw_first_width_mm": 41.99509207087093,
+        "first_seam_mm_s": 0.09815858258127586,
+        "peak_inside_mm_s": 0.007129724947374516,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99496982334305,
+        "first_seam_mm_s": 0.10060353313898207,
+        "peak_inside_mm_s": 0.0075445346449376505,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "H_REG_N02_B",
+      "phase": "HOLD_ENTRY",
+      "previous_mm": 41.99999999999999,
+      "measured_mm": 42.000042817553,
+      "measured_minus_previous_mm": 4.281755300317158e-05,
+      "input_sha256": "959bad0022adf76ec945b7eb14827b7a0eccd8011ccc4dad945ed4596e4134e6",
+      "original_noise_sha256": "8a1fa491d4fc3d08855014f4d1327183deee70a9c776f4cc96fa33cd3f52e24f",
+      "control": {
+        "raw_first_width_mm": 41.99447021926946,
+        "first_seam_mm_s": 0.11059561461079781,
+        "peak_inside_mm_s": 0.01156778872191122,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.994312240456956,
+        "first_seam_mm_s": 0.11375519086073704,
+        "peak_inside_mm_s": 0.013883651455159907,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "CONFIRM_N02_201",
+      "phase": "HOLD_POST_GRASP",
+      "previous_mm": 13.419500131806258,
+      "measured_mm": 20.3698247939563,
+      "measured_minus_previous_mm": 6.950324662150044,
+      "input_sha256": "e6f2de8bdaf4840b7536e5148e87bffc235ef2436d2c4374d87f7b100e28f407",
+      "original_noise_sha256": "3fb17f8d459f262a401f01c18a1c41522f34fb1f642da9f3f5de6a0a70fae1b1",
+      "control": {
+        "raw_first_width_mm": 14.027271299578596,
+        "first_seam_mm_s": 12.155423355446754,
+        "peak_inside_mm_s": 24.441383992254533,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 13.890752888473383,
+        "first_seam_mm_s": 9.425055133342498,
+        "peak_inside_mm_s": 23.99144540766821,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "CONFIRM_N02_202",
+      "phase": "HOLD_POST_GRASP",
+      "previous_mm": 9.225059939997491,
+      "measured_mm": 19.39195665122664,
+      "measured_minus_previous_mm": 10.166896711229148,
+      "input_sha256": "73726f904635d927f27ae7b6b81b4c7262a95b8007053df4412d5ee02b1ae64a",
+      "original_noise_sha256": "a316768b954215748bc85adc6cba009b9e895bbafaf443ed0e4b5888215c818e",
+      "control": {
+        "raw_first_width_mm": 5.863174286906301,
+        "first_seam_mm_s": 67.23771306182381,
+        "peak_inside_mm_s": 9.498757559522307,
+        "first_seam_rejected": true,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 5.864398755701803,
+        "first_seam_mm_s": 67.21322368591377,
+        "peak_inside_mm_s": 9.072178277382669,
+        "first_seam_rejected": true,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P01_701_Q0013",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.99640416465471,
+      "measured_mm": 41.99584417705003,
+      "measured_minus_previous_mm": -0.0005599876046827323,
+      "input_sha256": "97a2dea46db7f76e794af34a5907023645d80f5d263b5bf355ec0b9f3554b7b8",
+      "original_noise_sha256": "e84ad12e3451d70f4026607e227270eb840392eb988cd92dc65df2a46892d07b",
+      "control": {
+        "raw_first_width_mm": 41.99480368271784,
+        "first_seam_mm_s": 0.032009638737534596,
+        "peak_inside_mm_s": 0.007944770761686426,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99480331761471,
+        "first_seam_mm_s": 0.03201694080010031,
+        "peak_inside_mm_s": 0.011369248885395589,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P01_701_Q0015",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.99581033008542,
+      "measured_mm": 41.99590585493955,
+      "measured_minus_previous_mm": 9.552485413094614e-05,
+      "input_sha256": "36a1a276261eac51bf55d398a94ae80ccb481dbb53e928e51192dd49904ca64b",
+      "original_noise_sha256": "4ff9d0d77fff011832cba685dc95cf5b88ed4c17193a05246153b9f8f05b8fa0",
+      "control": {
+        "raw_first_width_mm": 41.99444812088287,
+        "first_seam_mm_s": 0.027244184050978504,
+        "peak_inside_mm_s": 0.005891443754790782,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99441813904726,
+        "first_seam_mm_s": 0.02784382076306824,
+        "peak_inside_mm_s": 0.008834172153387998,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P01_702_Q0012",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.99608394279004,
+      "measured_mm": 41.98611746677107,
+      "measured_minus_previous_mm": -0.00996647601896744,
+      "input_sha256": "dc5be42f1fd1ba2c7cdd8a06609a11350d482c7999026315618be50fb820fabd",
+      "original_noise_sha256": "2f36ae4f9611ca7bf5b0a8a65bd5579c985e6686543846e2d9e916e1f7393f2d",
+      "control": {
+        "raw_first_width_mm": 41.99470897915376,
+        "first_seam_mm_s": 0.027499272725467483,
+        "peak_inside_mm_s": 0.006619023390636025,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.994688744451565,
+        "first_seam_mm_s": 0.02790396676943807,
+        "peak_inside_mm_s": 0.007725062295266261,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P01_702_Q0014",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.9965406623712,
+      "measured_mm": 41.995086772946664,
+      "measured_minus_previous_mm": -0.0014538894245394451,
+      "input_sha256": "6068611d153453d2662b0515614fb1110b95890d9671f78b8e6e41454863ddb5",
+      "original_noise_sha256": "868b2fd684558abdcb547fb35a4d6f96be837ff45dd88fe23218be968ac324e8",
+      "control": {
+        "raw_first_width_mm": 41.99483697000989,
+        "first_seam_mm_s": 0.03407384722625695,
+        "peak_inside_mm_s": 0.007240722901674657,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99480038444983,
+        "first_seam_mm_s": 0.034805558427469796,
+        "peak_inside_mm_s": 0.008628382601044704,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P02_701_Q0013",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.99637904907187,
+      "measured_mm": 42.00054260058045,
+      "measured_minus_previous_mm": 0.00416355150858333,
+      "input_sha256": "230806f0c7e88c2f1bf7b681d4d63d802c0855269c65d393befa636f024a270e",
+      "original_noise_sha256": "e84ad12e3451d70f4026607e227270eb840392eb988cd92dc65df2a46892d07b",
+      "control": {
+        "raw_first_width_mm": 41.99473320301986,
+        "first_seam_mm_s": 0.032916921040154756,
+        "peak_inside_mm_s": 0.007619245481621517,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.994646132791075,
+        "first_seam_mm_s": 0.0346583256159716,
+        "peak_inside_mm_s": 0.01027569152392549,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P02_701_Q0015",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.99586249275043,
+      "measured_mm": 41.9953292014902,
+      "measured_minus_previous_mm": -0.000533291260235158,
+      "input_sha256": "71e39b04bdb181d42430649cddd8714367e529a6e443f1c12c468136c7bbf7ee",
+      "original_noise_sha256": "4ff9d0d77fff011832cba685dc95cf5b88ed4c17193a05246153b9f8f05b8fa0",
+      "control": {
+        "raw_first_width_mm": 41.99453708573695,
+        "first_seam_mm_s": 0.02650814026963766,
+        "peak_inside_mm_s": 0.006902361373850585,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99443740805993,
+        "first_seam_mm_s": 0.028501693810079054,
+        "peak_inside_mm_s": 0.006370792493270994,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P02_702_Q0011",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.99625012387169,
+      "measured_mm": 41.99600631896236,
+      "measured_minus_previous_mm": -0.00024380490933062493,
+      "input_sha256": "0c1468129d1d13d6c85f9d8022abf7e96c10774c0b15ef6f69a7da888a2b5847",
+      "original_noise_sha256": "223dc9f6254e391957e63fe1b0992b145dabe81798716b76ec73383fed169f9a",
+      "control": {
+        "raw_first_width_mm": 41.994280796673316,
+        "first_seam_mm_s": 0.039386543967540044,
+        "peak_inside_mm_s": 0.008561843262283597,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.994204854752816,
+        "first_seam_mm_s": 0.04090538237744301,
+        "peak_inside_mm_s": 0.009298042795424788,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_P02_702_Q0013",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.99586082993802,
+      "measured_mm": 41.99458707206851,
+      "measured_minus_previous_mm": -0.0012737578695062868,
+      "input_sha256": "4a5074277f6cdd1359f5d9b9d7f62e29759bea20b8ee4937079b0e311bb8365a",
+      "original_noise_sha256": "710d0b4088d9fb9ab5329abaf7ff83d89a4bd6b4d321bd13115d46380318f777",
+      "control": {
+        "raw_first_width_mm": 41.99432875047487,
+        "first_seam_mm_s": 0.03064158926285865,
+        "peak_inside_mm_s": 0.008896380756517885,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99433324375387,
+        "first_seam_mm_s": 0.03055172368288117,
+        "peak_inside_mm_s": 0.010091001336476335,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_N02_A_Q0020",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.993374992402345,
+      "measured_mm": 41.99320747485465,
+      "measured_minus_previous_mm": -0.00016751754770144567,
+      "input_sha256": "05041e92a762d1f4eb5be0ef447c1d20f870022d954db256dbd448a554c63b85",
+      "original_noise_sha256": "38794d931a251a2a1e8c14c2808a2ea9208c98ca3d29cc538351b24970e87baf",
+      "control": {
+        "raw_first_width_mm": 41.99407543725607,
+        "first_seam_mm_s": 0.014008897074452298,
+        "peak_inside_mm_s": 0.12727531509701406,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99406438987237,
+        "first_seam_mm_s": 0.01378794940040673,
+        "peak_inside_mm_s": 0.1263693679882938,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_N02_A_Q0022",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.996478965909155,
+      "measured_mm": 41.99625836200561,
+      "measured_minus_previous_mm": -0.00022060390354045056,
+      "input_sha256": "b977bb94c3531aada191ff51ed5396c241e682850f424c80259333400d78ca6f",
+      "original_noise_sha256": "3426edcefa8e1d81234c8a2a9a1bc2d2d371378f6a2cae8e77082aee9c80b701",
+      "control": {
+        "raw_first_width_mm": 41.994520610717984,
+        "first_seam_mm_s": 0.039167103823428695,
+        "peak_inside_mm_s": 0.015217292458763465,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99458265304199,
+        "first_seam_mm_s": 0.03792625734327926,
+        "peak_inside_mm_s": 0.019718863887019378,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_N02_B_Q0021",
+      "phase": "PRECONTACT_EARLIER",
+      "previous_mm": 41.996049831419874,
+      "measured_mm": 41.99601768591755,
+      "measured_minus_previous_mm": -3.2145502329439246e-05,
+      "input_sha256": "49d29ab3cd5b7697327bdb1160c3bc4696c1d6e594e92ab7f4146f250d0618c5",
+      "original_noise_sha256": "d76ff10fbf6e5d3dc2dafefcd9716d750f11ff6778e00f0274d5c6636e576502",
+      "control": {
+        "raw_first_width_mm": 41.99424550995313,
+        "first_seam_mm_s": 0.036086429334863945,
+        "peak_inside_mm_s": 0.01165712977591049,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99423314654341,
+        "first_seam_mm_s": 0.03633369752939486,
+        "peak_inside_mm_s": 0.011433296614737909,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_M1000_N02_B_Q0023",
+      "phase": "PRECONTACT_LAST",
+      "previous_mm": 41.99413603418968,
+      "measured_mm": 41.994034717241476,
+      "measured_minus_previous_mm": -0.00010131694820614268,
+      "input_sha256": "90787fc9385b61c04458fa25145b3999d715ecfe5393b5b5b31188bb38af9188",
+      "original_noise_sha256": "b8375719bc9258e79d6954b5ae21cac66ba1a9b185cd27a5da1f841007698777",
+      "control": {
+        "raw_first_width_mm": 41.99456114123705,
+        "first_seam_mm_s": 0.008502140947386216,
+        "peak_inside_mm_s": 0.008078125916105572,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 41.99449714928307,
+        "first_seam_mm_s": 0.0072223018678096995,
+        "peak_inside_mm_s": 0.008327441357869336,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_PARENT_P02_701_Q0047",
+      "phase": "PARENT_BEFORE_GRASP",
+      "previous_mm": 25.17523068632337,
+      "measured_mm": 25.38081975577425,
+      "measured_minus_previous_mm": 0.20558906945088162,
+      "input_sha256": "df79d1083c15c37cb74ca932386b131ddff1602671845624c5d255d1b0a86b9b",
+      "original_noise_sha256": "d4850a16a69f6d89646919c20236c24a7ad56e44c56585227d1ea291a319d603",
+      "control": {
+        "raw_first_width_mm": 25.135532215218962,
+        "first_seam_mm_s": 0.7939694220881338,
+        "peak_inside_mm_s": 38.475174738837914,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 25.311558065722938,
+        "first_seam_mm_s": 2.7265475879913876,
+        "peak_inside_mm_s": 42.177068036433546,
+        "first_seam_rejected": false,
+        "interior_rejected": true,
+        "interior_rejected_atoms": [
+          7
+        ],
+        "original_H40_pass": false
+      }
+    },
+    {
+      "id": "LONG_PARENT_P02_701_Q0065",
+      "phase": "PARENT_AFTER_LIFT20",
+      "previous_mm": 2.0118993692537184,
+      "measured_mm": 19.08416276261813,
+      "measured_minus_previous_mm": 17.072263393364413,
+      "input_sha256": "a5954f7456d5ffac3a668c6191764aa1c81f8ed193d73a3f27b1ebdef47c974e",
+      "original_noise_sha256": "0eb7a3c3d13866fc84da2545aa014e4170573335e85ff33c48908f590d35ee3d",
+      "control": {
+        "raw_first_width_mm": 2.265279820614991,
+        "first_seam_mm_s": 5.067609027225454,
+        "peak_inside_mm_s": 1.747237644836256,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 2.276931810182066,
+        "first_seam_mm_s": 5.300648818566955,
+        "peak_inside_mm_s": 1.8748210241734033,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_PARENT_N02_A_Q0057",
+      "phase": "PARENT_BEFORE_GRASP",
+      "previous_mm": 23.01259774553384,
+      "measured_mm": 23.432965279843454,
+      "measured_minus_previous_mm": 0.42036753430961527,
+      "input_sha256": "e841b5ca0e56175007abe23e3fc70b4b2fc63a1a78a273e0a94e5c42bcf9964c",
+      "original_noise_sha256": "b3d16079883e0c7a37a0d7db0b398532d52b45314dd9f2fbcd009a743d27bca1",
+      "control": {
+        "raw_first_width_mm": 23.607928021661852,
+        "first_seam_mm_s": 11.906605522560287,
+        "peak_inside_mm_s": 33.511255785681065,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 23.727022682076104,
+        "first_seam_mm_s": 14.288498730845312,
+        "peak_inside_mm_s": 33.965009265043285,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_PARENT_N02_A_Q0069",
+      "phase": "PARENT_AFTER_LIFT20",
+      "previous_mm": 2.010941274246174,
+      "measured_mm": 18.943732867111997,
+      "measured_minus_previous_mm": 16.932791592865826,
+      "input_sha256": "93d374076fe6b7a9131569eb836dcf037baf26c3e2525a3ec9544afc8186ab0a",
+      "original_noise_sha256": "3e806b6a14ad7ab0a702b769c8fcd1098a429e9e3096ce4da149e0cee8c7db60",
+      "control": {
+        "raw_first_width_mm": 3.2075904930709203,
+        "first_seam_mm_s": 23.93298437649492,
+        "peak_inside_mm_s": 5.315256311501752,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 3.1702174647779793,
+        "first_seam_mm_s": 23.18552381063611,
+        "peak_inside_mm_s": 5.2865913924700445,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_PARENT_N02_B_Q0057",
+      "phase": "PARENT_BEFORE_GRASP",
+      "previous_mm": 23.613785745040506,
+      "measured_mm": 24.238985687848732,
+      "measured_minus_previous_mm": 0.6251999428082272,
+      "input_sha256": "6e62a226c39196ad51b81226ac8738bdab37174a6d691f50c1526e5964f6b4e6",
+      "original_noise_sha256": "9d3ffeb4c7e21a8ae1ac766d818dac326f738d12595c584d90a85d23bdabcbea",
+      "control": {
+        "raw_first_width_mm": 24.60899077270017,
+        "first_seam_mm_s": 19.904100553193306,
+        "peak_inside_mm_s": 36.45989662908467,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 24.816896295593757,
+        "first_seam_mm_s": 24.06221101106498,
+        "peak_inside_mm_s": 34.0867664751969,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    },
+    {
+      "id": "LONG_PARENT_N02_B_Q0067",
+      "phase": "PARENT_AFTER_LIFT20",
+      "previous_mm": 2.0378040474507015,
+      "measured_mm": 19.109791850727255,
+      "measured_minus_previous_mm": 17.071987803276553,
+      "input_sha256": "79c0b0c45cb3950b82763a4d82e31e88ab861281ae14e9dbe77925444f5bae41",
+      "original_noise_sha256": "04609daf6230df05480e7156084934b5a874c4c51ea7505543c918e7f99d1893",
+      "control": {
+        "raw_first_width_mm": 3.1365280594125995,
+        "first_seam_mm_s": 21.974480239237952,
+        "peak_inside_mm_s": 5.08465883365311,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      },
+      "treatment": {
+        "raw_first_width_mm": 3.130575249389925,
+        "first_seam_mm_s": 21.855424038784466,
+        "peak_inside_mm_s": 4.893435011133207,
+        "first_seam_rejected": false,
+        "interior_rejected": false,
+        "interior_rejected_atoms": [],
+        "original_H40_pass": true
+      }
+    }
+  ],
+  "new_model_forwards": 0,
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0
+}

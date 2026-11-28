@@ -7,6 +7,7 @@ from pathlib import Path
 import mujoco
 import numpy as np
 
+from go2arx5_vla.world_model.fusion_trajectory_adapter import MECHANICAL_TRAVEL_M, WORKING_CLOSED_M, WORKING_OPEN_M
 from go2arx5_vla.world_model.mobile_wbc_reference_v1 import START
 from go2arx5_vla.world_model.multitask_score_v6 import LIFT, OPEN_FRACTION, Score, Task, footprint_inside
 from go2arx5_vla.world_model.multitask_state_v6 import TwoObjectState, packets
@@ -16,8 +17,13 @@ from scripts.pi0292.durable import write
 from v7_place_first_divergence import queries
 
 
-# EEF10 jaw fraction and native two-finger state both use the installed .044 m range.
-OPEN_RANGE_M = .044
+OPEN_RANGE_M = MECHANICAL_TRAVEL_M
+OPEN_COMMAND_M = OPEN_FRACTION * OPEN_RANGE_M
+
+
+def nominal_width_m(fraction):
+    """Use the same working-range map as FiftyMsProgram before retiming and consumption."""
+    return WORKING_CLOSED_M + (WORKING_OPEN_M - WORKING_CLOSED_M) * fraction
 
 
 def observe(case, spec, archived, terminal_tick, entry):
@@ -82,17 +88,16 @@ def consumed_jaw(case, terminal, entry):
             if entry is not None and item["native_end_step"] >= entry:
                 confirmed.append(item["emitted_gripper_width_m"])
         if entry is not None and query["tick"] >= entry:
-            jaw = query["decoded"][:, 9]
+            jaw = nominal_width_m(query["decoded"][:, 9])
             decoded.append((float(jaw[:10].max()), float(jaw.max())))
     require(count == terminal["model_generations"], "Independent raw action count differs from the closed episode")
-    limit = OPEN_FRACTION * OPEN_RANGE_M
     return dict(archived_model_generations=count, queries_started_after_entry=len(decoded),
-                p10_open_proposals=sum(a >= OPEN_FRACTION for a, _ in decoded),
-                h40_open_proposals=sum(b >= OPEN_FRACTION for _, b in decoded),
-                peak_raw_p10_jaw_mm=max((1000 * OPEN_RANGE_M * a for a, _ in decoded), default=None),
-                peak_raw_h40_jaw_mm=max((1000 * OPEN_RANGE_M * b for _, b in decoded), default=None),
+                p10_open_proposals=sum(a >= OPEN_COMMAND_M for a, _ in decoded),
+                h40_open_proposals=sum(b >= OPEN_COMMAND_M for _, b in decoded),
+                peak_raw_p10_jaw_mm=max((1000 * a for a, _ in decoded), default=None),
+                peak_raw_h40_jaw_mm=max((1000 * b for _, b in decoded), default=None),
                 confirmed_intervals_from_entry=len(confirmed),
-                confirmed_open_intervals=sum(w >= limit for w in confirmed),
+                confirmed_open_intervals=sum(w >= OPEN_COMMAND_M for w in confirmed),
                 peak_confirmed_jaw_command_mm=max((1000 * w for w in confirmed), default=None))
 
 
@@ -111,7 +116,8 @@ def audit(case, expected_result):
     jaw = consumed_jaw(case, terminal, entry)
     return dict(case=case.name, result_sha256=expected_result, spec_sha256=lease["spec_sha256"],
                 first_region_entry_tick=entry, native_ticks=tick, original_score=archived, jaw=jaw, physical=physical,
-                open_fraction=OPEN_FRACTION, full_open_command_mm=1000 * OPEN_FRACTION * OPEN_RANGE_M,
+                open_fraction=OPEN_FRACTION, full_open_command_mm=1000 * OPEN_COMMAND_M,
+                raw_jaw_working_range_mm=[1000 * WORKING_CLOSED_M, 1000 * WORKING_OPEN_M],
                 lift_threshold_mm=1000 * LIFT, uses_eval_truth_as_model_input=False,
                 new_integrations=0, new_model_forwards=0, new_updates=0)
 
@@ -175,14 +181,18 @@ def release_transition(case, expected_result, registration):
     witness = interval["accepted_boundary"]
     require(witness["exact_receiver_knot"] and witness["accepted_wire_sha256"] == interval["wire_sha256"],
             "Release command needs the actual consumed wire witness")
+    jaw = nominal_width_m(query["decoded"][:, 9])
     return dict(native=authority, registration_sha256=sha(registration), journal_sha256=sha(journal),
                 transition_samples=samples, jaw=dict(query=query["index"], query_tick=query["tick"],
-                  raw_max_P10_jaw_mm=1000 * OPEN_RANGE_M * float(query["decoded"][:10, 9].max()),
-                  raw_max_H40_jaw_mm=1000 * OPEN_RANGE_M * float(query["decoded"][:, 9].max()),
+                  raw_max_P10_jaw_mm=1000 * float(jaw[:10].max()),
+                  raw_max_H40_jaw_mm=1000 * float(jaw.max()),
+                  reaches_open_threshold_in_P10=bool(jaw[:10].max() >= OPEN_COMMAND_M),
+                  reaches_open_threshold_in_H40=bool(jaw.max() >= OPEN_COMMAND_M),
                   interval_start_tick=interval["native_start_step"], interval_end_tick=interval["native_end_step"],
                   emitted_width_mm=1000 * interval["emitted_gripper_width_m"],
                   width_before_query_mm=1000 * query["previous_width_m"],
-                  full_open_command_mm=1000 * OPEN_FRACTION * OPEN_RANGE_M),
+                  full_open_command_mm=1000 * OPEN_COMMAND_M),
+                raw_jaw_working_range_mm=[1000 * WORKING_CLOSED_M, 1000 * WORKING_OPEN_M],
                 uses_eval_truth_as_model_input=False, new_integrations=0, new_model_forwards=0, new_updates=0)
 
 
