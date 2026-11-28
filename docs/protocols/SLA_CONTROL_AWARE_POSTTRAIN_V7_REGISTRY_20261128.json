@@ -1,0 +1,403 @@
+{
+  "schema": "sla-control-aware-posttrain-v7-v31",
+  "date_sgt": "2026-11-29",
+  "status": "PLAN_REVISION_WITH_SEPARATELY_PINNED_ZERO_UPDATE_ACTUALS",
+  "previous_plan_commit": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "evidence": {
+    "execution": "07c433dd24ad359933a0b4c7381a10e12373abf2",
+    "R4_native_baseline": {
+      "hold": [
+        2,
+        2
+      ],
+      "independent_hold": [
+        2,
+        4
+      ],
+      "grasp": [
+        4,
+        4
+      ],
+      "lift": [
+        3,
+        4
+      ],
+      "in_zone": [
+        2,
+        4
+      ],
+      "place": [
+        0,
+        4
+      ],
+      "place_stop": [
+        0,
+        4
+      ]
+    },
+    "reports": {
+      "postreset": "reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/V71_POSTRESET_EXPERT_FIXED37_RESULT_20261129.md",
+      "early214": "reports/SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6/V71_EARLY214_CAUSAL_CONTEXT_20261129.md"
+    },
+    "postreset_actual": {
+      "new_frozen_forwards_in_completed_batch": 66,
+      "reused_hybrid": 8,
+      "reused_baselines": 222,
+      "total_outputs": 296,
+      "conditions": 37,
+      "independent_repeats": false,
+      "R4_raw_illegal": 5,
+      "hybrid_raw_illegal": 5,
+      "new_illegal_vs_R4": [],
+      "Query72_seam_mm_s": 30.407370185562833,
+      "Query72_full_H40_mm_s": 36.23221785345621,
+      "Query84_p10_up_mm": 3.851235767457828,
+      "teacher_xyz_relative_change": 0.020825790473168126,
+      "native_admission": false,
+      "is_frozen_expert_training_endpoint": false
+    },
+    "physical_audit": {
+      "episodes": 96,
+      "windows": 8031,
+      "complete": true,
+      "repeat_if_unchanged": false
+    },
+    "causal_context": {
+      "original_windows": 8031,
+      "new_early_windows": 214,
+      "combined_windows": 8245,
+      "combined_order_and_previous_command_verified": true,
+      "controller_selected_reference_directly_observed": false,
+      "A2_model_qualified": false
+    },
+    "data": {
+      "A93_R3_windows": 8031,
+      "proposed_C1_windows": 8245,
+      "early_starts": 2,
+      "early_windows": 214,
+      "early_independent_layouts": 0,
+      "Recovery_attempts": 17,
+      "Recovery_admitted": 6,
+      "Recovery_windows": 369,
+      "C1_real_training_visits": 0,
+      "full_combined_RGB_reader_qualified": false
+    }
+  },
+  "invariants": {
+    "wbc_frozen": true,
+    "l1_frozen": true,
+    "physics_dt_s": 0.002,
+    "action_dt_s": 0.05,
+    "horizon": 40,
+    "executed_prefix": 10,
+    "g7_limit_mm_s": 40,
+    "student_gt": false,
+    "hard_stop_post_integrations": 0,
+    "protected_train": false,
+    "no_hot_change": true,
+    "no_duplicate_jobs": true
+  },
+  "dispatch": {
+    "v65": "CLOSED_NO_EXTENSION",
+    "v7_a": "CLOSED_NO_EXTENSION",
+    "b6": "CLOSED_AT_250_NO_500",
+    "s1": "NEGATIVE_NO_STATISTICS_REPLACEMENT",
+    "source608": "PREPARE_ONLY",
+    "vanda": "PAUSED",
+    "priority": [
+      "FROZEN_EXPERT_RETENTION",
+      "C1_EARLY_RECOVERY",
+      "A2_TRACK",
+      "EVIDENCE_SELECTED_S2_OR_B2_OR_B4",
+      "INDEPENDENT_COMBINATION_CONFIRMATION"
+    ],
+    "parallel_zero_update": [
+      "C1_COMBINED_READER",
+      "A2_INTERFACE",
+      "S2_INTERFACE",
+      "BLUE_RED_WHOLE_BODY_ATTRIBUTION",
+      "MULTI_BATCH_GRADIENT_ROSTER"
+    ],
+    "new_authority": false
+  },
+  "frozen_expert": {
+    "status": "CPU_PREPARED_REAL_GPU_QUALIFICATION_MISSING",
+    "parent": "R4-200",
+    "shared_expert_parameters": 427932672,
+    "private_parameters": 6498400,
+    "scope": "SHARED_EXPERT_AND_VLM_LORA_FROZEN_PRIVATE_GO2_ROBODOJO_LIBERO_IO_TRAINABLE",
+    "freeze_adamw_decay": true,
+    "shared_adam_moments_unchanged": true,
+    "shared_adam_count": 0,
+    "private_adam_count": "ACTUAL_NEW_UPDATES",
+    "clip": {
+      "limit": 1.0,
+      "active_private_partition_only": true,
+      "record_original_full_gradient_norm": true,
+      "record_active_gradient_norm": true,
+      "record_actual_clip_scale": true,
+      "changed_update_scale_is_part_of_treatment": true
+    },
+    "minimum_new_engineering_updates": 2,
+    "engineering_allocated": 0,
+    "independent_Core_complete_restore_required": true,
+    "formal_steps": 250,
+    "formal_allocated_by_this_revision": 0,
+    "reuse_dense_B6_zero250_only_if_exact_matching": true,
+    "retrain_completed_control": false,
+    "batch": {
+      "old": 48,
+      "new": 46,
+      "R3": 2,
+      "robodojo": 16,
+      "libero": 16
+    },
+    "FM_batch": 128,
+    "aux": {
+      "count": 4,
+      "weight": 0.375,
+      "original_slots": [
+        0,
+        1,
+        48,
+        49
+      ]
+    },
+    "lr": {
+      "peak": 8.481070829156122e-07,
+      "warmup": 50,
+      "cosine_end": 500,
+      "final_fraction": 0.1,
+      "use_original_prefix": true
+    },
+    "step0_and_paths": [
+      "FM",
+      "DEPLOYMENT_H40",
+      "AUXILIARY_H40"
+    ],
+    "screen": {
+      "new_illegal_vs_matched_R4_legal": 0,
+      "full_H40_gripper_limit_mm_s": 40,
+      "Query84_up_min_R4_ratio": 0.95,
+      "teacher_LIFT_up_min_R4_ratio_each": 0.9,
+      "teacher_XYZ_mean_max_R4_ratio": 1.05,
+      "teacher_phase_XYZ_max_rule": "max(R4*1.10,R4+0.02mm)",
+      "teacher_SO3_mean_max_rule": "max(R4*1.05,R4+0.005deg)",
+      "teacher_jaw_mean_max_rule": "max(R4*1.05,R4+0.05mm)",
+      "source_MAE_alert_relative": 0.1,
+      "language_direction_without_geometry": "MISSING_NOT_PASS",
+      "thresholds_apply_to_future_training_endpoint_only": true,
+      "not_native_admission": true
+    }
+  },
+  "additional_TRAIN": {
+    "status": "DESIGN_ONLY_NO_ACTUAL_ROSTER_OR_NOISE_BYTES_YET",
+    "proposed_states": 12,
+    "proposed_complete_PLACE_episodes": 4,
+    "phases": [
+      "CLOSE",
+      "LIFT",
+      "OPEN"
+    ],
+    "exclude_original37_episodes": true,
+    "noise_draws_per_state": 3,
+    "models": [
+      "R4",
+      "NEW_CANDIDATE"
+    ],
+    "maximum_proposed_frozen_forwards": 72,
+    "newly_allocated_forwards": 0,
+    "select_before_candidate_outputs": true
+  },
+  "C1": {
+    "status": "BANK_CONTEXT_PREPARED_COMBINED_RGB_READER_AND_REAL_GPU_QUAL_MISSING",
+    "steps_each": 250,
+    "shared_slots": 94,
+    "contrast_slots": 2,
+    "batch": {
+      "old": 48,
+      "new_common": 44,
+      "original_R3": 2,
+      "contrast": 2,
+      "robodojo": 16,
+      "libero": 16
+    },
+    "scope_rule": "SAME_QUALIFIED_RETENTION_SCOPE_BOTH_ARMS",
+    "same_actual_FM_noise_tau_and_aux_noise": true,
+    "aux_original_rows_unchanged": true,
+    "control_contrast": {
+      "episodes": 1,
+      "unique_windows": 61,
+      "planned_visits": 500,
+      "maximum_single_window_repeats": 45
+    },
+    "treatment_contrast": {
+      "episodes": 2,
+      "unique_windows": 96,
+      "planned_visits": 500,
+      "maximum_single_window_repeats": 25
+    },
+    "actual_training_visits": 0,
+    "claim": "NET_EFFECT_OF_CURRENT_EARLY_CORRECTION_PACKAGE_NOT_ISOLATED_DAGGER_MECHANISM"
+  },
+  "C2": {
+    "status": "AUDIT_STRATA_PREPARED_NO_BANK_CHANGE_NO_TRAINING",
+    "early_population": {
+      "handoff": 2,
+      "first_0_2_seconds": 8,
+      "later_path": 148,
+      "lower_open_withdraw": 56
+    },
+    "C1_planned_500_visits": {
+      "handoff": 11,
+      "first_0_2_seconds": 27,
+      "later_path": 462,
+      "lower_open_withdraw": 0
+    },
+    "later_path_does_not_prove_stable_recovery": true
+  },
+  "A2": {
+    "status": "8245_CONTEXT_READY_MODEL_INTERFACE_AND_REAL_QUAL_MISSING",
+    "dimension": 6,
+    "definition": "ACCEPTED_REFERENCE_MINUS_ACTUAL_TCP_FIXED_EPISODE_MOUNT_XYZ_M_AND_SO3_LOG_RAD",
+    "no_future_or_GT_model_input": true,
+    "zero_initialized_projection": true,
+    "original_state_tokens_unchanged": true,
+    "action_stats_unchanged": true,
+    "steps_each": 250,
+    "control": "SAME_STRUCTURE_NEUTRAL_CONDITION",
+    "treatment": "CAUSAL_REAL_TRACKING_RESIDUAL",
+    "required_paths": [
+      "FM",
+      "DEPLOYMENT",
+      "AUX"
+    ],
+    "check_information_used_in_position_and_rotation_outputs": true
+  },
+  "S2": {
+    "status": "PREPARE_ONLY",
+    "dimension": 7,
+    "validity_required": true,
+    "original_tokens_preserved": true,
+    "continuous_unclipped_fixed_TRAIN_physical_scale": true,
+    "zero_init_step0_equal": true,
+    "steps_each": 250,
+    "separate_from_A2": true
+  },
+  "loss": {
+    "L0_real_batch_roster_proposed": [
+      3,
+      5
+    ],
+    "shadow_updates_count_as_real": true,
+    "B2_P10_weight": 2.0,
+    "B2_suffix_weight": 1.0,
+    "normalize_by_actual_valid_weight": true,
+    "B4_aux_total": 4,
+    "B4_weight": 0.375,
+    "B4_replace_one_full_H40_source_only": true,
+    "do_not_combine_B2_B4": true
+  },
+  "whole_body": {
+    "read_only_cases": [
+      "D1_RED_15",
+      "D1_BLUE_17",
+      "D1_RED_19"
+    ],
+    "selected_reference_missing_if_not_directly_measured": true,
+    "no_WBC_tuning": true,
+    "no_fixed_height_compensation": true,
+    "blue_failure_preserved": true
+  },
+  "evaluation": {
+    "levels": [
+      "E0_ENGINEERING",
+      "E1_FIXED_AND_ADDITIONAL_TRAIN",
+      "E2_DIRECTIONAL_NATIVE",
+      "E3_FULL_NATIVE_AND_INDEPENDENT_LAYOUT"
+    ],
+    "existing_four_slot_reassignment": "PROPOSED_CONDITIONAL_NOT_STARTED",
+    "conditions_each": [
+      "N03_202",
+      "P02_702"
+    ],
+    "arms": [
+      "DENSE_CONTROL",
+      "FIRST_QUALIFIED_RETENTION_CANDIDATE"
+    ],
+    "total_existing_slots": 4,
+    "direction_only": true,
+    "full_panel_each": 10,
+    "extra_full_if_exact_reuse": 16,
+    "extra_full_if_not_reusable": 20,
+    "C1_separate_pair_total": 20,
+    "independent_confirmation_total_proposed": 12,
+    "extra_native_allocated": 0
+  },
+  "gate": {
+    "hold": [
+      2,
+      2
+    ],
+    "independent_hold_min": 2,
+    "place_grasp": 4,
+    "place_lift_min": 3,
+    "place_in_zone_min": 2,
+    "place_complete_preferred": 1,
+    "new_hard_safety_stop": 0,
+    "source_mae_alert_relative": 0.1,
+    "mechanism_not_promotion": true,
+    "require_complete_panel": true,
+    "independent_confirmation_required_for_generalization": true
+  },
+  "budget": {
+    "formal_actual": 5100,
+    "formal_cap": 8000,
+    "engineering_actual": 24,
+    "engineering_cap": 24,
+    "engineering_extra_proposed_first": 2,
+    "engineering_proposed_cap_not_effective": 26,
+    "engineering_extra_allocated": 0,
+    "student_actual": 46,
+    "student_cap": 50,
+    "student_remaining": 4,
+    "Recovery_actual": 17,
+    "Recovery_cap": 20,
+    "Recovery_remaining": 3,
+    "Recovery_reserved_for_next_qualified_student": 2,
+    "Recovery_flexible_conditional": 1,
+    "gpu_hours_original": 320,
+    "deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "formal_candidate_allocation": [
+      250,
+      500,
+      500,
+      500,
+      500
+    ],
+    "formal_candidate_total": 2250,
+    "formal_if_all_candidates": 7350,
+    "formal_reserve_if_all_candidates": 650,
+    "candidate_allocations_are_not_new_authority": true,
+    "live_reconcile_required": true,
+    "reset": false
+  },
+  "publication_actual_new_actions": {
+    "PBS": 0,
+    "formal_updates": 0,
+    "engineering_updates": 0,
+    "native_starts": 0,
+    "model_forwards": 0,
+    "note": "66 forwards belong to the already completed original registered batch; this revision reads them without repeating"
+  },
+  "links": {
+    "plan": "SLA_CONTROL_AWARE_POSTTRAIN_V7_PLAN_20261128.md",
+    "runbook": "SLA_CONTROL_AWARE_POSTTRAIN_V7_RUNBOOK_20261128.md"
+  },
+  "completion_requirements": [
+    "RETAIN_R4_NATIVE_ABILITY",
+    "COMPLETE_AUTONOMOUS_PLACE",
+    "INDEPENDENT_CONFIRMATION"
+  ],
+  "goal_achieved": false
+}
