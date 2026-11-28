@@ -47,7 +47,7 @@ def deployment_h40(graph, shared, target, frozen, observation, noise, condition,
     return policy.sample_actions(rng, observation, num_steps=10, noise=noise)
 
 
-def auxiliary_h40(graph, fields):
+def auxiliary_h40(graph, fields, *, rematerialize=True):
     """Keep the original differentiable cached 10-step solver and explicit noise."""
     import jax
     import jax.numpy as jnp
@@ -63,7 +63,7 @@ def auxiliary_h40(graph, fields):
                 field = fields["cache_field"](policy, *prefix, value, tau)
                 return (value + (-1.0 / 10) * field, tau + (-1.0 / 10)), None
 
-            body = jax.checkpoint(step, prevent_cse=False)
+            body = jax.checkpoint(step, prevent_cse=False) if rematerialize else step
             (value, _), _ = jax.lax.scan(body, (noise, jnp.asarray(1., jnp.float32)), xs=None, length=10)
             return value
 
