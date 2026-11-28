@@ -1,0 +1,358 @@
+{
+  "scope": "ARCHIVED_DIRECT_PHYSICS_AND_CONTROLLER_RECEIPTS",
+  "divergence_sha256": "ae851efe8c5122972f7c17578f15507966fa1417c599d2f3ece23ad3f50e76c0",
+  "base_delivery_columns": [
+    "previous_observation_tick",
+    "received_monotonic_s",
+    "left_observation_receive_s",
+    "right_observation_receive_s",
+    "interval_base_count",
+    "interval_arm_count",
+    "message_data_0",
+    "message_data_1",
+    "message_data_2",
+    "message_data_3",
+    "message_data_4",
+    "message_data_5"
+  ],
+  "arm_delivery_columns": [
+    "previous_observation_tick",
+    "received_monotonic_s",
+    "left_observation_receive_s",
+    "right_observation_receive_s",
+    "header_stamp_ns",
+    "q_x5_joint1",
+    "q_x5_joint2",
+    "q_x5_joint3",
+    "q_x5_joint4",
+    "q_x5_joint5",
+    "q_x5_joint6",
+    "qdot_x5_joint1",
+    "qdot_x5_joint2",
+    "qdot_x5_joint3",
+    "qdot_x5_joint4",
+    "qdot_x5_joint5",
+    "qdot_x5_joint6"
+  ],
+  "base_command_native_stamp_available": false,
+  "cases": [
+    {
+      "cell": "P01_701",
+      "ready_tick": 5703,
+      "stop_tick": 22378,
+      "common_native_samples": 5559,
+      "last_common_tick": 22378,
+      "sample_gap_ticks": 3,
+      "arm_joint_names": [
+        "x5_joint1",
+        "x5_joint2",
+        "x5_joint3",
+        "x5_joint4",
+        "x5_joint5",
+        "x5_joint6"
+      ],
+      "r4_3k_max_absolute_arm_difference_deg": [
+        1.0789427543012768,
+        1.306994564567302,
+        7.671916673053804,
+        11.048026615335464,
+        1.9752957782614422,
+        1.538146562775659
+      ],
+      "controller_delivery": {
+        "R4_DEV_0200": {
+          "windows": {
+            "1_arm_1_base": 4726,
+            "2_arm_2_base": 848,
+            "0_arm_0_base": 851,
+            "2_arm_1_base": 88,
+            "1_arm_2_base": 38,
+            "1_arm_0_base": 35,
+            "0_arm_1_base": 85
+          },
+          "captured_base_commands": 6671,
+          "captured_arm_requests": 6671,
+          "unique_arm_stamps": 6671,
+          "input_sha256": "da69c891408d09bc28ea0a94f467f7590f52064100ccdebc40df3adda27d7def",
+          "physics_sha256": "c9bf46bf47c6a3fbbde33137eb8a6ce849a574e8c27d47a9d423e008e938916a",
+          "native_samples": 5559
+        },
+        "RECOVERY1000": {
+          "windows": {
+            "1_arm_1_base": 4270,
+            "2_arm_2_base": 960,
+            "0_arm_0_base": 973,
+            "1_arm_0_base": 66,
+            "0_arm_1_base": 155,
+            "1_arm_2_base": 79,
+            "2_arm_1_base": 168
+          },
+          "captured_base_commands": 6671,
+          "captured_arm_requests": 6671,
+          "unique_arm_stamps": 6671,
+          "input_sha256": "763962176d00d98cf3f3e00a0effbd5e073aeb1b1dcdd8a06fb463faac41e9b4",
+          "physics_sha256": "58a7c1fa2d60a3ac7234b7eea1e9710c686f9ba83c7c8c38d57f466c8973b13f",
+          "native_samples": 5559
+        },
+        "RECOVERY3000": {
+          "windows": {
+            "2_arm_1_base": 207,
+            "0_arm_1_base": 188,
+            "1_arm_1_base": 4029,
+            "2_arm_2_base": 1022,
+            "0_arm_0_base": 1041,
+            "1_arm_0_base": 81,
+            "1_arm_2_base": 100
+          },
+          "captured_base_commands": 6668,
+          "captured_arm_requests": 6668,
+          "unique_arm_stamps": 6668,
+          "input_sha256": "796084f1e4e7e6ea79a0528a11d496d4dd3f64265574d3ac939a2925110c83d3",
+          "physics_sha256": "9804b94dab110b2387b8331d560b2b7b25ba8a1a5acf99b1dc12337da0572e08",
+          "native_samples": 5559
+        }
+      },
+      "file": "P01_701-OBSERVED-NATIVE-CHANNELS.npz",
+      "sha256": "2c25f86ae9ec821ad3d8fe33c235dc09c523705a09887f1b4ecef603af495f29"
+    },
+    {
+      "cell": "P02_702",
+      "ready_tick": 5703,
+      "stop_tick": 19768,
+      "common_native_samples": 4689,
+      "last_common_tick": 19768,
+      "sample_gap_ticks": 3,
+      "arm_joint_names": [
+        "x5_joint1",
+        "x5_joint2",
+        "x5_joint3",
+        "x5_joint4",
+        "x5_joint5",
+        "x5_joint6"
+      ],
+      "r4_3k_max_absolute_arm_difference_deg": [
+        0.9718783268052821,
+        1.3667877089999652,
+        1.9506708418053074,
+        3.3076345919712664,
+        1.662882827852145,
+        1.2483327905674415
+      ],
+      "controller_delivery": {
+        "R4_DEV_0200": {
+          "windows": {
+            "2_arm_1_base": 92,
+            "0_arm_1_base": 86,
+            "1_arm_1_base": 3711,
+            "2_arm_2_base": 834,
+            "0_arm_0_base": 840,
+            "1_arm_2_base": 36,
+            "1_arm_0_base": 30
+          },
+          "captured_base_commands": 5629,
+          "captured_arm_requests": 5629,
+          "unique_arm_stamps": 5629,
+          "input_sha256": "77e7ea81cf224874b1ea501c8e3eab51d808483714a397ba0938d4a23b9072b1",
+          "physics_sha256": "8d4d7b5dac156dd89206fdb3f550323f0f4ee3fbc949a7d08a358b85a808b80f",
+          "native_samples": 4689
+        },
+        "RECOVERY1000": {
+          "windows": {
+            "1_arm_1_base": 3518,
+            "2_arm_2_base": 854,
+            "0_arm_0_base": 861,
+            "1_arm_0_base": 46,
+            "0_arm_1_base": 144,
+            "1_arm_2_base": 53,
+            "2_arm_1_base": 152
+          },
+          "captured_base_commands": 5628,
+          "captured_arm_requests": 5629,
+          "unique_arm_stamps": 5629,
+          "input_sha256": "6742fe4d8303b8a77fc502ba34883c1e38721c24853fe9585abee63bbe72a2b5",
+          "physics_sha256": "40520ff63614d4762d32a325a3f3e109a4276f08d028b9fec74c62fd26eaf959",
+          "native_samples": 4689
+        },
+        "RECOVERY3000": {
+          "windows": {
+            "1_arm_1_base": 3443,
+            "2_arm_2_base": 824,
+            "0_arm_0_base": 848,
+            "1_arm_0_base": 72,
+            "1_arm_2_base": 96,
+            "2_arm_1_base": 183,
+            "0_arm_1_base": 159
+          },
+          "captured_base_commands": 5625,
+          "captured_arm_requests": 5625,
+          "unique_arm_stamps": 5625,
+          "input_sha256": "78b25ab925fcb44e5119cd5ecf377e64a57a47fdde2149246d1dff3018f74df5",
+          "physics_sha256": "76246dfb496ebd7f3cfc4052f1b9dbb25fc2a0365ab6b6af95c374415406fccb",
+          "native_samples": 4689
+        }
+      },
+      "file": "P02_702-OBSERVED-NATIVE-CHANNELS.npz",
+      "sha256": "7efab009a48f8f043288b28feaff88613d16a8dc232de934c4cd00e4b6b8ea49"
+    },
+    {
+      "cell": "P02_701",
+      "ready_tick": 5703,
+      "stop_tick": 17518,
+      "common_native_samples": 3827,
+      "last_common_tick": 17182,
+      "sample_gap_ticks": 3,
+      "arm_joint_names": [
+        "x5_joint1",
+        "x5_joint2",
+        "x5_joint3",
+        "x5_joint4",
+        "x5_joint5",
+        "x5_joint6"
+      ],
+      "r4_3k_max_absolute_arm_difference_deg": [
+        1.1267469459345008,
+        1.6044619793404074,
+        1.214994473435414,
+        2.260031718420455,
+        1.4245022110674972,
+        0.9630532067311727
+      ],
+      "controller_delivery": {
+        "R4_DEV_0200": {
+          "windows": {
+            "1_arm_1_base": 3510,
+            "2_arm_1_base": 73,
+            "0_arm_1_base": 62,
+            "2_arm_2_base": 511,
+            "0_arm_0_base": 522,
+            "1_arm_0_base": 19,
+            "1_arm_2_base": 30
+          },
+          "captured_base_commands": 4727,
+          "captured_arm_requests": 4727,
+          "unique_arm_stamps": 4727,
+          "input_sha256": "7b37eed262919ab3d33d3c6e8dc53b47c6b9193a0690ccfff5496232b94f3587",
+          "physics_sha256": "fa4e1ef1c8eb10ccc3bddef810ebe47c7f3dd703f2902b426636f066ec80ffc1",
+          "native_samples": 3939
+        },
+        "RECOVERY1000": {
+          "windows": {
+            "0_arm_0_base": 677,
+            "1_arm_1_base": 2925,
+            "2_arm_1_base": 110,
+            "0_arm_1_base": 106,
+            "2_arm_2_base": 672,
+            "1_arm_0_base": 49,
+            "1_arm_2_base": 53
+          },
+          "captured_base_commands": 4591,
+          "captured_arm_requests": 4591,
+          "unique_arm_stamps": 4591,
+          "input_sha256": "41d013a0a88c228dc544df14939ac9ad39f26366610079a4f19f274902c271b5",
+          "physics_sha256": "eef5ea679c5dd14488e29a1c9271cec03b637d4a7e8fab858ecd286eda2de7dc",
+          "native_samples": 3828
+        },
+        "RECOVERY3000": {
+          "windows": {
+            "0_arm_0_base": 711,
+            "2_arm_2_base": 718,
+            "1_arm_1_base": 2904,
+            "1_arm_0_base": 64,
+            "1_arm_2_base": 56,
+            "0_arm_1_base": 140,
+            "2_arm_1_base": 132
+          },
+          "captured_base_commands": 4724,
+          "captured_arm_requests": 4724,
+          "unique_arm_stamps": 4724,
+          "input_sha256": "d13be9caca16ff7fa9be345ffd7a6708f1e2c852063a07cae3b76823d08d25d3",
+          "physics_sha256": "6eaca682628f301942f09c3cf29037d214b9ca81c2269c44f945b44de724ed92",
+          "native_samples": 3939
+        }
+      },
+      "file": "P02_701-OBSERVED-NATIVE-CHANNELS.npz",
+      "sha256": "00ebd114858a77c52f82a8da94ba0b1cf76fdbc0b938e7ea54506ad257eacd43"
+    },
+    {
+      "cell": "P01_702",
+      "ready_tick": 5703,
+      "stop_tick": 19979,
+      "common_native_samples": 4759,
+      "last_common_tick": 19978,
+      "sample_gap_ticks": 3,
+      "arm_joint_names": [
+        "x5_joint1",
+        "x5_joint2",
+        "x5_joint3",
+        "x5_joint4",
+        "x5_joint5",
+        "x5_joint6"
+      ],
+      "r4_3k_max_absolute_arm_difference_deg": [
+        0.9556489914666506,
+        1.429419582882718,
+        1.6147244194019579,
+        3.380618688676228,
+        2.5077664862427973,
+        1.2615924429861625
+      ],
+      "controller_delivery": {
+        "R4_DEV_0200": {
+          "windows": {
+            "1_arm_1_base": 3907,
+            "2_arm_2_base": 799,
+            "1_arm_0_base": 24,
+            "1_arm_2_base": 27,
+            "0_arm_0_base": 801,
+            "0_arm_1_base": 75,
+            "2_arm_1_base": 78
+          },
+          "captured_base_commands": 5712,
+          "captured_arm_requests": 5712,
+          "unique_arm_stamps": 5712,
+          "input_sha256": "ee0322eb80c39e245efbe503a59c8ef3ddf1d19a6882d00aefb798df273c828b",
+          "physics_sha256": "064b57549bfce2f698ec5650009f5e69c5a63116204e8688013e01563eb80d50",
+          "native_samples": 4759
+        },
+        "RECOVERY1000": {
+          "windows": {
+            "1_arm_1_base": 3513,
+            "2_arm_2_base": 842,
+            "0_arm_0_base": 838,
+            "1_arm_0_base": 66,
+            "1_arm_2_base": 62,
+            "0_arm_1_base": 197,
+            "2_arm_1_base": 193
+          },
+          "captured_base_commands": 5711,
+          "captured_arm_requests": 5711,
+          "unique_arm_stamps": 5711,
+          "input_sha256": "b95279785f203bfd63f0143f1c4f7d16baef138ed9d231e7310f65a53e59605e",
+          "physics_sha256": "773c1fd00735f79a46013363439f027912c9c06b63ecbc1cd82a86390a981963",
+          "native_samples": 4759
+        },
+        "RECOVERY3000": {
+          "windows": {
+            "1_arm_1_base": 3760,
+            "2_arm_1_base": 152,
+            "1_arm_2_base": 68,
+            "0_arm_0_base": 812,
+            "0_arm_1_base": 161,
+            "2_arm_2_base": 821,
+            "1_arm_0_base": 77
+          },
+          "captured_base_commands": 5851,
+          "captured_arm_requests": 5851,
+          "unique_arm_stamps": 5851,
+          "input_sha256": "31ddc8d2def4d5362dc4b54bd6b5f4bc89c439658122ad86ddcdc60a7c507b30",
+          "physics_sha256": "82cc1fc224ac3baf03c04e538752f1bc484c03762d087dc725b681bb9fa95733",
+          "native_samples": 4760
+        }
+      },
+      "file": "P01_702-OBSERVED-NATIVE-CHANNELS.npz",
+      "sha256": "9d47a4950dbb726dbcba35e89c79ddf068bf4a759cec19c26625a7ef6981015d"
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0
+}
