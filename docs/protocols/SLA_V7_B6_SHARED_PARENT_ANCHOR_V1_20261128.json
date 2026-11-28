@@ -1,0 +1,76 @@
+{
+  "schema": "V7_B6_SHARED_L2SP_V1",
+  "parent": "R4-200",
+  "parent_receipt": "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb",
+  "rationale": "Fixed real TRAIN observation and actual noise show both V7-A arms moving a formerly legal jaw seam across 40 mm/s.",
+  "changes": [
+    "ADD_LAMBDA_TIMES_SUM_SQUARED_DISTANCE_TO_R4_ON_INHERITED_TRAINABLE_SHARED_EXPERT_BEFORE_ORIGINAL_GLOBAL_CLIP"
+  ],
+  "input": "ORIGINAL_V7_NEUTRAL_PREVIOUS_COMMAND_PATH",
+  "fixed_bank_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+  "data": "ORIGINAL_A93_RECOVERY3",
+  "fm_batch": {
+    "old": 48,
+    "new": 46,
+    "recovery": 2,
+    "robodojo": 16,
+    "libero": 16
+  },
+  "auxiliary": {
+    "old": 2,
+    "new": 2,
+    "weight": 0.375
+  },
+  "calibration": {
+    "source": "CONTROL_NEUTRAL_STEP0250",
+    "batch_step": 251,
+    "ratio": 0.1,
+    "formula": "lambda=0.10*norm(original_weighted_shared_gradient)/norm(2*(shared_at_step250-R4_shared))",
+    "zero_drift_division": "FORBIDDEN",
+    "evaluation_data": false,
+    "lambda_recalibration_during_formal": false
+  },
+  "qualification": {
+    "engineering_updates": 2,
+    "formal_updates": 0,
+    "pbs_seconds": 3600,
+    "checks": [
+      "ZERO_PENALTY_AT_R4",
+      "ZERO_LAMBDA_IDENTICAL_ORIGINAL_UPDATE",
+      "POSITIVE_PENALTY_IN_REAL_UPDATE_2",
+      "FINITE_GRADIENTS",
+      "ORIGINAL_GLOBAL_CLIP",
+      "FROZEN_IDENTITY",
+      "COMPLETE_SNAPSHOT_RESTORE",
+      "INDEPENDENT_CORE_RESTORE"
+    ]
+  },
+  "formal_candidate": {
+    "first_dispatch_steps_each": 100,
+    "first_dispatch_total_updates": 200,
+    "continuation_to_500": "AFTER_REGISTERED_TRAIN_DRIFT_AND_CAPABILITY_RETENTION_REVIEW",
+    "arms": [
+      "LAMBDA_ZERO",
+      "CALIBRATED_POSITIVE"
+    ],
+    "steps_each": 500,
+    "checkpoint_steps": [
+      100,
+      250,
+      500
+    ],
+    "dispatch": "AFTER_QUALIFICATION_COMPLETE",
+    "parent": "R4-200",
+    "fresh_optimizer": true,
+    "noise": "ORIGINAL_SHARED_ACTUAL_CUDA_STREAM",
+    "parameter_scope": "UNCHANGED_V7_A_EXCEPT_SHARED_ANCHOR_OBJECTIVE",
+    "midpoint_use": "RECOVERY_AND_REGISTERED_TRAIN_DIAGNOSTICS"
+  },
+  "native_confirmation": "REQUIRES_SEPARATE_EXPLICIT_ROSTER_AND_CURRENT_AVAILABLE_SAMPLE_ACCOUNTING",
+  "state_statistics_changes": 0,
+  "action_statistics_changes": 0,
+  "ema_changes": 0,
+  "vision_trainability_changes": 0,
+  "safety_changes": 0,
+  "cpu_qualification_sha256": "c6e3274d4260f0f6746a996ea7adef9aed61f5c71b4d52e1d81e5adbc792b0b5"
+}

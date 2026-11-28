@@ -1,0 +1,3627 @@
+{
+  "index_sha256": "9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56",
+  "state_statistics_sha256": "a9db709b66df6f267107d5d4d8458fd4a4e4604be2d427e78d922b3f4aed4b35",
+  "lower_bounds_physical": [
+    284.36537665174427,
+    -65.8823198173901,
+    211.3168357518853,
+    -2.0480443251712717,
+    8.397631308383918,
+    -0.7517022791241922,
+    18.943608045101282
+  ],
+  "upper_bounds_physical": [
+    484.3761207791083,
+    164.36264071361538,
+    286.1539986525215,
+    -0.9675925528540568,
+    10.070407802981611,
+    0.16874313013015832,
+    42.01063960472502
+  ],
+  "channels": [
+    "x",
+    "y",
+    "z",
+    "rotvec_x",
+    "rotvec_y",
+    "rotvec_z",
+    "measured_gripper"
+  ],
+  "units": [
+    "mm",
+    "mm",
+    "mm",
+    "degree",
+    "degree",
+    "degree",
+    "mm"
+  ],
+  "by_group_and_phase": {
+    "old": {
+      "ALL": {
+        "windows": 4450,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 228,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 150,
+                "minimum": 483.6041914099158,
+                "median": 484.5314350506052,
+                "maximum": 491.8012419449459
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 206,
+            "outer_bins": {
+              "-1": {
+                "count": 241,
+                "minimum": -79.15323049670508,
+                "median": -66.28377632745978,
+                "maximum": -65.88508618747281
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 256,
+            "outer_bins": {
+              "-1": {
+                "count": 25,
+                "minimum": 199.0274768549699,
+                "median": 209.62777495564268,
+                "maximum": 211.25494080477324
+              },
+              "255": {
+                "count": 188,
+                "minimum": 285.87296390826026,
+                "median": 286.74069488888347,
+                "maximum": 292.91037171397346
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 230,
+            "outer_bins": {
+              "-1": {
+                "count": 23,
+                "minimum": -2.683608355779779,
+                "median": -2.172284525935646,
+                "maximum": -2.0884364693474935
+              },
+              "255": {
+                "count": 92,
+                "minimum": -0.9711180205218665,
+                "median": -0.7797821592558534,
+                "maximum": -0.06655891322791434
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 242,
+            "outer_bins": {
+              "-1": {
+                "count": 42,
+                "minimum": 7.535834433077917,
+                "median": 8.154573512654927,
+                "maximum": 8.383698301483731
+              },
+              "255": {
+                "count": 43,
+                "minimum": 10.073359790312049,
+                "median": 10.182370791419231,
+                "maximum": 10.816534016558375
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 219,
+            "outer_bins": {
+              "-1": {
+                "count": 33,
+                "minimum": -1.1692457879700593,
+                "median": -0.937445684622589,
+                "maximum": -0.7763838169865839
+              },
+              "255": {
+                "count": 63,
+                "minimum": 0.16735460221842072,
+                "median": 0.24608685121669172,
+                "maximum": 0.5676183455491954
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 12,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 3064,
+                "minimum": 41.9752158595982,
+                "median": 42.00004722105271,
+                "maximum": 42.02872181695063
+              }
+            }
+          }
+        }
+      },
+      "CARRY": {
+        "windows": 456,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 130,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 3,
+                "minimum": 484.8098874708816,
+                "median": 485.98487976928834,
+                "maximum": 486.32899968379155
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 26,
+            "outer_bins": {
+              "-1": {
+                "count": 14,
+                "minimum": -79.15323049670508,
+                "median": -70.11034009068482,
+                "maximum": -66.31984198327115
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 62,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 111,
+            "outer_bins": {
+              "-1": {
+                "count": 2,
+                "minimum": -2.134463354470651,
+                "median": -2.1217804871008257,
+                "maximum": -2.109097619731
+              },
+              "255": {
+                "count": 12,
+                "minimum": -0.9358606515183587,
+                "median": -0.8266501750254147,
+                "maximum": -0.3606882817816276
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 139,
+            "outer_bins": {
+              "-1": {
+                "count": 5,
+                "minimum": 7.79894251009893,
+                "median": 8.331381324166632,
+                "maximum": 8.336446455258525
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 95,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 8,
+                "minimum": 0.1797023953332351,
+                "median": 0.25466176300681914,
+                "maximum": 0.36758348786988687
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 2,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "CLOSE": {
+        "windows": 156,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 57,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 48,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 36,
+            "outer_bins": {
+              "-1": {
+                "count": 13,
+                "minimum": 203.53612659555364,
+                "median": 209.93356488021735,
+                "maximum": 210.7231530347613
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 58,
+            "outer_bins": {
+              "-1": {
+                "count": 2,
+                "minimum": -2.5475278483919293,
+                "median": -2.3496730687752043,
+                "maximum": -2.151818289158479
+              },
+              "255": {
+                "count": 1,
+                "minimum": -0.8726000323026954,
+                "median": -0.8726000323026954,
+                "maximum": -0.8726000323026954
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 68,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 62,
+            "outer_bins": {
+              "-1": {
+                "count": 1,
+                "minimum": -0.8134751927581839,
+                "median": -0.8134751927581839,
+                "maximum": -0.8134751927581839
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 5,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 52,
+                "minimum": 41.99653790861532,
+                "median": 42.00004101725395,
+                "maximum": 42.000320968712906
+              }
+            }
+          }
+        }
+      },
+      "DESCEND": {
+        "windows": 1194,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 118,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 108,
+            "outer_bins": {
+              "-1": {
+                "count": 13,
+                "minimum": -72.56626372835912,
+                "median": -67.08005933505035,
+                "maximum": -65.97069398258257
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 242,
+            "outer_bins": {
+              "-1": {
+                "count": 4,
+                "minimum": 199.0274768549699,
+                "median": 203.50945693815837,
+                "maximum": 211.25494080477324
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 161,
+            "outer_bins": {
+              "-1": {
+                "count": 5,
+                "minimum": -2.6339919255655397,
+                "median": -2.3185166347858113,
+                "maximum": -2.0884364693474935
+              },
+              "255": {
+                "count": 20,
+                "minimum": -0.9711180205218665,
+                "median": -0.7049412812352083,
+                "maximum": -0.06655891322791434
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 169,
+            "outer_bins": {
+              "-1": {
+                "count": 9,
+                "minimum": 7.535834433077917,
+                "median": 8.15597759203255,
+                "maximum": 8.383698301483731
+              },
+              "255": {
+                "count": 14,
+                "minimum": 10.077916760870547,
+                "median": 10.14923723215689,
+                "maximum": 10.816534016558375
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 170,
+            "outer_bins": {
+              "-1": {
+                "count": 7,
+                "minimum": -1.0046235314404848,
+                "median": -0.81992537636892,
+                "maximum": -0.7771834707453075
+              },
+              "255": {
+                "count": 7,
+                "minimum": 0.18496176524656047,
+                "median": 0.28362411239752366,
+                "maximum": 0.5431556619593539
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 1194,
+                "minimum": 41.984138623241094,
+                "median": 42.00004641132543,
+                "maximum": 42.02872181695063
+              }
+            }
+          }
+        }
+      },
+      "HOLD": {
+        "windows": 72,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 33,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 32,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 33,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 11,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 25,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 24,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 3,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "LIFT": {
+        "windows": 465,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 66,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 48,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 116,
+            "outer_bins": {
+              "-1": {
+                "count": 8,
+                "minimum": 209.29670459626965,
+                "median": 209.60191651750412,
+                "maximum": 210.05722587406083
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 54,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 106,
+            "outer_bins": {
+              "-1": {
+                "count": 1,
+                "minimum": 8.251304466355641,
+                "median": 8.251304466355641,
+                "maximum": 8.251304466355641
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 88,
+            "outer_bins": {
+              "-1": {
+                "count": 1,
+                "minimum": -0.7763838169865839,
+                "median": -0.7763838169865839,
+                "maximum": -0.7763838169865839
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 5,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "LOWER": {
+        "windows": 225,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 15,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 116,
+                "minimum": 483.6041914099158,
+                "median": 484.57137556212024,
+                "maximum": 491.8012419449459
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 6,
+            "outer_bins": {
+              "-1": {
+                "count": 114,
+                "minimum": -73.19061887139965,
+                "median": -66.414028599598,
+                "maximum": -65.90482091024461
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 92,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 54,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 69,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 58,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 1,
+                "minimum": 0.24608685121669172,
+                "median": 0.24608685121669172,
+                "maximum": 0.24608685121669172
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "OPEN": {
+        "windows": 64,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 8,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 18,
+                "minimum": 483.62144495953356,
+                "median": 483.9108444596643,
+                "maximum": 485.826642453087
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 2,
+            "outer_bins": {
+              "-1": {
+                "count": 51,
+                "minimum": -66.59848838389189,
+                "median": -66.1554790311402,
+                "maximum": -65.89174029208714
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 10,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 10,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 27,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 27,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 4,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "PREGRASP": {
+        "windows": 1661,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 140,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 192,
+            "outer_bins": {
+              "-1": {
+                "count": 1,
+                "minimum": -68.24660335235741,
+                "median": -68.24660335235741,
+                "maximum": -68.24660335235741
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 81,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 188,
+                "minimum": 285.87296390826026,
+                "median": 286.74069488888347,
+                "maximum": 292.91037171397346
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 214,
+            "outer_bins": {
+              "-1": {
+                "count": 14,
+                "minimum": -2.683608355779779,
+                "median": -2.19237464487063,
+                "maximum": -2.0917121567518557
+              },
+              "255": {
+                "count": 59,
+                "minimum": -0.9652384962118866,
+                "median": -0.7928274494827086,
+                "maximum": -0.2638497413889504
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 224,
+            "outer_bins": {
+              "-1": {
+                "count": 27,
+                "minimum": 7.559674273884829,
+                "median": 8.124063085868155,
+                "maximum": 8.372531367636848
+              },
+              "255": {
+                "count": 29,
+                "minimum": 10.073359790312049,
+                "median": 10.188159302243381,
+                "maximum": 10.443708474181372
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 206,
+            "outer_bins": {
+              "-1": {
+                "count": 24,
+                "minimum": -1.1692457879700593,
+                "median": -0.9856370146324345,
+                "maximum": -0.7799780811260864
+              },
+              "255": {
+                "count": 47,
+                "minimum": 0.16735460221842072,
+                "median": 0.2370923960948007,
+                "maximum": 0.5676183455491954
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 1661,
+                "minimum": 41.9752158595982,
+                "median": 42.00005014617791,
+                "maximum": 42.02490661767672
+              }
+            }
+          }
+        }
+      },
+      "WITHDRAW": {
+        "windows": 157,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 13,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 13,
+                "minimum": 483.60494490166315,
+                "median": 484.2331005966408,
+                "maximum": 485.61022198936126
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 3,
+            "outer_bins": {
+              "-1": {
+                "count": 48,
+                "minimum": -66.52644254370921,
+                "median": -66.09930538780532,
+                "maximum": -65.88508618747281
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 59,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 14,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 46,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 17,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 157,
+                "minimum": 41.998454600862296,
+                "median": 42.0000350171417,
+                "maximum": 42.000488325172896
+              }
+            }
+          }
+        }
+      }
+    },
+    "new": {
+      "ALL": {
+        "windows": 3466,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 229,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 185,
+                "minimum": 483.59738087543127,
+                "median": 485.0116859008896,
+                "maximum": 526.5065028532813
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 238,
+            "outer_bins": {
+              "-1": {
+                "count": 208,
+                "minimum": -82.80505165424732,
+                "median": -69.96824899576703,
+                "maximum": -65.88454814348023
+              },
+              "255": {
+                "count": 95,
+                "minimum": 164.96031344002884,
+                "median": 166.22965191078947,
+                "maximum": 198.1827469911646
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 257,
+            "outer_bins": {
+              "-1": {
+                "count": 39,
+                "minimum": 208.87906150750268,
+                "median": 209.89132701650564,
+                "maximum": 211.2987107794023
+              },
+              "255": {
+                "count": 101,
+                "minimum": 285.8686652435898,
+                "median": 286.5993812447948,
+                "maximum": 291.29196119030547
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 228,
+            "outer_bins": {
+              "-1": {
+                "count": 47,
+                "minimum": -3.0742536166552226,
+                "median": -2.1838999425376184,
+                "maximum": -2.0557712036440274
+              },
+              "255": {
+                "count": 138,
+                "minimum": -0.9691665898083965,
+                "median": -0.7217026324175323,
+                "maximum": -0.04529656936398319
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 230,
+            "outer_bins": {
+              "-1": {
+                "count": 23,
+                "minimum": 7.6840123346358205,
+                "median": 8.21409079739803,
+                "maximum": 8.394916131040587
+              },
+              "255": {
+                "count": 269,
+                "minimum": 10.06459728434958,
+                "median": 28.971566090831445,
+                "maximum": 30.060585719904875
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 232,
+            "outer_bins": {
+              "-1": {
+                "count": 301,
+                "minimum": -6.368054388542979,
+                "median": -1.0302006469516105,
+                "maximum": -0.7682951570821628
+              },
+              "255": {
+                "count": 145,
+                "minimum": 0.17306194690074903,
+                "median": 4.609880399868859,
+                "maximum": 5.459073625185066
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 12,
+            "outer_bins": {
+              "-1": {
+                "count": 14,
+                "minimum": 18.943080057250803,
+                "median": 18.943081481596032,
+                "maximum": 18.943180454501235
+              },
+              "255": {
+                "count": 2326,
+                "minimum": 41.97069638081049,
+                "median": 42.000047212363,
+                "maximum": 42.03653705898383
+              }
+            }
+          }
+        }
+      },
+      "CARRY": {
+        "windows": 479,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 150,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 14,
+                "minimum": 484.3496920454043,
+                "median": 493.1152559640002,
+                "maximum": 518.8525669266452
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 97,
+            "outer_bins": {
+              "-1": {
+                "count": 20,
+                "minimum": -82.80505165424732,
+                "median": -68.82938203501689,
+                "maximum": -66.33557727506873
+              },
+              "255": {
+                "count": 38,
+                "minimum": 165.12225067008563,
+                "median": 169.89555997859077,
+                "maximum": 198.1827469911646
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 107,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 117,
+            "outer_bins": {
+              "-1": {
+                "count": 3,
+                "minimum": -2.160959150483968,
+                "median": -2.149472041188882,
+                "maximum": -2.0859377598047093
+              },
+              "255": {
+                "count": 9,
+                "minimum": -0.9598001822144073,
+                "median": -0.6977165503606271,
+                "maximum": -0.27534349534072167
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 128,
+            "outer_bins": {
+              "-1": {
+                "count": 4,
+                "minimum": 8.157770770223127,
+                "median": 8.27201558069995,
+                "maximum": 8.330867094709017
+              },
+              "255": {
+                "count": 36,
+                "minimum": 10.07978905513676,
+                "median": 29.106835553968118,
+                "maximum": 30.060585719904875
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 104,
+            "outer_bins": {
+              "-1": {
+                "count": 23,
+                "minimum": -1.9425439061573964,
+                "median": -0.9253036723158531,
+                "maximum": -0.776246101699284
+              },
+              "255": {
+                "count": 5,
+                "minimum": 0.1770506687837081,
+                "median": 0.28077986851596853,
+                "maximum": 0.35071151619902974
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "CLOSE": {
+        "windows": 99,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 35,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 38,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 33,
+            "outer_bins": {
+              "-1": {
+                "count": 21,
+                "minimum": 208.89957927211645,
+                "median": 210.0025649242595,
+                "maximum": 211.2987107794023
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 41,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 49,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 6,
+                "minimum": 29.374679381403602,
+                "median": 29.52127059447824,
+                "maximum": 29.678253147055656
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 45,
+            "outer_bins": {
+              "-1": {
+                "count": 6,
+                "minimum": -0.9279892382777567,
+                "median": -0.8670349944563535,
+                "maximum": -0.8301202955610835
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 3,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 33,
+                "minimum": 41.999778678595966,
+                "median": 42.000040733851996,
+                "maximum": 42.000219024222396
+              }
+            }
+          }
+        }
+      },
+      "DESCEND": {
+        "windows": 776,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 90,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 92,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 228,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 125,
+            "outer_bins": {
+              "-1": {
+                "count": 3,
+                "minimum": -2.1910863751228895,
+                "median": -2.089512494764222,
+                "maximum": -2.0807499765722177
+              },
+              "255": {
+                "count": 6,
+                "minimum": -0.9687977290813409,
+                "median": -0.8008983909482967,
+                "maximum": -0.6234227803646418
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 135,
+            "outer_bins": {
+              "-1": {
+                "count": 3,
+                "minimum": 8.213858404041455,
+                "median": 8.21409079739803,
+                "maximum": 8.30174405885529
+              },
+              "255": {
+                "count": 60,
+                "minimum": 10.0816248711755,
+                "median": 29.378154559789074,
+                "maximum": 29.687710827514454
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 135,
+            "outer_bins": {
+              "-1": {
+                "count": 48,
+                "minimum": -1.1856455583874428,
+                "median": -0.9021911129462569,
+                "maximum": -0.807318922108989
+              },
+              "255": {
+                "count": 3,
+                "minimum": 0.22083738433480288,
+                "median": 0.266267712679265,
+                "maximum": 0.2907294702463517
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 776,
+                "minimum": 41.97868446513359,
+                "median": 42.00004631555872,
+                "maximum": 42.019034473232615
+              }
+            }
+          }
+        }
+      },
+      "HOLD": {
+        "windows": 36,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 20,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 24,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 28,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 16,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 24,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 2,
+                "minimum": 29.15865453690959,
+                "median": 29.163902391735782,
+                "maximum": 29.169150246561976
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 19,
+            "outer_bins": {
+              "-1": {
+                "count": 2,
+                "minimum": -0.9617794833621333,
+                "median": -0.9578992093099579,
+                "maximum": -0.9540189352577825
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 2,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "LIFT": {
+        "windows": 299,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 48,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 42,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 106,
+            "outer_bins": {
+              "-1": {
+                "count": 18,
+                "minimum": 208.87906150750268,
+                "median": 209.79690206011148,
+                "maximum": 211.22477361883628
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 38,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 88,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 19,
+                "minimum": 28.970925246343068,
+                "median": 29.17261354128778,
+                "maximum": 29.498817081180803
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 75,
+            "outer_bins": {
+              "-1": {
+                "count": 17,
+                "minimum": -1.0135427161059258,
+                "median": -0.899799666103244,
+                "maximum": -0.7855086251772836
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 5,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "LOWER": {
+        "windows": 200,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 14,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 96,
+                "minimum": 483.59738087543127,
+                "median": 484.72699212936504,
+                "maximum": 526.5065028532813
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 16,
+            "outer_bins": {
+              "-1": {
+                "count": 94,
+                "minimum": -72.34750445789341,
+                "median": -69.91366669711276,
+                "maximum": -65.91525128488573
+              },
+              "255": {
+                "count": 25,
+                "minimum": 164.96031344002884,
+                "median": 165.64914304189233,
+                "maximum": 167.93398473151242
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 115,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 42,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 58,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 14,
+                "minimum": 10.160675926127015,
+                "median": 29.380374880116,
+                "maximum": 29.41715581921284
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 33,
+            "outer_bins": {
+              "-1": {
+                "count": 13,
+                "minimum": -0.8699714507462325,
+                "median": -0.8504689159005796,
+                "maximum": -0.8336667136806822
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 3,
+            "outer_bins": {
+              "-1": {
+                "count": 12,
+                "minimum": 18.943080057250803,
+                "median": 18.94308122021134,
+                "maximum": 18.943180454501235
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "OPEN": {
+        "windows": 60,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 7,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 24,
+                "minimum": 484.0847167047864,
+                "median": 485.50477726831673,
+                "maximum": 526.0400504468579
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 6,
+            "outer_bins": {
+              "-1": {
+                "count": 31,
+                "minimum": -72.37402010387852,
+                "median": -70.0768575512078,
+                "maximum": -66.00894906440388
+              },
+              "255": {
+                "count": 8,
+                "minimum": 165.01603270646083,
+                "median": 165.46801613251876,
+                "maximum": 166.09223669697772
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 17,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 12,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 26,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 4,
+                "minimum": 29.039986333725057,
+                "median": 29.138855558327762,
+                "maximum": 29.152806720262745
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 16,
+            "outer_bins": {
+              "-1": {
+                "count": 4,
+                "minimum": -0.8671526858962972,
+                "median": -0.8617321151272712,
+                "maximum": -0.8445773618988062
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 6,
+            "outer_bins": {
+              "-1": {
+                "count": 2,
+                "minimum": 18.943081756205824,
+                "median": 18.943089224950743,
+                "maximum": 18.94309669369566
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "PREGRASP": {
+        "windows": 1334,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 158,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 184,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 91,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 101,
+                "minimum": 285.8686652435898,
+                "median": 286.5993812447948,
+                "maximum": 291.29196119030547
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 217,
+            "outer_bins": {
+              "-1": {
+                "count": 41,
+                "minimum": -3.0742536166552226,
+                "median": -2.1851581162953893,
+                "maximum": -2.0557712036440274
+              },
+              "255": {
+                "count": 123,
+                "minimum": -0.9691665898083965,
+                "median": -0.7190582720103422,
+                "maximum": -0.04529656936398319
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 207,
+            "outer_bins": {
+              "-1": {
+                "count": 16,
+                "minimum": 7.6840123346358205,
+                "median": 8.04782918120829,
+                "maximum": 8.394916131040587
+              },
+              "255": {
+                "count": 117,
+                "minimum": 10.06459728434958,
+                "median": 18.203651292416726,
+                "maximum": 29.596777592914712
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 219,
+            "outer_bins": {
+              "-1": {
+                "count": 177,
+                "minimum": -6.368054388542979,
+                "median": -4.966861905655973,
+                "maximum": -0.7682951570821628
+              },
+              "255": {
+                "count": 137,
+                "minimum": 0.17306194690074903,
+                "median": 4.63866687497231,
+                "maximum": 5.459073625185066
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 1334,
+                "minimum": 41.97069638081049,
+                "median": 42.000050462017356,
+                "maximum": 42.03653705898383
+              }
+            }
+          }
+        }
+      },
+      "WITHDRAW": {
+        "windows": 183,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 16,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 51,
+                "minimum": 483.6652122752655,
+                "median": 485.11241749238104,
+                "maximum": 525.9414720822051
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 11,
+            "outer_bins": {
+              "-1": {
+                "count": 63,
+                "minimum": -72.27920819690664,
+                "median": -70.17817149844032,
+                "maximum": -65.88454814348023
+              },
+              "255": {
+                "count": 24,
+                "minimum": 165.2611519082825,
+                "median": 166.06186229599953,
+                "maximum": 167.0376936424115
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 91,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 17,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 42,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 11,
+                "minimum": 29.004893024642715,
+                "median": 29.033139333050947,
+                "maximum": 29.199743847267513
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 15,
+            "outer_bins": {
+              "-1": {
+                "count": 11,
+                "minimum": -0.8736364247961373,
+                "median": -0.8665860049327259,
+                "maximum": -0.860590731766785
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 183,
+                "minimum": 41.998537540304476,
+                "median": 42.00003766923623,
+                "maximum": 42.001723985954236
+              }
+            }
+          }
+        }
+      }
+    },
+    "recovery": {
+      "ALL": {
+        "windows": 115,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 19,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 78,
+                "minimum": 483.76999806533615,
+                "median": 487.330318522581,
+                "maximum": 492.7560579411272
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 21,
+            "outer_bins": {
+              "-1": {
+                "count": 79,
+                "minimum": -75.27733490990562,
+                "median": -70.03480275519169,
+                "maximum": -66.015733368846
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 74,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 5,
+                "minimum": 287.5697936133183,
+                "median": 288.11405008496445,
+                "maximum": 288.31965775289467
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 44,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 77,
+            "outer_bins": {
+              "-1": {
+                "count": 3,
+                "minimum": 7.874565165666698,
+                "median": 8.148966093938894,
+                "maximum": 8.346855147999687
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 39,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 6,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 27,
+                "minimum": 41.99857948108193,
+                "median": 42.00003642121041,
+                "maximum": 42.00011635307567
+              }
+            }
+          }
+        }
+      },
+      "CARRY": {
+        "windows": 26,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 17,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 8,
+                "minimum": 483.956745866867,
+                "median": 487.26097002132576,
+                "maximum": 492.0675624974963
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 19,
+            "outer_bins": {
+              "-1": {
+                "count": 1,
+                "minimum": -66.015733368846,
+                "median": -66.015733368846,
+                "maximum": -66.015733368846
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 19,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 4,
+                "minimum": 287.5697936133183,
+                "median": 288.0718080015018,
+                "maximum": 288.31965775289467
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 25,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 23,
+            "outer_bins": {
+              "-1": {
+                "count": 3,
+                "minimum": 7.874565165666698,
+                "median": 8.148966093938894,
+                "maximum": 8.346855147999687
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 24,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "LOWER": {
+        "windows": 50,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 3,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 45,
+                "minimum": 483.76999806533615,
+                "median": 487.73918326551745,
+                "maximum": 492.7560579411272
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 5,
+            "outer_bins": {
+              "-1": {
+                "count": 39,
+                "minimum": -75.27733490990562,
+                "median": -69.61988520397865,
+                "maximum": -66.10652899070776
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 45,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 1,
+                "minimum": 288.11405008496445,
+                "median": 288.11405008496445,
+                "maximum": 288.11405008496445
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 26,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 36,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 17,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "OPEN": {
+        "windows": 12,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 2,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 8,
+                "minimum": 486.6208529220054,
+                "median": 488.2912564857444,
+                "maximum": 490.01433138018814
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 12,
+                "minimum": -71.773971177918,
+                "median": -70.76558104976402,
+                "maximum": -68.23650545560602
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 6,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 9,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 11,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 9,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 5,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          }
+        }
+      },
+      "WITHDRAW": {
+        "windows": 27,
+        "channels": {
+          "x": {
+            "unit": "mm",
+            "occupied_bins": 7,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 17,
+                "minimum": 484.001634531393,
+                "median": 486.3525539485403,
+                "maximum": 489.55128615902777
+              }
+            }
+          },
+          "y": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 27,
+                "minimum": -70.90280433805474,
+                "median": -70.12031532844269,
+                "maximum": -67.86920932920829
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "z": {
+            "unit": "mm",
+            "occupied_bins": 26,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_x": {
+            "unit": "degree",
+            "occupied_bins": 8,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_y": {
+            "unit": "degree",
+            "occupied_bins": 23,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "rotvec_z": {
+            "unit": "degree",
+            "occupied_bins": 10,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              }
+            }
+          },
+          "measured_gripper": {
+            "unit": "mm",
+            "occupied_bins": 1,
+            "outer_bins": {
+              "-1": {
+                "count": 0,
+                "minimum": null,
+                "median": null,
+                "maximum": null
+              },
+              "255": {
+                "count": 27,
+                "minimum": 41.99857948108193,
+                "median": 42.00003642121041,
+                "maximum": 42.00011635307567
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "rotation_tail_examples": [
+    {
+      "episode": "CHV1-TRAIN-F2-PLACE-red-left-02",
+      "window": 95,
+      "phase": "CARRY",
+      "group": "new",
+      "rotvec_degree": [
+        -1.2430804216498266,
+        30.060585719904875,
+        -0.8207883196418139
+      ],
+      "normalized_rotation": [
+        0.4899715833747802,
+        24.89970926715462,
+        -1.1501050244389668
+      ],
+      "SO3_distance_from_stats_center_degree": 20.83427449868766,
+      "state_codes": [
+        186,
+        222,
+        69,
+        190,
+        255,
+        -1,
+        1
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 52,
+      "phase": "DESCEND",
+      "group": "new",
+      "rotvec_degree": [
+        -1.3351955167131861,
+        29.687710827514454,
+        -0.9117320340658653
+      ],
+      "normalized_rotation": [
+        0.31946844224776183,
+        24.453908979600243,
+        -1.3477007814676347
+      ],
+      "SO3_distance_from_stats_center_degree": 20.463169008716793,
+      "state_codes": [
+        206,
+        186,
+        189,
+        168,
+        255,
+        -1,
+        255
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 51,
+      "phase": "DESCEND",
+      "group": "new",
+      "rotvec_degree": [
+        -1.3461152949400628,
+        29.680689271664757,
+        -0.9205488904776878
+      ],
+      "normalized_rotation": [
+        0.29925615796566674,
+        24.44551417565727,
+        -1.366857393096491
+      ],
+      "SO3_distance_from_stats_center_degree": 20.456335189931572,
+      "state_codes": [
+        206,
+        187,
+        197,
+        166,
+        255,
+        -1,
+        255
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 72,
+      "phase": "CLOSE",
+      "group": "new",
+      "rotvec_degree": [
+        -1.3374597000810335,
+        29.678253147055656,
+        -0.8822863944180208
+      ],
+      "normalized_rotation": [
+        0.3152774855317102,
+        24.44260160344225,
+        -1.28372347974583
+      ],
+      "SO3_distance_from_stats_center_degree": 20.45282631865962,
+      "state_codes": [
+        193,
+        185,
+        33,
+        168,
+        255,
+        -1,
+        220
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 71,
+      "phase": "CLOSE",
+      "group": "new",
+      "rotvec_degree": [
+        -1.324320463094976,
+        29.667854070130584,
+        -0.9279892382777567
+      ],
+      "normalized_rotation": [
+        0.3395979422016422,
+        24.43016871622429,
+        -1.3830232289150723
+      ],
+      "SO3_distance_from_stats_center_degree": 20.443913036765707,
+      "state_codes": [
+        193,
+        186,
+        35,
+        171,
+        255,
+        -1,
+        255
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-PLACE-red-left-02",
+      "window": 109,
+      "phase": "CARRY",
+      "group": "new",
+      "rotvec_degree": [
+        -1.5529472355698286,
+        29.625405075491013,
+        -0.8211141792242824
+      ],
+      "normalized_rotation": [
+        -0.08358549831786954,
+        24.379417715277572,
+        -1.1508130279693998
+      ],
+      "SO3_distance_from_stats_center_degree": 20.39773942869043,
+      "state_codes": [
+        147,
+        255,
+        116,
+        117,
+        255,
+        -1,
+        1
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 53,
+      "phase": "DESCEND",
+      "group": "new",
+      "rotvec_degree": [
+        -1.3255318169480435,
+        29.60742956955637,
+        -0.903052937736722
+      ],
+      "normalized_rotation": [
+        0.33735575120328054,
+        24.357926631061023,
+        -1.3288434847281883
+      ],
+      "SO3_distance_from_stats_center_degree": 20.382748238545684,
+      "state_codes": [
+        205,
+        186,
+        182,
+        171,
+        255,
+        -1,
+        255
+      ]
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 45,
+      "phase": "PREGRASP",
+      "group": "new",
+      "rotvec_degree": [
+        -1.2494772460252723,
+        29.59677759291471,
+        -0.844008702229299
+      ],
+      "normalized_rotation": [
+        0.478131193387654,
+        24.345191383001193,
+        -1.2005565493731187
+      ],
+      "SO3_distance_from_stats_center_degree": 20.371208381810945,
+      "state_codes": [
+        195,
+        178,
+        172,
+        189,
+        255,
+        -1,
+        255
+      ]
+    }
+  ],
+  "stats_center_rotvec_degree": [
+    -1.507818439012664,
+    9.234019555682766,
+    -0.291479574497017
+  ],
+  "fresh_global_quantiles_counterfactual": {
+    "lower_bounds_physical": [
+      304.3403461323294,
+      -70.95764806424297,
+      211.7927608531141,
+      -1.9986907518792394,
+      8.427485794792265,
+      -4.997954051988483,
+      19.073578138896877
+    ],
+    "upper_bounds_physical": [
+      487.5006544664555,
+      165.30314720780274,
+      287.2211050606784,
+      -0.6705049361567853,
+      29.24693719911211,
+      4.116273608540666,
+      42.00757896109735
+    ],
+    "by_group": {
+      "old": {
+        "windows": 4450,
+        "lower_code_counts": [
+          45,
+          6,
+          32,
+          30,
+          49,
+          0,
+          54
+        ],
+        "upper_code_counts": [
+          10,
+          0,
+          71,
+          30,
+          0,
+          0,
+          3064
+        ]
+      },
+      "new": {
+        "windows": 3466,
+        "lower_code_counts": [
+          36,
+          57,
+          49,
+          51,
+          29,
+          81,
+          26
+        ],
+        "upper_code_counts": [
+          44,
+          95,
+          34,
+          54,
+          98,
+          81,
+          2326
+        ]
+      },
+      "recovery": {
+        "windows": 115,
+        "lower_code_counts": [
+          0,
+          18,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        "upper_code_counts": [
+          43,
+          0,
+          5,
+          0,
+          0,
+          0,
+          27
+        ]
+      }
+    },
+    "changed_training_or_deployment_statistics": false
+  },
+  "new_optimizer_updates": 0,
+  "new_model_forwards": 0,
+  "new_native_integrations": 0
+}
