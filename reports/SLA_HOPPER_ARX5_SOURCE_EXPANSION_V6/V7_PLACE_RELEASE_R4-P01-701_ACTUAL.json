@@ -1,0 +1,107 @@
+{
+  "case": "R4_DEV_0200_P01_701",
+  "result_sha256": "9eb583a58853f641dec9aa803c3ed270372b8cbd49658236881910481a2548b2",
+  "spec_sha256": "511b6f40301e27938fceed3fded7dbc4d8fc7e2e60fb639c24ccc6bf34de5f77",
+  "first_region_entry_tick": 29241,
+  "native_ticks": 45703,
+  "original_score": {
+    "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+    "instruction": "PLACE-red-right",
+    "task_success": false,
+    "native_step": 45703,
+    "base_directional_motion_m": 0.21735874430812413,
+    "lift_m": -0.0014026455606989119,
+    "inside_selected_region": false,
+    "target_grasp": true,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": false,
+    "gripper_open_fraction": 0.4366442146042289,
+    "TCP_retreat_m": 0.031212080186320327,
+    "stable_release_condition": false,
+    "states": 40001,
+    "missing_native_intervals": 0,
+    "unsafe_states": 0,
+    "ever_target_grasp": true,
+    "ever_target_lift20mm": true,
+    "maximum_lift_m": 0.026856607071805483,
+    "longest_grasp_lift_hold_s": 5.540000000006771,
+    "longest_stable_released_retreat_s": 0.0,
+    "events": {
+      "base80mm": {
+        "native_step": 8793,
+        "native_time_s": 17.586000000001132
+      },
+      "target_grasp": {
+        "native_step": 19312,
+        "native_time_s": 38.62400000000124
+      },
+      "target_lift20mm": {
+        "native_step": 24228,
+        "native_time_s": 48.456000000013255
+      },
+      "correct_region": {
+        "native_step": 29241,
+        "native_time_s": 58.48200000002551
+      }
+    },
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM"
+  },
+  "jaw": {
+    "archived_model_generations": 160,
+    "queries_started_after_entry": 65,
+    "p10_open_proposals": 0,
+    "h40_open_proposals": 0,
+    "peak_raw_p10_jaw_mm": 1.4920645808125306,
+    "peak_raw_h40_jaw_mm": 1.4920645808125306,
+    "confirmed_intervals_from_entry": 659,
+    "confirmed_open_intervals": 0,
+    "peak_confirmed_jaw_command_mm": 3.35642234619321
+  },
+  "physical": {
+    "counts": {
+      "states_after_first_region_entry": 16463,
+      "inside": 58,
+      "grasp": 16425,
+      "outside": 16405,
+      "table_contact": 13209
+    },
+    "first": {
+      "inside": {
+        "tick": 29241,
+        "lift_mm": 20.942893513060557,
+        "opening_fraction": 0.4312611143836238,
+        "retreat_mm": 39.225858112863484
+      },
+      "grasp": {
+        "tick": 29241,
+        "lift_mm": 20.942893513060557,
+        "opening_fraction": 0.4312611143836238,
+        "retreat_mm": 39.225858112863484
+      },
+      "outside": {
+        "tick": 29299,
+        "lift_mm": 8.432878161107492,
+        "opening_fraction": 0.4311586763383601,
+        "retreat_mm": 39.23490090391313
+      },
+      "table_contact": {
+        "tick": 32495,
+        "lift_mm": 0.23670011262511004,
+        "opening_fraction": 0.43118787420142624,
+        "retreat_mm": 39.315969404872625
+      }
+    },
+    "peak_gripper_open_fraction_in_zone": 0.4312611143836238,
+    "peak_TCP_retreat_mm_in_zone": 39.23477313838257,
+    "journal_sha256": "9540315ab3c976caa5ba71d16bf5441ca64706cc50421a4334249c9418e4c20b"
+  },
+  "open_fraction": 0.9,
+  "full_open_command_mm": 39.599999999999994,
+  "lift_threshold_mm": 20.0,
+  "uses_eval_truth_as_model_input": false,
+  "new_integrations": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}
