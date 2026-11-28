@@ -1,0 +1,621 @@
+{
+  "scope": "B6_PARAMETER_PARTITION_COUNTERFACTUAL_TRAIN_ONLY",
+  "frames": [
+    {
+      "id": "R4_SAFE_GRASP",
+      "episode": "V7_D0_EARLY_TRAIN_11",
+      "phase": "target_grasp",
+      "query": 72,
+      "input": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D0-EARLY-NATIVE-01/V7_D0_EARLY_TRAIN_11/native-01/g7-queries/0072/INPUT.npz",
+        "sha256": "5b43f1661ad43c5b5dfcf90a71344e8663e9eed582a93e7078c78ca78bef25c1"
+      },
+      "language": "Grasp the blue cube, lift it, carry it to the left region, release it, and move the gripper clear.",
+      "noise_id": 257989315,
+      "observed_noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+      "previous_command": {
+        "width_m": 0.01983721862952527,
+        "source_native_s": 47.35600000001191,
+        "query_native_s": 47.40600000001197
+      },
+      "has_real_teacher_label": false
+    },
+    {
+      "id": "R4_SAFE_LIFT",
+      "episode": "V7_D0_EARLY_TRAIN_11",
+      "phase": "target_lift20mm",
+      "query": 84,
+      "input": {
+        "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/V7-D0-EARLY-NATIVE-01/V7_D0_EARLY_TRAIN_11/native-01/g7-queries/0084/INPUT.npz",
+        "sha256": "cd9ab17da087d75cfb46b497e86e19a067b0548c615d63fef01cb25d59b57797"
+      },
+      "language": "Grasp the blue cube, lift it, carry it to the left region, release it, and move the gripper clear.",
+      "noise_id": 257989327,
+      "observed_noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+      "previous_command": {
+        "width_m": 0.0020138946356421223,
+        "source_native_s": 53.35600000001924,
+        "query_native_s": 53.406000000019304
+      },
+      "has_real_teacher_label": false
+    },
+    {
+      "id": "TEACHER-2-LIFT",
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+      "phase": "LIFT",
+      "query": 69,
+      "input": {
+        "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/TRAIN-PANEL/TEACHER-2-LIFT.npz",
+        "sha256": "86899c222427462d02f7ab916b10aaef34c9575ba53c1a199894b506d032b7f6"
+      },
+      "language": "Grasp the blue cube, lift it, carry it to the left region, release it, and move the gripper clear.",
+      "noise_id": 0,
+      "observed_noise_sha256": null,
+      "has_real_teacher_label": true,
+      "previous_command": {
+        "width_m": 0.002,
+        "query_native_s": 45.406,
+        "source_native_s": 45.356
+      }
+    },
+    {
+      "id": "TEACHER-4-OPEN",
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "phase": "OPEN",
+      "query": 35,
+      "input": {
+        "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/TRAIN-PANEL/TEACHER-4-OPEN.npz",
+        "sha256": "e97f2b1ef31503f99ee67fd7e7b63206454d76f5ab5d435068b6d11058309025"
+      },
+      "language": "Grasp the red cube, lift it, carry it to the right region, release it, and move the gripper clear.",
+      "noise_id": 0,
+      "observed_noise_sha256": null,
+      "has_real_teacher_label": true,
+      "previous_command": {
+        "width_m": 0.02013563585798573,
+        "query_native_s": 73.906,
+        "source_native_s": 73.85600000000001
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "R4_SHARED_ZERO_IO",
+      "shared_source": "R4",
+      "go2_io_source": "LAMBDA_ZERO",
+      "root": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-partition-counterfactual-20261128-01/R4_SHARED_ZERO_IO",
+      "manifest_sha256": "529042664ff19f41e001b7a3282fae93fde5ef61870ee9cd262e271c9bbfaabe",
+      "array_counts": {
+        "shared_trainable": 11,
+        "target": 8,
+        "frozen_lora": 10
+      }
+    },
+    {
+      "id": "ZERO_SHARED_R4_IO",
+      "shared_source": "LAMBDA_ZERO",
+      "go2_io_source": "R4",
+      "root": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-partition-counterfactual-20261128-01/ZERO_SHARED_R4_IO",
+      "manifest_sha256": "0dfb67f0c815db016d14c1ecfdf2a7ae0d0e4f0c129e535e7ad5b422bcaadd60",
+      "array_counts": {
+        "shared_trainable": 11,
+        "target": 8,
+        "frozen_lora": 10
+      }
+    },
+    {
+      "id": "R4_SHARED_L2SP_IO",
+      "shared_source": "R4",
+      "go2_io_source": "SHARED_L2SP",
+      "root": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-partition-counterfactual-20261128-01/R4_SHARED_L2SP_IO",
+      "manifest_sha256": "8bf0fa812b82061a52fb116565923852efdceda04dde2811e87c1f339c20aeb2",
+      "array_counts": {
+        "shared_trainable": 11,
+        "target": 8,
+        "frozen_lora": 10
+      }
+    },
+    {
+      "id": "L2SP_SHARED_R4_IO",
+      "shared_source": "SHARED_L2SP",
+      "go2_io_source": "R4",
+      "root": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-partition-counterfactual-20261128-01/L2SP_SHARED_R4_IO",
+      "manifest_sha256": "db7fe6d5d1a7de5124aa5f49b4a7d6f24339e0347949d790e31acee852ecccb0",
+      "array_counts": {
+        "shared_trainable": 11,
+        "target": 8,
+        "frozen_lora": 10
+      }
+    }
+  ],
+  "worker": {
+    "path": "/var/tmp/sla-interface-v1-e0.zR0vKd/v62-science-first-20261127-01/ADAPT0250-NATIVE-PLACE-01/worker/EXECUTION_SPEC.json",
+    "sha256": "361709e35c2bf427d5644e7af37a925014ab52861c075d4782749afd371d6bfc"
+  },
+  "original_provider": {
+    "root": "/var/tmp/sla-interface-v1-e0.zR0vKd/v6-retention-20261126-01/R4_STEP0200_PROVIDER",
+    "manifest_sha256": "e825a48ed540b5d4d6c3623da24ac56d5aa3b51f2bf3aa488b313f21e044da5e",
+    "provider_source": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-main3800-core-matched-native-dev6-20261122-01/source/scripts/sla/hopper_reference.py",
+      "sha256": "7b7787af54868ac7498833e35ae2e66b09a6eb367a03f860f4feb7a5a9e0af46"
+    }
+  },
+  "panel_sha256": "a52c72a1d0c14ac4823f084ab51f5dd0a67c5ad80fa0433285e39a3a3afb0afd",
+  "complete_endpoint_proof_sha256": "c22d2bf4dd6c05411cea0d3b0874254c366bc2b0d4a1aec6e44074151ada7771",
+  "original_outputs": {
+    "root": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/TRAIN-PANEL-OUTPUT",
+    "sha256": "08fcd9cac0437b78dfaed9dc3762c244c665607a56866886406fde324aff7b97",
+    "rows": [
+      {
+        "model": "R4",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "95b92f9fc19aa68f7e55516d1027ec8049e6552d2219f0751cab1b32841b4de9",
+        "artifact": "R4-TEACHER-2-LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.02187427132076104,
+          "maximum_speed_m_s": 0.02187427132076104,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.3577354234777257,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "R4",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "95b92f9fc19aa68f7e55516d1027ec8049e6552d2219f0751cab1b32841b4de9",
+        "artifact": "R4-TEACHER-2-LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.02187427132076104,
+          "maximum_speed_m_s": 0.02187427132076104,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.3577354234777257,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "R4",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "dd9ff9621773ff66c6af5659a756b29382f89a40381cf215896e85c538b482a1",
+        "artifact": "R4-TEACHER-4-OPEN-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.019895248121022807,
+          "maximum_speed_m_s": 0.03495861774396189,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.659392292977512,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "R4",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "dd9ff9621773ff66c6af5659a756b29382f89a40381cf215896e85c538b482a1",
+        "artifact": "R4-TEACHER-4-OPEN-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.019895248121022807,
+          "maximum_speed_m_s": 0.03495861774396189,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.659392292977512,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "R4",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 0,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "fa3325589f431b8e503d98f3cdb95fdfbb8d51b8fcea67097973ab2acf28e560",
+        "artifact": "R4-R4_SAFE_GRASP-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.026319058898445352,
+          "maximum_speed_m_s": 0.03685629758767399,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.8075591000195068,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "R4",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 1,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "fa3325589f431b8e503d98f3cdb95fdfbb8d51b8fcea67097973ab2acf28e560",
+        "artifact": "R4-R4_SAFE_GRASP-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.026319058898445352,
+          "maximum_speed_m_s": 0.03685629758767399,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.8075591000195068,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "R4",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 0,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "a4f0832f15464fb787800448f4fd661eb5d1997b9694f866c5bdff6c2505258b",
+        "artifact": "R4-R4_SAFE_LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.007098919655231881,
+          "maximum_speed_m_s": 0.007098919655231881,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.8802958655869135,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "R4",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 1,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "a4f0832f15464fb787800448f4fd661eb5d1997b9694f866c5bdff6c2505258b",
+        "artifact": "R4-R4_SAFE_LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.007098919655231881,
+          "maximum_speed_m_s": 0.007098919655231881,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.8802958655869135,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "ce9164f05c1b3466bfeefd7c4cabaa024aedb2266899260f56cfa1d480a52a88",
+        "artifact": "LAMBDA_ZERO-TEACHER-2-LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.040879391353441964,
+          "maximum_speed_m_s": 0.040879391353441964,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.124516542963418,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "ce9164f05c1b3466bfeefd7c4cabaa024aedb2266899260f56cfa1d480a52a88",
+        "artifact": "LAMBDA_ZERO-TEACHER-2-LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.040879391353441964,
+          "maximum_speed_m_s": 0.040879391353441964,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.124516542963418,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "650708b04a4ee21007eb5e8c0b9fd053fa81872c1aeb7ac702d574417c58ac6c",
+        "artifact": "LAMBDA_ZERO-TEACHER-4-OPEN-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.032133688646986125,
+          "maximum_speed_m_s": 0.03801631079916337,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.585701138558159,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "650708b04a4ee21007eb5e8c0b9fd053fa81872c1aeb7ac702d574417c58ac6c",
+        "artifact": "LAMBDA_ZERO-TEACHER-4-OPEN-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.032133688646986125,
+          "maximum_speed_m_s": 0.03801631079916337,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.585701138558159,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 0,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "7dfbd3afb0a161dd5964b12f1680c5ef5bad8a93f6140847aceb6fc78deddae4",
+        "artifact": "LAMBDA_ZERO-R4_SAFE_GRASP-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.04461761469966352,
+          "maximum_speed_m_s": 0.04461761469966352,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.446516935980413,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 1,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "7dfbd3afb0a161dd5964b12f1680c5ef5bad8a93f6140847aceb6fc78deddae4",
+        "artifact": "LAMBDA_ZERO-R4_SAFE_GRASP-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.04461761469966352,
+          "maximum_speed_m_s": 0.04461761469966352,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.446516935980413,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 0,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "6d082f65800116a7f732edd00aea40581ce56f5833645e49900ef1ae20dc53cb",
+        "artifact": "LAMBDA_ZERO-R4_SAFE_LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.013452955314569599,
+          "maximum_speed_m_s": 0.013452955314569599,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.50005632336603,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "LAMBDA_ZERO",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 1,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "6d082f65800116a7f732edd00aea40581ce56f5833645e49900ef1ae20dc53cb",
+        "artifact": "LAMBDA_ZERO-R4_SAFE_LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.013452955314569599,
+          "maximum_speed_m_s": 0.013452955314569599,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.50005632336603,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "c5f1046661df6c2b1b3f9505af3544371d6584f45a546018934af86d00ae38a7",
+        "artifact": "SHARED_L2SP-TEACHER-2-LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.0387274288699012,
+          "maximum_speed_m_s": 0.0387274288699012,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.1463361352797037,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "TEACHER-2-LIFT",
+        "phase": "LIFT",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "c5f1046661df6c2b1b3f9505af3544371d6584f45a546018934af86d00ae38a7",
+        "artifact": "SHARED_L2SP-TEACHER-2-LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.0387274288699012,
+          "maximum_speed_m_s": 0.0387274288699012,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.1463361352797037,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 0,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "29936352f7434f871992c92f95d82fa029861a9f249e41eedb853fd128ad29cc",
+        "artifact": "SHARED_L2SP-TEACHER-4-OPEN-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.05252608588206961,
+          "maximum_speed_m_s": 0.05252608588206961,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.6193546612598411,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "TEACHER-4-OPEN",
+        "phase": "OPEN",
+        "repeat": 1,
+        "noise_sha256": "94ee3c6def8bbc4cdbcb69b3215c9feac17cdb9185b92edfc43085d4e6210fce",
+        "action_sha256": "29936352f7434f871992c92f95d82fa029861a9f249e41eedb853fd128ad29cc",
+        "artifact": "SHARED_L2SP-TEACHER-4-OPEN-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.05252608588206961,
+          "maximum_speed_m_s": 0.05252608588206961,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": -0.6193546612598411,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 0,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "a835e50141b6426f0a81a4b332fcfd89564a1f8830baf64485446a01afbb2109",
+        "artifact": "SHARED_L2SP-R4_SAFE_GRASP-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.059582116088302134,
+          "maximum_speed_m_s": 0.059582116088302134,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.4620311370120431,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "R4_SAFE_GRASP",
+        "phase": "target_grasp",
+        "repeat": 1,
+        "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+        "action_sha256": "a835e50141b6426f0a81a4b332fcfd89564a1f8830baf64485446a01afbb2109",
+        "artifact": "SHARED_L2SP-R4_SAFE_GRASP-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.059582116088302134,
+          "maximum_speed_m_s": 0.059582116088302134,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 1.4620311370120431,
+        "repeat_max_abs": 0.0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 0,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "f8828e3a567109dca658d88bd6288ec51d8234c66b79362a84d923e19bc2f12b",
+        "artifact": "SHARED_L2SP-R4_SAFE_LIFT-R0.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.013298972601450063,
+          "maximum_speed_m_s": 0.013298972601450063,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.551139112012658,
+        "repeat_max_abs": 0
+      },
+      {
+        "model": "SHARED_L2SP",
+        "frame": "R4_SAFE_LIFT",
+        "phase": "target_lift20mm",
+        "repeat": 1,
+        "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+        "action_sha256": "f8828e3a567109dca658d88bd6288ec51d8234c66b79362a84d923e19bc2f12b",
+        "artifact": "SHARED_L2SP-R4_SAFE_LIFT-R1.npz",
+        "g7": {
+          "first_seam_speed_m_s": 0.013298972601450063,
+          "maximum_speed_m_s": 0.013298972601450063,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "p10_up_request_mm": 3.551139112012658,
+        "repeat_max_abs": 0.0
+      }
+    ]
+  },
+  "repetitions": 2,
+  "maximum_new_frozen_forwards": 32,
+  "exact_reused_outputs": 24,
+  "primary_question": "Does replacing only shared Expert or only Go2 IO restore the original safe raw grasp/open function?",
+  "selection": "Fixed four TRAIN states: two retention failures, safe lift, and the opposite-direction teacher lift change",
+  "interpretation": "Only local parameter-swap effects; hybrid composition is not a trained or deployment-qualified endpoint",
+  "evaluation_split": "TRAIN_DIAGNOSTIC",
+  "protected_conditions": 0,
+  "native_integrations": 0,
+  "optimizer_updates": 0,
+  "frozen_WBC": true,
+  "original_L1": true,
+  "original_G7_mm_s": 40.0,
+  "no_dynamic_L1_or_WBC_execution": true
+}
