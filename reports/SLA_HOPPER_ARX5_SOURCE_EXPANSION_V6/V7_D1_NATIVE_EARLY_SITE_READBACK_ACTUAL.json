@@ -1,0 +1,200 @@
+{
+  "status": "D1_NATIVE_EARLY_SUFFIX_INDEPENDENT_READBACK",
+  "case": "V7_D1_EARLY_TRAIN_15",
+  "actual_started": 1,
+  "unstarted": [
+    "V7_D1_EARLY_TRAIN_16"
+  ],
+  "source_native_result_sha256": "f165596c1c87bb62a18ea167ffa05e71da952532477e709e1ea236372deab931",
+  "sealed_label_sha256": "12819abb1a0285b05c5255668ba9b2fa0c723785c54977fe9d23a98efa981b53",
+  "trigger": {
+    "trigger": "PRECONTACT_20MM",
+    "native_step": 16453,
+    "native_time_s": 32.90599999999425,
+    "wrist_target_mm": 18.911157388145355,
+    "threshold_mm": 20.0,
+    "teacher_privileged_geometry": true,
+    "actual_previous_width_m": 0.04199514388644542,
+    "holding_at_handoff": false,
+    "first_teacher_gripper_sequence": 558,
+    "actual_student_queries": 43,
+    "clock_owner_unchanged": true,
+    "student_only_result": false,
+    "prior_role": "STUDENT",
+    "next_role": "TEACHER"
+  },
+  "previous_actual_gripper_sequence": 557,
+  "first_actual_teacher_gripper_sequence": 558,
+  "last_actual_teacher_gripper_sequence": 1557,
+  "continuous_confirmed_teacher_atoms": 1000,
+  "all_teacher_atoms_25_ticks": true,
+  "actual_native_integrations": 41453,
+  "actual_model_forwards": 43,
+  "score": {
+    "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+    "instruction": "PLACE-red-right",
+    "task_success": true,
+    "native_step": 41453,
+    "base_directional_motion_m": 0.1980617017952286,
+    "lift_m": 2.55351295663786e-15,
+    "inside_selected_region": true,
+    "target_grasp": false,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": true,
+    "gripper_open_fraction": 0.9545448794847359,
+    "TCP_retreat_m": 0.0555852835013718,
+    "stable_release_condition": true,
+    "states": 35751,
+    "missing_native_intervals": 0,
+    "unsafe_states": 0,
+    "ever_target_grasp": true,
+    "ever_target_lift20mm": true,
+    "maximum_lift_m": 0.03216775869629129,
+    "longest_grasp_lift_hold_s": 4.866000000005947,
+    "longest_stable_released_retreat_s": 1.1339999999973571,
+    "events": {
+      "base80mm": {
+        "native_step": 9298,
+        "native_time_s": 18.596000000000572
+      },
+      "target_grasp": {
+        "native_step": 25270,
+        "native_time_s": 50.5400000000158
+      },
+      "target_lift20mm": {
+        "native_step": 27675,
+        "native_time_s": 55.35000000002168
+      },
+      "correct_region": {
+        "native_step": 33511,
+        "native_time_s": 67.0220000000252
+      },
+      "released": {
+        "native_step": 38696,
+        "native_time_s": 77.39200000000103
+      },
+      "retreated50mm": {
+        "native_step": 40886,
+        "native_time_s": 81.77199999999083
+      }
+    },
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM"
+  },
+  "trace_audit": {
+    "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+    "status": "RECORDED_TRACE_CHECKS_PASS",
+    "errors": [],
+    "missing": [],
+    "records": 324901,
+    "writer": {
+      "events": 324901,
+      "written": 324901,
+      "dropped": 0,
+      "stop_latched": false,
+      "sealed_at_explicit_pause": true
+    },
+    "full_payload_records": 4146,
+    "full_payloads_not_retained": 0,
+    "first_two_policy_evidence": [
+      {
+        "policy": 1,
+        "output_count": 12,
+        "input": [
+          {
+            "status": "INLINE_COMPLETE",
+            "count": 88,
+            "encoding": "f32 promoted to raw f64",
+            "sha256": "98fcd6fa5c37c7c384e52c8fb5d10201d5fd2dd97fed0cd22898047939366c6c"
+          }
+        ],
+        "history": [
+          {
+            "status": "SNAPSHOT_COMPLETE",
+            "count": 2640,
+            "original_count": 2640,
+            "sha256": "64d31e9df5581820678f500d0815b7f640125d20e6da2339ae4d1663f70c60db",
+            "encoding": "f32"
+          }
+        ]
+      },
+      {
+        "policy": 2,
+        "output_count": 12,
+        "input": [
+          {
+            "status": "INLINE_COMPLETE",
+            "count": 88,
+            "encoding": "f32 promoted to raw f64",
+            "sha256": "796b31da4e8b2e3c40a7395d93362f5354499f8befe9c76fb08b1d0ba25b4c10"
+          }
+        ],
+        "history": [
+          {
+            "status": "SNAPSHOT_COMPLETE",
+            "count": 2640,
+            "original_count": 2640,
+            "sha256": "cda2d8af5ce9c7388d56d19e0cc8311dbb6d66b9d7fa279e7d8e13f4f7272975",
+            "encoding": "f32"
+          }
+        ]
+      }
+    ],
+    "legacy_publish_channels_unknown": 0,
+    "applied_mixed_versions": 0,
+    "unmatched_apply_versions": 0,
+    "native_step_records": 41453,
+    "PD_callbacks_recorded": 29160,
+    "integrations_after_first_STOP": null,
+    "STOP_observed": false,
+    "STOP_check": "NOT_TESTED",
+    "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+    "input_files_sha256": {
+      "init.trace": "56fcc8f456dc9fcbee65ad2e40b1dd556609acf5e529cfe6f72e6289f380d470",
+      "init.trace.snapshots": "be65f7b8a5ab84e53641800349f6b94b5b6f55a61351945a69074a5edaca3823",
+      "init.trace.summary": "d763be16c6a8e49a345a13d0209b4701e89e5b336961b764061b8a691f5a593d"
+    },
+    "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+    "new_effects_of_audit": {
+      "target_integrations": 0,
+      "policy_queries": 0
+    },
+    "state_payload": {
+      "model_abi": [
+        41,
+        38,
+        20
+      ],
+      "inline_values": 96,
+      "trailing_ctrl_values_not_retained": 3,
+      "full_post_step_state_source": "ACTUAL_NATIVE_STATE_JOURNAL"
+    }
+  },
+  "shutdown_clean": true,
+  "WBC_changes": false,
+  "new_training_updates": 0,
+  "phase_windows": {
+    "PREGRASP": 13,
+    "DESCEND": 20,
+    "CLOSE": 3,
+    "LIFT": 9,
+    "CARRY": 28,
+    "LOWER": 14,
+    "OPEN": 4,
+    "WITHDRAW": 9
+  },
+  "maximum_roundtrip_mm_deg": [
+    4.7440368207642876e-07,
+    5.250268007130308e-08
+  ],
+  "prior_recovery_attempts": 14,
+  "total_recovery_attempts": 15,
+  "prior_admissions": 4,
+  "total_admissions": 5,
+  "total_admitted_windows": 255,
+  "unchanged_formal_curriculum": "A93_R3_8031_WINDOWS",
+  "new_early_start_count": 1,
+  "C1_early_start_requirement_met": false,
+  "engineering_readback_retry": "FIRST_CPU_SEAL_STOPPED_AT_MISSING_IMPORT; SAME_UNMODIFIED_QUALIFIED_LABEL_MODULE_ADDED_TO_PATH; NO_PHYSICS_RETRY"
+}

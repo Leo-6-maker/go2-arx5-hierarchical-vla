@@ -1,0 +1,62 @@
+{
+  "status": "MATCHED_250_PAIR_SEALED_PBS_F0",
+  "job": "739007.hopper-m-02",
+  "job_state": "F",
+  "exit_status": 0,
+  "resources_used": {
+    "cpupercent": 104,
+    "cput": "00:37:09",
+    "mem": "52767224kb",
+    "ncpus": 12,
+    "vmem": "118514564kb",
+    "walltime": "00:41:30"
+  },
+  "source_terminal_sha256": "63c4fb459ebde4a1df9175d4282955da4298421b0ceb727c1f1f5a95cd98d495",
+  "source_binding_sha256": "f1a32d154461e24c5a2358ae2989e0a8c67b372afd48b9ad57d6d774932c25b1",
+  "source_start_step": 100,
+  "paired_end_step": 250,
+  "new_actual_formal_updates": 300,
+  "cumulative_formal_updates": 5100,
+  "cumulative_engineering_updates": 24,
+  "engineering_cap": 24,
+  "arms": {
+    "LAMBDA_ZERO": {
+      "terminal_sha256": "062d7553b77432b47b158d55b906a98c4d5092afdc2d7217cf7db300882afe2c",
+      "seal_sha256": "4d85ee89f556ba4fac01fa7aeb1a8b19ffaedffffbb278414f00006cb9b84f35",
+      "interval_updates": 150,
+      "complete_step": 250,
+      "adam_counts": {
+        "libero": 250,
+        "robodojo": 250,
+        "shared": 250,
+        "target": 250
+      },
+      "coefficient": 0.0,
+      "last_lr": 5.327314078402072e-07,
+      "warm_p50_s": 4.998976930277422,
+      "updates_not_in_ledger": 0
+    },
+    "SHARED_L2SP": {
+      "terminal_sha256": "9a93ebacef8f89ed2b58d33024a596c285069ac321716c17de6417f773706971",
+      "seal_sha256": "5e60d05c883c59da626b623d492e5bbd7cb5827effb99c0f39059036142c9a3d",
+      "interval_updates": 150,
+      "complete_step": 250,
+      "adam_counts": {
+        "libero": 250,
+        "robodojo": 250,
+        "shared": 250,
+        "target": 250
+      },
+      "coefficient": 0.009245659257303812,
+      "last_lr": 5.327314078402072e-07,
+      "warm_p50_s": 4.937825395958498,
+      "updates_not_in_ledger": 0
+    }
+  },
+  "matched_input_rows": 150,
+  "original_500_step_LR_preserved": true,
+  "current_A93_R3_curriculum_changed": false,
+  "independent_Core_250_restore_complete": false,
+  "scientific_promotion": false,
+  "automatic_500_continuation": false
+}

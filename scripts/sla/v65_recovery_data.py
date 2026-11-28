@@ -42,9 +42,10 @@ def transfer(root, output, reference):
     return {"file": str(output.relative_to(root)), "sha256": sha(output)}
 
 
-def source_episode(work, output, wave, suffix, windows, digest):
-    name = f"V64_RECOVERY_TRAIN_{suffix}"
-    seal = read(pin(work / f"RECOVERY-TRAIN-SEALED-{wave:02d}" / name / "ACTUAL.json", digest))
+def source_episode(work, output, wave, suffix, windows, digest, *, name=None, seal_path=None):
+    name = name or f"V64_RECOVERY_TRAIN_{suffix}"
+    seal_path = seal_path or work / f"RECOVERY-TRAIN-SEALED-{wave:02d}" / name / "ACTUAL.json"
+    seal = read(pin(seal_path, digest))
     terminal = checked(seal["native_result"])
     case = terminal.parent
     lease = read(case / "control/LEASE.json")

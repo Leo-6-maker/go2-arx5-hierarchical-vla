@@ -29,6 +29,7 @@ class EarlyWarning:
         if scored['target_grasp']!=sample['native_grasp']:
             raise ValueError('Original scorer and measured grasp disagree')
         if (scored['base_directional_motion_m']<BASE_MOTION or scored['ever_target_lift20mm']
+                or scored['maximum_lift_m']>=.02
                 or (scored['ever_target_grasp'] and not scored['target_grasp'])):
             self.history=[]
             return None
@@ -72,7 +73,13 @@ def prepare_warning(initial,sample,scored,spec,consumed,previous,base,event):
 
     if event['trigger'] not in ('PRECONTACT_20MM','LIFT_STALL_1S') or event['native_step']!=sample['native_step']:
         raise ValueError('Use the actual fixed early warning event')
-    if not sample['safety_valid'] or sample.get('native_abort') or scored['unsafe_states']:
+    from go2arx5_vla.world_model.multitask_score_v6 import BASE_MOTION
+    if (sample['native_step']!=scored['native_step'] or not sample['safety_valid']
+            or not sample['gripper_state_valid'] or sample.get('native_abort')
+            or scored['base_directional_motion_m']<BASE_MOTION or scored['ever_target_lift20mm']
+            or scored['maximum_lift_m']>=.02 or scored['target_grasp']!=sample['native_grasp']
+            or (scored['ever_target_grasp'] and not scored['target_grasp'])
+            or any(scored[k] for k in ('unsafe_states','missing_native_intervals','wrong_object_contact_ever','wrong_object_grasp_ever'))):
         raise ValueError('No Teacher preparation after hard STOP')
     reference=accepted_pose(sample,consumed,previous)
     teacher=EarlyTeacher(initial,sample,spec['mobile_condition'],spec['multitask_geometry'],
