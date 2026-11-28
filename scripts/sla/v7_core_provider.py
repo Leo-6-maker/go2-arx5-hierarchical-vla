@@ -7,8 +7,6 @@ import numpy as np
 
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from v7_core_endpoint import ARMS, PLAN, STEPS, array_list_identity, byte_identity
-from v7_full_model_paths import PROJECTION_KEY, auxiliary_h40, extend_target_io
-from v7_previous_command import encode_previous_width
 
 
 DT = .002
@@ -16,6 +14,7 @@ DT = .002
 
 def current_condition(previous, *, treatment):
     from go2arx5_vla.sla_adapter.dense_g7_v6 import previous_command_context
+    from v7_previous_command import encode_previous_width
 
     width = previous_command_context(previous)
     times = np.asarray([previous["query_native_s"],previous["source_native_s"]],dtype=np.float64)
@@ -52,6 +51,7 @@ class ContextProvider:
         from openpi.models import pi0
         from openpi_client.image_tools import resize_with_pad
         from scripts.sla.mfree_c20_vectorfield_v3 import extracted_fields
+        from v7_full_model_paths import PROJECTION_KEY, auxiliary_h40, extend_target_io
 
         active = extend_target_io(parameters)
         target = active["target"]

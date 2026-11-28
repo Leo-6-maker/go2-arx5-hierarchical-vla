@@ -28,6 +28,10 @@ EARLY = {
     "v64_recovery_release_prefix.py": "5a6534dae66e5ebaf0fb0c4e6013fd85b951c59e0b83855ce7528eb9486c9373",
 }
 IDS = ("V7_D0_EARLY_TRAIN_11", "V7_D0_EARLY_TRAIN_12")
+FOLLOWUP_PROSPECTIVE = "3a719a4f644cf2b5513eb1b0b5dcaaff6c040cd5cdfad9ebcab1e11cdae3310d"
+FOLLOWUP_IDS = ("V7_D0_EARLY_TRAIN_13", "V7_D0_EARLY_TRAIN_14")
+SEQUENCE_FIX = "f226da4f79d41c7389fabe202886fa75995b163369a8232b660b9f726ba7ecd2"
+COHORTS = {PROSPECTIVE: IDS, FOLLOWUP_PROSPECTIVE: FOLLOWUP_IDS}
 STAGES = ("LIFT", "PREGRASP")
 ROSTER_NAME = "V7-D0-NATIVE-ROSTER.private.json"
 
@@ -45,8 +49,10 @@ def read_runtime(path, expected=None):
         return None
     roster = read(path)
     source = roster["prospective"]
-    evidence = read(pin(source["path"],PROSPECTIVE))
-    require(source["sha256"] == PROSPECTIVE and roster["plan"] == RECOVERY_PLAN and roster["science_plan"] == PLAN
+    identity = source["sha256"]
+    require(identity in COHORTS, "Unregistered early Recovery roster")
+    evidence = read(pin(source["path"], identity))
+    require(roster["plan"] == RECOVERY_PLAN and roster["science_plan"] == PLAN
             and roster["split"] == "TRAIN" and roster["cases"] == evidence["cases"]
             and roster["student_provider"] == evidence["student_provider"]
             and roster["checkpoint_sha256"] == evidence["checkpoint_sha256"]
@@ -54,12 +60,21 @@ def read_runtime(path, expected=None):
             and roster["max_native_requests"] == 2 and roster["max_native_ticks"] == evidence["max_ticks"]
             and roster["handoff_protocol"] == "EARLY_UNINSTALLED_G7_ONLY"
             and roster["early_handoff_replay"]["sha256"] == REPLAY
-            and tuple(row["id"] for row in roster["cases"]) == IDS
+            and tuple(row["id"] for row in roster["cases"]) == COHORTS[identity]
             and tuple(row["required_stage"] for row in roster["cases"]) == STAGES,
             "Early Recovery binding differs from V7 scientific allocation")
+    if identity == FOLLOWUP_PROSPECTIVE:
+        fix = roster["sequence_fix"]
+        require(fix["sha256"] == evidence["sequence_fix_cpu_sha256"] == SEQUENCE_FIX,
+                "Second wave must use the tested sequence fix")
+        pin(fix["path"], SEQUENCE_FIX)
     checksum = sha(path)
     require(expected is None or checksum == expected, "Bound Recovery runtime roster changed")
     return roster, checksum
+
+
+def registered_noise(roster):
+    return NOISE if roster["prospective"]["sha256"] == PROSPECTIVE else roster["realized_noise"]["sha256"]
 
 
 def register(roster_path, teacher_root, parent_path, noise_path):
@@ -68,10 +83,11 @@ def register(roster_path, teacher_root, parent_path, noise_path):
         return None
     roster, _ = selected
     parent = read(pin(parent_path,PARENT))
-    noise = read(pin(noise_path,NOISE))
+    identity = roster["prospective"]["sha256"]
+    noise = read(pin(noise_path,registered_noise(roster)))
     require(parent["comparison_model"] == roster["student_provider"] and parent["v4_model_role"] == "R4_DEV_0200"
             and parent["gpu_noise_sha256"] == noise["prior_noise_manifest_sha256"]
-            and noise["roster_sha256"] == PROSPECTIVE and noise["plan"] == PLAN and noise["split"] == "TRAIN"
+            and noise["roster_sha256"] == identity and noise["plan"] == PLAN and noise["split"] == "TRAIN"
             and noise["matched_archived_cuda_sentinels"] == 3 and not noise["model_forwards"]
             and not noise["native_integrations"] and not noise["optimizer_updates"],
             "Expected the exact frozen R4 and realized CUDA noise")
@@ -106,10 +122,20 @@ def rewrite(path, edits):
     path.write_text(text)
 
 
-def prepare(site, prospective_path, output):
-    prospective = read(pin(prospective_path,PROSPECTIVE))
+def prepare(site, prospective_path, output, noise_path=None):
+    identity = sha(prospective_path)
+    require(identity in COHORTS, "Require a sealed early Recovery cohort")
+    prospective = read(pin(prospective_path,identity))
     older = read(pin(site/"RECOVERY-TRAIN-ROSTER-05.json",FIFTH))
     replay = pin(site/"v64-recovery-early-teacher-code-01/ACTUAL-EARLY-TEACHER-GUARDED-CLOCK-01.json",REPLAY)
+    new_fields = {}
+    if identity == FOLLOWUP_PROSPECTIVE:
+        require(noise_path is not None, "Second wave requires realized CUDA noise")
+        noise = read(noise_path)
+        require(noise["roster_sha256"] == identity and NOISE in noise["prior_recovery"],
+                "Second wave noise must exclude the first early cohort")
+        fix = pin(site/"v7-d0-sequence-fix.NNgNEL/ACTUAL.json",SEQUENCE_FIX)
+        new_fields = dict(realized_noise=ref(noise_path),sequence_fix=ref(fix))
     source = site/"V64-RECOVERY-OVERLAY-06"
     early = site/"v64-early-recovery-entry-code-02"
     for name, checksum in ENGINE.items():
@@ -128,7 +154,7 @@ def prepare(site, prospective_path, output):
           student_provider=prospective["student_provider"],protected_scene_sha256=prospective["protected_scene_sha256"],
           teacher_sources={r["id"]:older["teacher_sources"][r["historical_failure"]] for r in prospective["cases"]},
           max_native_requests=2,max_native_ticks=prospective["max_ticks"],
-          handoff_protocol="EARLY_UNINSTALLED_G7_ONLY",early_handoff_replay=ref(replay)))
+          handoff_protocol="EARLY_UNINSTALLED_G7_ONLY",early_handoff_replay=ref(replay),**new_fields))
     rewrite(scripts/"v64_recovery_launcher.py", (
         ("    roster, cohort = read_roster(roster_path)\n",
          "    from v7_d0_native import register\n"
@@ -138,8 +164,8 @@ def prepare(site, prospective_path, output):
     ))
     rewrite(scripts/"v64_recovery_cohorts.py", (
         ("def read_roster(path, expected=None):\n",
-         "from v7_d0_native import bound_roster, read_runtime, NOISE as D0_NOISE\n"
-         "NOISE[sha(bound_roster())] = D0_NOISE\n\n"
+         "from v7_d0_native import bound_roster, read_runtime, registered_noise\n"
+         "NOISE[sha(bound_roster())] = registered_noise(read_runtime(bound_roster())[0])\n\n"
          "def read_roster(path, expected=None):\n"
          "    if (early := read_runtime(path, expected)) is not None:\n"
          "        return early\n"),
@@ -162,6 +188,15 @@ def prepare(site, prospective_path, output):
          '            return None\n'
          '        consumed = read(self.last_consumed_query)\n'),
     ))
+    if identity == FOLLOWUP_PROSPECTIVE:
+        from v7_recovery_sequence import stage_continuous
+
+        sequence = Path(__file__).with_name("v7_recovery_sequence.py")
+        shutil.copyfile(sequence, scripts/sequence.name)
+        original = scripts/"v64_recovery_native.py"
+        destination = scripts/"v64_recovery_native_sequence.py"
+        stage_continuous(original, destination)
+        destination.replace(original)
     return manifest
 
 
@@ -169,4 +204,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for f in ("site","prospective_path","output"):
         parser.add_argument(f,type=Path)
+    parser.add_argument("--noise-path",type=Path)
     print(prepare(**vars(parser.parse_args())))

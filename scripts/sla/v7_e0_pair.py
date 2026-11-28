@@ -25,7 +25,7 @@ def action_delta(current, baseline):
                 first_jaw_delta_mm=float(40 * (current[0, 9] - baseline[0, 9])))
 
 
-def run(manifest, worker, original, providers, pair_sha, output):
+def run(manifest, worker, original, providers, pair_sha, output, safe_manifest=None, safe_sha=None):
     import jax
     from go2arx5_vla.sla_adapter.adapt5k_data import AdaptTargetDataset
     from openpi_client.image_tools import resize_with_pad
@@ -47,6 +47,20 @@ def run(manifest, worker, original, providers, pair_sha, output):
                 baseline[row["frame"], row["task"]] = data["physical_H40"]
     fixed = [row for row in roster["conditions"] if row["model"] == "R4"]
     require(len(fixed) == len(baseline) == 5, "Expected the original five TRAIN states and prompt pairs")
+    frames = dict(roster["frames"])
+    require((safe_manifest is None) == (safe_sha is None), "A successful-stage manifest requires its sealed digest")
+    if safe_manifest is not None:
+        success = read(pin(safe_manifest, safe_sha))
+        require(success["plan"] == PLAN and success["split"] == "TRAIN_DIAGNOSTIC"
+                and set(success["frames"]) == {"R4_SAFE_GRASP", "R4_SAFE_LIFT"}
+                and not success["authorized_for_training_labels"], "Expected the fixed successful-stage TRAIN evidence")
+        for name, frame in success["frames"].items():
+            record = frame["baseline"]
+            with np.load(pin(record["path"], record["sha256"]), allow_pickle=False) as data:
+                baseline[name, frame["task"]] = data["physical_H40"]
+            fixed.append(dict(frame=name, task=frame["task"], language=frame["language"]))
+            frames[name] = frame
+    count = len(fixed) * len(ARMS)
     with closing(OwnerLock(Path(spec["neural_owner_lock"]))):
         gpu = check_gpu(spec["GPU_uuid"], spec["allocator_limit_bytes"], spec["minimum_host_available_bytes"])
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1, "Expected the original GPU path")
@@ -55,7 +69,7 @@ def run(manifest, worker, original, providers, pair_sha, output):
         target = AdaptTargetDataset(source["legacy"], source["captures"], resize_with_pad=resize_with_pad)
         target.bind_state(source["statistics"])
         output.mkdir(mode=0o700)
-        write(output / "START.json", dict(plan=PLAN, gpu=gpu, max_forwards=10, pair_sha256=pair_sha))
+        write(output / "START.json", dict(plan=PLAN, gpu=gpu, max_forwards=count, pair_sha256=pair_sha))
         measurements = []
         for arm in ARMS:
             digest = pair["arms"][arm]["provider_sha256"]
@@ -70,7 +84,7 @@ def run(manifest, worker, original, providers, pair_sha, output):
 
             model.infer = check_draw
             for row in fixed:
-                frame = roster["frames"][row["frame"]]
+                frame = frames[row["frame"]]
                 path = frame["input"]
                 stem = output / f"{arm}-{row['frame']}-{row['task']}"
                 write(stem.with_suffix(".ENTERED.json"), dict(arm=arm, frame=row["frame"], task=row["task"]))
@@ -92,8 +106,9 @@ def run(manifest, worker, original, providers, pair_sha, output):
             del model, infer
             jax.clear_caches()
             gc.collect()
-    write(output / "RESULT.json", dict(rows=measurements, model_forwards=10, optimizer_updates=0,
-          native_integrations=0, input_sha256=MANIFEST, pair_sha256=pair_sha, authority="TRAIN_FIXED_OBSERVATION"))
+    write(output / "RESULT.json", dict(rows=measurements, model_forwards=count, optimizer_updates=0,
+          native_integrations=0, input_sha256=MANIFEST, successful_stage_sha256=safe_sha,
+          pair_sha256=pair_sha, authority="TRAIN_FIXED_OBSERVATION"))
 
 
 if __name__ == "__main__":
@@ -101,4 +116,6 @@ if __name__ == "__main__":
     for name in ("manifest", "worker", "original", "providers", "output"):
         cli.add_argument(name, type=Path)
     cli.add_argument("pair_sha")
+    cli.add_argument("--safe-manifest", type=Path)
+    cli.add_argument("--safe-sha")
     run(**vars(cli.parse_args()))

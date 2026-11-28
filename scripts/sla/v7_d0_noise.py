@@ -6,12 +6,15 @@ import hashlib
 import os
 from pathlib import Path
 
-from m38_gpu_preflight_v1 import pin, read, require, sha
+from m38_gpu_preflight_v1 import pin, read, require
 from scripts.pi0292.durable import OwnerLock, write
 from v7_d0_roster import PLAN, QUERIES
 
 
 ROSTER = "4e10cfdd865ade7fe6e360664d2601530ba5737e9160e14d1c9abdde4edfe761"
+FOLLOWUP_ROSTER = "3a719a4f644cf2b5513eb1b0b5dcaaff6c040cd5cdfad9ebcab1e11cdae3310d"
+FIRST_NOISE = ("v7-d0-noise.tITolp/ACTUAL.private.json",
+               "1073abde8dae989e6534fe298b30063a6c770767808add685ce565ea4e7f48e6")
 WORKER = "361709e35c2bf427d5644e7af37a925014ab52861c075d4782749afd371d6bfc"
 OLD_NOISE = (
     ("V64-CPU-READBACK-02/RECOVERY-TRAIN-CUDA-NOISE.json",
@@ -27,22 +30,34 @@ OLD_NOISE = (
 )
 
 
-def seal(site, roster_path, worker_path, output):
+def seal(site, roster_path, worker_path, output, followup=False):
     import jax
     import numpy as np
 
-    roster = read(pin(roster_path, ROSTER))
+    roster_sha = FOLLOWUP_ROSTER if followup else ROSTER
+    roster = read(pin(roster_path, roster_sha))
     worker = read(pin(worker_path, WORKER))
     require(roster["plan"] == PLAN and roster["split"] == "TRAIN"
             and not roster["authorized_native_runtime"] and not roster["actual_starts"]
             and os.environ["CUDA_VISIBLE_DEVICES"] == worker["GPU_uuid"], "Require the pinned Corelab sampling device")
-    for run in ("RECOVERY3000-NATIVE-HOLD-01", "RECOVERY3000-NATIVE-PLACE-01",
-                "RECOVERY3000-NATIVE-INDEPENDENT_HOLD-01", "RECOVERY-TRAIN-LIVE-05"):
+    owners = ("RECOVERY3000-NATIVE-HOLD-01", "RECOVERY3000-NATIVE-PLACE-01",
+              "RECOVERY3000-NATIVE-INDEPENDENT_HOLD-01", "RECOVERY-TRAIN-LIVE-05")
+    if followup:
+        owners += ("V7-D0-EARLY-NATIVE-01",)
+        for phase in ("HOLD", "PLACE", "INDEPENDENT_HOLD"):
+            for i in range(2):
+                ongoing = site / "V7-A500-CORE-01" / f"NATIVE-{i}-{phase}"
+                if (ongoing / "control/LEASE.json").is_file():
+                    require(all(read(ongoing / leaf)["status"] == "CLOSED" for leaf in
+                                ("control/LEASE.json", "worker/control/LEASE.json")),
+                            "V7 evaluation still owns its current phase")
+    for run in owners:
         for leaf in ("control/LEASE.json", "worker/control/LEASE.json"):
             require(read(site/run/leaf)["status"] == "CLOSED", "Do not overlap an existing model or simulation owner")
     original = worker["sample_noise"]
     valid = read(pin(original["path"], original["sha256"]))["tensors"]
-    old = [read(pin(site/path, checksum))["tensors"] for path, checksum in OLD_NOISE]
+    cohorts = (*OLD_NOISE, FIRST_NOISE) if followup else OLD_NOISE
+    old = [read(pin(site/path, checksum))["tensors"] for path, checksum in cohorts]
     require(all(len(rows) == 2*QUERIES for rows in old), "Incomplete prior Recovery noise")
     previous = valid + [row for cohort in old for row in cohort]
     ids = {r["noise_id"] for r in previous}
@@ -68,8 +83,8 @@ def seal(site, roster_path, worker_path, output):
                 hashes.add(checksum)
                 rows.append(dict(case=case["id"],query=query,noise_id=index,gpu_sha256=checksum))
         require(len(rows) == 2*QUERIES, "Incomplete prospective CUDA range")
-        write(output,dict(plan=PLAN,split="TRAIN",roster_sha256=ROSTER,worker_spec_sha256=WORKER,
-                         prior_noise_manifest_sha256=original["sha256"],prior_recovery=[sha(site/p) for p,_ in OLD_NOISE],
+        write(output,dict(plan=PLAN,split="TRAIN",roster_sha256=roster_sha,worker_spec_sha256=WORKER,
+                         prior_noise_manifest_sha256=original["sha256"],prior_recovery=[digest for _,digest in cohorts],
                          matched_archived_cuda_sentinels=len(sentinels),tensors=rows,model_forwards=0,
                          native_integrations=0,optimizer_updates=0))
 
@@ -78,4 +93,5 @@ if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     for field in ("site","roster_path","worker_path","output"):
         cli.add_argument(field,type=Path)
+    cli.add_argument("--followup",action="store_true")
     seal(**vars(cli.parse_args()))

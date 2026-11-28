@@ -152,11 +152,33 @@ def check_preflight(site, panel, result, phase, arm):
     return ref(result/"COMPARISON.json")
 
 
+def validate_case_interpreters(entry, result):
+    checks = []
+    for row in read(result/"COMPARISON.json")["schedule"]:
+        path = result/row["id"]/"EXECUTION_SPEC.json"
+        spec = read(path)
+        env = dict(os.environ, **spec["native_environment"])
+        probe = ("import runpy, sys; from pathlib import Path; "
+                 "entry = Path(sys.argv[1]); sys.path.insert(0, str(entry.parent)); "
+                 "code = runpy.run_path(str(entry)); "
+                 "raise SystemExit(code['case_main'](Path(sys.argv[2]), None, preflight=True))")
+        subprocess.run([spec["python"], "-B", "-c", probe, str(entry), str(path)], env=env, check=True)
+        checks.append(dict(id=row["id"], interpreter=spec["python"], spec_sha256=sha(path)))
+    return checks
+
+
 def dispatch(base, site, original, overlay, panel, output, phase, arm, *, execute=False, offline=None, preflight=None):
     require(not output.exists(),"Reconcile existing native owner before any dispatch")
     if execute:
         require(offline is not None and preflight is not None,"Require fixed and verified evaluation prerequisites")
         check_preflight(site,panel,preflight,phase,arm)
+        review = read(preflight/"V7-INVOCATION.json")
+        schedule = read(preflight/"COMPARISON.json")["schedule"]
+        checks = review["case_interpreter_checks"]
+        require(not review["executed"] and review["arm"] == arm and review["phase"] == phase
+                and [(r["id"], sha(preflight/r["id"]/"EXECUTION_SPEC.json")) for r in schedule]
+                == [(r["id"], r["spec_sha256"]) for r in checks],
+                "The generated cases need the real native interpreter preflight")
         model = read(panel)
         feedback = read(offline/f"{arm}-FEEDBACK"/"RESULT.json")
         source = read(offline/f"{arm}-SOURCE"/"RESULT.json")
@@ -186,7 +208,10 @@ def dispatch(base, site, original, overlay, panel, output, phase, arm, *, execut
         action.append("--execute")
     subprocess.run(action,env=env,check=True)
     evidence = check_preflight(site,panel,output,phase,arm)
-    write(output/"V7-INVOCATION.json",dict(plan=PLAN,arm=arm,phase=phase,executed=execute,comparison=evidence))
+    if not execute:
+        checks = validate_case_interpreters(overlay/SLA/"m38_a_native_v1.py", output)
+    write(output/"V7-INVOCATION.json",dict(plan=PLAN,arm=arm,phase=phase,executed=execute,comparison=evidence,
+                                         case_interpreter_checks=checks))
 
 
 if __name__ == "__main__":
