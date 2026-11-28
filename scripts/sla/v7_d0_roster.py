@@ -25,6 +25,9 @@ PROTECTED = "a1dfa32f329cb91d474e20488cbeeafa3dc41858f32dacd6cd593dbed61bbb26"
 REPLAY = "e524b5d6d8e239e019dfe575ea848e8ceb88fbc56abce481be7bd4d7dbda81de"
 PROVIDER = "e825a48ed540b5d4d6c3623da24ac56d5aa3b51f2bf3aa488b313f21e044da5e"
 R4 = "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb"
+FIRST_EARLY = "4e10cfdd865ade7fe6e360664d2601530ba5737e9160e14d1c9abdde4edfe761"
+FIRST_CLOSE = "61051e05a5bbecabd2a0da00b7117d69871c1bd000d7e85f2d0b35bf305d2576"
+SEQUENCE_PROOF = "f226da4f79d41c7389fabe202886fa75995b163369a8232b660b9f726ba7ecd2"
 TICKS, QUERIES = 50703, 180
 ARM = (
     ("V64_RECOVERY_TRAIN_09", "V7_D0_EARLY_TRAIN_11", "LIFT", "PLACE-blue-left"),
@@ -63,7 +66,25 @@ def teacher(card, source):
                 original_teacher=card["original_teacher"])
 
 
-def build(site, output):
+def followup_history(site, previous):
+    first = read(pin(previous, FIRST_EARLY))
+    close = read(pin(site / "V7-D0-EARLY-SEALED-01/RESULT.json", FIRST_CLOSE))
+    proof = read(pin(site / "v7-d0-sequence-fix.NNgNEL/ACTUAL.json", SEQUENCE_PROOF))
+    require(first["plan"] == PLAN and close["complete_reconciliation"]
+            and close["denominator"] == close["terminal_cases"] == 2 and close["train_recovery_count"] == 0
+            and [row["id"] for row in first["cases"]] == [row["id"] for row in close["cases"]]
+            and all(row["state"] == "CLOSED" and not row["recovery_admitted"] for row in close["cases"])
+            and not close["cases"][0]["technical_failure"] and close["cases"][1]["technical_failure"],
+            "The original early cards must be closed and retained")
+    require(proof["frozen_receiver_requires_contiguous"] and not proof["actual_starts"]
+            and proof["expected_next_sequence"] == proof["previous_actual_gripper_sequence"] + 1
+            and proof["archived_technical_attempt_packet_sequence"] > proof["expected_next_sequence"],
+            "Require the exact closed sequence fix witness")
+    return first, dict(earlier_early_roster_sha256=FIRST_EARLY, earlier_early_result_sha256=FIRST_CLOSE,
+                       sequence_fix_cpu_sha256=SEQUENCE_PROOF, remaining_before=8, remaining_after=6)
+
+
+def build(site, output, followup=None):
     used_resets, used_noises = set(), set()
     started, admitted = 0, 0
     earlier = []
@@ -93,8 +114,19 @@ def build(site, output):
     require(r4["sha256"] == PROVIDER and manifest["training_receipt_sha256"] == R4
             and manifest["checkpoint_sha256"] == last["checkpoint_sha256"], "Require actual R4-200")
 
+    cohort = ARM
+    extension = {}
+    if followup is not None:
+        previous, extension = followup_history(site, followup)
+        for row in previous["cases"]:
+            used_resets.add(row["reset"])
+            used_noises.update((row["policy_seed"] + i) % 2**31 for i in range(QUERIES))
+        started += 2
+        cohort = tuple((old, f"V7_D0_EARLY_TRAIN_{number}", stage, task)
+                       for (old, _, stage, task), number in zip(ARM, (13, 14), strict=True))
+
     cases = []
-    for old,new,stage,task in ARM:
+    for old,new,stage,task in cohort:
         baseline, = [r for r in last["cases"] if r["id"] == old]
         fixture, = [r for r in replay["cases"] if r["case"] == old]
         require(baseline["task"] == fixture["task"] == task and fixture["candidate"]["stage"] == stage
@@ -113,11 +145,13 @@ def build(site, output):
           protected_scene_sha256=sorted(guarded),archive_replay_sha256=REPLAY,past_attempts=started,
           past_admissions=admitted,allowed_trigger="EARLY_UNINSTALLED_G7",
           max_new_requests=2,max_ticks=2*TICKS,max_queries=2*QUERIES,
-          authorized_native_runtime=False,actual_starts=0,model_forwards=0,actual_integrations=0,actual_admissions=0))
+          authorized_native_runtime=False,actual_starts=0,model_forwards=0,actual_integrations=0,actual_admissions=0,
+          **extension))
 
 
 if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
     for arg in ("site","output"):
         cli.add_argument(arg,type=Path)
+    cli.add_argument("--followup",type=Path)
     build(**vars(cli.parse_args()))
