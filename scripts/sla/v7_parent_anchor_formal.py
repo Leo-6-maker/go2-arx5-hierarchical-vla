@@ -36,6 +36,7 @@ def train(capsule, binding, allocation):
 
     source = Path(binding["source_pair"])
     end_step = binding["end_step"]
+    start_step = binding.get("resume", {}).get("step", 0)
     require(end_step in (100,250,500), "Use a preregistered finite endpoint")
     original = read(pin(source/"BINDING.json",binding["source_pair_binding_sha256"]))
     calibration = read(pin(binding["calibration"]["path"],binding["calibration"]["sha256"]))
@@ -86,20 +87,26 @@ def train(capsule, binding, allocation):
                 batch_by_domain=BATCH,gradient_join=partial(reduced_fm,batch=BATCH,aux_weight=AUX),
                 target_context=context,context_treatment=False)
         with closing(learner):
-            expected=read(pin(original["qualification_input"]["path"],original["qualification_input"]["sha256"]))
-            require(input_evidence(learner,0)==expected,"New pair changed original inputs or CUDA noise")
+            if start_step:
+                from v7_parent_anchor_resume import next_input, restore_learner
+                restored = restore_learner(learner, binding, arm)
+                write(run/"RESTORE.json", dict(restored, next_input=next_input(learner, binding, start_step)))
+            else:
+                expected=read(pin(original["qualification_input"]["path"],original["qualification_input"]["sha256"]))
+                require(input_evidence(learner,0)==expected,"New pair changed original inputs or CUDA noise")
             learner.apply=anchor.wrap(learner.apply,weight)
             witness=exact_noise_witness(learner)
             write(run/"RUN_CONTRACT.json",dict(scope=SCOPE,arm=arm,coefficient=weight,steps=STEPS,
-                  neutral_previous_command=True,initial_R4_penalty=0,seed=MODEL_NOISE_SEED,end_step=end_step,
+                  neutral_previous_command=True,initial_R4_penalty=0 if not start_step else None,
+                  seed=MODEL_NOISE_SEED,start_step=start_step,end_step=end_step,
                   batch=BATCH,parts=PARTS,micro=MICRO,auxiliary_weight=AUX,save_steps=SAVE_STEPS,
                   data_bank_sha256=original["bank"]["sha256"],binding_sha256=sha(capsule/"BINDING.json")))
             saved=None
-            recorded=0
+            recorded=start_step
             status="INTERRUPTED"
             try:
                 with (run/"UPDATES.jsonl").open("x",buffering=1) as stream:
-                    for step in range(end_step):
+                    for step in range(start_step,end_step):
                         witness.clear()
                         row=learner.update(end_step,MICRO,4,guard)
                         require(row["step"]==step+1 and row["lr"]==rates[step]
@@ -120,6 +127,7 @@ def train(capsule, binding, allocation):
                 if learner.step>0 and (saved is None or saved["step"]!=learner.step):
                     saved=save(learner,run,inventory,binding["checkpoint_bytes"])
                 terminal=dict(scope=SCOPE,arm=arm,status=status,formal_updates=learner.step,
+                              interval_updates=learner.step-start_step,start_step=start_step,
                               updates_not_in_ledger=learner.step-recorded,coefficient=weight,checkpoint=saved,
                               ledger_sha256=sha(run/"UPDATES.jsonl"))
                 write(run/"TERMINAL.json",terminal)
@@ -128,7 +136,8 @@ def train(capsule, binding, allocation):
                 break
     total=sum(value["formal_updates"] for value in complete.values())
     write(capsule/"TERMINAL.json",dict(scope=SCOPE,status="PAIR_COMPLETE" if total==2*end_step else "PAIR_PARTIAL",
-          formal_updates=total,end_step=end_step,engineering_updates=0,arms=complete,calibration_sha256=binding["calibration"]["sha256"]))
+          formal_updates=total,interval_updates=total-len(complete)*start_step,start_step=start_step,
+          end_step=end_step,engineering_updates=0,arms=complete,calibration_sha256=binding["calibration"]["sha256"]))
 
 
 def main(capsule):
@@ -137,9 +146,11 @@ def main(capsule):
     from v62_source_admission import award
 
     binding=read(capsule/"BINDING.json")
-    require(binding["scope"]==SCOPE and binding["formal_updates"]==2*binding["end_step"],
+    require(binding["scope"]==SCOPE and binding["formal_updates"]==
+            2*(binding["end_step"]-binding.get("resume",{}).get("step",0)),
             "Requires the fixed matched formal pair")
-    write_slots = 2*sum(step<=binding["end_step"] for step in SAVE_STEPS)+1
+    first = binding.get("resume", {}).get("step", 0)
+    write_slots = 2*sum(first<step<=binding["end_step"] for step in SAVE_STEPS)+1
     require(shutil.disk_usage(capsule).free>write_slots*binding["checkpoint_bytes"],"Checkpoint write reserve unavailable")
     with closing(OwnerLock(capsule/"OWNER.lock")):
         assigned=allocation()

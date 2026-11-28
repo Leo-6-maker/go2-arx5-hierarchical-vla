@@ -1,0 +1,263 @@
+{
+  "complete_step": 100,
+  "arms": {
+    "LAMBDA_ZERO": {
+      "shared": {
+        "squared_L2": 0.04591892027505079,
+        "parent_squared_L2": 443129.6368898082,
+        "leaves": [
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['final_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 2.3946517591925996e-07,
+            "parent_squared_L2": 3.0415816504079216,
+            "relative_L2": 0.0002805895179345903
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['final_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 0.00018815334567134906,
+            "parent_squared_L2": 556.9012377367205,
+            "relative_L2": 0.0005812552399453713
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum_1']['w'].value",
+            "squared_L2": 0.004235056320126791,
+            "parent_squared_L2": 37501.56589969674,
+            "relative_L2": 0.00033605076929483314
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['kv_einsum_1']['w'].value",
+            "squared_L2": 0.001200140946456462,
+            "parent_squared_L2": 14865.278898198923,
+            "relative_L2": 0.0002841381809426004
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['q_einsum_1']['w'].value",
+            "squared_L2": 0.004573432725552386,
+            "parent_squared_L2": 51403.10819090788,
+            "relative_L2": 0.0002982815954631206
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['mlp_1']['gating_einsum'].value",
+            "squared_L2": 0.016739399743784134,
+            "parent_squared_L2": 215799.52011458518,
+            "relative_L2": 0.00027851250729498653
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['mlp_1']['linear'].value",
+            "squared_L2": 0.0080603820754965,
+            "parent_squared_L2": 53506.53816845502,
+            "relative_L2": 0.00038812747560504736
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 6.976596868809018e-06,
+            "parent_squared_L2": 79.14738107334335,
+            "relative_L2": 0.0002968954485666441
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 0.005836942938153155,
+            "parent_squared_L2": 19695.984055089502,
+            "relative_L2": 0.0005443821567131254
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 5.937018374372313e-06,
+            "parent_squared_L2": 245.57056451244927,
+            "relative_L2": 0.000155487700991905
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 0.0050722590993909165,
+            "parent_squared_L2": 49472.980797902,
+            "relative_L2": 0.00032019657049260283
+          }
+        ]
+      },
+      "target": {
+        "squared_L2": 0.00017203897955613747,
+        "parent_squared_L2": 2820.745255822691,
+        "leaves": [
+          {
+            "key": "['parameters']['target']['action_in_proj']['bias'].value",
+            "squared_L2": 7.867196256201864e-08,
+            "parent_squared_L2": 0.3969959500683658,
+            "relative_L2": 0.000445160840741764
+          },
+          {
+            "key": "['parameters']['target']['action_in_proj']['kernel'].value",
+            "squared_L2": 1.7149226928605457e-06,
+            "parent_squared_L2": 1422.7267734330546,
+            "relative_L2": 3.4718545413578825e-05
+          },
+          {
+            "key": "['parameters']['target']['action_out_proj']['bias'].value",
+            "squared_L2": 3.2610573339246475e-09,
+            "parent_squared_L2": 0.0011845145531368811,
+            "relative_L2": 0.0016592392658583424
+          },
+          {
+            "key": "['parameters']['target']['action_out_proj']['kernel'].value",
+            "squared_L2": 4.43557046114121e-06,
+            "parent_squared_L2": 11.850375794159591,
+            "relative_L2": 0.0006117988832959935
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_in']['bias'].value",
+            "squared_L2": 1.2272064371687536e-07,
+            "parent_squared_L2": 0.8926995791949579,
+            "relative_L2": 0.00037077133211238793
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_in']['kernel'].value",
+            "squared_L2": 8.96123432398467e-05,
+            "parent_squared_L2": 966.6646359106537,
+            "relative_L2": 0.00030447104753854884
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_out']['bias'].value",
+            "squared_L2": 7.295531425246896e-08,
+            "parent_squared_L2": 0.2271760150150307,
+            "relative_L2": 0.0005666921904304407
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_out']['kernel'].value",
+            "squared_L2": 7.599853418442373e-05,
+            "parent_squared_L2": 417.9854146259917,
+            "relative_L2": 0.00042640476006569747
+          }
+        ]
+      }
+    },
+    "SHARED_L2SP": {
+      "shared": {
+        "squared_L2": 0.022110473863751007,
+        "parent_squared_L2": 443129.6368898082,
+        "leaves": [
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['final_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 2.4111053141206426e-07,
+            "parent_squared_L2": 3.0415816504079216,
+            "relative_L2": 0.00028155182735489467
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['final_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 9.24084259947501e-05,
+            "parent_squared_L2": 556.9012377367205,
+            "relative_L2": 0.0004073490378851848
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum_1']['w'].value",
+            "squared_L2": 0.0026732159560930767,
+            "parent_squared_L2": 37501.56589969674,
+            "relative_L2": 0.00026698835602105537
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['kv_einsum_1']['w'].value",
+            "squared_L2": 0.0008376072859652433,
+            "parent_squared_L2": 14865.278898198923,
+            "relative_L2": 0.000237374297431703
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['attn']['q_einsum_1']['w'].value",
+            "squared_L2": 0.002219739100070833,
+            "parent_squared_L2": 51403.10819090788,
+            "relative_L2": 0.00020780513540908404
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['mlp_1']['gating_einsum'].value",
+            "squared_L2": 0.008487849183334962,
+            "parent_squared_L2": 215799.52011458518,
+            "relative_L2": 0.0001983232312909536
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['mlp_1']['linear'].value",
+            "squared_L2": 0.0042857557490791,
+            "parent_squared_L2": 53506.53816845502,
+            "relative_L2": 0.0002830155392252933
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 6.526022995538744e-06,
+            "parent_squared_L2": 79.14738107334335,
+            "relative_L2": 0.00028714815184454224
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 0.001792696994866552,
+            "parent_squared_L2": 19695.984055089502,
+            "relative_L2": 0.00030169256208600025
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['bias'].value",
+            "squared_L2": 5.668421955625643e-06,
+            "parent_squared_L2": 245.57056451244927,
+            "relative_L2": 0.00015192978787508866
+          },
+          {
+            "key": "['parameters']['shared']['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['kernel'].value",
+            "squared_L2": 0.0017087656128639127,
+            "parent_squared_L2": 49472.980797902,
+            "relative_L2": 0.0001858477077791825
+          }
+        ]
+      },
+      "target": {
+        "squared_L2": 0.0001801343861561397,
+        "parent_squared_L2": 2820.745255822691,
+        "leaves": [
+          {
+            "key": "['parameters']['target']['action_in_proj']['bias'].value",
+            "squared_L2": 8.418555795115986e-08,
+            "parent_squared_L2": 0.3969959500683658,
+            "relative_L2": 0.0004604958907567988
+          },
+          {
+            "key": "['parameters']['target']['action_in_proj']['kernel'].value",
+            "squared_L2": 1.8105498914524114e-06,
+            "parent_squared_L2": 1422.7267734330546,
+            "relative_L2": 3.5673399398192615e-05
+          },
+          {
+            "key": "['parameters']['target']['action_out_proj']['bias'].value",
+            "squared_L2": 3.582959941711084e-09,
+            "parent_squared_L2": 0.0011845145531368811,
+            "relative_L2": 0.0017392050024158281
+          },
+          {
+            "key": "['parameters']['target']['action_out_proj']['kernel'].value",
+            "squared_L2": 4.579894226702719e-06,
+            "parent_squared_L2": 11.850375794159591,
+            "relative_L2": 0.000621672508723333
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_in']['bias'].value",
+            "squared_L2": 1.258532727788878e-07,
+            "parent_squared_L2": 0.8926995791949579,
+            "relative_L2": 0.0003754737601118818
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_in']['kernel'].value",
+            "squared_L2": 9.353906463757651e-05,
+            "parent_squared_L2": 966.6646359106537,
+            "relative_L2": 0.0003110703343405447
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_out']['bias'].value",
+            "squared_L2": 7.509967425081665e-08,
+            "parent_squared_L2": 0.2271760150150307,
+            "relative_L2": 0.000574960206786334
+          },
+          {
+            "key": "['parameters']['target']['time_mlp_out']['kernel'].value",
+            "squared_L2": 7.991615593548548e-05,
+            "parent_squared_L2": 417.9854146259917,
+            "relative_L2": 0.000437256957963956
+          }
+        ]
+      }
+    }
+  },
+  "shared_squared_distance_reduction": 0.5184888117727731,
+  "optimizer_updates": 0
+}
