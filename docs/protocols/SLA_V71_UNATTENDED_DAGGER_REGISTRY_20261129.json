@@ -1,0 +1,605 @@
+{
+  "schema": "sla-v71-unattended-dagger-v1",
+  "status": "PLAN_ONLY_NO_NEW_AUTHORITY_OR_RUNTIME",
+  "date_sgt": "2026-11-29",
+  "inherited_plan": "c4364780327924a0db71f84082b7c6b4a54f3bb8",
+  "execution_snapshot": "07c433dd24ad359933a0b4c7381a10e12373abf2",
+  "pr": 529,
+  "execution_branch": "experiment/sla-v7-control-context",
+  "plan_branch": "docs/sla-v7-control-aware-posttraining-20261128",
+  "links": {
+    "plan": "docs/protocols/SLA_V71_UNATTENDED_DAGGER_PLAN_20261129.md",
+    "registry": "docs/protocols/SLA_V71_UNATTENDED_DAGGER_REGISTRY_20261129.json",
+    "start_prompt": "docs/protocols/SLA_V71_UNATTENDED_DAGGER_CODEX_START_20261129.md",
+    "inherited_registry": "docs/protocols/SLA_CONTROL_AWARE_POSTTRAIN_V7_REGISTRY_20261128.json"
+  },
+  "invariants": {
+    "wbc_frozen": true,
+    "l1_frozen": true,
+    "physics_dt_s": 0.002,
+    "action_dt_s": 0.05,
+    "horizon": 40,
+    "executed_prefix": 10,
+    "g7_limit_mm_s": 40,
+    "student_gt": false,
+    "hard_stop_post_integrations": 0,
+    "protected_train": false,
+    "no_hot_change": true,
+    "no_duplicate_jobs": true
+  },
+  "evidence": {
+    "physical": {
+      "episodes": 96,
+      "windows": 8031,
+      "complete": true,
+      "repeat_if_unchanged": false
+    },
+    "postreset": {
+      "new_frozen_forwards_in_completed_batch": 66,
+      "reused_hybrid": 8,
+      "reused_baselines": 222,
+      "total_outputs": 296,
+      "conditions": 37,
+      "independent_repeats": false,
+      "R4_raw_illegal": 5,
+      "hybrid_raw_illegal": 5,
+      "new_illegal_vs_R4": [],
+      "Query72_seam_mm_s": 30.407370185562833,
+      "Query72_full_H40_mm_s": 36.23221785345621,
+      "Query84_p10_up_mm": 3.851235767457828,
+      "teacher_xyz_relative_change": 0.020825790473168126,
+      "native_admission": false,
+      "is_frozen_expert_training_endpoint": false
+    },
+    "causal_context": {
+      "original_windows": 8031,
+      "new_early_windows": 214,
+      "combined_windows": 8245,
+      "combined_order_and_previous_command_verified": true,
+      "controller_selected_reference_directly_observed": false,
+      "A2_model_qualified": false
+    },
+    "data": {
+      "A93_R3_windows": 8031,
+      "proposed_C1_windows": 8245,
+      "early_starts": 2,
+      "early_windows": 214,
+      "early_independent_layouts": 0,
+      "Recovery_attempts": 17,
+      "Recovery_admitted": 6,
+      "Recovery_windows": 369,
+      "C1_real_training_visits": 0,
+      "full_combined_RGB_reader_qualified": false
+    },
+    "C1": {
+      "status": "BANK_CONTEXT_PREPARED_COMBINED_RGB_READER_AND_REAL_GPU_QUAL_MISSING",
+      "steps_each": 250,
+      "shared_slots": 94,
+      "contrast_slots": 2,
+      "batch": {
+        "old": 48,
+        "new_common": 44,
+        "original_R3": 2,
+        "contrast": 2,
+        "robodojo": 16,
+        "libero": 16
+      },
+      "scope_rule": "SAME_QUALIFIED_RETENTION_SCOPE_BOTH_ARMS",
+      "same_actual_FM_noise_tau_and_aux_noise": true,
+      "aux_original_rows_unchanged": true,
+      "control_contrast": {
+        "episodes": 1,
+        "unique_windows": 61,
+        "planned_visits": 500,
+        "maximum_single_window_repeats": 45
+      },
+      "treatment_contrast": {
+        "episodes": 2,
+        "unique_windows": 96,
+        "planned_visits": 500,
+        "maximum_single_window_repeats": 25
+      },
+      "actual_training_visits": 0,
+      "claim": "NET_EFFECT_OF_CURRENT_EARLY_CORRECTION_PACKAGE_NOT_ISOLATED_DAGGER_MECHANISM"
+    },
+    "C2": {
+      "status": "AUDIT_STRATA_PREPARED_NO_BANK_CHANGE_NO_TRAINING",
+      "early_population": {
+        "handoff": 2,
+        "first_0_2_seconds": 8,
+        "later_path": 148,
+        "lower_open_withdraw": 56
+      },
+      "C1_planned_500_visits": {
+        "handoff": 11,
+        "first_0_2_seconds": 27,
+        "later_path": 462,
+        "lower_open_withdraw": 0
+      },
+      "later_path_does_not_prove_stable_recovery": true
+    }
+  },
+  "resources": {
+    "actual_snapshot": {
+      "formal": 5100,
+      "engineering": 24,
+      "student": 46,
+      "recovery": 17
+    },
+    "effective_caps": {
+      "formal": 8000,
+      "engineering": 24,
+      "student": 50,
+      "recovery": 20
+    },
+    "remaining_upper": {
+      "formal": 2900,
+      "engineering": 0,
+      "student": 4,
+      "recovery": 3
+    },
+    "recovery_reserve_next_student": 2,
+    "recovery_flexible": 1,
+    "gpu_hours_original": 320,
+    "deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "shutdown_reserve_seconds": 900,
+    "live_reconcile": true,
+    "new_authorization": false,
+    "conditional_internal_proposal_not_effective": {
+      "engineering_first_FE": 2,
+      "engineering_full_chain_by_scope": {
+        "FE": 2,
+        "C1": 4,
+        "A2": 4
+      },
+      "engineering_full_chain_cap": 34,
+      "student_extra_if_exact_reuse": {
+        "FE": 16,
+        "C1": 20,
+        "A2": 20,
+        "independent": 12
+      },
+      "student_cap_if_all_extra_approved": 118,
+      "student_extra_if_FE_screen_not_reusable": 4,
+      "requires_explicit_user_internal_authority_and_real_site_award": true
+    },
+    "formal_core_if_exact_control_reuse": {
+      "FE": 250,
+      "C1": 500,
+      "A2": 500,
+      "total": 1250,
+      "after": 6350,
+      "remaining": 1650
+    },
+    "optional_example": {
+      "C2_if_exact_control_reuse": 250,
+      "other_matched_pairs": [
+        500,
+        500
+      ],
+      "all_new": 2500,
+      "after": 7600,
+      "remaining": 400
+    }
+  },
+  "state_machine": {
+    "states": [
+      "PREPARED",
+      "CPU_VERIFIED",
+      "BLOCKED_AUTH",
+      "BLOCKED_RESOURCE",
+      "BLOCKED_DEPENDENCY",
+      "GPU_QUALIFIED",
+      "RUNNING",
+      "SEALED",
+      "CLOSED_PASS",
+      "CLOSED_NEGATIVE",
+      "CLOSED_TECHNICAL",
+      "UNKNOWN_RECONCILE",
+      "COMPLETE"
+    ],
+    "reconcile_first": true,
+    "append_only": true,
+    "healthy_job_reuse": true,
+    "one_main_formal_at_a_time": true,
+    "unknown_no_restart": true,
+    "technical_retry_max_if_corrected_and_authorized": 1,
+    "scientific_failure_no_auto_extension": true,
+    "report_on_result_or_change_hours": 12,
+    "proposed_poll_minutes": [
+      10,
+      20
+    ],
+    "stop": [
+      "TARGET_CONFIRMED",
+      "DEADLINE",
+      "NO_LEGAL_READY_WORK",
+      "USER_REVOKED",
+      "UNRECOVERABLE_SAFETY_OR_IDENTITY"
+    ],
+    "no_duplicate_daemon": true,
+    "no_implicit_permission": true
+  },
+  "tasks": [
+    {
+      "id": "Q-FE",
+      "site": "Hopper",
+      "initial": "BLOCKED_AUTH",
+      "depends": [
+        "FE_CPU_PREPARED",
+        "EXPLICIT_ENGINEERING_ALLOCATION",
+        "LIVE_SITE_RESOURCES"
+      ],
+      "engineering_min": 2,
+      "formal": 0,
+      "qualification": [
+        "FM",
+        "DEPLOYMENT_H40",
+        "AUXILIARY_H40"
+      ],
+      "independent_restore": true
+    },
+    {
+      "id": "PANEL",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "extra_TRAIN": {
+        "status": "DESIGN_ONLY_NO_ACTUAL_ROSTER_OR_NOISE_BYTES_YET",
+        "proposed_states": 12,
+        "proposed_complete_PLACE_episodes": 4,
+        "phases": [
+          "CLOSE",
+          "LIFT",
+          "OPEN"
+        ],
+        "exclude_original37_episodes": true,
+        "noise_draws_per_state": 3,
+        "models": [
+          "R4",
+          "NEW_CANDIDATE"
+        ],
+        "maximum_proposed_frozen_forwards": 72,
+        "newly_allocated_forwards": 0,
+        "select_before_candidate_outputs": true
+      },
+      "original37_reuse_only": true,
+      "screen": {
+        "new_illegal_vs_matched_R4_legal": 0,
+        "full_H40_gripper_limit_mm_s": 40,
+        "Query84_up_min_R4_ratio": 0.95,
+        "teacher_LIFT_up_min_R4_ratio_each": 0.9,
+        "teacher_XYZ_mean_max_R4_ratio": 1.05,
+        "teacher_phase_XYZ_max_rule": "max(R4*1.10,R4+0.02mm)",
+        "teacher_SO3_mean_max_rule": "max(R4*1.05,R4+0.005deg)",
+        "teacher_jaw_mean_max_rule": "max(R4*1.05,R4+0.05mm)",
+        "source_MAE_alert_relative": 0.1,
+        "language_direction_without_geometry": "MISSING_NOT_PASS",
+        "thresholds_apply_to_future_training_endpoint_only": true,
+        "not_native_admission": true
+      }
+    },
+    {
+      "id": "FE250",
+      "site": "Hopper",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "Q-FE_GPU_QUALIFIED",
+        "PANEL_ROSTER_SEALED",
+        "LIVE_SITE_RESOURCES"
+      ],
+      "formal": 250,
+      "parent": "R4-200",
+      "batch": {
+        "old": 48,
+        "new": 46,
+        "R3": 2,
+        "robodojo": 16,
+        "libero": 16
+      },
+      "aux": {
+        "count": 4,
+        "weight": 0.375,
+        "original_slots": [
+          0,
+          1,
+          48,
+          49
+        ]
+      },
+      "lr": {
+        "peak": 8.481070829156122e-7,
+        "warmup": 50,
+        "cosine_end": 500,
+        "final_fraction": 0.1,
+        "use_original_prefix": true
+      },
+      "control_reuse_only_if_exact": true,
+      "engineering_endpoint_not_formal_parent": true
+    },
+    {
+      "id": "FE-E1-E2",
+      "site": "Corelab",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "FE250_SEALED",
+        "PANEL"
+      ],
+      "screen": {
+        "new_illegal_vs_matched_R4_legal": 0,
+        "full_H40_gripper_limit_mm_s": 40,
+        "Query84_up_min_R4_ratio": 0.95,
+        "teacher_LIFT_up_min_R4_ratio_each": 0.9,
+        "teacher_XYZ_mean_max_R4_ratio": 1.05,
+        "teacher_phase_XYZ_max_rule": "max(R4*1.10,R4+0.02mm)",
+        "teacher_SO3_mean_max_rule": "max(R4*1.05,R4+0.005deg)",
+        "teacher_jaw_mean_max_rule": "max(R4*1.05,R4+0.05mm)",
+        "source_MAE_alert_relative": 0.1,
+        "language_direction_without_geometry": "MISSING_NOT_PASS",
+        "thresholds_apply_to_future_training_endpoint_only": true,
+        "not_native_admission": true
+      },
+      "native": {
+        "levels": [
+          "E0_ENGINEERING",
+          "E1_FIXED_AND_ADDITIONAL_TRAIN",
+          "E2_DIRECTIONAL_NATIVE",
+          "E3_FULL_NATIVE_AND_INDEPENDENT_LAYOUT"
+        ],
+        "existing_four_slot_reassignment": "PROPOSED_CONDITIONAL_NOT_STARTED",
+        "conditions_each": [
+          "N03_202",
+          "P02_702"
+        ],
+        "arms": [
+          "DENSE_CONTROL",
+          "FIRST_QUALIFIED_RETENTION_CANDIDATE"
+        ],
+        "total_existing_slots": 4,
+        "direction_only": true,
+        "full_panel_each": 10,
+        "extra_full_if_exact_reuse": 16,
+        "extra_full_if_not_reusable": 20,
+        "C1_separate_pair_total": 20,
+        "independent_confirmation_total_proposed": 12,
+        "extra_native_allocated": 0
+      },
+      "qualification_before_native": true,
+      "no_promotion_from_directional": true
+    },
+    {
+      "id": "C1-READER",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "bank_sha": "14ffa20aecb55753fc3b8c315699595f2ceeb1e931d9e01027c529ec26251a11",
+      "prior_context_sha": "e8937bd193216db09290ff12b9ff53f6cdd29137d456826d116e03ad94aad37a",
+      "rows": 8245,
+      "episodes": 98,
+      "actual_94_common_inputs": true,
+      "full_combined_reader_qualified": false
+    },
+    {
+      "id": "WB",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "cases": [
+        "15",
+        "17",
+        "19"
+      ],
+      "flexible_recovery_max": 1,
+      "new_dynamic_only_if_evidence_and_authorized": true
+    },
+    {
+      "id": "L0",
+      "site": "Hopper_or_Corelab_as_qualified",
+      "initial": "PREPARED",
+      "depends": [],
+      "real_batches": [
+        3,
+        5
+      ],
+      "no_unaccounted_updates": true
+    },
+    {
+      "id": "C1",
+      "site": "Hopper",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "C1-READER",
+        "QUALIFIED_RETENTION_SCOPE",
+        "PREDECLARED_MATCHED_EVALUATION",
+        "C1_REAL_GPU_QUAL_AND_CORE_RESTORE",
+        "LIVE_SITE_RESOURCES"
+      ],
+      "parent": "R4-200",
+      "fresh_adam_both": true,
+      "steps_each": 250,
+      "formal": 500,
+      "batch": {
+        "old": 48,
+        "new_common": 44,
+        "original_R3": 2,
+        "contrast": 2,
+        "robodojo": 16,
+        "libero": 16
+      },
+      "aux": {
+        "count": 4,
+        "weight": 0.375,
+        "original_slots": [
+          0,
+          1,
+          48,
+          49
+        ]
+      },
+      "claim": "NET_EFFECT_OF_CURRENT_EARLY_CORRECTION_PACKAGE_NOT_ISOLATED_DAGGER_MECHANISM",
+      "go2_visits_each": 24000,
+      "fm_visits_each": 32000,
+      "early_treatment_planned": 500
+    },
+    {
+      "id": "A2-PREP",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "context_sha": "f2228bc99bd6b80636029a9c38beeda8423a87ce007a95948b0c39e35b01042e",
+      "rows": 8245,
+      "dimension": 6,
+      "accepted_not_selected": true,
+      "original_stats_unchanged": true,
+      "three_paths": true,
+      "zero_init": true
+    },
+    {
+      "id": "A2",
+      "site": "Hopper",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "A2-PREP",
+        "QUALIFIED_RETENTION_SCOPE",
+        "C1_DECISION_OR_EXPLICIT_INDEPENDENT_MECHANISM_REGISTRATION",
+        "A2_REAL_GPU_QUAL_AND_CORE_RESTORE",
+        "LIVE_SITE_RESOURCES"
+      ],
+      "parent": "R4-200",
+      "both_same_bank": true,
+      "bank_rule": "C1_TREATMENT_IF_SUPPORTED_ELSE_ORIGINAL_A93_R3",
+      "steps_each": 250,
+      "formal": 500,
+      "control": "SAME_STRUCTURE_NEUTRAL",
+      "treatment": "REAL_CAUSAL_6D_RESIDUAL"
+    },
+    {
+      "id": "S2-PREP",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "separate_from_A2": true
+    },
+    {
+      "id": "C2-PREP",
+      "site": "Corelab",
+      "initial": "PREPARED",
+      "depends": [],
+      "original_bank_unchanged": true,
+      "candidate_planned_visits": {
+        "HANDOFF": 25,
+        "EARLY_0_2S_EXCLUSIVE": 75,
+        "LATER_EARLY_PATH": 400
+      },
+      "actual_visits": 0,
+      "freeze_before_new_outputs": true,
+      "same_phase_scene_task_full_support": true,
+      "if_infeasible_reseal_before_training": true
+    },
+    {
+      "id": "C2",
+      "site": "Hopper",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "C1_SEALED",
+        "C1_DECISION_SUPPORTS_C2",
+        "C2-PREP",
+        "MATCHED_QUAL_AND_RESOURCES"
+      ],
+      "formal_if_exact_reuse": 250,
+      "formal_if_new_pair": 500
+    },
+    {
+      "id": "DAGGER_NEXT",
+      "site": "Corelab",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "NEW_STUDENT_E1_AND_NATIVE_DIRECTIONAL_SAFE_SCREEN",
+        "LEGAL_NEW_TRAIN_ROSTER",
+        "ACTUAL_RECOVERY_RESERVE"
+      ],
+      "max_new_attempts": 2,
+      "teacher_privileged_only_for_collection": true,
+      "teacher_assisted_never_student_success": true,
+      "real_consumed_success_suffix_only": true,
+      "cold_version": true
+    },
+    {
+      "id": "NEXT_ONE",
+      "site": "Hopper",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "EVIDENCE_SELECTED_SINGLE_VARIABLE",
+        "REAL_QUAL_AND_RESOURCES"
+      ],
+      "options": [
+        "S2",
+        "B2",
+        "B4",
+        "FUNCTION_KEEP",
+        "IO_SCOPE"
+      ],
+      "matched_steps_each": 250
+    },
+    {
+      "id": "FINAL_CONFIRM",
+      "site": "Corelab",
+      "initial": "BLOCKED_DEPENDENCY",
+      "depends": [
+        "QUALIFIED_CANDIDATE",
+        "FULL_MATCHED_NATIVE_AND_INDEPENDENT_ROSTER",
+        "LEGAL_EVAL_CAPACITY"
+      ],
+      "gate": {
+        "hold": [
+          2,
+          2
+        ],
+        "independent_hold_min": 2,
+        "place_grasp": 4,
+        "place_lift_min": 3,
+        "place_in_zone_min": 2,
+        "place_complete_preferred": 1,
+        "new_hard_safety_stop": 0,
+        "source_mae_alert_relative": 0.1,
+        "mechanism_not_promotion": true,
+        "require_complete_panel": true,
+        "independent_confirmation_required_for_generalization": true
+      },
+      "autonomous_full_place_required_for_goal": true,
+      "independent_pair_proposed": 12
+    }
+  ],
+  "gate": {
+    "hold": [
+      2,
+      2
+    ],
+    "independent_hold_min": 2,
+    "place_grasp": 4,
+    "place_lift_min": 3,
+    "place_in_zone_min": 2,
+    "place_complete_preferred": 1,
+    "new_hard_safety_stop": 0,
+    "source_mae_alert_relative": 0.1,
+    "mechanism_not_promotion": true,
+    "require_complete_panel": true,
+    "independent_confirmation_required_for_generalization": true
+  },
+  "goal_achieved": false,
+  "actual_new_actions": {
+    "pbs": 0,
+    "model_forwards": 0,
+    "engineering_updates": 0,
+    "formal_updates": 0,
+    "native_starts": 0,
+    "physical_integrations": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "review": {
+    "old_plan_documents_unchanged": true,
+    "not_authorization": true,
+    "all_snapshots_live_reconcile": true
+  }
+}
