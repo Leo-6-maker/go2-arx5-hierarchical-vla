@@ -1,0 +1,4895 @@
+{
+  "scope": "D1_CLOSED_TRAIN_WARNING_TRADEOFF",
+  "cases": [
+    {
+      "case": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+      "role": "COMPLETE_TEACHER_CONTROL",
+      "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+      "result_sha256": "e63da8aefefcde287712120dae8251c455356856e6ccf835a504363eafa07d73",
+      "physics_sha256": "20459b48c4c3fc1846af08462ea3f60240c166751eb15b0c0d6b3839a99f8fef",
+      "task": "PLACE-blue-left",
+      "original_queries": 133,
+      "measured_queries": 133,
+      "missing_boundaries": [],
+      "first_contact_stop": null,
+      "thresholds_mm": {
+        "5.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "CARRY": 0,
+            "CLOSE": 0,
+            "DESCEND": 0,
+            "LIFT": 0,
+            "LOWER": 0,
+            "OPEN": 0,
+            "PREGRASP": 0,
+            "WITHDRAW": 0
+          }
+        },
+        "10.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "CARRY": 0,
+            "CLOSE": 0,
+            "DESCEND": 0,
+            "LIFT": 0,
+            "LOWER": 0,
+            "OPEN": 0,
+            "PREGRASP": 0,
+            "WITHDRAW": 0
+          }
+        },
+        "15.0": {
+          "count": 63,
+          "first": {
+            "tick": 19453,
+            "state_tick": 19453,
+            "phase": "DESCEND",
+            "wrist_target_mm": 14.786920394693217,
+            "wrist_other_cube_mm": 36.47615712490246,
+            "seconds_before_first_stop": null
+          },
+          "by_phase": {
+            "CARRY": 27,
+            "CLOSE": 3,
+            "DESCEND": 3,
+            "LIFT": 9,
+            "LOWER": 13,
+            "OPEN": 4,
+            "PREGRASP": 0,
+            "WITHDRAW": 4
+          }
+        },
+        "20.0": {
+          "count": 73,
+          "first": {
+            "tick": 18453,
+            "state_tick": 18451,
+            "phase": "DESCEND",
+            "wrist_target_mm": 19.390510429684863,
+            "wrist_other_cube_mm": 40.79595101381289,
+            "seconds_before_first_stop": null
+          },
+          "by_phase": {
+            "CARRY": 27,
+            "CLOSE": 3,
+            "DESCEND": 9,
+            "LIFT": 9,
+            "LOWER": 13,
+            "OPEN": 4,
+            "PREGRASP": 0,
+            "WITHDRAW": 8
+          }
+        }
+      },
+      "boundary_measurements": [
+        {
+          "tick": 5703,
+          "state_tick": 5701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 124.69729235324789,
+          "wrist_other_cube_mm": 121.96688219418908,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 5953,
+          "state_tick": 5953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 117.72406876364772,
+          "wrist_other_cube_mm": 115.5241918014045,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6203,
+          "state_tick": 6202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 121.20696951464471,
+          "wrist_other_cube_mm": 120.08732948856193,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6453,
+          "state_tick": 6451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 117.88442391903301,
+          "wrist_other_cube_mm": 116.93472289190726,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6703,
+          "state_tick": 6703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 116.10698604348742,
+          "wrist_other_cube_mm": 115.41805103165342,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6953,
+          "state_tick": 6952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 113.94302430428235,
+          "wrist_other_cube_mm": 113.45713519364605,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7203,
+          "state_tick": 7201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 111.46669178433346,
+          "wrist_other_cube_mm": 111.19707491252892,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7453,
+          "state_tick": 7453,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 104.85046023353348,
+          "wrist_other_cube_mm": 104.76390530498698,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7703,
+          "state_tick": 7702,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 102.8666111490488,
+          "wrist_other_cube_mm": 103.57154019504644,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7953,
+          "state_tick": 7951,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 97.72855716978435,
+          "wrist_other_cube_mm": 100.48741303314459,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8203,
+          "state_tick": 8203,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 96.18286301477791,
+          "wrist_other_cube_mm": 98.18449845761515,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8453,
+          "state_tick": 8452,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 94.60690393104629,
+          "wrist_other_cube_mm": 96.73572600113542,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8703,
+          "state_tick": 8701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 91.62163569893279,
+          "wrist_other_cube_mm": 94.10370467643752,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8953,
+          "state_tick": 8953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 88.97056450471908,
+          "wrist_other_cube_mm": 92.43224691120525,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9203,
+          "state_tick": 9202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 83.66669910652266,
+          "wrist_other_cube_mm": 88.38272722867576,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9453,
+          "state_tick": 9451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 82.25862049522958,
+          "wrist_other_cube_mm": 87.14687025447937,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9703,
+          "state_tick": 9703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 75.69864972892061,
+          "wrist_other_cube_mm": 81.36451646802871,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9953,
+          "state_tick": 9952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 76.56644871104373,
+          "wrist_other_cube_mm": 82.35007059428392,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10203,
+          "state_tick": 10201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 73.05532660493887,
+          "wrist_other_cube_mm": 80.11101054539458,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10453,
+          "state_tick": 10453,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 70.69453023332449,
+          "wrist_other_cube_mm": 77.96937867589118,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10703,
+          "state_tick": 10702,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 67.43457608005599,
+          "wrist_other_cube_mm": 75.96161140703171,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10953,
+          "state_tick": 10951,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 64.776843037456,
+          "wrist_other_cube_mm": 74.6620167538504,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11203,
+          "state_tick": 11203,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 58.776321390501884,
+          "wrist_other_cube_mm": 70.1776142959956,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11453,
+          "state_tick": 11452,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 60.04124536306158,
+          "wrist_other_cube_mm": 71.02035008352347,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11703,
+          "state_tick": 11701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 48.21673684343018,
+          "wrist_other_cube_mm": 60.548050952632885,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11953,
+          "state_tick": 11953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 50.086187227242135,
+          "wrist_other_cube_mm": 67.51053025952594,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12203,
+          "state_tick": 12202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 53.983379547500014,
+          "wrist_other_cube_mm": 68.72841019500471,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12453,
+          "state_tick": 12451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 53.221041877135306,
+          "wrist_other_cube_mm": 69.05779458516007,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12703,
+          "state_tick": 12703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 51.65531129002135,
+          "wrist_other_cube_mm": 67.32274378212492,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12953,
+          "state_tick": 12952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 49.80808399901233,
+          "wrist_other_cube_mm": 65.1696360428623,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13203,
+          "state_tick": 13201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 48.05185594171084,
+          "wrist_other_cube_mm": 63.09643778349663,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13453,
+          "state_tick": 13453,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 43.35158526369129,
+          "wrist_other_cube_mm": 58.238199685170216,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13703,
+          "state_tick": 13702,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 44.98219197111104,
+          "wrist_other_cube_mm": 59.521019340435934,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13953,
+          "state_tick": 13951,
+          "phase": "DESCEND",
+          "wrist_target_mm": 46.06617369501698,
+          "wrist_other_cube_mm": 60.83731098815653,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14203,
+          "state_tick": 14203,
+          "phase": "DESCEND",
+          "wrist_target_mm": 45.61003751885867,
+          "wrist_other_cube_mm": 60.56096289508364,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14453,
+          "state_tick": 14452,
+          "phase": "DESCEND",
+          "wrist_target_mm": 43.64113109587901,
+          "wrist_other_cube_mm": 58.6263156379504,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14703,
+          "state_tick": 14701,
+          "phase": "DESCEND",
+          "wrist_target_mm": 41.356345463373536,
+          "wrist_other_cube_mm": 56.270452564003286,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14953,
+          "state_tick": 14953,
+          "phase": "DESCEND",
+          "wrist_target_mm": 38.929391730199896,
+          "wrist_other_cube_mm": 53.86726799464556,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15203,
+          "state_tick": 15202,
+          "phase": "DESCEND",
+          "wrist_target_mm": 36.56181693128578,
+          "wrist_other_cube_mm": 51.6514658877138,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15453,
+          "state_tick": 15451,
+          "phase": "DESCEND",
+          "wrist_target_mm": 34.62298265129275,
+          "wrist_other_cube_mm": 49.90390910104445,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15703,
+          "state_tick": 15703,
+          "phase": "DESCEND",
+          "wrist_target_mm": 41.25973490812156,
+          "wrist_other_cube_mm": 64.00958970111078,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15953,
+          "state_tick": 15952,
+          "phase": "DESCEND",
+          "wrist_target_mm": 24.885966679820154,
+          "wrist_other_cube_mm": 46.18278882372592,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16203,
+          "state_tick": 16201,
+          "phase": "DESCEND",
+          "wrist_target_mm": 34.433888047059156,
+          "wrist_other_cube_mm": 56.819392354779616,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16453,
+          "state_tick": 16453,
+          "phase": "DESCEND",
+          "wrist_target_mm": 33.66067290670592,
+          "wrist_other_cube_mm": 54.99318354451549,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16703,
+          "state_tick": 16702,
+          "phase": "DESCEND",
+          "wrist_target_mm": 32.13599037330699,
+          "wrist_other_cube_mm": 53.218541384038645,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16953,
+          "state_tick": 16951,
+          "phase": "DESCEND",
+          "wrist_target_mm": 30.055820542236503,
+          "wrist_other_cube_mm": 50.83602406586604,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17203,
+          "state_tick": 17203,
+          "phase": "DESCEND",
+          "wrist_target_mm": 27.983978959681355,
+          "wrist_other_cube_mm": 48.653563855270754,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17453,
+          "state_tick": 17452,
+          "phase": "DESCEND",
+          "wrist_target_mm": 25.857187810352087,
+          "wrist_other_cube_mm": 46.665237759424826,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17703,
+          "state_tick": 17701,
+          "phase": "DESCEND",
+          "wrist_target_mm": 23.78533131426318,
+          "wrist_other_cube_mm": 44.764447360525736,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17953,
+          "state_tick": 17953,
+          "phase": "DESCEND",
+          "wrist_target_mm": 22.191242135814928,
+          "wrist_other_cube_mm": 43.221185600462896,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18203,
+          "state_tick": 18202,
+          "phase": "DESCEND",
+          "wrist_target_mm": 20.740853025735806,
+          "wrist_other_cube_mm": 42.03432289507877,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18453,
+          "state_tick": 18451,
+          "phase": "DESCEND",
+          "wrist_target_mm": 19.390510429684863,
+          "wrist_other_cube_mm": 40.79595101381289,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18703,
+          "state_tick": 18703,
+          "phase": "DESCEND",
+          "wrist_target_mm": 18.047963474908965,
+          "wrist_other_cube_mm": 39.62283907214601,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18953,
+          "state_tick": 18952,
+          "phase": "DESCEND",
+          "wrist_target_mm": 16.837385838892853,
+          "wrist_other_cube_mm": 38.41212023600174,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19203,
+          "state_tick": 19201,
+          "phase": "DESCEND",
+          "wrist_target_mm": 15.746283466139523,
+          "wrist_other_cube_mm": 37.40437554699336,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19453,
+          "state_tick": 19453,
+          "phase": "DESCEND",
+          "wrist_target_mm": 14.786920394693217,
+          "wrist_other_cube_mm": 36.47615712490246,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19703,
+          "state_tick": 19702,
+          "phase": "DESCEND",
+          "wrist_target_mm": 11.313312346079504,
+          "wrist_other_cube_mm": 30.500836367566787,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19953,
+          "state_tick": 19951,
+          "phase": "DESCEND",
+          "wrist_target_mm": 27.503686085693214,
+          "wrist_other_cube_mm": 50.194055998387974,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20203,
+          "state_tick": 20203,
+          "phase": "DESCEND",
+          "wrist_target_mm": 17.02699151665653,
+          "wrist_other_cube_mm": 37.61053169127976,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20453,
+          "state_tick": 20452,
+          "phase": "DESCEND",
+          "wrist_target_mm": 15.782828568536237,
+          "wrist_other_cube_mm": 36.376143443410555,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20703,
+          "state_tick": 20701,
+          "phase": "DESCEND",
+          "wrist_target_mm": 14.671180896715548,
+          "wrist_other_cube_mm": 35.144272688844154,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20953,
+          "state_tick": 20953,
+          "phase": "CLOSE",
+          "wrist_target_mm": 13.492505267923477,
+          "wrist_other_cube_mm": 33.8102800903321,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21203,
+          "state_tick": 21202,
+          "phase": "CLOSE",
+          "wrist_target_mm": 12.704977735503213,
+          "wrist_other_cube_mm": 32.84330020985943,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21453,
+          "state_tick": 21451,
+          "phase": "CLOSE",
+          "wrist_target_mm": 12.359990114757698,
+          "wrist_other_cube_mm": 32.45156618116379,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21703,
+          "state_tick": 21703,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.31329040633438,
+          "wrist_other_cube_mm": 32.42917630559777,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21953,
+          "state_tick": 21952,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.313781245267851,
+          "wrist_other_cube_mm": 32.784748452628854,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22203,
+          "state_tick": 22201,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.314330219038334,
+          "wrist_other_cube_mm": 33.70088980049923,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22453,
+          "state_tick": 22453,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.314977102437341,
+          "wrist_other_cube_mm": 34.43042686279513,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22703,
+          "state_tick": 22702,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.315396816463563,
+          "wrist_other_cube_mm": 35.47224258069423,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22953,
+          "state_tick": 22951,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.315861520870365,
+          "wrist_other_cube_mm": 36.34080974394635,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23203,
+          "state_tick": 23203,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.3164454191931,
+          "wrist_other_cube_mm": 37.57928987443487,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23453,
+          "state_tick": 23452,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.317063269982068,
+          "wrist_other_cube_mm": 38.68742627842195,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23703,
+          "state_tick": 23701,
+          "phase": "LIFT",
+          "wrist_target_mm": 12.31769223660565,
+          "wrist_other_cube_mm": 39.76703396531828,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23953,
+          "state_tick": 23953,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.318351727037463,
+          "wrist_other_cube_mm": 41.08068597070172,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24203,
+          "state_tick": 24202,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.318892781509945,
+          "wrist_other_cube_mm": 41.15290724135387,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24453,
+          "state_tick": 24451,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.319400553376319,
+          "wrist_other_cube_mm": 40.06174202410076,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24703,
+          "state_tick": 24703,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.31993751385349,
+          "wrist_other_cube_mm": 37.9902198565904,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24953,
+          "state_tick": 24952,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.320483684422353,
+          "wrist_other_cube_mm": 35.73665673971513,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25203,
+          "state_tick": 25201,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.32105906382297,
+          "wrist_other_cube_mm": 33.12381849993146,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25453,
+          "state_tick": 25453,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.321647448299409,
+          "wrist_other_cube_mm": 30.67326180199953,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25703,
+          "state_tick": 25702,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.322232350887592,
+          "wrist_other_cube_mm": 28.360880300272314,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25953,
+          "state_tick": 25951,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.322820858595088,
+          "wrist_other_cube_mm": 26.234687488194545,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26203,
+          "state_tick": 26203,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.323427521862163,
+          "wrist_other_cube_mm": 24.027752644611212,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26453,
+          "state_tick": 26452,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.324026772493223,
+          "wrist_other_cube_mm": 21.92991157288998,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26703,
+          "state_tick": 26701,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.324621581476624,
+          "wrist_other_cube_mm": 19.90528436616035,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26953,
+          "state_tick": 26953,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.325226385658992,
+          "wrist_other_cube_mm": 17.78942270447631,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27203,
+          "state_tick": 27202,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.325825986242899,
+          "wrist_other_cube_mm": 15.843763831952906,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27453,
+          "state_tick": 27451,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.326427055731344,
+          "wrist_other_cube_mm": 13.943167146335533,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27703,
+          "state_tick": 27703,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.33027208339195,
+          "wrist_other_cube_mm": 3.832718020271242,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27953,
+          "state_tick": 27952,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.33441474196438,
+          "wrist_other_cube_mm": 9.400184352954783,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28203,
+          "state_tick": 28201,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.335864573335423,
+          "wrist_other_cube_mm": 8.30259602030578,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28453,
+          "state_tick": 28453,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.346929966918148,
+          "wrist_other_cube_mm": 5.309687894327064,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28703,
+          "state_tick": 28702,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.347599297962795,
+          "wrist_other_cube_mm": 4.612655564659174,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28953,
+          "state_tick": 28951,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.355384931328928,
+          "wrist_other_cube_mm": 2.697227403308661,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29203,
+          "state_tick": 29203,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.370148023875247,
+          "wrist_other_cube_mm": 1.8662448234294249,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29453,
+          "state_tick": 29452,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.371290231666471,
+          "wrist_other_cube_mm": 0.6118732389579495,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29703,
+          "state_tick": 29701,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.374302701718632,
+          "wrist_other_cube_mm": 0.23948110136029488,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29953,
+          "state_tick": 29953,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.400563597535093,
+          "wrist_other_cube_mm": -23.182397657613542,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30203,
+          "state_tick": 30202,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.413511198181904,
+          "wrist_other_cube_mm": 3.5182837289628455,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30453,
+          "state_tick": 30451,
+          "phase": "CARRY",
+          "wrist_target_mm": 12.414335975040665,
+          "wrist_other_cube_mm": 4.2525542803503456,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30703,
+          "state_tick": 30703,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.414997449803531,
+          "wrist_other_cube_mm": 4.243010538485165,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30953,
+          "state_tick": 30952,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.41574231856133,
+          "wrist_other_cube_mm": 2.8819717247602905,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31203,
+          "state_tick": 31201,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.416511634666366,
+          "wrist_other_cube_mm": 0.8681471274902541,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31453,
+          "state_tick": 31453,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.417301785074129,
+          "wrist_other_cube_mm": -1.1754527205641296,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31703,
+          "state_tick": 31702,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.418097606119082,
+          "wrist_other_cube_mm": -3.406966340924855,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31953,
+          "state_tick": 31951,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.418887233755353,
+          "wrist_other_cube_mm": -5.399830048812726,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32203,
+          "state_tick": 32203,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.419691554329635,
+          "wrist_other_cube_mm": -7.4313695942577755,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32453,
+          "state_tick": 32452,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.420493983865438,
+          "wrist_other_cube_mm": -9.244684636387056,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32703,
+          "state_tick": 32701,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.42129392511617,
+          "wrist_other_cube_mm": -10.926270426938167,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32953,
+          "state_tick": 32953,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.422106890655856,
+          "wrist_other_cube_mm": -12.382451648280057,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33203,
+          "state_tick": 33202,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.422878670153652,
+          "wrist_other_cube_mm": -13.633986158610334,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33453,
+          "state_tick": 33451,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.423577688519199,
+          "wrist_other_cube_mm": -14.384810020521165,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33703,
+          "state_tick": 33703,
+          "phase": "LOWER",
+          "wrist_target_mm": 12.424144091246827,
+          "wrist_other_cube_mm": -14.656899456273187,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33953,
+          "state_tick": 33952,
+          "phase": "OPEN",
+          "wrist_target_mm": 12.42441822807657,
+          "wrist_other_cube_mm": -14.760910197888165,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34203,
+          "state_tick": 34201,
+          "phase": "OPEN",
+          "wrist_target_mm": 12.424845018123243,
+          "wrist_other_cube_mm": -14.799976985506891,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34453,
+          "state_tick": 34453,
+          "phase": "OPEN",
+          "wrist_target_mm": 12.454502542319924,
+          "wrist_other_cube_mm": -14.78287792554106,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34703,
+          "state_tick": 34702,
+          "phase": "OPEN",
+          "wrist_target_mm": 12.4334705534297,
+          "wrist_other_cube_mm": -14.593885547082962,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34953,
+          "state_tick": 34951,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 12.483588564742902,
+          "wrist_other_cube_mm": -14.810878014731465,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35203,
+          "state_tick": 35203,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 12.849843321873818,
+          "wrist_other_cube_mm": -14.389663599710556,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35453,
+          "state_tick": 35452,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 13.362071940056904,
+          "wrist_other_cube_mm": -13.23525377103424,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35703,
+          "state_tick": 35701,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 14.110796562579672,
+          "wrist_other_cube_mm": -11.885393750911854,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35953,
+          "state_tick": 35953,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 15.05683235008632,
+          "wrist_other_cube_mm": -10.407444551891077,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36203,
+          "state_tick": 36202,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 16.121409279283398,
+          "wrist_other_cube_mm": -8.727565269663673,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36453,
+          "state_tick": 36451,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 17.29457424221741,
+          "wrist_other_cube_mm": -7.001849665491111,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36703,
+          "state_tick": 36703,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 18.62204521593854,
+          "wrist_other_cube_mm": -5.0243339466772845,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36953,
+          "state_tick": 36952,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 20.02623125116306,
+          "wrist_other_cube_mm": -2.9999414276411507,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37203,
+          "state_tick": 37201,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 21.51393963511622,
+          "wrist_other_cube_mm": -0.7918031505583234,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37453,
+          "state_tick": 37453,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 23.069085778651242,
+          "wrist_other_cube_mm": 1.3855165732614139,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37703,
+          "state_tick": 37702,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 24.70724452397297,
+          "wrist_other_cube_mm": 3.6817361687835612,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37953,
+          "state_tick": 37951,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 26.4153478444285,
+          "wrist_other_cube_mm": 6.150150136766702,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38203,
+          "state_tick": 38203,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 28.359012350506738,
+          "wrist_other_cube_mm": 8.817824297804616,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38453,
+          "state_tick": 38452,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 30.130873328997993,
+          "wrist_other_cube_mm": 11.540392480965611,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38703,
+          "state_tick": 38701,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 32.073544690772124,
+          "wrist_other_cube_mm": 14.291644728138959,
+          "seconds_before_first_stop": null
+        }
+      ],
+      "false_alarm_interpretation": "WARNING_ON_CLEAN_CONTROL_IS_AN_INTERVENTION_COST_NOT_A_SAFETY_FAILURE"
+    },
+    {
+      "case": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "role": "COMPLETE_TEACHER_CONTROL",
+      "scene_sha256": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+      "result_sha256": "e88be44ed6d0e4eda27f5cbad3489bf236ce1343995bee7fd29f833d7ba39471",
+      "physics_sha256": "6c294226e690b39613fe76fba4d21ea8253f0471b25286d0b621e07c9746a54e",
+      "task": "PLACE-red-right",
+      "original_queries": 123,
+      "measured_queries": 123,
+      "missing_boundaries": [],
+      "first_contact_stop": null,
+      "thresholds_mm": {
+        "5.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "CARRY": 0,
+            "CLOSE": 0,
+            "DESCEND": 0,
+            "LIFT": 0,
+            "LOWER": 0,
+            "OPEN": 0,
+            "PREGRASP": 0,
+            "WITHDRAW": 0
+          }
+        },
+        "10.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "CARRY": 0,
+            "CLOSE": 0,
+            "DESCEND": 0,
+            "LIFT": 0,
+            "LOWER": 0,
+            "OPEN": 0,
+            "PREGRASP": 0,
+            "WITHDRAW": 0
+          }
+        },
+        "15.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "CARRY": 0,
+            "CLOSE": 0,
+            "DESCEND": 0,
+            "LIFT": 0,
+            "LOWER": 0,
+            "OPEN": 0,
+            "PREGRASP": 0,
+            "WITHDRAW": 0
+          }
+        },
+        "20.0": {
+          "count": 69,
+          "first": {
+            "tick": 17453,
+            "state_tick": 17452,
+            "phase": "DESCEND",
+            "wrist_target_mm": 19.03994405724535,
+            "wrist_other_cube_mm": 45.19630757839555,
+            "seconds_before_first_stop": null
+          },
+          "by_phase": {
+            "CARRY": 31,
+            "CLOSE": 3,
+            "DESCEND": 4,
+            "LIFT": 9,
+            "LOWER": 15,
+            "OPEN": 4,
+            "PREGRASP": 0,
+            "WITHDRAW": 3
+          }
+        }
+      },
+      "boundary_measurements": [
+        {
+          "tick": 5703,
+          "state_tick": 5701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 118.07886467194272,
+          "wrist_other_cube_mm": 119.67305268094955,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 5953,
+          "state_tick": 5953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 115.39532145245934,
+          "wrist_other_cube_mm": 116.61398000504173,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6203,
+          "state_tick": 6202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 114.74391347350286,
+          "wrist_other_cube_mm": 115.61316077710637,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6453,
+          "state_tick": 6451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 112.41409658386526,
+          "wrist_other_cube_mm": 113.49010441460986,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6703,
+          "state_tick": 6703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 110.96933124129765,
+          "wrist_other_cube_mm": 112.17204839798262,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6953,
+          "state_tick": 6952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 109.19852013084532,
+          "wrist_other_cube_mm": 110.63003838852131,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7203,
+          "state_tick": 7201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 102.42250529869845,
+          "wrist_other_cube_mm": 104.5268281595593,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7453,
+          "state_tick": 7453,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 94.15402197103367,
+          "wrist_other_cube_mm": 97.26557171465208,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7703,
+          "state_tick": 7702,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 98.45116615353763,
+          "wrist_other_cube_mm": 100.32925758722139,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7953,
+          "state_tick": 7951,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 92.76726557538603,
+          "wrist_other_cube_mm": 94.85901203078429,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8203,
+          "state_tick": 8203,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 91.42700493508038,
+          "wrist_other_cube_mm": 94.86150913984045,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8453,
+          "state_tick": 8452,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 89.69911812237713,
+          "wrist_other_cube_mm": 93.86853664176837,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8703,
+          "state_tick": 8701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 87.73821797315459,
+          "wrist_other_cube_mm": 92.457160157584,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8953,
+          "state_tick": 8953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 82.28459212762178,
+          "wrist_other_cube_mm": 87.54507448919324,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9203,
+          "state_tick": 9202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 79.51850971186515,
+          "wrist_other_cube_mm": 85.32074043030579,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9453,
+          "state_tick": 9451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 77.20504769386129,
+          "wrist_other_cube_mm": 83.57276745550892,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9703,
+          "state_tick": 9703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 74.86626731273358,
+          "wrist_other_cube_mm": 82.4116466246512,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9953,
+          "state_tick": 9952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 56.77333154726581,
+          "wrist_other_cube_mm": 72.5086088985239,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10203,
+          "state_tick": 10201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 67.85885085781197,
+          "wrist_other_cube_mm": 77.56346654165503,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10453,
+          "state_tick": 10453,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 67.78714325936312,
+          "wrist_other_cube_mm": 80.01752554750539,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10703,
+          "state_tick": 10702,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 66.72383638732762,
+          "wrist_other_cube_mm": 79.54278414342583,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10953,
+          "state_tick": 10951,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 65.37988184368719,
+          "wrist_other_cube_mm": 78.59759709408574,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11203,
+          "state_tick": 11203,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 63.87101239152472,
+          "wrist_other_cube_mm": 77.62568821717774,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11453,
+          "state_tick": 11452,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 62.22931149682889,
+          "wrist_other_cube_mm": 76.55973935646179,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11703,
+          "state_tick": 11701,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 49.63937924872203,
+          "wrist_other_cube_mm": 65.16373712995801,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11953,
+          "state_tick": 11953,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 55.85175253451661,
+          "wrist_other_cube_mm": 72.01311173480195,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12203,
+          "state_tick": 12202,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 37.53190726658741,
+          "wrist_other_cube_mm": 61.78806730065983,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12453,
+          "state_tick": 12451,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 54.85723365829778,
+          "wrist_other_cube_mm": 75.04250708039989,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12703,
+          "state_tick": 12703,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 55.99410373867567,
+          "wrist_other_cube_mm": 77.48103166288168,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12953,
+          "state_tick": 12952,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 54.46054101035344,
+          "wrist_other_cube_mm": 76.38534999363218,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13203,
+          "state_tick": 13201,
+          "phase": "PREGRASP",
+          "wrist_target_mm": 51.954993692441235,
+          "wrist_other_cube_mm": 74.16597228633401,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13453,
+          "state_tick": 13453,
+          "phase": "DESCEND",
+          "wrist_target_mm": 49.417162332170406,
+          "wrist_other_cube_mm": 71.34195157898124,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13703,
+          "state_tick": 13702,
+          "phase": "DESCEND",
+          "wrist_target_mm": 46.942613137890625,
+          "wrist_other_cube_mm": 68.67739339623449,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13953,
+          "state_tick": 13951,
+          "phase": "DESCEND",
+          "wrist_target_mm": 44.48251347698257,
+          "wrist_other_cube_mm": 66.33198054821877,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14203,
+          "state_tick": 14203,
+          "phase": "DESCEND",
+          "wrist_target_mm": 42.20652101513234,
+          "wrist_other_cube_mm": 64.20244566250439,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14453,
+          "state_tick": 14452,
+          "phase": "DESCEND",
+          "wrist_target_mm": 39.93286231848195,
+          "wrist_other_cube_mm": 62.12718344324525,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14703,
+          "state_tick": 14701,
+          "phase": "DESCEND",
+          "wrist_target_mm": 37.755830604923126,
+          "wrist_other_cube_mm": 60.254130843819084,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14953,
+          "state_tick": 14953,
+          "phase": "DESCEND",
+          "wrist_target_mm": 35.66168394150429,
+          "wrist_other_cube_mm": 58.428019854585564,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15203,
+          "state_tick": 15202,
+          "phase": "DESCEND",
+          "wrist_target_mm": 33.632989897547944,
+          "wrist_other_cube_mm": 56.724676835536364,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15453,
+          "state_tick": 15451,
+          "phase": "DESCEND",
+          "wrist_target_mm": 31.65630612986722,
+          "wrist_other_cube_mm": 55.01460698851393,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15703,
+          "state_tick": 15703,
+          "phase": "DESCEND",
+          "wrist_target_mm": 29.705174452459953,
+          "wrist_other_cube_mm": 53.36173464634989,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15953,
+          "state_tick": 15952,
+          "phase": "DESCEND",
+          "wrist_target_mm": 27.833579683292122,
+          "wrist_other_cube_mm": 51.84997334774521,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16203,
+          "state_tick": 16201,
+          "phase": "DESCEND",
+          "wrist_target_mm": 26.05853423600809,
+          "wrist_other_cube_mm": 50.45370096049368,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16453,
+          "state_tick": 16453,
+          "phase": "DESCEND",
+          "wrist_target_mm": 24.36834262241274,
+          "wrist_other_cube_mm": 49.14462739770589,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16703,
+          "state_tick": 16702,
+          "phase": "DESCEND",
+          "wrist_target_mm": 22.81123814904988,
+          "wrist_other_cube_mm": 47.8363247280813,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16953,
+          "state_tick": 16951,
+          "phase": "DESCEND",
+          "wrist_target_mm": 21.404408314620913,
+          "wrist_other_cube_mm": 46.894739926907015,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17203,
+          "state_tick": 17203,
+          "phase": "DESCEND",
+          "wrist_target_mm": 20.133142949237126,
+          "wrist_other_cube_mm": 45.96366156438858,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17453,
+          "state_tick": 17452,
+          "phase": "DESCEND",
+          "wrist_target_mm": 19.03994405724535,
+          "wrist_other_cube_mm": 45.19630757839555,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17703,
+          "state_tick": 17701,
+          "phase": "DESCEND",
+          "wrist_target_mm": 18.07351994827139,
+          "wrist_other_cube_mm": 44.70869717932377,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17953,
+          "state_tick": 17953,
+          "phase": "DESCEND",
+          "wrist_target_mm": 17.396102109561497,
+          "wrist_other_cube_mm": 44.38076616432476,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18203,
+          "state_tick": 18202,
+          "phase": "DESCEND",
+          "wrist_target_mm": 16.988669815761387,
+          "wrist_other_cube_mm": 44.22601314073546,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18453,
+          "state_tick": 18451,
+          "phase": "CLOSE",
+          "wrist_target_mm": 16.911737735623372,
+          "wrist_other_cube_mm": 44.37193193907629,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18703,
+          "state_tick": 18703,
+          "phase": "CLOSE",
+          "wrist_target_mm": 17.143930146415578,
+          "wrist_other_cube_mm": 44.807925435041305,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18953,
+          "state_tick": 18952,
+          "phase": "CLOSE",
+          "wrist_target_mm": 17.478113194962265,
+          "wrist_other_cube_mm": 45.17276576332685,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19203,
+          "state_tick": 19201,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.592743090829423,
+          "wrist_other_cube_mm": 45.520950178399715,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19453,
+          "state_tick": 19453,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.59447651182994,
+          "wrist_other_cube_mm": 46.12093000633685,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19703,
+          "state_tick": 19702,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.59586108720397,
+          "wrist_other_cube_mm": 47.5512107360776,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19953,
+          "state_tick": 19951,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.59700917490357,
+          "wrist_other_cube_mm": 49.084093420897645,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20203,
+          "state_tick": 20203,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.598215139314053,
+          "wrist_other_cube_mm": 50.81341184547017,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20453,
+          "state_tick": 20452,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.599545198797028,
+          "wrist_other_cube_mm": 52.33896221510817,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20703,
+          "state_tick": 20701,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.600916879006423,
+          "wrist_other_cube_mm": 53.98087756481434,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20953,
+          "state_tick": 20953,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.60234986718598,
+          "wrist_other_cube_mm": 55.68229394385707,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21203,
+          "state_tick": 21202,
+          "phase": "LIFT",
+          "wrist_target_mm": 17.603757265741372,
+          "wrist_other_cube_mm": 56.92185670372818,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21453,
+          "state_tick": 21451,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.60520359499386,
+          "wrist_other_cube_mm": 58.45396230744568,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21703,
+          "state_tick": 21703,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.606594907853456,
+          "wrist_other_cube_mm": 58.79113292476182,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21953,
+          "state_tick": 21952,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.607946644937986,
+          "wrist_other_cube_mm": 57.53561876036228,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22203,
+          "state_tick": 22201,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.609330226678363,
+          "wrist_other_cube_mm": 55.710092165181194,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22453,
+          "state_tick": 22453,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.61075781948012,
+          "wrist_other_cube_mm": 53.485066655113236,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22703,
+          "state_tick": 22702,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.612188072055897,
+          "wrist_other_cube_mm": 51.177320173177556,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22953,
+          "state_tick": 22951,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.613639871677357,
+          "wrist_other_cube_mm": 49.0640575874089,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23203,
+          "state_tick": 23203,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.615113592858354,
+          "wrist_other_cube_mm": 46.934145851820375,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23453,
+          "state_tick": 23452,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.61657279302991,
+          "wrist_other_cube_mm": 45.08384591340781,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23703,
+          "state_tick": 23701,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.618036923395955,
+          "wrist_other_cube_mm": 43.04331707227449,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23953,
+          "state_tick": 23953,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.619528663307445,
+          "wrist_other_cube_mm": 41.04752854509611,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24203,
+          "state_tick": 24202,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.62102965391657,
+          "wrist_other_cube_mm": 39.293872299445724,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24453,
+          "state_tick": 24451,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.622531601488024,
+          "wrist_other_cube_mm": 37.33564947516829,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24703,
+          "state_tick": 24703,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.624059325366904,
+          "wrist_other_cube_mm": 35.57559235125968,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24953,
+          "state_tick": 24952,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.62555888288461,
+          "wrist_other_cube_mm": 33.754522352210074,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25203,
+          "state_tick": 25201,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.627060916511706,
+          "wrist_other_cube_mm": 32.02966166083579,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25453,
+          "state_tick": 25453,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.63050929847617,
+          "wrist_other_cube_mm": 27.534755994754967,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25703,
+          "state_tick": 25702,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.63766341971177,
+          "wrist_other_cube_mm": 25.81579579297197,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25953,
+          "state_tick": 25951,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.655649907972435,
+          "wrist_other_cube_mm": 22.453484844561,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26203,
+          "state_tick": 26203,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.67096159998034,
+          "wrist_other_cube_mm": 20.216219306336715,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26453,
+          "state_tick": 26452,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.675782616570046,
+          "wrist_other_cube_mm": 20.04266851722067,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26703,
+          "state_tick": 26701,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.691291717784814,
+          "wrist_other_cube_mm": 18.188202385268166,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26953,
+          "state_tick": 26953,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.707841647761803,
+          "wrist_other_cube_mm": 14.713506761047935,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27203,
+          "state_tick": 27202,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.709657959689444,
+          "wrist_other_cube_mm": 17.032587204582505,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27453,
+          "state_tick": 27451,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.711294558751817,
+          "wrist_other_cube_mm": 17.440103795228506,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27703,
+          "state_tick": 27703,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.71292319057459,
+          "wrist_other_cube_mm": 17.415988067823545,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27953,
+          "state_tick": 27952,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.71445247489556,
+          "wrist_other_cube_mm": 17.13529783581161,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28203,
+          "state_tick": 28201,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.71591473852617,
+          "wrist_other_cube_mm": 16.568418845777256,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28453,
+          "state_tick": 28453,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.71739195388429,
+          "wrist_other_cube_mm": 16.419884812703344,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28703,
+          "state_tick": 28702,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.71872761798874,
+          "wrist_other_cube_mm": 16.23210234625208,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28953,
+          "state_tick": 28951,
+          "phase": "CARRY",
+          "wrist_target_mm": 17.723069293885526,
+          "wrist_other_cube_mm": 16.984244489254312,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29203,
+          "state_tick": 29203,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.740417804480096,
+          "wrist_other_cube_mm": 10.047273225943426,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29453,
+          "state_tick": 29452,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.748760237685076,
+          "wrist_other_cube_mm": 15.570993001476714,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29703,
+          "state_tick": 29701,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.750367995784924,
+          "wrist_other_cube_mm": 14.733456847237287,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29953,
+          "state_tick": 29953,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.75203193832575,
+          "wrist_other_cube_mm": 13.233884997145868,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30203,
+          "state_tick": 30202,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.753694831343765,
+          "wrist_other_cube_mm": 11.289132094686016,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30453,
+          "state_tick": 30451,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.755359060015234,
+          "wrist_other_cube_mm": 9.697250541475716,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30703,
+          "state_tick": 30703,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.757016298944972,
+          "wrist_other_cube_mm": 7.790510368978238,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30953,
+          "state_tick": 30952,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.75864079827382,
+          "wrist_other_cube_mm": 5.846322586093494,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31203,
+          "state_tick": 31201,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.760244555351495,
+          "wrist_other_cube_mm": 4.080315789808164,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31453,
+          "state_tick": 31453,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.76183206867771,
+          "wrist_other_cube_mm": 2.5855837158766937,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31703,
+          "state_tick": 31702,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.763337835967917,
+          "wrist_other_cube_mm": 1.5843467798693778,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31953,
+          "state_tick": 31951,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.764805117078946,
+          "wrist_other_cube_mm": 1.2510605569585054,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32203,
+          "state_tick": 32203,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.765979722233517,
+          "wrist_other_cube_mm": 1.1584664102403663,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32453,
+          "state_tick": 32452,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.767300503289853,
+          "wrist_other_cube_mm": 1.1723510643037172,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32703,
+          "state_tick": 32701,
+          "phase": "LOWER",
+          "wrist_target_mm": 17.768566411915376,
+          "wrist_other_cube_mm": 1.1132494985723607,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32953,
+          "state_tick": 32953,
+          "phase": "OPEN",
+          "wrist_target_mm": 17.76976415678369,
+          "wrist_other_cube_mm": 1.0773126216608586,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33203,
+          "state_tick": 33202,
+          "phase": "OPEN",
+          "wrist_target_mm": 17.771005502807434,
+          "wrist_other_cube_mm": 1.0635034627509699,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33453,
+          "state_tick": 33451,
+          "phase": "OPEN",
+          "wrist_target_mm": 17.869918236611255,
+          "wrist_other_cube_mm": 1.1242890321558063,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33703,
+          "state_tick": 33703,
+          "phase": "OPEN",
+          "wrist_target_mm": 18.02469246564258,
+          "wrist_other_cube_mm": 1.4233123148319204,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33953,
+          "state_tick": 33952,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 17.906315938489715,
+          "wrist_other_cube_mm": 1.1898891017061985,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34203,
+          "state_tick": 34201,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 18.593669258148918,
+          "wrist_other_cube_mm": 1.8216103968807518,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34453,
+          "state_tick": 34453,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 19.79807361510197,
+          "wrist_other_cube_mm": 3.3972586448335065,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34703,
+          "state_tick": 34702,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 21.312366588748354,
+          "wrist_other_cube_mm": 5.188711042657557,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34953,
+          "state_tick": 34951,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 22.83526855699161,
+          "wrist_other_cube_mm": 6.981445584364004,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35203,
+          "state_tick": 35203,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 24.736262986274426,
+          "wrist_other_cube_mm": 9.08505355066372,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35453,
+          "state_tick": 35452,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 26.553911715001878,
+          "wrist_other_cube_mm": 11.140528625484174,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35703,
+          "state_tick": 35701,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 28.490470983525125,
+          "wrist_other_cube_mm": 13.477958795001992,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35953,
+          "state_tick": 35953,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 30.314739649728924,
+          "wrist_other_cube_mm": 15.555004739312261,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36203,
+          "state_tick": 36202,
+          "phase": "WITHDRAW",
+          "wrist_target_mm": 32.22079328168666,
+          "wrist_other_cube_mm": 17.82676075571277,
+          "seconds_before_first_stop": null
+        }
+      ],
+      "false_alarm_interpretation": "WARNING_ON_CLEAN_CONTROL_IS_AN_INTERVENTION_COST_NOT_A_SAFETY_FAILURE"
+    },
+    {
+      "case": "V7_D0_EARLY_TRAIN_11",
+      "role": "R4_LOCAL_SKILL_CONTROL",
+      "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+      "result_sha256": "8dfcb2e6cc2a330e190139fd2c7ebec752c9e0a43984a8e4438870f17a2ca48a",
+      "physics_sha256": "d93fcded2c6bda2475bdec63bc0396c123154f0ff86f739205e213fe52aa70d0",
+      "task": "PLACE-blue-left",
+      "original_queries": 180,
+      "measured_queries": 180,
+      "missing_boundaries": [],
+      "first_contact_stop": null,
+      "thresholds_mm": {
+        "5.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "STUDENT_BOUNDARY": 0
+          }
+        },
+        "10.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "STUDENT_BOUNDARY": 0
+          }
+        },
+        "15.0": {
+          "count": 120,
+          "first": {
+            "tick": 20703,
+            "state_tick": 20701,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 14.815429566738425,
+            "wrist_other_cube_mm": 34.68547474010483,
+            "seconds_before_first_stop": null
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 120
+          }
+        },
+        "20.0": {
+          "count": 130,
+          "first": {
+            "tick": 18203,
+            "state_tick": 18202,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 19.98724203968377,
+            "wrist_other_cube_mm": 40.006123807327874,
+            "seconds_before_first_stop": null
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 130
+          }
+        }
+      },
+      "boundary_measurements": [
+        {
+          "tick": 5703,
+          "state_tick": 5701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 124.82929823444907,
+          "wrist_other_cube_mm": 122.34890468397971,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 5953,
+          "state_tick": 5953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 112.5353812127587,
+          "wrist_other_cube_mm": 111.8382138652363,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6203,
+          "state_tick": 6202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 116.18425111469605,
+          "wrist_other_cube_mm": 115.65516495096689,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6453,
+          "state_tick": 6451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 114.40192207703578,
+          "wrist_other_cube_mm": 113.93499794698158,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6703,
+          "state_tick": 6703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 113.56526240200535,
+          "wrist_other_cube_mm": 113.41181921471352,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 6953,
+          "state_tick": 6952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 111.99053484121515,
+          "wrist_other_cube_mm": 112.00487908771522,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7203,
+          "state_tick": 7201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 110.33364660934255,
+          "wrist_other_cube_mm": 110.49721054409126,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7453,
+          "state_tick": 7453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 107.56973878675916,
+          "wrist_other_cube_mm": 107.91981173398355,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7703,
+          "state_tick": 7702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 105.41561617736208,
+          "wrist_other_cube_mm": 105.94061395957347,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 7953,
+          "state_tick": 7951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 102.87857888612498,
+          "wrist_other_cube_mm": 103.71749319274112,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8203,
+          "state_tick": 8203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 100.95151906333949,
+          "wrist_other_cube_mm": 102.02009222591776,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8453,
+          "state_tick": 8452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 99.29648919770132,
+          "wrist_other_cube_mm": 100.59742832199021,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8703,
+          "state_tick": 8701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 94.28974935166417,
+          "wrist_other_cube_mm": 95.8208441587201,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 8953,
+          "state_tick": 8953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 87.52796091914429,
+          "wrist_other_cube_mm": 88.78945578436091,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9203,
+          "state_tick": 9202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 84.06442283759418,
+          "wrist_other_cube_mm": 90.11072051275151,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9453,
+          "state_tick": 9451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 81.67205011631832,
+          "wrist_other_cube_mm": 86.10020625013952,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9703,
+          "state_tick": 9703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 80.36072480049985,
+          "wrist_other_cube_mm": 84.73497784013648,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 9953,
+          "state_tick": 9952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 78.68036082307721,
+          "wrist_other_cube_mm": 83.0603362382585,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10203,
+          "state_tick": 10201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 76.12572963348391,
+          "wrist_other_cube_mm": 80.6953082736094,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10453,
+          "state_tick": 10453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 73.47069558580037,
+          "wrist_other_cube_mm": 78.36216753259393,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10703,
+          "state_tick": 10702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 70.71136191465166,
+          "wrist_other_cube_mm": 76.0947349214261,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 10953,
+          "state_tick": 10951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 68.28799464900453,
+          "wrist_other_cube_mm": 74.26187662427321,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11203,
+          "state_tick": 11203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 64.27814944820094,
+          "wrist_other_cube_mm": 71.10025927012366,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11453,
+          "state_tick": 11452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 62.11538427894803,
+          "wrist_other_cube_mm": 69.57223241960396,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11703,
+          "state_tick": 11701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 61.04910811782058,
+          "wrist_other_cube_mm": 70.19507700757079,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 11953,
+          "state_tick": 11953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 55.68302421181058,
+          "wrist_other_cube_mm": 66.77552313203208,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12203,
+          "state_tick": 12202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 47.408406885672576,
+          "wrist_other_cube_mm": 61.971870413653484,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12453,
+          "state_tick": 12451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 51.25218872499683,
+          "wrist_other_cube_mm": 64.78384851407458,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12703,
+          "state_tick": 12703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 50.52878678466921,
+          "wrist_other_cube_mm": 64.21325581147515,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 12953,
+          "state_tick": 12952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 47.60481484580126,
+          "wrist_other_cube_mm": 63.247867423056675,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13203,
+          "state_tick": 13201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 45.74245366396754,
+          "wrist_other_cube_mm": 61.746887305193994,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13453,
+          "state_tick": 13453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 44.76917262201575,
+          "wrist_other_cube_mm": 61.07708216817816,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13703,
+          "state_tick": 13702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 44.32769228318559,
+          "wrist_other_cube_mm": 60.6582215413751,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 13953,
+          "state_tick": 13951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 43.33016949574578,
+          "wrist_other_cube_mm": 59.885313252310766,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14203,
+          "state_tick": 14203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 42.01054289541696,
+          "wrist_other_cube_mm": 58.95290806803119,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14453,
+          "state_tick": 14452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 40.61288053656137,
+          "wrist_other_cube_mm": 57.94198825328387,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14703,
+          "state_tick": 14701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 40.08231087433417,
+          "wrist_other_cube_mm": 57.71502165808074,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 14953,
+          "state_tick": 14953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 38.13615556790639,
+          "wrist_other_cube_mm": 56.35999690871582,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15203,
+          "state_tick": 15202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 37.33827021580004,
+          "wrist_other_cube_mm": 55.782525684294065,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15453,
+          "state_tick": 15451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 37.16064735076241,
+          "wrist_other_cube_mm": 55.77587995588504,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15703,
+          "state_tick": 15703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 36.09411580275886,
+          "wrist_other_cube_mm": 54.83006636434132,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 15953,
+          "state_tick": 15952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 34.089368567646275,
+          "wrist_other_cube_mm": 52.947821083563994,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16203,
+          "state_tick": 16201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 32.5215548048047,
+          "wrist_other_cube_mm": 51.49712949887425,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16453,
+          "state_tick": 16453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 30.871323939289223,
+          "wrist_other_cube_mm": 49.889713052978514,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16703,
+          "state_tick": 16702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 28.84450335886723,
+          "wrist_other_cube_mm": 48.150663889523074,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 16953,
+          "state_tick": 16951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 27.029048192087927,
+          "wrist_other_cube_mm": 46.44889511248928,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17203,
+          "state_tick": 17203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 25.226663268749178,
+          "wrist_other_cube_mm": 44.775872305990646,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17453,
+          "state_tick": 17452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 24.530326692825884,
+          "wrist_other_cube_mm": 44.160843160270524,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17703,
+          "state_tick": 17701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 23.18874743419556,
+          "wrist_other_cube_mm": 42.98724792964418,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 17953,
+          "state_tick": 17953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 21.742469574381364,
+          "wrist_other_cube_mm": 41.79870743871983,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18203,
+          "state_tick": 18202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 19.98724203968377,
+          "wrist_other_cube_mm": 40.006123807327874,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18453,
+          "state_tick": 18451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 18.87516245034989,
+          "wrist_other_cube_mm": 38.908552233073515,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18703,
+          "state_tick": 18703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 18.009788645928996,
+          "wrist_other_cube_mm": 38.05186702050642,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 18953,
+          "state_tick": 18952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 17.51482028293714,
+          "wrist_other_cube_mm": 37.58022896752128,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19203,
+          "state_tick": 19201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 18.031710311538593,
+          "wrist_other_cube_mm": 38.12024077950346,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19453,
+          "state_tick": 19453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 17.021905686949218,
+          "wrist_other_cube_mm": 37.05242515319762,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19703,
+          "state_tick": 19702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 16.63197529980004,
+          "wrist_other_cube_mm": 36.66137689423854,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 19953,
+          "state_tick": 19951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 15.876456496129107,
+          "wrist_other_cube_mm": 35.71591258237666,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20203,
+          "state_tick": 20203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 16.401491200749145,
+          "wrist_other_cube_mm": 36.36636242435967,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20453,
+          "state_tick": 20452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 15.139113159374537,
+          "wrist_other_cube_mm": 34.93902011116415,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20703,
+          "state_tick": 20701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.815429566738425,
+          "wrist_other_cube_mm": 34.68547474010483,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 20953,
+          "state_tick": 20953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.041764197294595,
+          "wrist_other_cube_mm": 33.66645544337066,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21203,
+          "state_tick": 21202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.395118173613385,
+          "wrist_other_cube_mm": 32.97900244172,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21453,
+          "state_tick": 21451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.05900692405055,
+          "wrist_other_cube_mm": 33.699385177426905,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21703,
+          "state_tick": 21703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.72425479668999,
+          "wrist_other_cube_mm": 33.30575463940127,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 21953,
+          "state_tick": 21952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.742103730688363,
+          "wrist_other_cube_mm": 33.3304480429073,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22203,
+          "state_tick": 22201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.125776636025378,
+          "wrist_other_cube_mm": 33.70135715041503,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22453,
+          "state_tick": 22453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.099298172016807,
+          "wrist_other_cube_mm": 33.6017760931977,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22703,
+          "state_tick": 22702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 14.154683177077667,
+          "wrist_other_cube_mm": 33.70249992962698,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 22953,
+          "state_tick": 22951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.960632423682402,
+          "wrist_other_cube_mm": 33.306446805640014,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23203,
+          "state_tick": 23203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.846928014879827,
+          "wrist_other_cube_mm": 33.192334201727874,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23453,
+          "state_tick": 23452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.505077737147195,
+          "wrist_other_cube_mm": 33.00521256435318,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23703,
+          "state_tick": 23701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.434176737327546,
+          "wrist_other_cube_mm": 32.449609130843214,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 23953,
+          "state_tick": 23953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.510590019294236,
+          "wrist_other_cube_mm": 32.57306712723002,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24203,
+          "state_tick": 24202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.51117297930942,
+          "wrist_other_cube_mm": 32.67016568709899,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24453,
+          "state_tick": 24451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.512311128665571,
+          "wrist_other_cube_mm": 32.6771394766166,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24703,
+          "state_tick": 24703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.513321396094554,
+          "wrist_other_cube_mm": 32.83744075729009,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 24953,
+          "state_tick": 24952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.514257900124074,
+          "wrist_other_cube_mm": 32.7357531786259,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25203,
+          "state_tick": 25201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.515193602917467,
+          "wrist_other_cube_mm": 32.98698604068018,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25453,
+          "state_tick": 25453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.51610864080001,
+          "wrist_other_cube_mm": 33.399930168984845,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25703,
+          "state_tick": 25702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.516997707084935,
+          "wrist_other_cube_mm": 33.57543582337274,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 25953,
+          "state_tick": 25951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.517841863860278,
+          "wrist_other_cube_mm": 33.75590548651172,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26203,
+          "state_tick": 26203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.518739781102623,
+          "wrist_other_cube_mm": 34.49166770211376,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26453,
+          "state_tick": 26452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.51954018201252,
+          "wrist_other_cube_mm": 34.16382912210369,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26703,
+          "state_tick": 26701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.520394274898957,
+          "wrist_other_cube_mm": 34.49369615971001,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 26953,
+          "state_tick": 26953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.521320525735916,
+          "wrist_other_cube_mm": 35.92118936495914,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27203,
+          "state_tick": 27202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.522154950705612,
+          "wrist_other_cube_mm": 36.867953481380056,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27453,
+          "state_tick": 27451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.522942827406771,
+          "wrist_other_cube_mm": 37.4483072040398,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27703,
+          "state_tick": 27703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.523818844248366,
+          "wrist_other_cube_mm": 38.57122146177902,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 27953,
+          "state_tick": 27952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.524530370953094,
+          "wrist_other_cube_mm": 38.26784623618626,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28203,
+          "state_tick": 28201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.525257806337253,
+          "wrist_other_cube_mm": 38.00348205371937,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28453,
+          "state_tick": 28453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.526030804223772,
+          "wrist_other_cube_mm": 38.38411881826229,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28703,
+          "state_tick": 28702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.5267167467953,
+          "wrist_other_cube_mm": 37.61249720659576,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 28953,
+          "state_tick": 28951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.527422907356291,
+          "wrist_other_cube_mm": 36.52567958148853,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29203,
+          "state_tick": 29203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.533030863535544,
+          "wrist_other_cube_mm": 33.7536209300924,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29453,
+          "state_tick": 29452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.53384499565518,
+          "wrist_other_cube_mm": 34.88629013366781,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29703,
+          "state_tick": 29701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.536410873250643,
+          "wrist_other_cube_mm": 34.16610123713512,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 29953,
+          "state_tick": 29953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.547527301278471,
+          "wrist_other_cube_mm": 14.369624698340216,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30203,
+          "state_tick": 30202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.554453841591172,
+          "wrist_other_cube_mm": 30.501553445215603,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30453,
+          "state_tick": 30451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.555400906712679,
+          "wrist_other_cube_mm": 30.360552075375413,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30703,
+          "state_tick": 30703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.556108249827531,
+          "wrist_other_cube_mm": 30.231118531279243,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 30953,
+          "state_tick": 30952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.556772428159212,
+          "wrist_other_cube_mm": 29.794740122759734,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31203,
+          "state_tick": 31201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.55746026730633,
+          "wrist_other_cube_mm": 28.57513354951266,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31453,
+          "state_tick": 31453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.558282550941241,
+          "wrist_other_cube_mm": 25.757167059941853,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31703,
+          "state_tick": 31702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.559002802594893,
+          "wrist_other_cube_mm": 23.39044965941911,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 31953,
+          "state_tick": 31951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.55968127058154,
+          "wrist_other_cube_mm": 21.673166091140533,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32203,
+          "state_tick": 32203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.56470790789676,
+          "wrist_other_cube_mm": 19.40819180213821,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32453,
+          "state_tick": 32452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.565768087935199,
+          "wrist_other_cube_mm": 21.27797877492052,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32703,
+          "state_tick": 32701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.583257425118427,
+          "wrist_other_cube_mm": 17.28791649922426,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 32953,
+          "state_tick": 32953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.584095584180611,
+          "wrist_other_cube_mm": 18.447435045242543,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33203,
+          "state_tick": 33202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.58477568085431,
+          "wrist_other_cube_mm": 19.97280115547595,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33453,
+          "state_tick": 33451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.585557612378334,
+          "wrist_other_cube_mm": 19.049936580150085,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33703,
+          "state_tick": 33703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.586368619595696,
+          "wrist_other_cube_mm": 16.90665442440992,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 33953,
+          "state_tick": 33952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.587055633576101,
+          "wrist_other_cube_mm": 16.649531065093093,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34203,
+          "state_tick": 34201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.587772733329368,
+          "wrist_other_cube_mm": 15.160729722209332,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34453,
+          "state_tick": 34453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.604018947013554,
+          "wrist_other_cube_mm": 14.983399914483304,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34703,
+          "state_tick": 34702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.604786624671648,
+          "wrist_other_cube_mm": 14.844098296197428,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 34953,
+          "state_tick": 34951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.630841628299681,
+          "wrist_other_cube_mm": 7.356061259997132,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35203,
+          "state_tick": 35203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.640926011228267,
+          "wrist_other_cube_mm": 17.171337690417676,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35453,
+          "state_tick": 35452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.641674438123633,
+          "wrist_other_cube_mm": 17.345150252379565,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35703,
+          "state_tick": 35701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.642637809733543,
+          "wrist_other_cube_mm": 15.22310944600813,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 35953,
+          "state_tick": 35953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.643416543480836,
+          "wrist_other_cube_mm": 13.721389267479871,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36203,
+          "state_tick": 36202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.644132711480323,
+          "wrist_other_cube_mm": 13.13004168376397,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36453,
+          "state_tick": 36451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.644843080276296,
+          "wrist_other_cube_mm": 14.737780650551924,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36703,
+          "state_tick": 36703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.645666520259454,
+          "wrist_other_cube_mm": 12.021797273344125,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 36953,
+          "state_tick": 36952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.646437251394875,
+          "wrist_other_cube_mm": 9.677362146735785,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37203,
+          "state_tick": 37201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.647180754823143,
+          "wrist_other_cube_mm": 8.148679286442778,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37453,
+          "state_tick": 37453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.648013350190787,
+          "wrist_other_cube_mm": 6.043528661256293,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37703,
+          "state_tick": 37702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.648769121764763,
+          "wrist_other_cube_mm": 4.329666387017622,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 37953,
+          "state_tick": 37951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.64955729641032,
+          "wrist_other_cube_mm": 2.569527819769019,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38203,
+          "state_tick": 38203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.650371959053789,
+          "wrist_other_cube_mm": 0.47458419295598464,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38453,
+          "state_tick": 38452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.651306789730665,
+          "wrist_other_cube_mm": -2.399560790742161,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38703,
+          "state_tick": 38701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.652036103135936,
+          "wrist_other_cube_mm": -2.944453824410276,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 38953,
+          "state_tick": 38953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.65277434450142,
+          "wrist_other_cube_mm": -2.236682800029033,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 39203,
+          "state_tick": 39202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.653517833853607,
+          "wrist_other_cube_mm": -3.5570308355433733,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 39453,
+          "state_tick": 39451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.654265601189895,
+          "wrist_other_cube_mm": -4.515430824430233,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 39703,
+          "state_tick": 39703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.655052706543671,
+          "wrist_other_cube_mm": -6.071058842644971,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 39953,
+          "state_tick": 39952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.655781413828297,
+          "wrist_other_cube_mm": -6.382809024690683,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 40203,
+          "state_tick": 40201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.656515426392394,
+          "wrist_other_cube_mm": -6.7395220670053435,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 40453,
+          "state_tick": 40453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.657250665457546,
+          "wrist_other_cube_mm": -6.886644343548298,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 40703,
+          "state_tick": 40702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.657999124101497,
+          "wrist_other_cube_mm": -6.865391623720241,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 40953,
+          "state_tick": 40951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.658729520248269,
+          "wrist_other_cube_mm": -6.682472781324444,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 41203,
+          "state_tick": 41203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.659552543955275,
+          "wrist_other_cube_mm": -7.780494437255092,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 41453,
+          "state_tick": 41452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.660356516645107,
+          "wrist_other_cube_mm": -9.674463088858442,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 41703,
+          "state_tick": 41701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.66110111943271,
+          "wrist_other_cube_mm": -9.606348910277395,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 41953,
+          "state_tick": 41953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.661883276927279,
+          "wrist_other_cube_mm": -8.664752354650695,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 42203,
+          "state_tick": 42202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.662726113884547,
+          "wrist_other_cube_mm": -9.813759695951497,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 42453,
+          "state_tick": 42451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.663501665947992,
+          "wrist_other_cube_mm": -10.507005276911896,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 42703,
+          "state_tick": 42703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.664272111162488,
+          "wrist_other_cube_mm": -9.964291862991582,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 42953,
+          "state_tick": 42952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.665131323968911,
+          "wrist_other_cube_mm": -11.650003584248337,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 43203,
+          "state_tick": 43201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.665878508557661,
+          "wrist_other_cube_mm": -12.4175480555902,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 43453,
+          "state_tick": 43453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.666643475888431,
+          "wrist_other_cube_mm": -13.282845210796923,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 43703,
+          "state_tick": 43702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.667458303447518,
+          "wrist_other_cube_mm": -14.781152621182791,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 43953,
+          "state_tick": 43951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.668248539812168,
+          "wrist_other_cube_mm": -16.004318382571768,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 44203,
+          "state_tick": 44203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.669068138569523,
+          "wrist_other_cube_mm": -17.11807567535467,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 44453,
+          "state_tick": 44452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.669845408618485,
+          "wrist_other_cube_mm": -17.942139838247495,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 44703,
+          "state_tick": 44701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.67059899458182,
+          "wrist_other_cube_mm": -18.733419566233977,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 44953,
+          "state_tick": 44953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.6714071555206,
+          "wrist_other_cube_mm": -19.94159054059508,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 45203,
+          "state_tick": 45202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.672189586414335,
+          "wrist_other_cube_mm": -21.257783279128418,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 45453,
+          "state_tick": 45451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.672809078092,
+          "wrist_other_cube_mm": -21.383549168127846,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 45703,
+          "state_tick": 45703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.6723039286456,
+          "wrist_other_cube_mm": -21.693858691492874,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 45953,
+          "state_tick": 45952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.67034038116216,
+          "wrist_other_cube_mm": -22.027897681954567,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 46203,
+          "state_tick": 46201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.667141666347874,
+          "wrist_other_cube_mm": -22.142527725330595,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 46453,
+          "state_tick": 46453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.662593609345603,
+          "wrist_other_cube_mm": -22.389797373224106,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 46703,
+          "state_tick": 46702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.65748782912573,
+          "wrist_other_cube_mm": -22.56316558611593,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 46953,
+          "state_tick": 46951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.652021775981584,
+          "wrist_other_cube_mm": -22.550838687561747,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 47203,
+          "state_tick": 47203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.645830672379546,
+          "wrist_other_cube_mm": -22.450536852531066,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 47453,
+          "state_tick": 47452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.63921651654508,
+          "wrist_other_cube_mm": -22.36318586972097,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 47703,
+          "state_tick": 47701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.632584861716362,
+          "wrist_other_cube_mm": -22.279348379171115,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 47953,
+          "state_tick": 47953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.62568515743303,
+          "wrist_other_cube_mm": -22.242421221905673,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 48203,
+          "state_tick": 48202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.618783011374383,
+          "wrist_other_cube_mm": -22.13841111080095,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 48453,
+          "state_tick": 48451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.61175126204782,
+          "wrist_other_cube_mm": -22.160418912250346,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 48703,
+          "state_tick": 48703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.604393091210108,
+          "wrist_other_cube_mm": -22.140576209577766,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 48953,
+          "state_tick": 48952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.596657093345447,
+          "wrist_other_cube_mm": -22.19407966216763,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 49203,
+          "state_tick": 49201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.588526738849534,
+          "wrist_other_cube_mm": -22.198963153164776,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 49453,
+          "state_tick": 49453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.579524161329168,
+          "wrist_other_cube_mm": -22.166465773402642,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 49703,
+          "state_tick": 49702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.567097730465424,
+          "wrist_other_cube_mm": -22.090717075017142,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 49953,
+          "state_tick": 49951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.545035970721875,
+          "wrist_other_cube_mm": -22.125903721730456,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 50203,
+          "state_tick": 50203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.517507745377515,
+          "wrist_other_cube_mm": -22.14952339807824,
+          "seconds_before_first_stop": null
+        },
+        {
+          "tick": 50453,
+          "state_tick": 50452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.497461129631377,
+          "wrist_other_cube_mm": -22.083452865570173,
+          "seconds_before_first_stop": null
+        }
+      ],
+      "false_alarm_interpretation": "WARNING_ON_CLEAN_CONTROL_IS_AN_INTERVENTION_COST_NOT_A_SAFETY_FAILURE"
+    },
+    {
+      "case": "V7_D0_EARLY_TRAIN_13",
+      "role": "R4_CONTACT_FAILURE",
+      "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+      "result_sha256": "640b22232122fdf4ba66240854ced1c0b353faee23058b51835920629321a451",
+      "physics_sha256": "17366b34434cea4e5ac822622d37c5acaf6a86b2ffde34efb322ac952a8ad3e3",
+      "task": "PLACE-blue-left",
+      "original_queries": 55,
+      "measured_queries": 55,
+      "missing_boundaries": [],
+      "first_contact_stop": 19244,
+      "thresholds_mm": {
+        "5.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "STUDENT_BOUNDARY": 0
+          }
+        },
+        "10.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "STUDENT_BOUNDARY": 0
+          }
+        },
+        "15.0": {
+          "count": 2,
+          "first": {
+            "tick": 18953,
+            "state_tick": 18952,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 13.465402418017144,
+            "wrist_other_cube_mm": 32.58817980381051,
+            "seconds_before_first_stop": 0.582
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 2
+          }
+        },
+        "20.0": {
+          "count": 6,
+          "first": {
+            "tick": 17953,
+            "state_tick": 17953,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 19.210742957792743,
+            "wrist_other_cube_mm": 37.17982775376721,
+            "seconds_before_first_stop": 2.582
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 6
+          }
+        }
+      },
+      "boundary_measurements": [
+        {
+          "tick": 5703,
+          "state_tick": 5701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 124.6881805514869,
+          "wrist_other_cube_mm": 121.95871827346885,
+          "seconds_before_first_stop": 27.082
+        },
+        {
+          "tick": 5953,
+          "state_tick": 5953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 105.20313198410025,
+          "wrist_other_cube_mm": 104.47316056272793,
+          "seconds_before_first_stop": 26.582
+        },
+        {
+          "tick": 6203,
+          "state_tick": 6202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 115.64414901871517,
+          "wrist_other_cube_mm": 114.78432589127414,
+          "seconds_before_first_stop": 26.082
+        },
+        {
+          "tick": 6453,
+          "state_tick": 6451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 114.28967504409226,
+          "wrist_other_cube_mm": 113.23614664551829,
+          "seconds_before_first_stop": 25.582
+        },
+        {
+          "tick": 6703,
+          "state_tick": 6703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 113.24610374608477,
+          "wrist_other_cube_mm": 112.31647838367176,
+          "seconds_before_first_stop": 25.082
+        },
+        {
+          "tick": 6953,
+          "state_tick": 6952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 112.27250687248161,
+          "wrist_other_cube_mm": 111.40027674249284,
+          "seconds_before_first_stop": 24.582
+        },
+        {
+          "tick": 7203,
+          "state_tick": 7201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 111.03994904677525,
+          "wrist_other_cube_mm": 110.3636724539698,
+          "seconds_before_first_stop": 24.082
+        },
+        {
+          "tick": 7453,
+          "state_tick": 7453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 109.57703461592442,
+          "wrist_other_cube_mm": 108.93728083035101,
+          "seconds_before_first_stop": 23.582
+        },
+        {
+          "tick": 7703,
+          "state_tick": 7702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 107.74187616214063,
+          "wrist_other_cube_mm": 107.43594928021513,
+          "seconds_before_first_stop": 23.082
+        },
+        {
+          "tick": 7953,
+          "state_tick": 7951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 105.83544535046299,
+          "wrist_other_cube_mm": 105.81912096053897,
+          "seconds_before_first_stop": 22.582
+        },
+        {
+          "tick": 8203,
+          "state_tick": 8203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 103.9634944022289,
+          "wrist_other_cube_mm": 104.20829334283444,
+          "seconds_before_first_stop": 22.082
+        },
+        {
+          "tick": 8453,
+          "state_tick": 8452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 101.58834648392018,
+          "wrist_other_cube_mm": 102.21960183863423,
+          "seconds_before_first_stop": 21.582
+        },
+        {
+          "tick": 8703,
+          "state_tick": 8701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 99.46624673287535,
+          "wrist_other_cube_mm": 100.49139373584588,
+          "seconds_before_first_stop": 21.082
+        },
+        {
+          "tick": 8953,
+          "state_tick": 8953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 94.58061580660845,
+          "wrist_other_cube_mm": 96.16978230764606,
+          "seconds_before_first_stop": 20.582
+        },
+        {
+          "tick": 9203,
+          "state_tick": 9202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 92.72854366169115,
+          "wrist_other_cube_mm": 95.13228143548518,
+          "seconds_before_first_stop": 20.082
+        },
+        {
+          "tick": 9453,
+          "state_tick": 9451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 87.7976592420444,
+          "wrist_other_cube_mm": 92.49761101276147,
+          "seconds_before_first_stop": 19.582
+        },
+        {
+          "tick": 9703,
+          "state_tick": 9703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 86.46941509010684,
+          "wrist_other_cube_mm": 90.7339894250158,
+          "seconds_before_first_stop": 19.082
+        },
+        {
+          "tick": 9953,
+          "state_tick": 9952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 85.06779813778152,
+          "wrist_other_cube_mm": 89.48779827188662,
+          "seconds_before_first_stop": 18.582
+        },
+        {
+          "tick": 10203,
+          "state_tick": 10201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 77.9424755244018,
+          "wrist_other_cube_mm": 82.59479661994953,
+          "seconds_before_first_stop": 18.082
+        },
+        {
+          "tick": 10453,
+          "state_tick": 10453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 79.6693798835197,
+          "wrist_other_cube_mm": 85.63149088914984,
+          "seconds_before_first_stop": 17.582
+        },
+        {
+          "tick": 10703,
+          "state_tick": 10702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 72.76381736266558,
+          "wrist_other_cube_mm": 79.34954932247273,
+          "seconds_before_first_stop": 17.082
+        },
+        {
+          "tick": 10953,
+          "state_tick": 10951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 72.64272342924693,
+          "wrist_other_cube_mm": 80.25304919934446,
+          "seconds_before_first_stop": 16.582
+        },
+        {
+          "tick": 11203,
+          "state_tick": 11203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 71.1424005800843,
+          "wrist_other_cube_mm": 78.99026623535137,
+          "seconds_before_first_stop": 16.082
+        },
+        {
+          "tick": 11453,
+          "state_tick": 11452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 67.27368268734133,
+          "wrist_other_cube_mm": 75.83263958819602,
+          "seconds_before_first_stop": 15.582
+        },
+        {
+          "tick": 11703,
+          "state_tick": 11701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 65.8255312411299,
+          "wrist_other_cube_mm": 75.56650890889703,
+          "seconds_before_first_stop": 15.082
+        },
+        {
+          "tick": 11953,
+          "state_tick": 11953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 57.80985623189777,
+          "wrist_other_cube_mm": 70.34160943884811,
+          "seconds_before_first_stop": 14.582
+        },
+        {
+          "tick": 12203,
+          "state_tick": 12202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 60.24051893947363,
+          "wrist_other_cube_mm": 72.08491011696306,
+          "seconds_before_first_stop": 14.082
+        },
+        {
+          "tick": 12453,
+          "state_tick": 12451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 55.73211361898228,
+          "wrist_other_cube_mm": 70.13089422704257,
+          "seconds_before_first_stop": 13.582
+        },
+        {
+          "tick": 12703,
+          "state_tick": 12703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 55.26904855083635,
+          "wrist_other_cube_mm": 68.96638994276353,
+          "seconds_before_first_stop": 13.082
+        },
+        {
+          "tick": 12953,
+          "state_tick": 12952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 53.217379655006624,
+          "wrist_other_cube_mm": 69.00137117971668,
+          "seconds_before_first_stop": 12.582
+        },
+        {
+          "tick": 13203,
+          "state_tick": 13201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 51.52232833064975,
+          "wrist_other_cube_mm": 67.24281294293696,
+          "seconds_before_first_stop": 12.082
+        },
+        {
+          "tick": 13453,
+          "state_tick": 13453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 48.997834345011164,
+          "wrist_other_cube_mm": 66.55051353078869,
+          "seconds_before_first_stop": 11.582
+        },
+        {
+          "tick": 13703,
+          "state_tick": 13702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 43.30555042011311,
+          "wrist_other_cube_mm": 60.30062746299014,
+          "seconds_before_first_stop": 11.082
+        },
+        {
+          "tick": 13953,
+          "state_tick": 13951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 43.23926230252467,
+          "wrist_other_cube_mm": 60.97359247381581,
+          "seconds_before_first_stop": 10.582
+        },
+        {
+          "tick": 14203,
+          "state_tick": 14203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 43.31042549649614,
+          "wrist_other_cube_mm": 58.014298954042864,
+          "seconds_before_first_stop": 10.082
+        },
+        {
+          "tick": 14453,
+          "state_tick": 14452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 42.5189252015435,
+          "wrist_other_cube_mm": 57.44503748160046,
+          "seconds_before_first_stop": 9.582
+        },
+        {
+          "tick": 14703,
+          "state_tick": 14701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 42.19881772828814,
+          "wrist_other_cube_mm": 57.25212109376082,
+          "seconds_before_first_stop": 9.082
+        },
+        {
+          "tick": 14953,
+          "state_tick": 14953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 41.426356229794486,
+          "wrist_other_cube_mm": 56.672919742562584,
+          "seconds_before_first_stop": 8.582
+        },
+        {
+          "tick": 15203,
+          "state_tick": 15202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 40.705230278843345,
+          "wrist_other_cube_mm": 56.028996436034596,
+          "seconds_before_first_stop": 8.082
+        },
+        {
+          "tick": 15453,
+          "state_tick": 15451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 38.74023222576562,
+          "wrist_other_cube_mm": 54.13160441317535,
+          "seconds_before_first_stop": 7.582
+        },
+        {
+          "tick": 15703,
+          "state_tick": 15703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 36.4241386154241,
+          "wrist_other_cube_mm": 51.88280416224566,
+          "seconds_before_first_stop": 7.082
+        },
+        {
+          "tick": 15953,
+          "state_tick": 15952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 34.116609660521284,
+          "wrist_other_cube_mm": 49.81494344987342,
+          "seconds_before_first_stop": 6.582
+        },
+        {
+          "tick": 16203,
+          "state_tick": 16201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 32.873076986322694,
+          "wrist_other_cube_mm": 48.738274108357736,
+          "seconds_before_first_stop": 6.082
+        },
+        {
+          "tick": 16453,
+          "state_tick": 16453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 30.744817293909232,
+          "wrist_other_cube_mm": 46.80227000501733,
+          "seconds_before_first_stop": 5.582
+        },
+        {
+          "tick": 16703,
+          "state_tick": 16702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 28.75727389712613,
+          "wrist_other_cube_mm": 45.093202219241654,
+          "seconds_before_first_stop": 5.082
+        },
+        {
+          "tick": 16953,
+          "state_tick": 16951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 26.67461062266977,
+          "wrist_other_cube_mm": 43.41054662088428,
+          "seconds_before_first_stop": 4.582
+        },
+        {
+          "tick": 17203,
+          "state_tick": 17203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 24.200553051723695,
+          "wrist_other_cube_mm": 41.19094258835771,
+          "seconds_before_first_stop": 4.082
+        },
+        {
+          "tick": 17453,
+          "state_tick": 17452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 22.41846178877037,
+          "wrist_other_cube_mm": 39.58813300381075,
+          "seconds_before_first_stop": 3.5820000000000003
+        },
+        {
+          "tick": 17703,
+          "state_tick": 17701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 20.473395989005994,
+          "wrist_other_cube_mm": 37.99188818824689,
+          "seconds_before_first_stop": 3.082
+        },
+        {
+          "tick": 17953,
+          "state_tick": 17953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 19.210742957792743,
+          "wrist_other_cube_mm": 37.17982775376721,
+          "seconds_before_first_stop": 2.582
+        },
+        {
+          "tick": 18203,
+          "state_tick": 18202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 17.839092017728333,
+          "wrist_other_cube_mm": 35.95593216930026,
+          "seconds_before_first_stop": 2.082
+        },
+        {
+          "tick": 18453,
+          "state_tick": 18451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 16.03569763827188,
+          "wrist_other_cube_mm": 34.52662873916573,
+          "seconds_before_first_stop": 1.582
+        },
+        {
+          "tick": 18703,
+          "state_tick": 18703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 15.027385565300907,
+          "wrist_other_cube_mm": 33.820095876027274,
+          "seconds_before_first_stop": 1.082
+        },
+        {
+          "tick": 18953,
+          "state_tick": 18952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.465402418017144,
+          "wrist_other_cube_mm": 32.58817980381051,
+          "seconds_before_first_stop": 0.582
+        },
+        {
+          "tick": 19203,
+          "state_tick": 19201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 11.828806252228118,
+          "wrist_other_cube_mm": 31.15212508952436,
+          "seconds_before_first_stop": 0.082
+        }
+      ],
+      "false_alarm_interpretation": "WARNING_ON_CLEAN_CONTROL_IS_AN_INTERVENTION_COST_NOT_A_SAFETY_FAILURE"
+    },
+    {
+      "case": "V7_D0_EARLY_TRAIN_14",
+      "role": "R4_CONTACT_FAILURE",
+      "scene_sha256": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+      "result_sha256": "22cfe4d9f1b6988584fb0bcf4c47fdfa7655e9feae850071a1cf80b9d19cb5ea",
+      "physics_sha256": "093ad27dd0f70eb4e97271eb5fcfe532fc68261ab003e171e654cc87018fa50d",
+      "task": "PLACE-red-right",
+      "original_queries": 75,
+      "measured_queries": 75,
+      "missing_boundaries": [],
+      "first_contact_stop": 24373,
+      "thresholds_mm": {
+        "5.0": {
+          "count": 0,
+          "first": null,
+          "by_phase": {
+            "STUDENT_BOUNDARY": 0
+          }
+        },
+        "10.0": {
+          "count": 12,
+          "first": {
+            "tick": 20953,
+            "state_tick": 20953,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 9.998447515668106,
+            "wrist_other_cube_mm": 31.88068592968524,
+            "seconds_before_first_stop": 6.84
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 12
+          }
+        },
+        "15.0": {
+          "count": 25,
+          "first": {
+            "tick": 18203,
+            "state_tick": 18202,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 13.303960496791868,
+            "wrist_other_cube_mm": 37.11807927753824,
+            "seconds_before_first_stop": 12.34
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 25
+          }
+        },
+        "20.0": {
+          "count": 29,
+          "first": {
+            "tick": 17203,
+            "state_tick": 17203,
+            "phase": "STUDENT_BOUNDARY",
+            "wrist_target_mm": 19.562371433578022,
+            "wrist_other_cube_mm": 42.03481870915893,
+            "seconds_before_first_stop": 14.34
+          },
+          "by_phase": {
+            "STUDENT_BOUNDARY": 29
+          }
+        }
+      },
+      "boundary_measurements": [
+        {
+          "tick": 5703,
+          "state_tick": 5701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 118.07309985791409,
+          "wrist_other_cube_mm": 119.66523621553144,
+          "seconds_before_first_stop": 37.34
+        },
+        {
+          "tick": 5953,
+          "state_tick": 5953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 101.09120636924817,
+          "wrist_other_cube_mm": 100.58410308511168,
+          "seconds_before_first_stop": 36.84
+        },
+        {
+          "tick": 6203,
+          "state_tick": 6202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 110.86251153586605,
+          "wrist_other_cube_mm": 110.96051390891634,
+          "seconds_before_first_stop": 36.34
+        },
+        {
+          "tick": 6453,
+          "state_tick": 6451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 109.4899827221556,
+          "wrist_other_cube_mm": 110.29836326321302,
+          "seconds_before_first_stop": 35.84
+        },
+        {
+          "tick": 6703,
+          "state_tick": 6703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 109.15246194137468,
+          "wrist_other_cube_mm": 110.17522255710652,
+          "seconds_before_first_stop": 35.34
+        },
+        {
+          "tick": 6953,
+          "state_tick": 6952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 108.1581950489571,
+          "wrist_other_cube_mm": 109.41950724324,
+          "seconds_before_first_stop": 34.84
+        },
+        {
+          "tick": 7203,
+          "state_tick": 7201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 107.05806011331853,
+          "wrist_other_cube_mm": 108.57548921955099,
+          "seconds_before_first_stop": 34.34
+        },
+        {
+          "tick": 7453,
+          "state_tick": 7453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 103.59888857049687,
+          "wrist_other_cube_mm": 105.39878541637859,
+          "seconds_before_first_stop": 33.84
+        },
+        {
+          "tick": 7703,
+          "state_tick": 7702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 102.51732053645948,
+          "wrist_other_cube_mm": 104.87395828004739,
+          "seconds_before_first_stop": 33.34
+        },
+        {
+          "tick": 7953,
+          "state_tick": 7951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 101.00968619327081,
+          "wrist_other_cube_mm": 103.81187026418375,
+          "seconds_before_first_stop": 32.84
+        },
+        {
+          "tick": 8203,
+          "state_tick": 8203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 98.11346667357371,
+          "wrist_other_cube_mm": 101.28003722520013,
+          "seconds_before_first_stop": 32.34
+        },
+        {
+          "tick": 8453,
+          "state_tick": 8452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 89.2790915119782,
+          "wrist_other_cube_mm": 94.35143423417438,
+          "seconds_before_first_stop": 31.84
+        },
+        {
+          "tick": 8703,
+          "state_tick": 8701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 88.76291569385144,
+          "wrist_other_cube_mm": 94.69550522685148,
+          "seconds_before_first_stop": 31.34
+        },
+        {
+          "tick": 8953,
+          "state_tick": 8953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 85.92080511314195,
+          "wrist_other_cube_mm": 92.06694934162928,
+          "seconds_before_first_stop": 30.84
+        },
+        {
+          "tick": 9203,
+          "state_tick": 9202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 84.35323806751286,
+          "wrist_other_cube_mm": 90.74441707101985,
+          "seconds_before_first_stop": 30.34
+        },
+        {
+          "tick": 9453,
+          "state_tick": 9451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 82.8660310522798,
+          "wrist_other_cube_mm": 89.61684929865814,
+          "seconds_before_first_stop": 29.84
+        },
+        {
+          "tick": 9703,
+          "state_tick": 9703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 80.84030148584148,
+          "wrist_other_cube_mm": 87.92759783514263,
+          "seconds_before_first_stop": 29.34
+        },
+        {
+          "tick": 9953,
+          "state_tick": 9952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 76.16769008563078,
+          "wrist_other_cube_mm": 83.75971958192,
+          "seconds_before_first_stop": 28.84
+        },
+        {
+          "tick": 10203,
+          "state_tick": 10201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 68.23560964000374,
+          "wrist_other_cube_mm": 77.79937814675718,
+          "seconds_before_first_stop": 28.34
+        },
+        {
+          "tick": 10453,
+          "state_tick": 10453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 69.54577971289467,
+          "wrist_other_cube_mm": 79.16127494234507,
+          "seconds_before_first_stop": 27.84
+        },
+        {
+          "tick": 10703,
+          "state_tick": 10702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 69.26990191111193,
+          "wrist_other_cube_mm": 79.62999431829334,
+          "seconds_before_first_stop": 27.34
+        },
+        {
+          "tick": 10953,
+          "state_tick": 10951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 64.08039371703349,
+          "wrist_other_cube_mm": 73.63715227579048,
+          "seconds_before_first_stop": 26.84
+        },
+        {
+          "tick": 11203,
+          "state_tick": 11203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 36.85019592029927,
+          "wrist_other_cube_mm": 54.92749742179306,
+          "seconds_before_first_stop": 26.34
+        },
+        {
+          "tick": 11453,
+          "state_tick": 11452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 57.25990251374567,
+          "wrist_other_cube_mm": 72.95895497477792,
+          "seconds_before_first_stop": 25.84
+        },
+        {
+          "tick": 11703,
+          "state_tick": 11701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 56.16085806750925,
+          "wrist_other_cube_mm": 73.80309620411732,
+          "seconds_before_first_stop": 25.34
+        },
+        {
+          "tick": 11953,
+          "state_tick": 11953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 55.80806589911025,
+          "wrist_other_cube_mm": 73.98868894712628,
+          "seconds_before_first_stop": 24.84
+        },
+        {
+          "tick": 12203,
+          "state_tick": 12202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 54.10330416924283,
+          "wrist_other_cube_mm": 73.38100365620544,
+          "seconds_before_first_stop": 24.34
+        },
+        {
+          "tick": 12453,
+          "state_tick": 12451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 52.987703972381674,
+          "wrist_other_cube_mm": 73.04319164109485,
+          "seconds_before_first_stop": 23.84
+        },
+        {
+          "tick": 12703,
+          "state_tick": 12703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 51.28668037948289,
+          "wrist_other_cube_mm": 72.21279976107012,
+          "seconds_before_first_stop": 23.34
+        },
+        {
+          "tick": 12953,
+          "state_tick": 12952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 49.43074893495282,
+          "wrist_other_cube_mm": 71.29132872431282,
+          "seconds_before_first_stop": 22.84
+        },
+        {
+          "tick": 13203,
+          "state_tick": 13201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 47.99529141575895,
+          "wrist_other_cube_mm": 70.40454780260211,
+          "seconds_before_first_stop": 22.34
+        },
+        {
+          "tick": 13453,
+          "state_tick": 13453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 40.17982690665807,
+          "wrist_other_cube_mm": 61.3696409110456,
+          "seconds_before_first_stop": 21.84
+        },
+        {
+          "tick": 13703,
+          "state_tick": 13702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 40.95526662396101,
+          "wrist_other_cube_mm": 61.847771010491606,
+          "seconds_before_first_stop": 21.34
+        },
+        {
+          "tick": 13953,
+          "state_tick": 13951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 39.93986177133726,
+          "wrist_other_cube_mm": 60.63272879471593,
+          "seconds_before_first_stop": 20.84
+        },
+        {
+          "tick": 14203,
+          "state_tick": 14203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 37.826580103142746,
+          "wrist_other_cube_mm": 58.09415512431515,
+          "seconds_before_first_stop": 20.34
+        },
+        {
+          "tick": 14453,
+          "state_tick": 14452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 35.19623850960563,
+          "wrist_other_cube_mm": 55.43088501391591,
+          "seconds_before_first_stop": 19.84
+        },
+        {
+          "tick": 14703,
+          "state_tick": 14701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 32.32810580807825,
+          "wrist_other_cube_mm": 52.742953532856156,
+          "seconds_before_first_stop": 19.34
+        },
+        {
+          "tick": 14953,
+          "state_tick": 14953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 30.71216268885148,
+          "wrist_other_cube_mm": 51.030564421725074,
+          "seconds_before_first_stop": 18.84
+        },
+        {
+          "tick": 15203,
+          "state_tick": 15202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 28.69857590921523,
+          "wrist_other_cube_mm": 49.04082382633465,
+          "seconds_before_first_stop": 18.34
+        },
+        {
+          "tick": 15453,
+          "state_tick": 15451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 26.79396613542464,
+          "wrist_other_cube_mm": 47.51612219349322,
+          "seconds_before_first_stop": 17.84
+        },
+        {
+          "tick": 15703,
+          "state_tick": 15703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 27.3344256322083,
+          "wrist_other_cube_mm": 48.398426934422424,
+          "seconds_before_first_stop": 17.34
+        },
+        {
+          "tick": 15953,
+          "state_tick": 15952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 25.914695475507525,
+          "wrist_other_cube_mm": 47.16109578632335,
+          "seconds_before_first_stop": 16.84
+        },
+        {
+          "tick": 16203,
+          "state_tick": 16201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 24.931027030886032,
+          "wrist_other_cube_mm": 46.273319430496564,
+          "seconds_before_first_stop": 16.34
+        },
+        {
+          "tick": 16453,
+          "state_tick": 16453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 24.162248129381183,
+          "wrist_other_cube_mm": 45.81119767549152,
+          "seconds_before_first_stop": 15.84
+        },
+        {
+          "tick": 16703,
+          "state_tick": 16702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 23.044912557224414,
+          "wrist_other_cube_mm": 45.03624950497068,
+          "seconds_before_first_stop": 15.34
+        },
+        {
+          "tick": 16953,
+          "state_tick": 16951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 20.971365598775993,
+          "wrist_other_cube_mm": 43.03701508678423,
+          "seconds_before_first_stop": 14.84
+        },
+        {
+          "tick": 17203,
+          "state_tick": 17203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 19.562371433578022,
+          "wrist_other_cube_mm": 42.03481870915893,
+          "seconds_before_first_stop": 14.34
+        },
+        {
+          "tick": 17453,
+          "state_tick": 17452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 17.582621422307056,
+          "wrist_other_cube_mm": 40.44677754062792,
+          "seconds_before_first_stop": 13.84
+        },
+        {
+          "tick": 17703,
+          "state_tick": 17701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 15.626901265787787,
+          "wrist_other_cube_mm": 38.71499055641062,
+          "seconds_before_first_stop": 13.34
+        },
+        {
+          "tick": 17953,
+          "state_tick": 17953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 15.772764808218577,
+          "wrist_other_cube_mm": 39.217899923289835,
+          "seconds_before_first_stop": 12.84
+        },
+        {
+          "tick": 18203,
+          "state_tick": 18202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.303960496791868,
+          "wrist_other_cube_mm": 37.11807927753824,
+          "seconds_before_first_stop": 12.34
+        },
+        {
+          "tick": 18453,
+          "state_tick": 18451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.324419094464538,
+          "wrist_other_cube_mm": 37.131738852566045,
+          "seconds_before_first_stop": 11.84
+        },
+        {
+          "tick": 18703,
+          "state_tick": 18703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 13.146938449966429,
+          "wrist_other_cube_mm": 37.04478768707056,
+          "seconds_before_first_stop": 11.34
+        },
+        {
+          "tick": 18953,
+          "state_tick": 18952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.987478393324148,
+          "wrist_other_cube_mm": 36.915356959506845,
+          "seconds_before_first_stop": 10.84
+        },
+        {
+          "tick": 19203,
+          "state_tick": 19201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.75822523751073,
+          "wrist_other_cube_mm": 36.923520903497185,
+          "seconds_before_first_stop": 10.34
+        },
+        {
+          "tick": 19453,
+          "state_tick": 19453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.741437114538984,
+          "wrist_other_cube_mm": 36.789068691094606,
+          "seconds_before_first_stop": 9.84
+        },
+        {
+          "tick": 19703,
+          "state_tick": 19702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.183527614413569,
+          "wrist_other_cube_mm": 36.07199408733056,
+          "seconds_before_first_stop": 9.34
+        },
+        {
+          "tick": 19953,
+          "state_tick": 19951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.05489605533519,
+          "wrist_other_cube_mm": 35.60163636025624,
+          "seconds_before_first_stop": 8.84
+        },
+        {
+          "tick": 20203,
+          "state_tick": 20203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 12.084016878344283,
+          "wrist_other_cube_mm": 35.2299925297212,
+          "seconds_before_first_stop": 8.34
+        },
+        {
+          "tick": 20453,
+          "state_tick": 20452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 11.657263790503906,
+          "wrist_other_cube_mm": 34.415255240294954,
+          "seconds_before_first_stop": 7.84
+        },
+        {
+          "tick": 20703,
+          "state_tick": 20701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 10.371550981834488,
+          "wrist_other_cube_mm": 32.68196944571616,
+          "seconds_before_first_stop": 7.34
+        },
+        {
+          "tick": 20953,
+          "state_tick": 20953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 9.998447515668106,
+          "wrist_other_cube_mm": 31.88068592968524,
+          "seconds_before_first_stop": 6.84
+        },
+        {
+          "tick": 21203,
+          "state_tick": 21202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 10.070057435642578,
+          "wrist_other_cube_mm": 31.273969947866963,
+          "seconds_before_first_stop": 6.34
+        },
+        {
+          "tick": 21453,
+          "state_tick": 21451,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 10.137886122857209,
+          "wrist_other_cube_mm": 30.472684781360392,
+          "seconds_before_first_stop": 5.84
+        },
+        {
+          "tick": 21703,
+          "state_tick": 21703,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 9.616258109411516,
+          "wrist_other_cube_mm": 29.233680328051598,
+          "seconds_before_first_stop": 5.34
+        },
+        {
+          "tick": 21953,
+          "state_tick": 21952,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 9.072167343306736,
+          "wrist_other_cube_mm": 28.105878042429254,
+          "seconds_before_first_stop": 4.84
+        },
+        {
+          "tick": 22203,
+          "state_tick": 22201,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 9.076813504355158,
+          "wrist_other_cube_mm": 27.20757578914368,
+          "seconds_before_first_stop": 4.34
+        },
+        {
+          "tick": 22453,
+          "state_tick": 22453,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 8.286278110607489,
+          "wrist_other_cube_mm": 25.522619206776454,
+          "seconds_before_first_stop": 3.84
+        },
+        {
+          "tick": 22703,
+          "state_tick": 22702,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 7.5979096750195545,
+          "wrist_other_cube_mm": 23.59607884229978,
+          "seconds_before_first_stop": 3.34
+        },
+        {
+          "tick": 22953,
+          "state_tick": 22951,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 7.088818003567996,
+          "wrist_other_cube_mm": 21.551949594099284,
+          "seconds_before_first_stop": 2.84
+        },
+        {
+          "tick": 23203,
+          "state_tick": 23203,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 6.2502228022123445,
+          "wrist_other_cube_mm": 19.194804081528876,
+          "seconds_before_first_stop": 2.34
+        },
+        {
+          "tick": 23453,
+          "state_tick": 23452,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 6.101011863038866,
+          "wrist_other_cube_mm": 17.809098000393654,
+          "seconds_before_first_stop": 1.84
+        },
+        {
+          "tick": 23703,
+          "state_tick": 23701,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 7.2073008556434175,
+          "wrist_other_cube_mm": 17.003451202918214,
+          "seconds_before_first_stop": 1.34
+        },
+        {
+          "tick": 23953,
+          "state_tick": 23953,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 6.918292399739567,
+          "wrist_other_cube_mm": 11.674109650068127,
+          "seconds_before_first_stop": 0.84
+        },
+        {
+          "tick": 24203,
+          "state_tick": 24202,
+          "phase": "STUDENT_BOUNDARY",
+          "wrist_target_mm": 7.168499511789037,
+          "wrist_other_cube_mm": 11.76868245649587,
+          "seconds_before_first_stop": 0.34
+        }
+      ],
+      "false_alarm_interpretation": "WARNING_ON_CLEAN_CONTROL_IS_AN_INTERVENTION_COST_NOT_A_SAFETY_FAILURE"
+    }
+  ],
+  "thresholds_mm": [
+    5.0,
+    10.0,
+    15.0,
+    20.0
+  ],
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0,
+  "student_input_additions": 0,
+  "prospective_trigger_qualified": false
+}

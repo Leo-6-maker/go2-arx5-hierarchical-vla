@@ -1,5 +1,7 @@
 # Hopper scratch 只读清理审查 · 2026-11-28
 
+**后继执行更新**：用户随后明确批准“直接清理删除”。已按此文列出的36个权重/Adam成员执行永久退役，实际分配块 **262.51474 GiB**；scratch现场`df`可用 **262.52051 GiB**，使用率75%。252份元数据和原始封存哈希均保留并重新读取校验，未删除整个目录或现役依赖。[实际退役回执](HOPPER_SCRATCH_RETIREMENT_ACTUAL_20261128.json) · [独立容量和元数据回读](HOPPER_SCRATCH_RETIREMENT_SITE_READBACK_20261128.json)。下文保留的是删除之前的只读审核快照。
+
 现场时间 18:32–19:35 SGT。此次只读列清单，删除文件数为 0；历史任务的检查和文件占用均来自 Hopper。候选明细见 [36 项成员清单](HOPPER_SCRATCH_CANDIDATE_MEMBERS_20261128.json)。
 
 ## 真实容量

@@ -1,0 +1,1232 @@
+{
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "scope": "V7_B6_SOURCE_RETENTION",
+  "step": 100,
+  "arm": "LAMBDA_ZERO",
+  "roster_sha256": "a6e9a33717d9938ac1870ce479947d3289045cf601ea0977a2cf80d082e80292",
+  "checkpoint": "33366272fdef106a1abb21b284e60fbd576d8d65ce4986d54f22b6d8b1b56d81",
+  "pair_sha256": "fc6f8024c311641f48d01780c152bdfe356f20e55874aded0bc03cf6fc0b810b",
+  "model_forwards": 42,
+  "physics_ticks": 0,
+  "optimizer_updates": 0,
+  "domains": {
+    "robodojo": {
+      "summary": {
+        "windows": 24,
+        "episodes": 12,
+        "r4_init_mae": 0.08525958859051268,
+        "episodes_improved": 7,
+        "task_mae": {
+          "cover_blocks": [
+            0.051966801751405,
+            0.05186502682045102
+          ],
+          "insert_tubes": [
+            0.10796752851456404,
+            0.10753277596086264
+          ],
+          "make_bread": [
+            0.09695749077945948,
+            0.09716036729514599
+          ],
+          "make_food": [
+            0.07663002656772733,
+            0.07692175079137087
+          ],
+          "pack_and_pour_fruit": [
+            0.10208756569772959,
+            0.10212015453726053
+          ],
+          "store_in_safe": [
+            0.07594811823219061,
+            0.07529928255826235
+          ]
+        },
+        "v7_mae": 0.08514989299389224
+      },
+      "rows": [
+        {
+          "episode": "cover_blocks-episode_0000093",
+          "anchor": 320,
+          "index": 320,
+          "task": "cover_blocks",
+          "hashes": {
+            "state": "ed036866a77f337d84506eaa89144edbf9d5d00707eed17f61684209651cb60e",
+            "actions": "ef351e3efab8f1b82670f288a212f1fd12aa2c657209357acfa45cdbe6f2113a",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "a34c62482f647daf5864274f946b325c3425e5643238e5ff8185739970660c23",
+              "left_wrist_0_rgb": "7df28f6d0161ba00d9eae78aacf089d8b447a0a71ef8a53256671d458ae403bd",
+              "right_wrist_0_rgb": "cf3b72c3807f155cdbeca5a5d0f7b32d95a64b45b43542eb0cd337f3b4b7820e"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524250,
+          "actual_noise_sha256": "f531ccf1f5c36fa24aa51436b6b4b9096660d35a72d5b3a4d54e74ba08bf48ee",
+          "mae": {
+            "r4_init": 0.09505120664834976,
+            "v7": 0.09440099447965622
+          },
+          "prediction_sha256": {
+            "r4_init": "8cce4b2e90044b8f89f8573f914d94e8e26e1e9964eb5f2f8ba3857fd946f5eb",
+            "v7": "46ad4063afa52276d50ad53466bb5fc86c79c2acc8d91e81946ab62c640e3c72"
+          }
+        },
+        {
+          "episode": "cover_blocks-episode_0000093",
+          "anchor": 641,
+          "index": 641,
+          "task": "cover_blocks",
+          "hashes": {
+            "state": "acd07d316535c61870d0edd907e5bd2e677f0d90ea418f40c61702a33c2454f5",
+            "actions": "44ddb5dce88d0067911f9771a9e432e1b2269941a3e2b7efe0ca86a4e18e8696",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "2d4c19ba673a130b5d2c295a6d882cae6c5bd1cf59127575e28ac1539ddb744d",
+              "left_wrist_0_rgb": "eb2cbfd2ff7acd094220e840050c47e7aac995071acbb8b3bf4c3179616cf4cf",
+              "right_wrist_0_rgb": "186ae8ce523201c7c74469c0be58b307af82caf7113b759051aa3e7dd6257a3d"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524251,
+          "actual_noise_sha256": "b5bc6d50f2ce2084ec7f22ff5ae4f48d46a73e87a022385106102861ff89736b",
+          "mae": {
+            "r4_init": 0.04791907221078873,
+            "v7": 0.04728296399116516
+          },
+          "prediction_sha256": {
+            "r4_init": "545fb5d6b4b0f248d1528c8a7171219da871fe93a872ec493d12c5b8bb4bd0db",
+            "v7": "5ad058014aa59cefb87ea6e4c8c0e99e6ffadd0c61fb82840b05e6aff3250184"
+          }
+        },
+        {
+          "episode": "cover_blocks-episode_0000054",
+          "anchor": 489,
+          "index": 1451,
+          "task": "cover_blocks",
+          "hashes": {
+            "state": "47105c30a6ac178f743f5de774e92ec121ee45a1c26c5faaa7bcfaf60fa5d6fb",
+            "actions": "0ebf08f4a22da176d575326f97a1ffaac19767704243a7b1ced0d656ffa4d769",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "25ed1a3e7e3f91421d1fe243f54db297ae33b38b2ca1d71cf248796f57b9eb9e",
+              "left_wrist_0_rgb": "cbd2dbf2827b38bcc7c4af66349edc746c5fb2c734556cd94257527e34f10c50",
+              "right_wrist_0_rgb": "323f17918de571286b5758ba9bc5b862455246c3d74a7f3c6008aec1e1b0b1ca"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524252,
+          "actual_noise_sha256": "2e7c0226f357239910df07cdcf6f97bda2e092ecb0b672a7705e7d6fa88de038",
+          "mae": {
+            "r4_init": 0.02523163892328739,
+            "v7": 0.025411197915673256
+          },
+          "prediction_sha256": {
+            "r4_init": "6498d96689c372e916712db51992e8533ed455766e80e7082e245d6b6aef72ea",
+            "v7": "2b20c727ff6699e1fb63708f27e822378d69cf17c1699c9d92db02424b543186"
+          }
+        },
+        {
+          "episode": "cover_blocks-episode_0000054",
+          "anchor": 979,
+          "index": 1941,
+          "task": "cover_blocks",
+          "hashes": {
+            "state": "61ef37534e8cab1152996fc0422fc25f52e56432ff2feb5c2a5e0295c530e5e2",
+            "actions": "fa32f3d1e5438ad59a3d36ac730c49255bc8c28c6bcd05f1fe73a8d431904fe2",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "89eb21eec4e6440c7efa5a817cdbab5ca38c9412a93bff74ddcd56b2c4b041d8",
+              "left_wrist_0_rgb": "fd558bfd783d633a876863073ef2e896f09cded94e4e6987bac05e28f0a4714f",
+              "right_wrist_0_rgb": "d3a6b912e565fb55e75b9b9ae6abe4d1f9d098aba88cd507e3f2cba15a998da1"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524253,
+          "actual_noise_sha256": "54e69e67e4db47da2218a76614b114dd170a7e9d3b4b16abc4e57328449015aa",
+          "mae": {
+            "r4_init": 0.03966528922319412,
+            "v7": 0.04036495089530945
+          },
+          "prediction_sha256": {
+            "r4_init": "a7476733f173ed9b16d0360522b6baf95b19eadf957b3f32b68fe32209cffa9f",
+            "v7": "65e602eca45b44f23fb86ebb3b7047011a3655e1fb36bad215eeb8d908722781"
+          }
+        },
+        {
+          "episode": "insert_tubes-episode_0000090",
+          "anchor": 227,
+          "index": 2658,
+          "task": "insert_tubes",
+          "hashes": {
+            "state": "90006f6f564df8de036d683402d9901f7a8fca6870c41c627eaf8f3f1bcf3f4f",
+            "actions": "5934b10f34140773db677c9add88f8fb19dce96d695d9d70068cdd820486f5d2",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "f9c6eea53666a274434992f7585989c8e293b1f8d6fa08d58a8638992d62083c",
+              "left_wrist_0_rgb": "24ffeb23c155766426f3789041ead20c3244dcb4680ad2904ff94ebbaf1c8048",
+              "right_wrist_0_rgb": "77173634b41a6516b9a88955cb5613e6ec59aa35850d8f682e5faf9c1f1f32a1"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524254,
+          "actual_noise_sha256": "410969ae14df31e995f39c6b60dd3f33e36b046c3d5f878c65819e4b9efd4a39",
+          "mae": {
+            "r4_init": 0.12312700599431992,
+            "v7": 0.12299111485481262
+          },
+          "prediction_sha256": {
+            "r4_init": "145479e425f5084bf1e1a9680acfe5525b16b11872fcbb7e8525f89700ecdb02",
+            "v7": "a499cc4ccbbe1f74c1d932fa84fac4a6502658d9a065497ea258d125b5b06c85"
+          }
+        },
+        {
+          "episode": "insert_tubes-episode_0000090",
+          "anchor": 454,
+          "index": 2885,
+          "task": "insert_tubes",
+          "hashes": {
+            "state": "207543459b7ee981672a3ab1c50ad40753858070d7f2a816b6538335f1edaca8",
+            "actions": "a3b7ceeafcf349ab5619d8e7c9b17310f9cf9d1618f694dc6a22bcbcb3dbb513",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "3215e31daf8e7853da56163a60daae2dca05f3ee72a5a910956acd325fad9936",
+              "left_wrist_0_rgb": "68cd8aba08ab472813f3b7aefc53408cbb555830b6424c98862f934cb07e58b7",
+              "right_wrist_0_rgb": "23180c5af670aac74a49e439ceec58384a21311a69b90258ad6b8cc880e8bc94"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524255,
+          "actual_noise_sha256": "9ef8cc385b10235ba0f54fd860e32315e421f103e7b59f90266f8458b9f893cb",
+          "mae": {
+            "r4_init": 0.056804295629262924,
+            "v7": 0.05661540850996971
+          },
+          "prediction_sha256": {
+            "r4_init": "c51935180ccc8ff40ebbedbeacdc6b383406056c3bf73666d16ca238b70630d3",
+            "v7": "f13b5d7ffbc2379d28e25ea17eccd87965ee473371af460ba5c4c93c38d80793"
+          }
+        },
+        {
+          "episode": "insert_tubes-episode_0000010",
+          "anchor": 246,
+          "index": 3359,
+          "task": "insert_tubes",
+          "hashes": {
+            "state": "71bbf97c70f49a2ae00dcd72063c97605f2100b4e3872b460ef8aa254b61afb4",
+            "actions": "6effcfa955265d11922ffede6af89e191f44ce08cb1404455fb05669b1cdc11f",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "bd295fd1930d6bbbc5ba9d08af86e9d13c05640fdeb4ccff22b83c12f89f7bbd",
+              "left_wrist_0_rgb": "49e0d30c160125645e43736c712efdaa7eec75c2a15b035344058b46d5aaa645",
+              "right_wrist_0_rgb": "c3d32c644c708ba201e74f56636583b0c003fc4637e1f3b9699ce3fbca16a7bb"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524256,
+          "actual_noise_sha256": "3cf384df2b06a95fda6ad482f4292ef9b20530cb1e2db8ab7322d5d6ce9a6bac",
+          "mae": {
+            "r4_init": 0.11991507560014725,
+            "v7": 0.11866869032382965
+          },
+          "prediction_sha256": {
+            "r4_init": "3bd86756b78317c154924f5daa64166bfe073c265774ba2daace959a1833e6db",
+            "v7": "ffdf8409322f2e447f574cf78460c73d816f303089d6ce011b89ad1c49b66d9e"
+          }
+        },
+        {
+          "episode": "insert_tubes-episode_0000010",
+          "anchor": 493,
+          "index": 3606,
+          "task": "insert_tubes",
+          "hashes": {
+            "state": "50a60fec69ec9754995754499c7e7c2bdadaf776193d63b79b6ea546f1fa3bf6",
+            "actions": "55ad0f66575cd80ad380756e7d8feca2497d580b477ab1afe38369890172debe",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "fc5b9847bebe75e9034c722bcd0154e0bb151b7993bf1ce9c6595c61597afd56",
+              "left_wrist_0_rgb": "3aa7c7fd58db30542ae67a2d5a55fa113127573f40deb5372f552ad4a6beaadb",
+              "right_wrist_0_rgb": "dce7673551f0fa559d8097869f1c9ee1e78c5b169e96b495048193811013102c"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524257,
+          "actual_noise_sha256": "e13191792a7cd0d090acc186b090ab405283658acc24f0aebf9252a275cf6413",
+          "mae": {
+            "r4_init": 0.13202373683452606,
+            "v7": 0.13185589015483856
+          },
+          "prediction_sha256": {
+            "r4_init": "cc979b047e81beb6c3be3bf5415529c428a6451f8b19b4786213ae424ba11547",
+            "v7": "d93baa1a83540522c695e1fbd7d82724f0bbff54cc45dd9ba155f11898162e6b"
+          }
+        },
+        {
+          "episode": "make_bread-episode_0000068",
+          "anchor": 384,
+          "index": 4237,
+          "task": "make_bread",
+          "hashes": {
+            "state": "8468e86cb8ad069c800c83293321e3be7ecdeb2036eded83d9f7f529035b22fc",
+            "actions": "10182295eb45eb5b1e1707219555fbb0aba54d50de01d3a77b737e27af0ced35",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "a1a2936f7f9f73b49b9778dbe08c3f3955dfc249e7f25af6d449597607531e52",
+              "left_wrist_0_rgb": "df695ebc1a46e108771d3ef5b60e830218e4db85cbe6f180e38f7322d8713d16",
+              "right_wrist_0_rgb": "4aa9f98d3946a1761756c618fb015af4240943e055f6a8d97758cd8101133afa"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524258,
+          "actual_noise_sha256": "f2cb88b76c4a352fbb6040ad5cb369afacd1354e736fea79e7a6d93bd8c27d7f",
+          "mae": {
+            "r4_init": 0.12107627838850021,
+            "v7": 0.12058835476636887
+          },
+          "prediction_sha256": {
+            "r4_init": "77f4cc75e228a0e9478bd46f2b9377196124d27646d82fec90dfe4846e5494b4",
+            "v7": "e93512bae7578950369c026c13cb9e94144b9eefdc9e757ee4603e026dad8a9a"
+          }
+        },
+        {
+          "episode": "make_bread-episode_0000068",
+          "anchor": 769,
+          "index": 4622,
+          "task": "make_bread",
+          "hashes": {
+            "state": "e0348894b3414b9025377ab0d156706ee2ddbdad1a44a83e356574608494cad1",
+            "actions": "013cea597256cb401291bc4d52ed61dcadf64c153a3266bfa98a5ab553223299",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "d80af08821dd6ed466ad4566d221436c4cafa8ba904051c3971912a919600567",
+              "left_wrist_0_rgb": "e3b6dcfedefa8f46875b601edbff5b2b1a117e3c698900e462a17eb13e63d618",
+              "right_wrist_0_rgb": "744d33ee57fab1487d73d8d2f6a2e0532ea5d4847a79381d34eff9a883718336"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524259,
+          "actual_noise_sha256": "c713ebf961e5832aa6348570efbfe6f2f9c10180a784da17f62e76cb45b797d7",
+          "mae": {
+            "r4_init": 0.16335517168045044,
+            "v7": 0.163747176527977
+          },
+          "prediction_sha256": {
+            "r4_init": "80b988bd463e968db62e1229189a3698629bd1d36fa4afb3cd58650841fc279b",
+            "v7": "e991c56d5295407cf8ebfea7158ede85f227b33fbfdc8cb923096866f60692cb"
+          }
+        },
+        {
+          "episode": "make_bread-episode_0000077",
+          "anchor": 431,
+          "index": 5438,
+          "task": "make_bread",
+          "hashes": {
+            "state": "c3632f2ff899467e268e574772cdb2046ca45177e0a8f1068b34f62faf45dfee",
+            "actions": "2908a011ce4e91228e8ff84f78a6eb6c3e002c5798319724ef2f1b40aaa8a82d",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "e0f928026715962716017cb733d676bb6bf698394e6a0b3a10c3ce87aeb4e6db",
+              "left_wrist_0_rgb": "484901a215d82fcf6693966e892f001e2fcc56f1a529e1c1879db12136e84d9a",
+              "right_wrist_0_rgb": "180e18e87628ca8987035f369f8946f9a495228e9a5964753bbfae50f004ce82"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524260,
+          "actual_noise_sha256": "dad5af225fe0f4c79cfdaa47cc39dc07abc70db41d0b538b4d8fb7ae526aae8b",
+          "mae": {
+            "r4_init": 0.05131808668375015,
+            "v7": 0.052135951817035675
+          },
+          "prediction_sha256": {
+            "r4_init": "ddbeb25ab6cae6aa1afa5cbc133289648e7e794a4756d0aa62f15d2e209eda42",
+            "v7": "0a9411a36669fcc966e660cad38c6a2d529ace1711437a51a441e2e80db01683"
+          }
+        },
+        {
+          "episode": "make_bread-episode_0000077",
+          "anchor": 862,
+          "index": 5869,
+          "task": "make_bread",
+          "hashes": {
+            "state": "84329929aff1a33bc34af3fdb11becebcf7137b8a477b193a682a8833b2344ab",
+            "actions": "f180a2caf97934a76a5d7b0598343758faa52bbf9121d4b79cd1adcde50f5499",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "55c687a228107a80408fb66b3ccb00afe5e7772a861213bea1054185da8c5ea7",
+              "left_wrist_0_rgb": "aaac53da567d2320743b5ce074cf6e7d67eea4fa19678e2c0336f033c8461e9a",
+              "right_wrist_0_rgb": "66dcd50dd213053774e99d6153fd6345f662b40e9bd173bcebb571f8683fecc8"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524261,
+          "actual_noise_sha256": "0ceed3bcd73bbb4cd3fa32e931dff7e8ac19f246916489b5a848f02989b58473",
+          "mae": {
+            "r4_init": 0.0520804263651371,
+            "v7": 0.05216998606920242
+          },
+          "prediction_sha256": {
+            "r4_init": "bae815dfb457d4bc4e43956c7b51e00b0357954099ad36ea15b243f80fb06e16",
+            "v7": "831cc01d03418979bf37340d595c6d36b8557d54d75c1841cb6b39b3d00ae032"
+          }
+        },
+        {
+          "episode": "make_food-episode_0000051",
+          "anchor": 533,
+          "index": 6834,
+          "task": "make_food",
+          "hashes": {
+            "state": "533e483cdf00192d70fc651a7fe3e052cf510302ec20558575e8cb228655d660",
+            "actions": "5252b53df3fe7e9ed80e19734ab57a117250baebbd48adc5091be6108e8a3197",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "8db0b2b4dff0d801f168bf0a6cd497bc00cc8b974527dcb972bda7266e5148d4",
+              "left_wrist_0_rgb": "b88f51382d77bc02ac4e5e9ea5704114806991f7bc41cbeed003e0dc55b8150c",
+              "right_wrist_0_rgb": "45168456be06b5f3d596c002d051be81f3cfff547badb8adff0659394c8dc45a"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524262,
+          "actual_noise_sha256": "219512b8194ab2eaeedf6acb8a1eecb220f65ed19e8b531cccf62dedb0a0a0d9",
+          "mae": {
+            "r4_init": 0.1681075543165207,
+            "v7": 0.1682056486606598
+          },
+          "prediction_sha256": {
+            "r4_init": "b953a2546b84c54ac26d585faff596fb891f9f7cf7d6e7a7ac9278338c888546",
+            "v7": "3ddabb789b7842e685aa3f4d3585308a83e475d45454810ceea673982f373f44"
+          }
+        },
+        {
+          "episode": "make_food-episode_0000051",
+          "anchor": 1066,
+          "index": 7367,
+          "task": "make_food",
+          "hashes": {
+            "state": "72dd76e4de633ba864fe5e5d33477e21095e81bb9c7e0776c1c78f67e2dded7b",
+            "actions": "688831d10aabf5299acbcb1aded549b72f8a3b79ed5c4a5c1e5d28de4a043c50",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "f125e771f1470ef9a453524c0f0c0b1e930b404764f83d7094ea49a93f60cbba",
+              "left_wrist_0_rgb": "3081d5b6d72f3420525ac7bf900eedf9ae6635811a2c108a23df32a206ae7a0f",
+              "right_wrist_0_rgb": "f89373dea29569c0c28b16989557bc94fb8e18d44e41e6590a9ef1fddf6f72b2"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524263,
+          "actual_noise_sha256": "cd9619c68d4f3c5690691c1cf286dfb30044440eae4df836d90bd4eb26c1d220",
+          "mae": {
+            "r4_init": 0.027565637603402138,
+            "v7": 0.027877720072865486
+          },
+          "prediction_sha256": {
+            "r4_init": "9a1b55ee6952ea4b987f9963a363d32e099609ca246bc83e05e6e074a0a89022",
+            "v7": "cfe5484f187d11c711d81ebee428133e27d2bf39ec6c1c59da05fe5bd768e25d"
+          }
+        },
+        {
+          "episode": "make_food-episode_0000038",
+          "anchor": 587,
+          "index": 8487,
+          "task": "make_food",
+          "hashes": {
+            "state": "3cfde58e704ae284a14558847bd04af43055dd4972025d14d01e9c39d64aa2dc",
+            "actions": "9c626dfcbbf11ef035ad68a25a231f785038780d42264d23df9a3a2ca7505df7",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "0564ab9d41d7d1151599797eb5fb259aebcae45b98504119d4773f1fbd0be992",
+              "left_wrist_0_rgb": "7ccaa64c01de53d5a410be0e39bd472ba28222c8efa3ce8275a1bfaf4c273e64",
+              "right_wrist_0_rgb": "eb09b38155640358d5f46a16aad8ecaa3b7e75b6249a2a75a92adbaa0f81d557"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524264,
+          "actual_noise_sha256": "53ae80a043aad0938f796a924f2d025f9bafcce6f9d9ff098d6ee176b0180924",
+          "mae": {
+            "r4_init": 0.02716878056526184,
+            "v7": 0.027150096371769905
+          },
+          "prediction_sha256": {
+            "r4_init": "5592a5476e3912e924a34a6de79d0c49f3604688426d8ee016761a00d0555500",
+            "v7": "e508578069d235f3cc593d43208d19708a8ad1372c30c1e4840d1cca7a61a1f5"
+          }
+        },
+        {
+          "episode": "make_food-episode_0000038",
+          "anchor": 1174,
+          "index": 9074,
+          "task": "make_food",
+          "hashes": {
+            "state": "ba8d5b673d41bd76c94bf3dab0b53be61d74ef44f4d99719e56cee8bb2afd5e9",
+            "actions": "947c42541e0e5ac9a7d75c34d4241026597da4928fc4765c9044ba3da3bca1b0",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "9c772a8e621374b8e4cb0efd5eb71a48ebafa754693d5dec63e32b407bafcfc3",
+              "left_wrist_0_rgb": "97d525cb7092d7378239fb41bd055df4c99e18071654a2d666fc9ffe085acb81",
+              "right_wrist_0_rgb": "32e1cdd10e6efbdc199f4035619644779519533311e5ec8b0cab096e9a2ea6ff"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524265,
+          "actual_noise_sha256": "f3676cb3c50a095694b5bdbb3c67ccf63a46ff682dea07c13325e3ba8f7bab21",
+          "mae": {
+            "r4_init": 0.08367813378572464,
+            "v7": 0.0844535380601883
+          },
+          "prediction_sha256": {
+            "r4_init": "9ed9f291d9575408eca9352c15fe9ff2b29520256b4bd6fdb2f811ffeedf791e",
+            "v7": "547ba63be14a3c4f0bc1849b2a141d8ed4399635a67b775455ab6d77d2756305"
+          }
+        },
+        {
+          "episode": "pack_and_pour_fruit-episode_0000089",
+          "anchor": 315,
+          "index": 9977,
+          "task": "pack_and_pour_fruit",
+          "hashes": {
+            "state": "f58cbf65d9675e6cf1e1cb0bcf56eba09aa936b056cea657f0e9fb4f05dddfe2",
+            "actions": "d07c026f219947ae9e12e871c4971ad14524c83b2810a73c4e10879dc5b45a03",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "c989c879bd9f937b5f52ee9b1259c63d9e0d27b6b44b1e077cc1fe365465a9ca",
+              "left_wrist_0_rgb": "32ba39090e6aadd38d120841e8afe3a42ce0f54a4a655ae05059fd5438ee7592",
+              "right_wrist_0_rgb": "505f9efad68d8a698c8df805aeccc57aab731656c6ae81856f4fa28597e4c553"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524266,
+          "actual_noise_sha256": "b1796a13fe49a7180fc7c1cca9ba72b981feb264bc17518021626a64a6ce1887",
+          "mae": {
+            "r4_init": 0.19275929033756256,
+            "v7": 0.19298198819160461
+          },
+          "prediction_sha256": {
+            "r4_init": "3c5f38f32e1a0b6e722c8fd66cb93b328c1474132597b5ba4e4b15d53ad2a496",
+            "v7": "a3ab6b4db3fa532f801cf96d5d719a1381381043ea5ea723175e41a8d433c6fe"
+          }
+        },
+        {
+          "episode": "pack_and_pour_fruit-episode_0000089",
+          "anchor": 630,
+          "index": 10292,
+          "task": "pack_and_pour_fruit",
+          "hashes": {
+            "state": "a51e8dc83d53abbae056c8f5bf534204c7eb1679c375e640365472812d2b1733",
+            "actions": "399a41c3dc4cee3e06cb362f8d9d6a9cd658e9bd2fdf0d92f63d8e256bd4b7dd",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "4ce12d389a92360493ab664afd697278a1ef59ed82ebf11f74ac5d4b82c2b8bc",
+              "left_wrist_0_rgb": "a33ea3cf716966f0819ef3dd745dc447c8dfd5f95deadfe9a4a8bd648fdc5016",
+              "right_wrist_0_rgb": "f027728964f5a0d36b49df53dc91cc025baf6cd44760c7ddcf0e04e913c3ec6e"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524267,
+          "actual_noise_sha256": "e3ae999c9771865dff9a447ba9fe34fe48206a5b34d0a3b48c1f68462199dd3d",
+          "mae": {
+            "r4_init": 0.045596253126859665,
+            "v7": 0.04552959278225899
+          },
+          "prediction_sha256": {
+            "r4_init": "d6ec289f2d5ffa229635dda4b8019655459c5f482c8046889345f2abbfe25585",
+            "v7": "d215d5da33428d285203b2641f54d6ab592572f1a579cb3210fe14d3040cabc3"
+          }
+        },
+        {
+          "episode": "pack_and_pour_fruit-episode_0000090",
+          "anchor": 278,
+          "index": 10885,
+          "task": "pack_and_pour_fruit",
+          "hashes": {
+            "state": "12d209adc5568e92774920f99604a8ccddaf17d2d16e11e6314047492bc16514",
+            "actions": "3e39949247c94666ecc4f34de0433417a4d4312cc61f1162609114f06b34d96e",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "82e958705f2f42f734069ce403723dd6a6f25f3398b6342bf277a9d6c2fe414c",
+              "left_wrist_0_rgb": "086aadc2b5cb3942c090c7cc8e750a99f752de78c40614fbad0ae8efb0c5b46a",
+              "right_wrist_0_rgb": "bb63eb945f6fe3b18114c9fe08728e757e9a5b3bf137f961746e64149285ebf4"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524268,
+          "actual_noise_sha256": "19fc07ed9c1c36fed9b975af72cecc6334f24cd8a6d9340f03981c9d1897e4ca",
+          "mae": {
+            "r4_init": 0.1259523183107376,
+            "v7": 0.12564443051815033
+          },
+          "prediction_sha256": {
+            "r4_init": "ff0ab901f429bfe2c7c0d3d2de2c7108baaf39fb7cc30907a495ef2554335993",
+            "v7": "89591d70ed3bc917c77431c4cc9c36d6ae7bf7d9c188c7623aa70ec824efd8ec"
+          }
+        },
+        {
+          "episode": "pack_and_pour_fruit-episode_0000090",
+          "anchor": 556,
+          "index": 11163,
+          "task": "pack_and_pour_fruit",
+          "hashes": {
+            "state": "645c206687dfea9198b542d8a573ca2ee98ab9a70db7d7c1be2073e7ad8f4d9f",
+            "actions": "2acf411b9266029ab9bb6b1bd01fd467b250f866de85ec8ccd08f9e48efa2501",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "7e1a22321417944fd02025ed6f3c279d92b1be809f875f5ffd90e7e10fa7b54d",
+              "left_wrist_0_rgb": "309ae2485e1f5991bb474a161d38ed2bc0d45fe9d6e58c23dd66edced3d9aa52",
+              "right_wrist_0_rgb": "b933149c8af47bfd88ec7c5924436608684d7a3b5b258b904eeede52a99e6230"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524269,
+          "actual_noise_sha256": "1fc61b53a2ea6931c404fb2d9e31d76ae82f1d38682d0d2bb7b721d08c30972d",
+          "mae": {
+            "r4_init": 0.044042401015758514,
+            "v7": 0.0443246066570282
+          },
+          "prediction_sha256": {
+            "r4_init": "8bab347590f9202f241b451dd543af802f8a7f0c21af05883519774b50619de6",
+            "v7": "4b654d316c2850297c8c483da2993d172133e54cc8fd2a39b3c92cf63cd8b0ba"
+          }
+        },
+        {
+          "episode": "store_in_safe-episode_0000042",
+          "anchor": 223,
+          "index": 11665,
+          "task": "store_in_safe",
+          "hashes": {
+            "state": "9e38ef1b1866bd308b484648fb9035084fbc34b720630f973d31ffc9d6303b92",
+            "actions": "98808a98ab4730132bfe4a8fa7fed4dfe5f7191fb1329b8735f200bf1d6db226",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "8beb6dde48a90fdafeb1105bd0483be86e6ac94e6cda9f45e3786d167326cda5",
+              "left_wrist_0_rgb": "cba50686ebb6b59f51c9e7b9d5884f990709932cad9c481f6e7778ad83ea6721",
+              "right_wrist_0_rgb": "51189deace7d32754c3208f9cb495f2c6570f9c8d54fcc22ee00040f6ab65ec5"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524270,
+          "actual_noise_sha256": "24088358d98f5d39b1e4621e44109a5e84ab3a3c2c78769d6b0fe5bfb75ac8dd",
+          "mae": {
+            "r4_init": 0.0764954462647438,
+            "v7": 0.07593667507171631
+          },
+          "prediction_sha256": {
+            "r4_init": "b6c35089c8319c1ca0c2a76f3460a135e14eb5116887a1527451f1e44a18ae05",
+            "v7": "3f21fc7ce9e24418115f9ac6c6ee8194f0ea3f196e4c501f41b8a35003b2b872"
+          }
+        },
+        {
+          "episode": "store_in_safe-episode_0000042",
+          "anchor": 447,
+          "index": 11889,
+          "task": "store_in_safe",
+          "hashes": {
+            "state": "5339c346291eae605bbfcef14169eeb8e8b569c46652718e971843b5970036e5",
+            "actions": "6f77a5920bea5be75ac348c536f8e50f62b4157374a0e57c8716db4c0ff8d140",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "8c95e961553068668d36795c2bd074e90cdbbd64a6b0c63c2f832892f917385b",
+              "left_wrist_0_rgb": "3650a27aabdf3294542c04eb97bbd087a4088f58c3d2481d2359f7ebf6552f05",
+              "right_wrist_0_rgb": "3618d5595be7712165bf3e8fb43b279546d5b5509291105887fe8025907f955e"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524271,
+          "actual_noise_sha256": "462f7c651c348d4c1c7fcc7d55bbc007780903b5aa3a31ba0cc47bce8c92113f",
+          "mae": {
+            "r4_init": 0.04514845088124275,
+            "v7": 0.044842954725027084
+          },
+          "prediction_sha256": {
+            "r4_init": "dff16dfabdabb3bd1204cf6a2a214d5ff4035eb212dc97026f851b6f37818b7a",
+            "v7": "b759d0042fb91e46096616c44497eeba4fc1a693163f11e8c457fb28e178833e"
+          }
+        },
+        {
+          "episode": "store_in_safe-episode_0000065",
+          "anchor": 215,
+          "index": 12328,
+          "task": "store_in_safe",
+          "hashes": {
+            "state": "ece56b4037d130df8201e9a36d76bc860e7c5e611c9a89fa556885ce43e2a54c",
+            "actions": "a8e25d43db18d65e1f155636205e7af84d857a5e66302308e295788ef7882363",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "eab8971baf48792b3ea1ef188cd1cbe3875798ff9a8c9403e00a1174fd42a946",
+              "left_wrist_0_rgb": "8b0aed94eded81d767c1483aafad903b3c596b5ecb0a563ecb866ce66ecd2fb3",
+              "right_wrist_0_rgb": "e778dc4b9ea050b90b2683fd8959e32f4d272f0703cabb96f06c1cdc09a35e66"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524272,
+          "actual_noise_sha256": "04aee4acbc9829bed870569d1751edbbfd9b49133e69339471753783a7e46892",
+          "mae": {
+            "r4_init": 0.10253288596868515,
+            "v7": 0.1019931212067604
+          },
+          "prediction_sha256": {
+            "r4_init": "782b1a5f5a344b56efb3b4a9e0f10f8a1ba40e18c2b7d2fb1eb32faf1183d2f5",
+            "v7": "73624e8b4d6d72d85655fe29183fd1d914fa2de52923b3058cfeaf2dfaaad3ef"
+          }
+        },
+        {
+          "episode": "store_in_safe-episode_0000065",
+          "anchor": 430,
+          "index": 12543,
+          "task": "store_in_safe",
+          "hashes": {
+            "state": "78633e8e8fe77fd4a2ec211b5f0d5976d9625ff13e7d9827a3c65633585d7589",
+            "actions": "5b98aff2b721cf9ad16420eac997ba1619c1ff3bb8859cedeb16f29fa57eeb2c",
+            "support": "9df8bff0a706340db1c6eda55d6b44cec40065c45253fc541a5a094f17b57d84",
+            "views": {
+              "base_0_rgb": "95374d95e3c094a3e65f76d3e0c609d38bc83a98b622bb3178eeb119868cabc1",
+              "left_wrist_0_rgb": "85c1e3c5edfc2bb87f713a48afcb4a29567047bee17470addbe6016fa8f574a5",
+              "right_wrist_0_rgb": "7d89348aba21b339db1a0b24837797a5502ee884fff951d514640cf41b4123e5"
+            }
+          },
+          "horizon": 50,
+          "dimensions": 14,
+          "evaluation_noise_seed": 524273,
+          "actual_noise_sha256": "1b801b5cfd5ede91c216db96e6c8bc92b3e81ae8655070bba9bcb14a56e965c4",
+          "mae": {
+            "r4_init": 0.07961568981409073,
+            "v7": 0.0784243792295456
+          },
+          "prediction_sha256": {
+            "r4_init": "f0fff13f345b2708daebd7ed67f0f02b40e721f24baca9fb9cb0f0b51acb6fb1",
+            "v7": "22d79c0537c3c6554cc1d8d84ead896d57d43d00810d600d7d1312389c87d64f"
+          }
+        }
+      ]
+    },
+    "single": {
+      "summary": {
+        "windows": 18,
+        "episodes": 6,
+        "r4_init_mae": 0.9324950542714862,
+        "episodes_improved": 5,
+        "task_mae": {
+          "drop the footbag into the cardboard dice tower": [
+            0.932495054271486,
+            0.932444777753618
+          ]
+        },
+        "v7_mae": 0.9324447777536181
+      },
+      "rows": [
+        {
+          "episode": 14,
+          "anchor": 30,
+          "index": 30,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "1db9e1fbf88f728e883aa5baf7f1df12040158ac2bb4ef957f14c5700e6cab2d",
+            "actions": "1ca41f6eee05c8ae8e7ab65aa09739ef8c1a32479c5594878476db2f7aecca50",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "e0f3df37299ddabdf70ae3572c400457f528990deb2968877375aad4de5887e9",
+              "right_wrist_0_rgb": "5f3fda45af8046a88d031c91a64bffc169d656222dfb5ccdc32789e2d400d9ec"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524250,
+          "actual_noise_sha256": "b69131ae2d59d058422b09cb23e0f75ea7be7f2f3773a5a9be847920bc4e2731",
+          "mae": {
+            "r4_init": 0.7950431704521179,
+            "v7": 0.7949137687683105
+          },
+          "prediction_sha256": {
+            "r4_init": "a01368afaecaa9ea8f47d279c83b0742a30c8ae02c203a185112c071da9876f4",
+            "v7": "c18c5ea934026221eda04537bb8914154a7eefbe338aba8a421da847ea538751"
+          }
+        },
+        {
+          "episode": 14,
+          "anchor": 60,
+          "index": 60,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "c01a6879e06c08b5edd01df85ff565965b66e5bf9589d88d318325d7a1654233",
+            "actions": "c8c890668bb655bbd47d284e43ffd0ff9cf7c97bd9f8605171bf2706edfffe01",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "ab91cdd1cceb4d5d72cb76bab001958bb741b27d04bef8316e63586c8148da4c",
+              "right_wrist_0_rgb": "c956ef967f967621417ffd107852e8c1a96ca8c8cc72c39b8d09818d9c11e6b1"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524251,
+          "actual_noise_sha256": "9c183ebd83b7670ed6721e35983ec351c7709e0e8058eb3b4d0c710896e70a8f",
+          "mae": {
+            "r4_init": 0.9132553935050964,
+            "v7": 0.9133667945861816
+          },
+          "prediction_sha256": {
+            "r4_init": "26788990edc3677ae5c46f03fd82b648eb5080bf13824f45062c1f36c54cf9ed",
+            "v7": "1648489ba2e19a0abc3f6983b59772254738f877db58c2b17fc454490e91a7c9"
+          }
+        },
+        {
+          "episode": 14,
+          "anchor": 90,
+          "index": 90,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "ee9472927066d12e9ea4d4af4e7a9df28001667a1beb22fe2d50daee520b8e76",
+            "actions": "23ba7efd30bd6962636c6faafe7ee5f402efeea4579b6bcee509423c83e7fb92",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "f5c7b29081dafe58c0db49a43765ed4ac7aefdcc58739b712b09f8d83ed6a953",
+              "right_wrist_0_rgb": "64f77c2d47dd0c1f754458627ed745dccf021b55ac2abb85d96e18acd8a98a01"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524252,
+          "actual_noise_sha256": "6c16f7af1d039f047741de69e60012c4e79f50462c533281992fdb84529f99aa",
+          "mae": {
+            "r4_init": 0.949207067489624,
+            "v7": 0.9490914344787598
+          },
+          "prediction_sha256": {
+            "r4_init": "f2aeeb878bfcca35f41ca44729ffde0b54c5ea96abc4bea192a252d81c0f82b7",
+            "v7": "17f96f02d4131c9f2e2cda60949919b2a781b23c63c159d91bb13c7ffe7f7a71"
+          }
+        },
+        {
+          "episode": 15,
+          "anchor": 25,
+          "index": 145,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "00cdf173382f7997d8f6f2a00594921baa5a0711fc81ad5df0d7978be95ff789",
+            "actions": "e5cbc61f55da4999da6ee07277db93285319fcfd01f5e83e562e4bbe78e227b6",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "9a01e42dc6c3354118bbf042f2ad4d0a043a99f2eea191ee49ab1bf4bd3be088",
+              "right_wrist_0_rgb": "c181e9c909d4dac80139807f55aa06267186b265f5052babf6a365e076141672"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524253,
+          "actual_noise_sha256": "da94dbdd7102b48f20ba01fc22a5720a2436c10dca613a5c998f95fbeda8daba",
+          "mae": {
+            "r4_init": 0.9138160943984985,
+            "v7": 0.9135444760322571
+          },
+          "prediction_sha256": {
+            "r4_init": "e6a85dce3558d5279dd0c5449fbb85070c39e25a80ed988cc9da9b60aeae9c01",
+            "v7": "5c43d04ee30e28443203a0dcfe593c184c758c8c6e3d05d57413377efa641a74"
+          }
+        },
+        {
+          "episode": 15,
+          "anchor": 50,
+          "index": 170,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "6f4f3a316303d5d491c8e628ce8c33c89dc5498e23cadbaba5694f436fdde59e",
+            "actions": "0c14f711b9ae35182792265717884126e40cfa51adb1654cd0e9005310befd23",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "68acae65cf472fc8cd47190432d33fb64cba7b021ed62be84cde459906212e9e",
+              "right_wrist_0_rgb": "ae20fa058253a20a0e551c32fb46d0eedca938e53525a11c33fe412671f6225e"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524254,
+          "actual_noise_sha256": "9f0ab62aff0ee2e5bafbd3b7d3e3fd1ea68f9af6247011a529a9098f6bcb7a45",
+          "mae": {
+            "r4_init": 0.9078950881958008,
+            "v7": 0.9078689813613892
+          },
+          "prediction_sha256": {
+            "r4_init": "1e7cfc9eefe01efeb5096ab45fefb1430c1940944ca760e3333cb0ddd59b915b",
+            "v7": "beac2b370858ef4c4024bbdb446667d4a4c1cabb0292a7b9f78caab52217c4b2"
+          }
+        },
+        {
+          "episode": 15,
+          "anchor": 75,
+          "index": 195,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "447b0defb196eddf61e1dd8c7ef4bd9f2404cab66311f216feb496eace5e528e",
+            "actions": "1b56f465d19e80e593d6e5b7536aa8cbe393a49cac3620a48c2e72da1f670adf",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "6643570c9d9898bece92ad7737a46fbcf896835e18b0a2138239874570a4f83a",
+              "right_wrist_0_rgb": "1360f329ae76ee75ce8191988d4295cc0bbc9fe9493e31cfb7a403d13fa921ef"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524255,
+          "actual_noise_sha256": "cb69a74c76fc0456790d0becad130f045e31de460e8ba54bf9db91a05d84a28a",
+          "mae": {
+            "r4_init": 1.0224812030792236,
+            "v7": 1.0226300954818726
+          },
+          "prediction_sha256": {
+            "r4_init": "8ddae8e6dc48d1d4f3dbd84f67891dd631dfbe1be6f8f3d60f1c4373940121f9",
+            "v7": "954b57c344558be6c7ac13ee94cd94fa53f1e5162d875427211cd1bc839f2509"
+          }
+        },
+        {
+          "episode": 71,
+          "anchor": 35,
+          "index": 255,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "4d854582f5c54834d688ede5191a308f13de7749d0c202e053d9d86673e0920b",
+            "actions": "97de32da540aa629b6ccc8bf823e3c895052cfbf6b1ead6f3687321ca4ee81d5",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "dd1221771e62f473a4a5acb9dc680f631f31a09b15c5ba482d9c871b13e6a2cd",
+              "right_wrist_0_rgb": "9528c3b50cc7fbeaa91455c3e80106af69e36052591b0b09a8ea07ff66d25a76"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524256,
+          "actual_noise_sha256": "c479ae5a0e972a24ee77190d1cb34c30e4b38d657b737b49372dedef90488a23",
+          "mae": {
+            "r4_init": 0.8676046133041382,
+            "v7": 0.8674331903457642
+          },
+          "prediction_sha256": {
+            "r4_init": "1fbb883b2f2b12ff6f35191c06f5bbf638d64a4b467c7f98d8a819710d132173",
+            "v7": "ffd492a70791f59bd8f79899283844ce20e48755175894698871a97be070104e"
+          }
+        },
+        {
+          "episode": 71,
+          "anchor": 71,
+          "index": 291,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "a581620b7b467213125f915c2c50681fcf1250311391ad9d07400d312cf7c086",
+            "actions": "8c1ebed5216342d5c5a80145718b3ef7a5f4f467f83f39a3249ee4ccb94ee0da",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "39a6f55f11f7600b1d9f0f5c4778ec6bfb21ade29b27c23fdea8b63b25621e22",
+              "right_wrist_0_rgb": "a4fb3925a07cdcd25942acb63d20e4d575b0e77a9e7ead0e702545c182fdf166"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524257,
+          "actual_noise_sha256": "97272a506dbd63be59e14de7e0c60b93797efa5feb000ae005403f27d42c4a5c",
+          "mae": {
+            "r4_init": 0.8998920321464539,
+            "v7": 0.8997652530670166
+          },
+          "prediction_sha256": {
+            "r4_init": "347bed223799d7418da48acc3cb32e7771d4df4e6a3e5914a6be6312c44effec",
+            "v7": "6520f1c4bd65d6609a7865a9edbc848bdbda04e2a49b5d0c6f1a9b28a8b69787"
+          }
+        },
+        {
+          "episode": 71,
+          "anchor": 107,
+          "index": 327,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "7579ff3929e655410344e048b709f6126395fe1bd36ede1ec8025d7890f1d5d8",
+            "actions": "71f09509903333022dd09eda44e7dc2a137dbce8241af1370c2bdec07c2fd1a2",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "f9b8addfa0838d4770944dee2310e8b7cd4abceef2bcbd9990b0b1bb1f2c7366",
+              "right_wrist_0_rgb": "229111329252f15da8986aa107defb690da567c78ef6fdbb2aaa7b2cfef2a715"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524258,
+          "actual_noise_sha256": "7cf93d70fceece269f2d188be9b58e2feacf7acf4e0a3b6305bc8716710e1a91",
+          "mae": {
+            "r4_init": 0.935742199420929,
+            "v7": 0.9357607960700989
+          },
+          "prediction_sha256": {
+            "r4_init": "3e54f8434052b23cce7c7b4a787a733c3a54e13387d158bca503d739fa229012",
+            "v7": "328374ccedc6395dbd9230f4a2530c0ce9153b370c5fb6b6d191323e800e8eff"
+          }
+        },
+        {
+          "episode": 73,
+          "anchor": 33,
+          "index": 396,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "a72bea496f8aa3595bcbcedfd6b28cb96338ebd8e762ef40cfca295ac7781ba6",
+            "actions": "da5586a3d52660ca29891ab924af994cc0482fd6682ed546cdd262ae18c27793",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "ba858fab35e34b1945d8a65156daba5a27521ec347be1e9ba20721c5ed9a3c9c",
+              "right_wrist_0_rgb": "30623f0dbc68b36a4c14b8cc8f4eb673daf351abbb88f21ef883411f07dfc01a"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524259,
+          "actual_noise_sha256": "4943475f6825dff2240673fcf6f7dabef0e806028072ac744cfa9672aa38757d",
+          "mae": {
+            "r4_init": 0.8537508845329285,
+            "v7": 0.8538147211074829
+          },
+          "prediction_sha256": {
+            "r4_init": "9ab3e63d5a06d5aa68e15bc6569e24dc55b87454ce678ac357e5225961c65365",
+            "v7": "33d38ed8295f80eadefd42177f56ce0ecbc22f5717b5909310177a8e95fec503"
+          }
+        },
+        {
+          "episode": 73,
+          "anchor": 66,
+          "index": 429,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "336fecc68940121dc29f6c78b52b35ee80df99dea8ff9d88b899dfa1246aa3f4",
+            "actions": "c4b31a5e69c6da443a5e55f47f06a023990de035333c86ca23612cbb0f38003c",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "a71b93f0b8a0697d8d4755c9718bca9041f6e863ab3c25482eafb64efcd6ebb6",
+              "right_wrist_0_rgb": "de5b89aca98d2807b9b69655b33754b87e4b2cc91c97b3d07c74f744c3349efd"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524260,
+          "actual_noise_sha256": "d22ff17766b3ac0a4119489c7dc1d8a14dae270785be5b267ae4ddbdce463f7c",
+          "mae": {
+            "r4_init": 0.9625025987625122,
+            "v7": 0.9622451663017273
+          },
+          "prediction_sha256": {
+            "r4_init": "429668c7a1f5be6d7e98258b7109b767f75ae6510272994b324ed7a1aae95cc7",
+            "v7": "201c16a597cf3d22398061ba4bd6c9c664486c07ec9c3f992e5910f78fc874ab"
+          }
+        },
+        {
+          "episode": 73,
+          "anchor": 99,
+          "index": 462,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "29914bbb06f523e99fd9768bedda8afa9be36b6322484113e1550dbc01512a6c",
+            "actions": "6a3881e13aea7cffb61ba29fed4170c7460a1ff2bc235ce8a2e78563ef1c6714",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "4703d43e578cc959a8ddca92f380e397c7cfaa956d894f9d15e96a18e9bafa31",
+              "right_wrist_0_rgb": "0e03c66a8eb8855c61c486fe5e93a42a244b98654aca3ec82038c2a98d826ffd"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524261,
+          "actual_noise_sha256": "2630d14422b4634bbfc53ed50ce45fec57f079a97dab07bd22164218fcfdd6f8",
+          "mae": {
+            "r4_init": 0.944337785243988,
+            "v7": 0.9446343779563904
+          },
+          "prediction_sha256": {
+            "r4_init": "f65af75f231a2d85bab39dbc66465814e8ca5bd3a42b81ef878b3d9779d578df",
+            "v7": "48e48e336a1292c6d1c6aead707960482eadba3e1ff5203e76731a3b3dc486df"
+          }
+        },
+        {
+          "episode": 11,
+          "anchor": 27,
+          "index": 523,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "555fcd38a45c1a27d190c85a30b4e4881ba3014112de5592baae9563d509398e",
+            "actions": "c004b5697495bf592d52dd5d66183c9663794393e6bb3243f34bc9e1e7fa69f7",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "5e5eae1c11bbe5513f83ec77b6123eadbfdf3e8ec210d581417701bf07291143",
+              "right_wrist_0_rgb": "bb67f27592ed23015a96e9b08353a9c4b75e8d1716bbb07bf893af786297bf97"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524262,
+          "actual_noise_sha256": "df0593e912206d582ac803bf66af1b08417eb046c36753a99e1b24243a983943",
+          "mae": {
+            "r4_init": 0.9604756832122803,
+            "v7": 0.9600625038146973
+          },
+          "prediction_sha256": {
+            "r4_init": "61e7cd884a652967a6f28bc00c0316d4d5e09165fe4c1d387fc27b67deb7efa4",
+            "v7": "bca018eb2c193e0c0be3fb4d577437ac1168b852c4430caa621e8195904ab828"
+          }
+        },
+        {
+          "episode": 11,
+          "anchor": 54,
+          "index": 550,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "af4edc6b669efef96393635c3f5c4d075dd0c9e564d13c434c7fe72f5adb1a42",
+            "actions": "776d9e96c1739006fec592206017e8470c90112e55c26807009cf55c3a81ec8e",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "89b219d45cdf2c7181049f595c5b11f3d758d8e0dd7a9d6d276aee4dd1144484",
+              "right_wrist_0_rgb": "35c8a1b7fcc9c6c99ba2798fec35315815d44ab0de90cdb7609697b55bdf2b1b"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524263,
+          "actual_noise_sha256": "cd7cbb5ec047ef35f38552d9f05b26e42434d970598025bcce3db0b31d1deee7",
+          "mae": {
+            "r4_init": 0.983351469039917,
+            "v7": 0.9831460118293762
+          },
+          "prediction_sha256": {
+            "r4_init": "3e2e2b3ba3818e2b5d5d3fa6c03ef0336b93c1760143cc42cfd7fefbb3594039",
+            "v7": "fa8022bcdd25db2f02162d5ed91139060e0ff8772fea505600d5e3d7c4368a33"
+          }
+        },
+        {
+          "episode": 11,
+          "anchor": 81,
+          "index": 577,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "3aa7114cbeb044394dd2657836b613c8e4e16ab083f5e04d23255f1cdf0c948c",
+            "actions": "4dc248ab3489c521162e628edf850094da4fded101905d916c1f6b7350eb6847",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "29f8f1091decc0efef1adffe387cce63f5f8fae441c8951f9afba8fd94c6f16a",
+              "right_wrist_0_rgb": "569720037d66f67e42864b5743270a61fec3ea9512c3a3d64b392c716eedde52"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524264,
+          "actual_noise_sha256": "8260885eb06678eb62814c947d553e85b8aed16dd9d0b2f181642f6719ecc477",
+          "mae": {
+            "r4_init": 0.9779242277145386,
+            "v7": 0.9781871438026428
+          },
+          "prediction_sha256": {
+            "r4_init": "568af09a2fa571539ac481a029bbe34765a195bc680b710526434a35387e955d",
+            "v7": "77dafec6d2bade52436d4a774f2e89026dd01b02e76fa869167e08cbb5efc3cd"
+          }
+        },
+        {
+          "episode": 41,
+          "anchor": 34,
+          "index": 639,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "7219ead1a5e2e7e528fad48765f7c1b5592e4d9730ab09381b706a9aabfe31ae",
+            "actions": "9487d36ebd09ad61b405fe0dd68e23a302d7d3202767f079f8404685ef3efaa1",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "849820ff072b793d1fdb091a80e0b0c4c23a0c87c2fb19111f34b984b69adb18",
+              "right_wrist_0_rgb": "b2b76a0164b4cf14aba24108bbf562ddcde5c8f4583ae985f837e611a053cec1"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524265,
+          "actual_noise_sha256": "b557e91ba52b53fcda431da565ca09971a71b8a5249b3e82a56aedd404ce02b2",
+          "mae": {
+            "r4_init": 0.9544593691825867,
+            "v7": 0.954540491104126
+          },
+          "prediction_sha256": {
+            "r4_init": "602386e73c5008e134890b220cd9d4a0eda10d464b97db782421b53acdd9a1f5",
+            "v7": "630b3ddbb0fdbeb27cad26d8ef810bdab5e82caa40a53244a526b03ced7e0afc"
+          }
+        },
+        {
+          "episode": 41,
+          "anchor": 68,
+          "index": 673,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "c18f47bdd390bf2e1d133c641e147bbc4d60be1d0f91a3a264cfc4123fa42e52",
+            "actions": "48f8ce94250cc3b2af6b503129096b70ab0389c2b41b0f1f1b7c2b593a0ef631",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "b3d4856c8419025a6c777dd30fcefd2bedf2159dad11bb75a284d36d364cc776",
+              "right_wrist_0_rgb": "4636d8a9799231b1cbc20699aee324e22ca00a69e81ac2b341abf92483b7f4f6"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524266,
+          "actual_noise_sha256": "e7d93a0b79e9bfa7a278cd8cd3702be451936d3946b94964f9b7df5f08dd6b45",
+          "mae": {
+            "r4_init": 0.9872553944587708,
+            "v7": 0.9870984554290771
+          },
+          "prediction_sha256": {
+            "r4_init": "443f802353c7bd301a85e348232137c4a215669d1c1db91764899fc6839a4849",
+            "v7": "6605196899fd66d8b873f5722fff0e6e0f730bb59f9bc4309985464ff07753db"
+          }
+        },
+        {
+          "episode": 41,
+          "anchor": 102,
+          "index": 707,
+          "task": "drop the footbag into the cardboard dice tower",
+          "hashes": {
+            "state": "62c506baf277b9ae1595b6dac6684f548bbfca6b85ebb22306c7899c72edb292",
+            "actions": "869d11e66bddf1f5a04339384c99f95dd4642b52ede05f03e4a4e2ac25620e1b",
+            "support": "2432dbb70926df292595fa1c2dee4933cf81130572a2e29a27256d3bdb8e07e5",
+            "views": {
+              "base_0_rgb": "fd3c1d1b5fd7f6d113b67c20585f1166c5c3a7e276b97e46122273a215d3048e",
+              "right_wrist_0_rgb": "7482c61da947834868bb74d94087e35200558075ecf65a763fd4a9509c0b734a"
+            }
+          },
+          "horizon": 40,
+          "dimensions": 7,
+          "evaluation_noise_seed": 524267,
+          "actual_noise_sha256": "504336c57c72ce87144e18e5deb4a8c8e36d94e19536347f383725483c6229d9",
+          "mae": {
+            "r4_init": 0.955916702747345,
+            "v7": 0.9559023380279541
+          },
+          "prediction_sha256": {
+            "r4_init": "56b947afc765ff5321fba2731262279e3d40c734feee49309c8a3769408a168e",
+            "v7": "16daf39f185a1e119dfce5e80f143cb4bca5e3461efe47f1f52f6c0a7d55b176"
+          }
+        }
+      ]
+    }
+  },
+  "relative_mae": {
+    "robodojo": -0.0012866071539154866,
+    "single": -5.391612281235858e-05
+  },
+  "retention_alert_domains": [],
+  "single_role": "R4_FIXED_INITIAL_VILLE_IO_SHARED_REPRESENTATION_ONLY"
+}

@@ -16,6 +16,28 @@ ARMS = ("LAMBDA_ZERO", "SHARED_L2SP")
 SCOPE = "V7_B6_SHARED_L2SP_MATCHED_V1"
 
 
+def ledger_chain(capsule, binding, terminal, arm, history):
+    run = capsule / arm
+    result = read(pin(run / "TERMINAL.json", terminal["arms"][arm]["terminal_sha256"]))
+    first = binding.get("resume", {}).get("step", 0)
+    end = terminal["end_step"]
+    require(result["scope"] == SCOPE and result["arm"] == arm
+            and result["status"] == "FORMAL_ENDPOINT_COMPLETE" and result["updates_not_in_ledger"] == 0,
+            "An interval lost actual updates")
+    current = [json.loads(row) for row in pin(run / "UPDATES.jsonl", result["ledger_sha256"]).read_text().splitlines()]
+    require([r["step"] for r in current] == list(range(first+1, end+1)), "Incomplete actual interval")
+    if not first:
+        return current
+    source = binding["resume"]
+    previous, = [p for p in history if sha(p / "TERMINAL.json") == source["terminal_sha256"]]
+    prior = read(pin(previous / "BINDING.json", source["binding_sha256"]))
+    old = read(previous / "TERMINAL.json")
+    require(old["scope"] == SCOPE and old["status"] == "PAIR_COMPLETE" and old["end_step"] == first
+            and first < end and binding["source_pair_binding_sha256"] == prior["source_pair_binding_sha256"]
+            and binding["calibration"] == prior["calibration"], "Continuation lineage changed")
+    return ledger_chain(previous, prior, old, arm, history) + current
+
+
 def export(endpoint, parent, destination, seal, proof):
     import jax
     import orbax.checkpoint as ocp
@@ -59,7 +81,7 @@ def export(endpoint, parent, destination, seal, proof):
     return sha(destination / "CHECKPOINT.json")
 
 
-def run(capsule, terminal_sha, parent, output):
+def run(capsule, terminal_sha, parent, output, history=()):
     from v3_main_place_learn import endpoint_files
     from v62_source_endpoint import restore
 
@@ -83,7 +105,7 @@ def run(capsule, terminal_sha, parent, output):
                     and result["updates_not_in_ledger"] == 0 and seal == result["checkpoint"]
                     and seal["files"] == endpoint_files(endpoint) and seal["bank_cursor"] == step,
                     "Transferred endpoint, complete Adam state or actual ledger differs")
-            ledger = [json.loads(row) for row in pin(source / "UPDATES.jsonl", result["ledger_sha256"]).read_text().splitlines()]
+            ledger = ledger_chain(capsule, binding, terminal, arm, history)
             require(len(ledger) == step and [row["step"] for row in ledger] == list(range(1, step + 1)),
                     "Missing actual updates")
             proof = restore(endpoint, step, groups={"shared", "target", "robodojo", "libero"}, seed=529202611)
@@ -101,6 +123,7 @@ def run(capsule, terminal_sha, parent, output):
                     and all(left["components"][role]["visit_sha256"] == right["components"][role]["visit_sha256"]
                             for role in ("target", "robodojo", "libero")), "Matched pair diverged in its inputs")
         write(output / "ACTUAL.json", dict(scope=SCOPE, step=step, arms=checks, formal_updates=2*step,
+              newly_consumed_formal_updates=2*(step-binding.get("resume",{}).get("step",0)),
               matched_cuda_steps=step, complete_training_endpoint=True, source_terminal_sha256=terminal_sha,
               new_optimizer_updates=0, native_integrations=0))
 
@@ -111,4 +134,5 @@ if __name__ == "__main__":
     cli.add_argument("terminal_sha")
     cli.add_argument("parent", type=Path)
     cli.add_argument("output", type=Path)
+    cli.add_argument("--history", type=Path, action="append", default=[])
     run(**vars(cli.parse_args()))

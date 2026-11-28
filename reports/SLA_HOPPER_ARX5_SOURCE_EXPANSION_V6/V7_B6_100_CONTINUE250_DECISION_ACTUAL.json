@@ -1,0 +1,84 @@
+{
+  "plan": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "scope": "V7_B6_SHARED_L2SP_MATCHED_V1",
+  "source_step": 100,
+  "proposed_end_step": 250,
+  "maximum_new_formal_updates": 300,
+  "decision": "CONDITIONAL_PAIR_CONTINUE_TO_250",
+  "relative_control_new_raw_illegal_frames": [],
+  "lift_requests": [
+    {
+      "frame": "TEACHER-0-LIFT",
+      "control_up_mm": 3.077913451630998,
+      "treatment_up_mm": 3.0895909949096856
+    },
+    {
+      "frame": "TEACHER-1-LIFT",
+      "control_up_mm": 2.1953064939039812,
+      "treatment_up_mm": 2.1961986194043437
+    },
+    {
+      "frame": "TEACHER-2-LIFT",
+      "control_up_mm": 3.280695014706847,
+      "treatment_up_mm": 3.2981396565712195
+    },
+    {
+      "frame": "TEACHER-3-LIFT",
+      "control_up_mm": 2.8390437267588053,
+      "treatment_up_mm": 2.8498341020919415
+    },
+    {
+      "frame": "R4_SAFE_LIFT",
+      "control_up_mm": 3.7201311290853134,
+      "treatment_up_mm": 3.737721237615288
+    },
+    {
+      "frame": "BLUE_LIFT-PLACE-blue-left",
+      "control_up_mm": 2.6458365064800926,
+      "treatment_up_mm": 2.654149564397801
+    }
+  ],
+  "shared_squared_distance_reduction": 0.5184888117727731,
+  "source_relative_mae": {
+    "LAMBDA_ZERO": {
+      "robodojo": -0.0012866071539154866,
+      "single": -5.391612281235858e-05
+    },
+    "SHARED_L2SP": {
+      "robodojo": -0.0009666368826852789,
+      "single": -7.133064341258155e-05
+    }
+  },
+  "inputs": [
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/CORE-PROVIDERS/ACTUAL.json",
+      "sha256": "fc6f8024c311641f48d01780c152bdfe356f20e55874aded0bc03cf6fc0b810b"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/TRAIN-PANEL/PANEL.json",
+      "sha256": "a52c72a1d0c14ac4823f084ab51f5dd0a67c5ad80fa0433285e39a3a3afb0afd"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/TRAIN-PANEL-OUTPUT/SUMMARY.json",
+      "sha256": "7576ccc856c9e4f1dd56ff7d5d7de52964b513cbe2886411f0db9af628173feb"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/PARAMETER-DISTANCE.json",
+      "sha256": "1d2df3c5c2a05a1665d6bb40bb822b64ac2b23fb624e60af9f8cc3df02331027"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/LAMBDA_ZERO-SOURCE/RESULT.json",
+      "sha256": "cdc18eb768c2f773c80477eca2c9345c4b42919e70b954add8cf14ce1f0db1a1"
+    },
+    {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p100.NlJUH4/SHARED_L2SP-SOURCE/RESULT.json",
+      "sha256": "9cb99528b899581311d9bb05c16867362467b7385e41f212ca63671f39e5c125"
+    }
+  ],
+  "original_R4_safe_seam_restored": false,
+  "dynamic_L1_and_WBC_tested": false,
+  "scientific_promotion": false,
+  "rationale": "REGISTERED_PARAMETER_AND_FUNCTION_DIRECTION_SCREEN_ONLY; RECHECK_SAME_TRAIN_PANEL_AT_250; DO_NOT_CHANGE_LAMBDA",
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0
+}
