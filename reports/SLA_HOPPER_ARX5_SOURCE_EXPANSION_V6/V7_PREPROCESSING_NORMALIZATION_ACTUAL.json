@@ -1,0 +1,3880 @@
+{
+  "public_index_sha256": "9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56",
+  "state_statistics_sha256": "a9db709b66df6f267107d5d4d8458fd4a4e4604be2d427e78d922b3f4aed4b35",
+  "action_statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+  "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+  "normalization": {
+    "old": {
+      "windows": 4450,
+      "state_below_bin_range_per_channel": [
+        0,
+        241,
+        25,
+        23,
+        42,
+        33,
+        0
+      ],
+      "state_upper_bin_per_channel": [
+        150,
+        0,
+        188,
+        92,
+        43,
+        63,
+        3064
+      ],
+      "state_outside_quantiles_per_channel": [
+        84,
+        241,
+        184,
+        114,
+        85,
+        94,
+        26
+      ],
+      "state_normalized_min": [
+        -0.8032715916633606,
+        -1.1152759790420532,
+        -1.3284249305725098,
+        -2.1764159202575684,
+        -2.030343770980835,
+        -1.9072076082229614,
+        -0.999241054058075
+      ],
+      "state_normalized_max": [
+        1.0742368698120117,
+        0.735659658908844,
+        1.1805328130722046,
+        2.6676886081695557,
+        1.891982078552246,
+        1.866521954536438,
+        1.0015640258789062
+      ],
+      "action_valid_points": 174880,
+      "action_outside_quantiles_per_channel": [
+        2567,
+        22569,
+        2839,
+        1025,
+        1998,
+        1437,
+        0
+      ],
+      "jaw_saturated_ranges_mm": {
+        "-1": null,
+        "255": [
+          41.9752158595982,
+          42.02872181695063
+        ]
+      }
+    },
+    "new": {
+      "windows": 3466,
+      "state_below_bin_range_per_channel": [
+        0,
+        208,
+        39,
+        47,
+        23,
+        301,
+        14
+      ],
+      "state_upper_bin_per_channel": [
+        185,
+        95,
+        101,
+        138,
+        269,
+        145,
+        2326
+      ],
+      "state_outside_quantiles_per_channel": [
+        131,
+        303,
+        119,
+        182,
+        288,
+        446,
+        30
+      ],
+      "state_normalized_min": [
+        -0.8020365834236145,
+        -1.1469969749450684,
+        -1.065147876739502,
+        -2.8994922637939453,
+        -1.853185772895813,
+        -13.20279312133789,
+        -1.0000457763671875
+      ],
+      "state_normalized_max": [
+        1.4212690591812134,
+        1.2937650680541992,
+        1.137281894683838,
+        2.707044839859009,
+        24.899709701538086,
+        12.49431324005127,
+        1.002241611480713
+      ],
+      "action_valid_points": 136180,
+      "action_outside_quantiles_per_channel": [
+        1981,
+        11947,
+        2348,
+        788,
+        3559,
+        4003,
+        0
+      ],
+      "jaw_saturated_ranges_mm": {
+        "-1": [
+          18.943080057250803,
+          18.943180454501235
+        ],
+        "255": [
+          41.97069638081049,
+          42.03653705898383
+        ]
+      }
+    },
+    "recovery": {
+      "windows": 115,
+      "state_below_bin_range_per_channel": [
+        0,
+        79,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "state_upper_bin_per_channel": [
+        78,
+        0,
+        5,
+        0,
+        0,
+        0,
+        27
+      ],
+      "state_outside_quantiles_per_channel": [
+        64,
+        79,
+        5,
+        0,
+        3,
+        0,
+        0
+      ],
+      "state_normalized_min": [
+        0.728227436542511,
+        -1.081608533859253,
+        -0.3445659279823303,
+        -0.7700119614601135,
+        -1.6253653764724731,
+        -0.043850768357515335,
+        -0.988237738609314
+      ],
+      "state_normalized_max": [
+        1.0837844610214233,
+        -0.7744989395141602,
+        1.0578490495681763,
+        0.5054942965507507,
+        0.7606315016746521,
+        0.8711085915565491,
+        0.9990837574005127
+      ],
+      "action_valid_points": 4420,
+      "action_outside_quantiles_per_channel": [
+        21,
+        627,
+        134,
+        11,
+        55,
+        0,
+        0
+      ],
+      "jaw_saturated_ranges_mm": {
+        "-1": null,
+        "255": [
+          41.99857948108193,
+          42.00011635307567
+        ]
+      }
+    }
+  },
+  "episodes": [
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-01",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-blue-02",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 16,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-02",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-02",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-blue-03",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 22,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-03",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-03",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-04",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 38,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-04",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 11,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 35,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-blue-05",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-05",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 40,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-05",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-blue-06",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-06",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-06",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-07",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-07",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-08",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-08",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 8,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-08",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-blue-09",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-09",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 11,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-09",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 42,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-09",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-10",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-10",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 11,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-11",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-11",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-11",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 5,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 35,
+          "any_xyz_rotation_channel_at_outer_bin": 21,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 7,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-12",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-12",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-12",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 15,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-13",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 27,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-13",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-13",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-14",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-14",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 38,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-14",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-15",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 36,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-15",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-15",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 11,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 35,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-16",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-16",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-16",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-17",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 21,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-17",
+      "group": "old",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-18",
+      "group": "old",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 22,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 49,
+          "any_xyz_rotation_channel_at_outer_bin": 47,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 70,
+          "any_xyz_rotation_channel_at_outer_bin": 30,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 13,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 40,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 11,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 1
+        },
+        "PREGRASP": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 15,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 33,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 6
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 17,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-red",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-blue",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-left",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 4
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-PLACE-red-left-02",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 30,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 24,
+          "any_xyz_rotation_channel_at_outer_bin": 24,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 13,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 48,
+          "any_xyz_rotation_channel_at_outer_bin": 46,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 11,
+          "any_xyz_rotation_channel_at_outer_bin": 11,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-19",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_01",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_03",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 17,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_07",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_001",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 23,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 15,
+          "any_xyz_rotation_channel_at_outer_bin": 15,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_003",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 11,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 2
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 16,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_007",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 1
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_008",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 20,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 16,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_010",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 28,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 16,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 22,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_10",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_012",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 6,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 14,
+          "any_xyz_rotation_channel_at_outer_bin": 14,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_11",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 26,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_12",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 3,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 27,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 36,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "group": "new",
+      "phases": {
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "HOLD": {
+          "windows": 2,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_013",
+      "group": "new",
+      "phases": {
+        "CARRY": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "CLOSE": {
+          "windows": 3,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "DESCEND": {
+          "windows": 25,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LIFT": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 0,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 12,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "PREGRASP": {
+          "windows": 34,
+          "any_xyz_rotation_channel_at_outer_bin": 2,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 10,
+          "any_xyz_rotation_channel_at_outer_bin": 10,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_01",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 29,
+          "any_xyz_rotation_channel_at_outer_bin": 28,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_02",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 39,
+          "any_xyz_rotation_channel_at_outer_bin": 38,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_03",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 29,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_04",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 32,
+          "any_xyz_rotation_channel_at_outer_bin": 31,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_05",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 30,
+          "any_xyz_rotation_channel_at_outer_bin": 27,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_06",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 30,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_07",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 31,
+          "any_xyz_rotation_channel_at_outer_bin": 28,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "EF5_T_REACH_08",
+      "group": "new",
+      "phases": {
+        "PREGRASP": {
+          "windows": 45,
+          "any_xyz_rotation_channel_at_outer_bin": 44,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "group": "recovery",
+      "phases": {
+        "CARRY": {
+          "windows": 11,
+          "any_xyz_rotation_channel_at_outer_bin": 5,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 21,
+          "any_xyz_rotation_channel_at_outer_bin": 21,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "group": "recovery",
+      "phases": {
+        "CARRY": {
+          "windows": 6,
+          "any_xyz_rotation_channel_at_outer_bin": 1,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 16,
+          "any_xyz_rotation_channel_at_outer_bin": 12,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "group": "recovery",
+      "phases": {
+        "CARRY": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 8,
+          "jaw_lower_saturated": 0
+        },
+        "LOWER": {
+          "windows": 13,
+          "any_xyz_rotation_channel_at_outer_bin": 13,
+          "jaw_lower_saturated": 0
+        },
+        "OPEN": {
+          "windows": 4,
+          "any_xyz_rotation_channel_at_outer_bin": 4,
+          "jaw_lower_saturated": 0
+        },
+        "WITHDRAW": {
+          "windows": 9,
+          "any_xyz_rotation_channel_at_outer_bin": 9,
+          "jaw_lower_saturated": 0
+        }
+      }
+    }
+  ],
+  "reader_provider_checks": [
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 0,
+      "phase": "PREGRASP",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 49,
+      "phase": "DESCEND",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 71,
+      "phase": "CLOSE",
+      "supported": 40,
+      "token_count": 57,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 74,
+      "phase": "LIFT",
+      "supported": 40,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 84,
+      "phase": "HOLD",
+      "supported": 20,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-red-02",
+      "window": 85,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 0,
+      "phase": "PREGRASP",
+      "supported": 40,
+      "token_count": 62,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 30,
+      "phase": "DESCEND",
+      "supported": 40,
+      "token_count": 63,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 59,
+      "phase": "CLOSE",
+      "supported": 40,
+      "token_count": 62,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 62,
+      "phase": "LIFT",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 71,
+      "phase": "CARRY",
+      "supported": 40,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 101,
+      "phase": "LOWER",
+      "supported": 40,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 112,
+      "phase": "OPEN",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 116,
+      "phase": "WITHDRAW",
+      "supported": 40,
+      "token_count": 62,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_DIVERSE_PLACE_005",
+      "window": 131,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 64,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 0,
+      "phase": "PREGRASP",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 34,
+      "phase": "DESCEND",
+      "supported": 40,
+      "token_count": 59,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 56,
+      "phase": "CLOSE",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 59,
+      "phase": "LIFT",
+      "supported": 40,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 68,
+      "phase": "HOLD",
+      "supported": 20,
+      "token_count": 57,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_09",
+      "window": 69,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 57,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 0,
+      "phase": "PREGRASP",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 30,
+      "phase": "DESCEND",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 55,
+      "phase": "CLOSE",
+      "supported": 40,
+      "token_count": 59,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 58,
+      "phase": "LIFT",
+      "supported": 40,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 68,
+      "phase": "HOLD",
+      "supported": 20,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_MOBILE_13",
+      "window": 69,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 56,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_REACH_03",
+      "window": 0,
+      "phase": "PREGRASP",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "EF5_T_REACH_03",
+      "window": 31,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "window": 0,
+      "phase": "CARRY",
+      "supported": 40,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "window": 11,
+      "phase": "LOWER",
+      "supported": 40,
+      "token_count": 59,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "window": 32,
+      "phase": "OPEN",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "window": 36,
+      "phase": "WITHDRAW",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "window": 0,
+      "phase": "CARRY",
+      "supported": 40,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "window": 6,
+      "phase": "LOWER",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "window": 22,
+      "phase": "OPEN",
+      "supported": 40,
+      "token_count": 59,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "window": 26,
+      "phase": "WITHDRAW",
+      "supported": 40,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "window": 0,
+      "phase": "CARRY",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "window": 9,
+      "phase": "LOWER",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "window": 22,
+      "phase": "OPEN",
+      "supported": 40,
+      "token_count": 58,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "window": 26,
+      "phase": "WITHDRAW",
+      "supported": 40,
+      "token_count": 60,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_02",
+      "window": 44,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_04",
+      "window": 34,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 62,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    },
+    {
+      "episode": "V64_RECOVERY_TRAIN_06",
+      "window": 34,
+      "phase": "TAIL",
+      "supported": 10,
+      "token_count": 61,
+      "state_tokens_equal": true,
+      "images_and_masks_equal": true
+    }
+  ],
+  "reader_parity_scope": "A74_A78_A83_A87_A93_AND_RECOVERY3_REAL_READERS_NO_STATE_DROPOUT",
+  "old_52_reader_parity_measured": false,
+  "normalization_clips": false,
+  "discrete_state_uses_saturated_bins": true,
+  "new_model_forwards": 0,
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0,
+  "original_audit_sha256": "d3b001c22b92a3a0b3955f3dd57bb54081182a49e70e83a297b08ca01a32c1dd"
+}

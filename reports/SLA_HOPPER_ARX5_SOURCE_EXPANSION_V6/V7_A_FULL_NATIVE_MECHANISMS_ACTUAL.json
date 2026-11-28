@@ -1,0 +1,1039 @@
+{
+  "plan": "67d15fb8fad688a2bbd82e225111bb49ec34559b",
+  "settlement_sha256": "b6b5d412cb8c77007f23289c6e72a4f5c3c2a1553f6162c4ace28b0e66062327",
+  "episodes": {
+    "HOLD": {
+      "CONTROL_NEUTRAL": {
+        "registered": 2,
+        "valid": 2,
+        "terminal_mechanism": {
+          "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 1,
+          "SUCCESS": 1
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 1,
+        "episodes": [
+          {
+            "case": "ADAPT0250_N02_A",
+            "episode": "V7CTRL0500_N02_A",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 20692,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -8.149851583070383e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 60,
+            "native_ticks": 20692,
+            "result_sha256": "0d44ad9e58d796d9cfd1ead733147e83db7e6fd1d320b82a1a986f4997701c20"
+          },
+          {
+            "case": "ADAPT0250_N02_B",
+            "episode": "V7CTRL0500_N02_B",
+            "valid_science": true,
+            "mechanism": "SUCCESS",
+            "stages": {
+              "task_success": true
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              54,
+              56
+            ],
+            "actual_stop": null,
+            "model_forwards": 68,
+            "native_ticks": 22703,
+            "result_sha256": "136db2481d534964a7f7b14b44261a7a5ca22fe7125388609ede26ff73f8b9c1"
+          }
+        ]
+      },
+      "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+        "registered": 2,
+        "valid": 2,
+        "terminal_mechanism": {
+          "BEFORE_FIRST_GRASP:REGISTERED_JOINT_SAFETY": 1,
+          "SUCCESS": 1
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 1,
+        "episodes": [
+          {
+            "case": "ADAPT0250_N02_A",
+            "episode": "V7TREAT0500_N02_A",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:REGISTERED_JOINT_SAFETY",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "REGISTERED_JOINT_SAFETY",
+              "native_tick": 26810,
+              "forbidden_contacts": [],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 85,
+            "native_ticks": 26810,
+            "result_sha256": "19d3e367ea56a2cb15ae4e05c3f2303d95ee37fcf3ba1187a6ba9c307a22f25f"
+          },
+          {
+            "case": "ADAPT0250_N02_B",
+            "episode": "V7TREAT0500_N02_B",
+            "valid_science": true,
+            "mechanism": "SUCCESS",
+            "stages": {
+              "task_success": true
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              56
+            ],
+            "actual_stop": null,
+            "model_forwards": 68,
+            "native_ticks": 22703,
+            "result_sha256": "72b78554dca24cfc0f6e1faddc69ab59ac46bf57e312d3988165ed0d3b02cb13"
+          }
+        ]
+      }
+    },
+    "PLACE": {
+      "CONTROL_NEUTRAL": {
+        "registered": 4,
+        "valid": 4,
+        "terminal_mechanism": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1,
+          "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 2,
+          "AFTER_FIRST_GRASP:ILLEGAL_CONTACT": 1
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 2,
+        "episodes": [
+          {
+            "case": "ADAPT0250_P01_701",
+            "episode": "V7CTRL0500_P01_701",
+            "valid_science": true,
+            "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+            "stages": {
+              "grasp": true,
+              "lift": true,
+              "region": true,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              53,
+              54,
+              154,
+              156
+            ],
+            "actual_stop": null,
+            "model_forwards": 160,
+            "native_ticks": 45703,
+            "result_sha256": "4f3689b358b4a07ff6e63eb980bcca0cf0cac1c8ea9cc2c06a0a5ce8ac3e5685"
+          },
+          {
+            "case": "ADAPT0250_P02_702",
+            "episode": "V7CTRL0500_P02_702",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "grasp": false,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 18155,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_cube_geom",
+                  "distance_m": -2.0080504780986552e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 50,
+            "native_ticks": 18155,
+            "result_sha256": "440968b8fb40fa34f436adc2cf06d568d473935a8723715f93e7157861f49f41"
+          },
+          {
+            "case": "ADAPT0250_P02_701",
+            "episode": "V7CTRL0500_P02_701",
+            "valid_science": true,
+            "mechanism": "AFTER_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "grasp": true,
+              "lift": true,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": true,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              55,
+              56,
+              154
+            ],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 44484,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_cube_geom",
+                  "distance_m": -5.893703681404683e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 156,
+            "native_ticks": 44484,
+            "result_sha256": "91db3961c957471afd4b025a625417daabbafecf9769ae04a3bfc3f18faba558"
+          },
+          {
+            "case": "ADAPT0250_P01_702",
+            "episode": "V7CTRL0500_P01_702",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "grasp": false,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 23629,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_cube_geom",
+                  "distance_m": -1.6074733343203473e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 72,
+            "native_ticks": 23629,
+            "result_sha256": "30a4d60a0517054157c0e9212271f09b0fd451b3dcccfdde369c6a2e6314d56c"
+          }
+        ]
+      },
+      "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+        "registered": 4,
+        "valid": 4,
+        "terminal_mechanism": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 2,
+          "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 2
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 2,
+        "episodes": [
+          {
+            "case": "ADAPT0250_P01_701",
+            "episode": "V7TREAT0500_P01_701",
+            "valid_science": true,
+            "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+            "stages": {
+              "grasp": true,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              57,
+              124,
+              149,
+              153,
+              158
+            ],
+            "actual_stop": null,
+            "model_forwards": 160,
+            "native_ticks": 45703,
+            "result_sha256": "05d8edd39c7a3034fd656c2e45a36ead43a86dda0d4a7c05a73b79a01b827f2a"
+          },
+          {
+            "case": "ADAPT0250_P02_702",
+            "episode": "V7TREAT0500_P02_702",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "grasp": false,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 20151,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_cube_geom",
+                  "distance_m": -1.8570194009089047e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 58,
+            "native_ticks": 20151,
+            "result_sha256": "2493347bd26439db2c914eed8c4cb8b1c292bf621178900212bc68c1311f6bdc"
+          },
+          {
+            "case": "ADAPT0250_P02_701",
+            "episode": "V7TREAT0500_P02_701",
+            "valid_science": true,
+            "mechanism": "FIXED_TASK_BUDGET_EXHAUSTED",
+            "stages": {
+              "grasp": true,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              151,
+              154,
+              155,
+              157
+            ],
+            "actual_stop": null,
+            "model_forwards": 160,
+            "native_ticks": 45703,
+            "result_sha256": "bd9cfa47cfc55081b4fb59e1df26cfbbad9362838f022ffab4523384b211f1f2"
+          },
+          {
+            "case": "ADAPT0250_P01_702",
+            "episode": "V7TREAT0500_P01_702",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "grasp": false,
+              "lift": false,
+              "region": false,
+              "released": false,
+              "stable_release": false,
+              "withdrawn": false,
+              "complete": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 22192,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_cube_geom",
+                  "distance_m": -1.1452783350469897e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 66,
+            "native_ticks": 22192,
+            "result_sha256": "8291185ef896160e7122dbcf77fd5874e2a8d13f3bd3a9de4df64384266d5c6a"
+          }
+        ]
+      }
+    },
+    "INDEPENDENT_HOLD": {
+      "CONTROL_NEUTRAL": {
+        "registered": 4,
+        "valid": 4,
+        "terminal_mechanism": {
+          "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 3,
+          "SUCCESS": 1
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 2,
+        "episodes": [
+          {
+            "case": "V61_R4_DEV_0200_N03_201",
+            "episode": "V61_V7CTRL0500_N03_201",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 13914,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -0.0003263851918599431,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 33,
+            "native_ticks": 13914,
+            "result_sha256": "49787518cb1fbc0d9565ebe7457dcf8abfe7568e054c116f31be170238e031ff"
+          },
+          {
+            "case": "V61_R4_DEV_0200_N03_202",
+            "episode": "V61_V7CTRL0500_N03_202",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 18130,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -5.351798098157667e-07,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 50,
+            "native_ticks": 18130,
+            "result_sha256": "29c4a576af7039f46baba070138ddfad5820bc679d6501406f788e6cad029756"
+          },
+          {
+            "case": "V61_R4_DEV_0200_VAL01_201",
+            "episode": "V61_V7CTRL0500_VAL01_201",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              70,
+              71,
+              72,
+              73,
+              74,
+              75
+            ],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 24540,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -6.788104493060665e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 76,
+            "native_ticks": 24540,
+            "result_sha256": "c71b5b168af0ac819e83978592cdeafcf5af85f9c3ad53007158cc82a5f870b0"
+          },
+          {
+            "case": "V61_R4_DEV_0200_VAL01_202",
+            "episode": "V61_V7CTRL0500_VAL01_202",
+            "valid_science": true,
+            "mechanism": "SUCCESS",
+            "stages": {
+              "task_success": true
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              56
+            ],
+            "actual_stop": null,
+            "model_forwards": 68,
+            "native_ticks": 22703,
+            "result_sha256": "1ffb46a81537a997cf0f0a319b8a3014aedab81121a1162393d2e4e5c7018986"
+          }
+        ]
+      },
+      "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+        "registered": 4,
+        "valid": 4,
+        "terminal_mechanism": {
+          "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT": 3,
+          "SUCCESS": 1
+        },
+        "terminal_g7_science_episodes": 0,
+        "g7_retiming_science_episodes": 1,
+        "episodes": [
+          {
+            "case": "V61_R4_DEV_0200_N03_201",
+            "episode": "V61_V7TREAT0500_N03_201",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 17798,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -3.6721035934390855e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 49,
+            "native_ticks": 17798,
+            "result_sha256": "38494dfdc36053ac086c9fdad034481d374d226cc705a7a13e568077a63e8df4"
+          },
+          {
+            "case": "V61_R4_DEV_0200_N03_202",
+            "episode": "V61_V7TREAT0500_N03_202",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 18209,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -2.1539440202451854e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 51,
+            "native_ticks": 18209,
+            "result_sha256": "d23557763c13f4d5133706882f7e5f36ebca628074e83bda5cf9d63a68bd6fea"
+          },
+          {
+            "case": "V61_R4_DEV_0200_VAL01_201",
+            "episode": "V61_V7TREAT0500_VAL01_201",
+            "valid_science": true,
+            "mechanism": "BEFORE_FIRST_GRASP:ILLEGAL_CONTACT",
+            "stages": {
+              "task_success": false
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [],
+            "actual_stop": {
+              "reason": "ILLEGAL_CONTACT",
+              "native_tick": 21428,
+              "forbidden_contacts": [
+                {
+                  "geom0": "",
+                  "geom1": "task_blue_cube_geom",
+                  "distance_m": -1.2960861478263086e-06,
+                  "body0": "x5_link6",
+                  "body1": "task_blue_cube"
+                }
+              ],
+              "after_stop_publications_or_accepts": 0,
+              "after_stop_grants": 0
+            },
+            "model_forwards": 63,
+            "native_ticks": 21428,
+            "result_sha256": "5426d79f6ccee9cf09647afc3aa6734c42a483196d052e1edbd606d3d0530177"
+          },
+          {
+            "case": "V61_R4_DEV_0200_VAL01_202",
+            "episode": "V61_V7TREAT0500_VAL01_202",
+            "valid_science": true,
+            "mechanism": "SUCCESS",
+            "stages": {
+              "task_success": true
+            },
+            "first_release_observed": false,
+            "terminal_g7": false,
+            "confirmed_g7_retiming_queries": [
+              56
+            ],
+            "actual_stop": null,
+            "model_forwards": 69,
+            "native_ticks": 22953,
+            "result_sha256": "aae9602cec1b2532b15024e8cf9fdbac6cdbfc32e7d6fa82e8895c591639b52c"
+          }
+        ]
+      }
+    }
+  },
+  "stage_pairs": {
+    "HOLD": {
+      "treatment_vs_control": {
+        "task_success": {
+          "kept": [
+            "ADAPT0250_N02_B"
+          ],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_N02_A"
+          ],
+          "technical": []
+        }
+      },
+      "each_vs_R4": {
+        "CONTROL_NEUTRAL": {
+          "task_success": {
+            "kept": [
+              "ADAPT0250_N02_B"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_N02_A"
+            ],
+            "both_failed": [],
+            "technical": []
+          }
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "task_success": {
+            "kept": [
+              "ADAPT0250_N02_B"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_N02_A"
+            ],
+            "both_failed": [],
+            "technical": []
+          }
+        }
+      }
+    },
+    "PLACE": {
+      "treatment_vs_control": {
+        "grasp": {
+          "kept": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "lift": {
+          "kept": [],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_701"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "region": {
+          "kept": [],
+          "gained": [],
+          "lost": [
+            "ADAPT0250_P01_701"
+          ],
+          "both_failed": [
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "released": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "stable_release": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "withdrawn": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        },
+        "complete": {
+          "kept": [],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "ADAPT0250_P01_701",
+            "ADAPT0250_P02_702",
+            "ADAPT0250_P02_701",
+            "ADAPT0250_P01_702"
+          ],
+          "technical": []
+        }
+      },
+      "each_vs_R4": {
+        "CONTROL_NEUTRAL": {
+          "grasp": {
+            "kept": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_701"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P01_702"
+            ],
+            "both_failed": [],
+            "technical": []
+          },
+          "lift": {
+            "kept": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_701"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P01_702"
+            ],
+            "both_failed": [
+              "ADAPT0250_P02_702"
+            ],
+            "technical": []
+          },
+          "region": {
+            "kept": [
+              "ADAPT0250_P01_701"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P02_701"
+            ],
+            "both_failed": [
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "released": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "stable_release": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "withdrawn": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "complete": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          }
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "grasp": {
+            "kept": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_701"
+            ],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P01_702"
+            ],
+            "both_failed": [],
+            "technical": []
+          },
+          "lift": {
+            "kept": [],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "both_failed": [
+              "ADAPT0250_P02_702"
+            ],
+            "technical": []
+          },
+          "region": {
+            "kept": [],
+            "gained": [],
+            "lost": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_701"
+            ],
+            "both_failed": [
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "released": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "stable_release": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "withdrawn": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          },
+          "complete": {
+            "kept": [],
+            "gained": [],
+            "lost": [],
+            "both_failed": [
+              "ADAPT0250_P01_701",
+              "ADAPT0250_P02_702",
+              "ADAPT0250_P02_701",
+              "ADAPT0250_P01_702"
+            ],
+            "technical": []
+          }
+        }
+      }
+    },
+    "INDEPENDENT_HOLD": {
+      "treatment_vs_control": {
+        "task_success": {
+          "kept": [
+            "V61_R4_DEV_0200_VAL01_202"
+          ],
+          "gained": [],
+          "lost": [],
+          "both_failed": [
+            "V61_R4_DEV_0200_N03_201",
+            "V61_R4_DEV_0200_N03_202",
+            "V61_R4_DEV_0200_VAL01_201"
+          ],
+          "technical": []
+        }
+      },
+      "each_vs_R4": {
+        "CONTROL_NEUTRAL": {
+          "task_success": {
+            "kept": [
+              "V61_R4_DEV_0200_VAL01_202"
+            ],
+            "gained": [],
+            "lost": [
+              "V61_R4_DEV_0200_N03_202"
+            ],
+            "both_failed": [
+              "V61_R4_DEV_0200_N03_201",
+              "V61_R4_DEV_0200_VAL01_201"
+            ],
+            "technical": []
+          }
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "task_success": {
+            "kept": [
+              "V61_R4_DEV_0200_VAL01_202"
+            ],
+            "gained": [],
+            "lost": [
+              "V61_R4_DEV_0200_N03_202"
+            ],
+            "both_failed": [
+              "V61_R4_DEV_0200_N03_201",
+              "V61_R4_DEV_0200_VAL01_201"
+            ],
+            "technical": []
+          }
+        }
+      }
+    }
+  },
+  "original_release": {
+    "CONTROL_NEUTRAL": false,
+    "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": false
+  },
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}

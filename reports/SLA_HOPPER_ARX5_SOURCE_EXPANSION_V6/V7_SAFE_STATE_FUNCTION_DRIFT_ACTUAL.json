@@ -1,0 +1,102 @@
+{
+  "fixed_observation_result_sha256": "2d3158beaae75f669daedb0e7615e7d58ca495612bf00133a2c9a860281ae0ff",
+  "conditions": [
+    {
+      "frame": "R4_SAFE_GRASP",
+      "query": 72,
+      "previous_mm": 19.837218629525267,
+      "noise_sha256": "3485ede19479b1aaeabc9e6fecab1910d513cc5d63a54dc20afb0b9d9d9dd99e",
+      "r4": {
+        "raw_P10_max_up_mm": 1.8186400784059809,
+        "raw_P10_end_up_mm": 1.8186400784059809,
+        "first_jaw_mm": 21.153171574447537,
+        "g7": {
+          "first_seam_speed_m_s": 0.026319058898445352,
+          "maximum_speed_m_s": 0.03685629758767399,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        }
+      },
+      "candidates": {
+        "CONTROL_NEUTRAL": {
+          "raw_P10_max_up_mm": 1.5449396903083734,
+          "raw_P10_end_up_mm": 1.5449396903083734,
+          "first_jaw_mm": 22.38566571146905,
+          "g7": {
+            "first_seam_speed_m_s": 0.05096894163887561,
+            "maximum_speed_m_s": 0.05096894163887561,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "raw_P10_max_up_mm": 1.5665489180896457,
+          "raw_P10_end_up_mm": 1.5665489180896457,
+          "first_jaw_mm": 22.485575110760117,
+          "g7": {
+            "first_seam_speed_m_s": 0.05296712962469696,
+            "maximum_speed_m_s": 0.05296712962469696,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        }
+      }
+    },
+    {
+      "frame": "R4_SAFE_LIFT",
+      "query": 84,
+      "previous_mm": 2.013894635642122,
+      "noise_sha256": "18e033954f56cb20d948f91073cda081198f9deed1deade3903e3ba9c9cda0c8",
+      "r4": {
+        "raw_P10_max_up_mm": 3.8793364161037314,
+        "raw_P10_end_up_mm": 3.8793364161037314,
+        "first_jaw_mm": 2.3688406184037163,
+        "g7": {
+          "first_seam_speed_m_s": 0.007098919655231881,
+          "maximum_speed_m_s": 0.007098919655231881,
+          "training_margin_exceeded": false,
+          "original_execution_speed_exceeded": false,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        }
+      },
+      "candidates": {
+        "CONTROL_NEUTRAL": {
+          "raw_P10_max_up_mm": 3.64258308960331,
+          "raw_P10_end_up_mm": 3.64258308960331,
+          "first_jaw_mm": 2.6388004260551297,
+          "g7": {
+            "first_seam_speed_m_s": 0.012498115808260149,
+            "maximum_speed_m_s": 0.012498115808260149,
+            "training_margin_exceeded": false,
+            "original_execution_speed_exceeded": false,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND": {
+          "raw_P10_max_up_mm": 3.652929697108603,
+          "raw_P10_end_up_mm": 3.652929697108603,
+          "first_jaw_mm": 2.6294629637826508,
+          "g7": {
+            "first_seam_speed_m_s": 0.012311366562810571,
+            "maximum_speed_m_s": 0.012311366562810571,
+            "training_margin_exceeded": false,
+            "original_execution_speed_exceeded": false,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        }
+      }
+    }
+  ],
+  "new_model_forwards": 0,
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0
+}

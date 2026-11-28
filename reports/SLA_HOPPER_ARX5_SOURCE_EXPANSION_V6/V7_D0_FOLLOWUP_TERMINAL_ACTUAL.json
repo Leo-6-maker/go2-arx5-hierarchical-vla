@@ -1,0 +1,53 @@
+{
+  "terminal_sha256": "47455a46b49c09124c98cba7a9d5b910221ff19b0362d0ceac1e40b7beca7068",
+  "cases": [
+    {
+      "id": "V7_D0_EARLY_TRAIN_13",
+      "ticks": 19244,
+      "forwards": 55,
+      "technical_failure": false,
+      "recovery_admitted": false,
+      "teacher_intent": null,
+      "after_first_stop_ticks": 0,
+      "result_sha256": "640b22232122fdf4ba66240854ced1c0b353faee23058b51835920629321a451",
+      "actual_stop": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 19244
+        }
+      ],
+      "shutdown_clean": true,
+      "returned_raw_seam_over_limit": 0,
+      "returned_raw_h40_over_limit": 0,
+      "maximum_raw_seam_mm_s": 0.24891569305227068
+    },
+    {
+      "id": "V7_D0_EARLY_TRAIN_14",
+      "ticks": 24373,
+      "forwards": 75,
+      "technical_failure": false,
+      "recovery_admitted": false,
+      "teacher_intent": null,
+      "after_first_stop_ticks": 0,
+      "result_sha256": "22cfe4d9f1b6988584fb0bcf4c47fdfa7655e9feae850071a1cf80b9d19cb5ea",
+      "actual_stop": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 24373
+        }
+      ],
+      "shutdown_clean": true,
+      "returned_raw_seam_over_limit": 2,
+      "returned_raw_h40_over_limit": 3,
+      "maximum_raw_seam_mm_s": 106.47941569807581
+    }
+  ],
+  "new_recovery_admissions": 0,
+  "ticks": 43617,
+  "forwards": 130,
+  "new_optimizer_updates": 0,
+  "readback_native_integrations": 0,
+  "readback_model_forwards": 0
+}

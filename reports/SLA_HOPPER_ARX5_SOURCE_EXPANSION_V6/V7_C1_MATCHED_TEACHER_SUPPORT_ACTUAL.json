@@ -1,0 +1,617 @@
+{
+  "scope": "PLAIN_TEACHER_TRAIN_SUPPORT_SCREEN_FOR_FIXED_C1_CANDIDATE_STARTS",
+  "input_sha256": "9d9396b503064b9fc94646db1e38c0c3a3ca1a1a24b254310644bd21fca43f56",
+  "prospective_recovery_sha256": "3a719a4f644cf2b5513eb1b0b5dcaaff6c040cd5cdfad9ebcab1e11cdae3310d",
+  "registered_two_recovery_cases": [
+    {
+      "case": "V7_D0_EARLY_TRAIN_13",
+      "task": "PLACE-blue-left",
+      "family": "F1",
+      "phase": "LIFT",
+      "matched_teacher_episodes": 3,
+      "teacher_window_support": {
+        "40": 27
+      },
+      "teacher_window_support_excluding_original_teacher": {
+        "40": 18
+      },
+      "candidate_teacher_vs_recovery_match": [],
+      "candidate_teacher_episodes": [
+        {
+          "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+          "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+          "is_original_teacher": true,
+          "by_support": {
+            "40": 9
+          },
+          "windows": [
+            {
+              "window": 64,
+              "model_index": 4981,
+              "native_tick": 21703,
+              "support": 40
+            },
+            {
+              "window": 65,
+              "model_index": 4982,
+              "native_tick": 21953,
+              "support": 40
+            },
+            {
+              "window": 66,
+              "model_index": 4983,
+              "native_tick": 22203,
+              "support": 40
+            },
+            {
+              "window": 67,
+              "model_index": 4984,
+              "native_tick": 22453,
+              "support": 40
+            },
+            {
+              "window": 68,
+              "model_index": 4985,
+              "native_tick": 22703,
+              "support": 40
+            },
+            {
+              "window": 69,
+              "model_index": 4986,
+              "native_tick": 22953,
+              "support": 40
+            },
+            {
+              "window": 70,
+              "model_index": 4987,
+              "native_tick": 23203,
+              "support": 40
+            },
+            {
+              "window": 71,
+              "model_index": 4988,
+              "native_tick": 23453,
+              "support": 40
+            },
+            {
+              "window": 72,
+              "model_index": 4989,
+              "native_tick": 23703,
+              "support": 40
+            }
+          ]
+        },
+        {
+          "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+          "scene_sha256": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+          "is_original_teacher": false,
+          "by_support": {
+            "40": 9
+          },
+          "windows": [
+            {
+              "window": 59,
+              "model_index": 5434,
+              "native_tick": 20453,
+              "support": 40
+            },
+            {
+              "window": 60,
+              "model_index": 5435,
+              "native_tick": 20703,
+              "support": 40
+            },
+            {
+              "window": 61,
+              "model_index": 5436,
+              "native_tick": 20953,
+              "support": 40
+            },
+            {
+              "window": 62,
+              "model_index": 5437,
+              "native_tick": 21203,
+              "support": 40
+            },
+            {
+              "window": 63,
+              "model_index": 5438,
+              "native_tick": 21453,
+              "support": 40
+            },
+            {
+              "window": 64,
+              "model_index": 5439,
+              "native_tick": 21703,
+              "support": 40
+            },
+            {
+              "window": 65,
+              "model_index": 5440,
+              "native_tick": 21953,
+              "support": 40
+            },
+            {
+              "window": 66,
+              "model_index": 5441,
+              "native_tick": 22203,
+              "support": 40
+            },
+            {
+              "window": 67,
+              "model_index": 5442,
+              "native_tick": 22453,
+              "support": 40
+            }
+          ]
+        },
+        {
+          "episode": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-left",
+          "scene_sha256": "fe31eb62bf57216a2357c142a41ef84dffa162b884eafacc62a04b193904a1c6",
+          "is_original_teacher": false,
+          "by_support": {
+            "40": 9
+          },
+          "windows": [
+            {
+              "window": 57,
+              "model_index": 5820,
+              "native_tick": 19953,
+              "support": 40
+            },
+            {
+              "window": 58,
+              "model_index": 5821,
+              "native_tick": 20203,
+              "support": 40
+            },
+            {
+              "window": 59,
+              "model_index": 5822,
+              "native_tick": 20453,
+              "support": 40
+            },
+            {
+              "window": 60,
+              "model_index": 5823,
+              "native_tick": 20703,
+              "support": 40
+            },
+            {
+              "window": 61,
+              "model_index": 5824,
+              "native_tick": 20953,
+              "support": 40
+            },
+            {
+              "window": 62,
+              "model_index": 5825,
+              "native_tick": 21203,
+              "support": 40
+            },
+            {
+              "window": 63,
+              "model_index": 5826,
+              "native_tick": 21453,
+              "support": 40
+            },
+            {
+              "window": 64,
+              "model_index": 5827,
+              "native_tick": 21703,
+              "support": 40
+            },
+            {
+              "window": 65,
+              "model_index": 5828,
+              "native_tick": 21953,
+              "support": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "V7_D0_EARLY_TRAIN_14",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "phase": "PREGRASP",
+      "matched_teacher_episodes": 2,
+      "teacher_window_support": {
+        "40": 60
+      },
+      "teacher_window_support_excluding_original_teacher": {
+        "40": 29
+      },
+      "candidate_teacher_vs_recovery_match": [],
+      "candidate_teacher_episodes": [
+        {
+          "episode": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+          "scene_sha256": "dc12d0a8e3d013ecfb76f4a962399404551d40189eaec54307271e7492745bc8",
+          "is_original_teacher": false,
+          "by_support": {
+            "40": 29
+          },
+          "windows": [
+            {
+              "window": 0,
+              "model_index": 5050,
+              "native_tick": 5703,
+              "support": 40
+            },
+            {
+              "window": 1,
+              "model_index": 5051,
+              "native_tick": 5953,
+              "support": 40
+            },
+            {
+              "window": 2,
+              "model_index": 5052,
+              "native_tick": 6203,
+              "support": 40
+            },
+            {
+              "window": 3,
+              "model_index": 5053,
+              "native_tick": 6453,
+              "support": 40
+            },
+            {
+              "window": 4,
+              "model_index": 5054,
+              "native_tick": 6703,
+              "support": 40
+            },
+            {
+              "window": 5,
+              "model_index": 5055,
+              "native_tick": 6953,
+              "support": 40
+            },
+            {
+              "window": 6,
+              "model_index": 5056,
+              "native_tick": 7203,
+              "support": 40
+            },
+            {
+              "window": 7,
+              "model_index": 5057,
+              "native_tick": 7453,
+              "support": 40
+            },
+            {
+              "window": 8,
+              "model_index": 5058,
+              "native_tick": 7703,
+              "support": 40
+            },
+            {
+              "window": 9,
+              "model_index": 5059,
+              "native_tick": 7953,
+              "support": 40
+            },
+            {
+              "window": 10,
+              "model_index": 5060,
+              "native_tick": 8203,
+              "support": 40
+            },
+            {
+              "window": 11,
+              "model_index": 5061,
+              "native_tick": 8453,
+              "support": 40
+            },
+            {
+              "window": 12,
+              "model_index": 5062,
+              "native_tick": 8703,
+              "support": 40
+            },
+            {
+              "window": 13,
+              "model_index": 5063,
+              "native_tick": 8953,
+              "support": 40
+            },
+            {
+              "window": 14,
+              "model_index": 5064,
+              "native_tick": 9203,
+              "support": 40
+            },
+            {
+              "window": 15,
+              "model_index": 5065,
+              "native_tick": 9453,
+              "support": 40
+            },
+            {
+              "window": 16,
+              "model_index": 5066,
+              "native_tick": 9703,
+              "support": 40
+            },
+            {
+              "window": 17,
+              "model_index": 5067,
+              "native_tick": 9953,
+              "support": 40
+            },
+            {
+              "window": 18,
+              "model_index": 5068,
+              "native_tick": 10203,
+              "support": 40
+            },
+            {
+              "window": 19,
+              "model_index": 5069,
+              "native_tick": 10453,
+              "support": 40
+            },
+            {
+              "window": 20,
+              "model_index": 5070,
+              "native_tick": 10703,
+              "support": 40
+            },
+            {
+              "window": 21,
+              "model_index": 5071,
+              "native_tick": 10953,
+              "support": 40
+            },
+            {
+              "window": 22,
+              "model_index": 5072,
+              "native_tick": 11203,
+              "support": 40
+            },
+            {
+              "window": 23,
+              "model_index": 5073,
+              "native_tick": 11453,
+              "support": 40
+            },
+            {
+              "window": 24,
+              "model_index": 5074,
+              "native_tick": 11703,
+              "support": 40
+            },
+            {
+              "window": 25,
+              "model_index": 5075,
+              "native_tick": 11953,
+              "support": 40
+            },
+            {
+              "window": 26,
+              "model_index": 5076,
+              "native_tick": 12203,
+              "support": 40
+            },
+            {
+              "window": 27,
+              "model_index": 5077,
+              "native_tick": 12453,
+              "support": 40
+            },
+            {
+              "window": 28,
+              "model_index": 5078,
+              "native_tick": 12703,
+              "support": 40
+            }
+          ]
+        },
+        {
+          "episode": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+          "scene_sha256": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76",
+          "is_original_teacher": true,
+          "by_support": {
+            "40": 31
+          },
+          "windows": [
+            {
+              "window": 0,
+              "model_index": 5510,
+              "native_tick": 5703,
+              "support": 40
+            },
+            {
+              "window": 1,
+              "model_index": 5511,
+              "native_tick": 5953,
+              "support": 40
+            },
+            {
+              "window": 2,
+              "model_index": 5512,
+              "native_tick": 6203,
+              "support": 40
+            },
+            {
+              "window": 3,
+              "model_index": 5513,
+              "native_tick": 6453,
+              "support": 40
+            },
+            {
+              "window": 4,
+              "model_index": 5514,
+              "native_tick": 6703,
+              "support": 40
+            },
+            {
+              "window": 5,
+              "model_index": 5515,
+              "native_tick": 6953,
+              "support": 40
+            },
+            {
+              "window": 6,
+              "model_index": 5516,
+              "native_tick": 7203,
+              "support": 40
+            },
+            {
+              "window": 7,
+              "model_index": 5517,
+              "native_tick": 7453,
+              "support": 40
+            },
+            {
+              "window": 8,
+              "model_index": 5518,
+              "native_tick": 7703,
+              "support": 40
+            },
+            {
+              "window": 9,
+              "model_index": 5519,
+              "native_tick": 7953,
+              "support": 40
+            },
+            {
+              "window": 10,
+              "model_index": 5520,
+              "native_tick": 8203,
+              "support": 40
+            },
+            {
+              "window": 11,
+              "model_index": 5521,
+              "native_tick": 8453,
+              "support": 40
+            },
+            {
+              "window": 12,
+              "model_index": 5522,
+              "native_tick": 8703,
+              "support": 40
+            },
+            {
+              "window": 13,
+              "model_index": 5523,
+              "native_tick": 8953,
+              "support": 40
+            },
+            {
+              "window": 14,
+              "model_index": 5524,
+              "native_tick": 9203,
+              "support": 40
+            },
+            {
+              "window": 15,
+              "model_index": 5525,
+              "native_tick": 9453,
+              "support": 40
+            },
+            {
+              "window": 16,
+              "model_index": 5526,
+              "native_tick": 9703,
+              "support": 40
+            },
+            {
+              "window": 17,
+              "model_index": 5527,
+              "native_tick": 9953,
+              "support": 40
+            },
+            {
+              "window": 18,
+              "model_index": 5528,
+              "native_tick": 10203,
+              "support": 40
+            },
+            {
+              "window": 19,
+              "model_index": 5529,
+              "native_tick": 10453,
+              "support": 40
+            },
+            {
+              "window": 20,
+              "model_index": 5530,
+              "native_tick": 10703,
+              "support": 40
+            },
+            {
+              "window": 21,
+              "model_index": 5531,
+              "native_tick": 10953,
+              "support": 40
+            },
+            {
+              "window": 22,
+              "model_index": 5532,
+              "native_tick": 11203,
+              "support": 40
+            },
+            {
+              "window": 23,
+              "model_index": 5533,
+              "native_tick": 11453,
+              "support": 40
+            },
+            {
+              "window": 24,
+              "model_index": 5534,
+              "native_tick": 11703,
+              "support": 40
+            },
+            {
+              "window": 25,
+              "model_index": 5535,
+              "native_tick": 11953,
+              "support": 40
+            },
+            {
+              "window": 26,
+              "model_index": 5536,
+              "native_tick": 12203,
+              "support": 40
+            },
+            {
+              "window": 27,
+              "model_index": 5537,
+              "native_tick": 12453,
+              "support": 40
+            },
+            {
+              "window": 28,
+              "model_index": 5538,
+              "native_tick": 12703,
+              "support": 40
+            },
+            {
+              "window": 29,
+              "model_index": 5539,
+              "native_tick": 12953,
+              "support": 40
+            },
+            {
+              "window": 30,
+              "model_index": 5540,
+              "native_tick": 13203,
+              "support": 40
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "train_only": true,
+  "teacher_pool": "MEV1_IN_FROZEN_A93_NEW_STRATUM",
+  "recovery_matching_pending": true,
+  "new_native_integrations": 0,
+  "new_model_forwards": 0,
+  "new_optimizer_updates": 0
+}
