@@ -1,5 +1,5 @@
 {
-  "schema": "sla-control-aware-posttrain-v7-v1",
+  "schema": "sla-control-aware-posttrain-v7-v2",
   "date_sgt": "2026-11-28",
   "status": "PLAN_ONLY_NOT_DEPLOYED",
   "predecessors": [
@@ -9,16 +9,61 @@
     528
   ],
   "evidence": {
-    "hopper": "7fc7608fd7bca917163fa476cacc897db5bf7f7f",
+    "hopper": "2bf6ab7a663099be27bc85a9b424256eed03920b",
     "core": "f67fe887a2cc3e3b9309c122db6773febbefb697",
-    "v65_logical_sealed": 2800,
+    "v65_logical_sealed": 3000,
     "v65_last_segment": {
       "pbs": "737978.hopper-m-02",
       "start": 2800,
       "end": 3000,
-      "state_at_receipt": "R"
+      "state_at_receipt": "F",
+      "exit_code": 0,
+      "completed_sgt": "2026-11-28T03:11:09+08:00"
     },
-    "v65_3k_native": null,
+    "v65_3k_native": {
+      "state": "ACTUAL_CLOSED",
+      "completed_sgt": "2026-11-28T04:37:00+08:00",
+      "hold": [
+        2,
+        2
+      ],
+      "independent_hold": [
+        1,
+        4
+      ],
+      "grasp": [
+        0,
+        4
+      ],
+      "lift": [
+        0,
+        4
+      ],
+      "in_zone": [
+        0,
+        4
+      ],
+      "place": [
+        0,
+        4
+      ],
+      "place_contact_stop": [
+        4,
+        4
+      ],
+      "all_contact_stop": 6,
+      "valid_cards": 10,
+      "technical_aborts": 0,
+      "physics_ticks": 207073,
+      "model_forwards": 604,
+      "post_stop_integrations": 0,
+      "promotion": false,
+      "place_failures": {
+        "wrist_target_before_correct_grasp": 3,
+        "left_pad_wrong_blue_before_correct_grasp": 1
+      },
+      "result_sha256": "85986e37443857d9777633b967bec3dafb16cf0a93dd687050ebdfe8b0a49581"
+    },
     "v65_unsealed_actual_extra": 100,
     "v65_1k": {
       "hold": [
@@ -97,7 +142,16 @@
       "measurement_command_gap_gt_2mm": 330,
       "g7_rejections": 5,
       "g7_gap_gt_2mm": 2,
-      "early_dynamic_verified": false
+      "early_dynamic_verified": false,
+      "v65_independent_handoff_origins": 3,
+      "v65_phase_windows": {
+        "CARRY": 26,
+        "LOWER": 50,
+        "OPEN": 12,
+        "WITHDRAW": 27
+      },
+      "early_candidate_status": "CPU_VERIFIED_DYNAMIC_PENDING",
+      "early_dynamic_new_admissions": 0
     },
     "loss": {
       "active_channels": 7,
@@ -107,7 +161,18 @@
       "delta_used": false,
       "recovery_fm_at_2500": 5000,
       "recovery_aux_at_2500": 0,
-      "aux_total_at_2500": 10000
+      "aux_total_at_2500": 10000,
+      "delta_previous_cancels_in_first_difference": true,
+      "gradient_attribution_measured": false,
+      "old_go2_replay_per_step": 48,
+      "trainable_parameters_before_context": 434430048,
+      "recovery_aux_at_3000_expected_from_unchanged_slots": 0,
+      "aux_slots": [
+        0,
+        1,
+        48,
+        49
+      ]
     },
     "pregrasp_static": {
       "base_dominant_examples": [
@@ -119,30 +184,72 @@
         "VAL01_202"
       ],
       "not_causal_dynamic": true
+    },
+    "v7_context": "3de6774e02b3c266e1b36c4c1843217ed9390f8b",
+    "v65_3k_training": {
+      "logical_updates": 3000,
+      "actual_attempts_including_unsealed": 3100,
+      "fm_visits": 384000,
+      "go2_visits": 288000,
+      "recovery_fm_visits": 6000,
+      "robodojo_visits": 48000,
+      "libero_visits": 48000,
+      "aux_visits": 12000,
+      "checkpoint_members": 14,
+      "checkpoint_bytes": 4850637330,
+      "checkpoint_seal_sha256": "6def8f651196a0e5f07bb4e4f99a5c7c5edd2cd5f5f3690d7d47eb847f39dea5",
+      "independent_restore_verified": true
+    },
+    "v7_a0": {
+      "state": "INPUT_AND_PARTIAL_GRAPH_VERIFIED_FULL_MODEL_PENDING",
+      "a93_windows_verified": 7916,
+      "a93_first_queries_verified": 93,
+      "recovery_windows_verified": 115,
+      "total_windows_verified": 8031,
+      "real_action_input_arrays_tested": 6,
+      "substitute_backbone_arrays_tested": 8,
+      "added_projection_parameters": 1024,
+      "full_model_r4_rgb_qualification": false,
+      "actual_noise_qualification": false,
+      "optimizer_and_cold_restore_qualification": false,
+      "aux_full_model_condition_path_qualification": false,
+      "formal_updates_at_report": 0,
+      "shared_bank_manifest_sha256": "ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024",
+      "shared_bank_array_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+      "condition_array_sha256": "7573a2a63170b2a5bf47d51314e08f0c24724ec5a508bed6c61e9fbb4b85fda2"
     }
   },
   "dispatch": {
-    "preserve_v65": true,
+    "preserve_v65_history": true,
+    "v65_status": "COMPLETE_NOT_PROMOTED_NO_AUTO_EXTENSION",
     "immediate": [
-      "A0_context_reader_and_code",
-      "E0_control_trace",
-      "L0_loss_gradient_audit",
-      "D0_early_recovery_existing_slots",
-      "RTC0_frozen_offline",
-      "existing_core_production"
+      "AQ_full_model_r4_input_noise_aux_optimizer_restore",
+      "E0_3k_first_divergence_and_cross_state_inference",
+      "D0_r4_early_recovery_prospective_train",
+      "LR0_gradient_attribution_and_train_anchor_audit",
+      "RTC0_frozen_offline_if_resources_available"
     ],
-    "v7_formal_wait": [
+    "satisfied_dependencies": [
       "3k_complete",
       "3k_native_evaluation",
       "parent_selection",
-      "real_budget_reconciliation",
-      "matched_new_gpu_qualification"
+      "all_8031_previous_commands_audited",
+      "shared_500_step_sample_bank"
     ],
-    "new_v7_pbs_now": false,
+    "v7_formal_wait": [
+      "actual_noise_tensor_matching",
+      "full_model_three_path_qualification",
+      "actual_optimizer_and_restore",
+      "current_site_resource_owner_reconciliation"
+    ],
+    "new_v7_pbs_this_publication": false,
     "source500": "HOLD",
     "source608": "PREPARE_ONLY",
     "vanda": "PAUSED",
-    "no_auto_5k_10k": true
+    "no_auto_5k_10k": true,
+    "next_formal_priority": "V7_A_TWO_MATCHED_500_STEP_ARMS",
+    "subsequent_formal_rule": "CHOOSE_ONE_EVIDENCE_LED_B6_C1_A2_OR_B_CANDIDATE",
+    "runtime_dispatch_manifest": false
   },
   "invariants": {
     "wbc_frozen": true,
@@ -155,20 +262,22 @@
     "student_gt": false,
     "stop_post_integrations": 0,
     "protected_data_train": false,
-    "no_hot_change": true
+    "no_hot_change": true,
+    "original_splits_preserved": true,
+    "episode_fixed_mount_frame_preserved": true,
+    "h40_decoded_and_checked_before_execution": true,
+    "executed_student_failures_as_teacher_bc": false,
+    "closed_or_hard_stop_episode_reopened": false
   },
   "first_experiment": {
     "id": "V7-A-CONTEXT",
-    "parent_rule": "3K_IF_ORIGINAL_RETENTION_AND_STAGE_PROGRESS_ELSE_R4_200",
+    "parent_rule": "R4_200_SELECTED_AFTER_3K_FAILED_ORIGINAL_PROMOTION",
     "data": "A93_R3_FIXED_MATCHED",
     "new_adam_rng": true,
     "arms": [
       "CONTROL_NEUTRAL",
       "TREATMENT_PREVIOUS_EXECUTED_GRIPPER_COMMAND"
     ],
-    "same_parameter_count": true,
-    "initial_fixed_prediction_equal": true,
-    "same_loss_and_bank": true,
     "steps_each": 500,
     "conditional_cumulative_steps_each": 1000,
     "batch": {
@@ -209,47 +318,229 @@
       "place_complete_preferred": 1,
       "new_safety_stop": 0,
       "source_mae_alert_relative": 0.1
+    },
+    "parent_rule_history": "3K_IF_ORIGINAL_RETENTION_AND_STAGE_PROGRESS_ELSE_R4_200",
+    "parent_selected": "R4-200",
+    "parent_selection_evidence": "2bf6ab7a663099be27bc85a9b424256eed03920b",
+    "formal_status_at_evidence": "NOT_STARTED",
+    "same_parameter_count_required": true,
+    "initial_fixed_prediction_equal_required": true,
+    "same_loss_and_bank_required": true,
+    "automatic_extension": false,
+    "noise_candidate_seed": 529202611,
+    "actual_noise_arrays_match_required": true,
+    "full_model_paths_required": [
+      "FM",
+      "DEPLOYMENT_10_STEP_SAMPLER",
+      "AUX_FULL_H40_10_STEP_SAMPLER"
+    ],
+    "condition": {
+      "input": "previous_actual_consumed_gripper_command",
+      "physical_range_m": [
+        0.002,
+        0.042
+      ],
+      "normalized_range": [
+        -1,
+        1
+      ],
+      "projection_shape": [
+        1,
+        1024
+      ],
+      "bias": false,
+      "zero_initialization": true,
+      "previous_interval_ticks": 25,
+      "query_stride_ticks": 250,
+      "share_original_state_drop_mask": true,
+      "source_domains_bypass": true
+    },
+    "samples_per_arm": {
+      "fm": 64000,
+      "go2_old": 24000,
+      "go2_new": 23000,
+      "recovery": 1000,
+      "robodojo": 8000,
+      "libero": 8000,
+      "full_h40_aux": 2000
+    },
+    "shared_bank_manifest_sha256": "ec5e7436b839e8452b61fc137f4fe6f659af2aabb522165c7604413b12d20024",
+    "shared_bank_array_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+    "condition_array_sha256": "7573a2a63170b2a5bf47d51314e08f0c24724ec5a508bed6c61e9fbb4b85fda2",
+    "qualification_status": "PENDING_FULL_MODEL",
+    "evaluation_interpretation": {
+      "causal_comparison": "TREATMENT_VS_MATCHED_CONTROL",
+      "retention_comparison": "EACH_ARM_VS_R4",
+      "mechanism_improvement_is_promotion": false,
+      "per_cell_retained_gained_lost_required": true,
+      "contact_stop_censors_later_g7": true,
+      "ten_cards_are_not_ten_independent_layouts": true,
+      "original_protected_roles_unchanged": true
     }
   },
   "candidates": [
     {
+      "id": "A2-TRACK",
+      "change": "CAUSAL_REFERENCE_TRACKING_RESIDUAL",
+      "status": "DESIGN_ONLY",
+      "reference": "ALREADY_ACCEPTED_BEFORE_T_EVALUATED_AT_T",
+      "selected_requires_online_verified_source": true,
+      "future_h40_endpoint_as_current_reference": false
+    },
+    {
+      "id": "A3-BASE",
+      "change": "DEPLOYABLE_BASE_ESTIMATOR_FEATURES",
+      "status": "DESIGN_ONLY",
+      "do_not_combine_first_with": "A3-ARM",
+      "sim_gt_as_sensor": false
+    },
+    {
+      "id": "A3-ARM",
+      "change": "ENCODER_Q_QDOT",
+      "status": "DESIGN_ONLY",
+      "do_not_combine_first_with": "A3-BASE"
+    },
+    {
+      "id": "A4-HISTORY",
+      "change": "TWO_COMPLETED_QUERY_BOUNDARIES",
+      "status": "DESIGN_ONLY",
+      "future_data": false,
+      "episode_boundary_mask": true
+    },
+    {
       "id": "B1",
-      "change": "active_padding_loss"
+      "change": "ACTIVE_PADDING_LOSS",
+      "requires_measured_gradient_evidence": true
     },
     {
       "id": "B2",
-      "change": "p10_weight",
-      "candidate": 2
+      "change": "P10_WEIGHT",
+      "candidate_ratio": 2,
+      "full_h40_p10_weight_fraction": 0.4
     },
     {
       "id": "B3",
-      "change": "delta_loss"
+      "change": "PHYSICAL_DELTA_LOSS",
+      "previous_cancels_in_difference": true,
+      "not_substitute_for_condition_input": true
     },
     {
       "id": "B4",
-      "change": "recovery_aux_selection"
+      "change": "RECOVERY_AUX_SELECTION",
+      "same_fm_bank": true,
+      "same_aux_count": 4,
+      "same_aux_weight": 0.375
     },
     {
       "id": "B5",
-      "change": "go2_only_gradient_control"
+      "change": "GO2_ONLY_GRADIENT",
+      "same_target_exposure": true,
+      "no_target_refill_of_source_slots": true
     },
     {
       "id": "B6",
-      "change": "retention_single_variable"
+      "change": "CONSUMPTION_PROVEN_SAFE_BEHAVIOR_RETENTION",
+      "design_status": "PREPARED_PLAN_ACTUAL_ANCHOR_COVERAGE_UNVERIFIED",
+      "anchor_schema": "RETENTION_ANCHOR_TRAIN",
+      "anchor_source": "R4_student_safe_consumed",
+      "teacher_bc": false,
+      "protected_eval_allowed": false,
+      "old_recovery_student_prefix_train_eligible": false,
+      "successful_phases": [
+        "PREGRASP",
+        "CORRECT_GRASP",
+        "LIFT",
+        "HOLD"
+      ],
+      "stop_absence_alone_sufficient": false,
+      "target": "ACTUAL_CONSUMED_NOMINAL_P10_IN_ORIGINAL_FRAME_CODEC",
+      "raw_applied_difference_logged": true,
+      "accepted_or_inferred_selected_alone_sufficient": false,
+      "unconsumed_h40_suffix_target": false,
+      "proposed_anchor_visits_per_step": 2,
+      "proposed_anchor_visits_per_500": 1000,
+      "sampling": "ALTERNATE_TWO_PHASE_PAIRS_BALANCE_EPISODES_WITHIN_PHASE_THEN_QUERY",
+      "loss_reduction": "SUPPORTED_POINT_MEAN_THEN_BALANCED_WINDOW_MEAN",
+      "positive_support_required": true,
+      "noise": "REPLAY_ORIGINAL_ACTUAL_NOISE_SUBSET_FOR_PRIMARY_ARM",
+      "missing_original_noise": "REPORT_COVERAGE_GAP_OR_SEPARATE_SAMPLER_REGRESSION_DESIGN",
+      "arms": [
+        "LAMBDA_0",
+        "ONE_FIXED_POSITIVE_LAMBDA"
+      ],
+      "same_anchor_forward_schedule": true,
+      "lambda_scope": "SHARED_EXPERT_GO2_IO_CONTEXT",
+      "lambda_denominator": "CURRENT_WEIGHTED_ORIGINAL_OBJECTIVE_INCLUDING_ORIGINAL_AUX",
+      "candidate_weighted_gradient_fraction": [
+        0.1,
+        0.25
+      ],
+      "candidate_fraction_not_established_gate": true,
+      "calibration_requires_pinned_nonzero_drift_point": true,
+      "zero_gradient_division_disallowed": true,
+      "zero_lambda_original_update_equivalence_required": true,
+      "alternative_choose_one": [
+        "L2_SP",
+        "PARTIAL_EXPERT_FREEZE_OR_LAYER_LR",
+        "ACTION_ADAPTER"
+      ],
+      "not_anchor_failed_carry_open": true,
+      "full_h40_base_loss_unchanged": true
     },
     {
-      "id": "C",
-      "change": "iterative_dagger_recovery",
-      "candidate_target": {
+      "id": "C1",
+      "change": "EARLY_STUDENT_CORRECTION_VS_ORDINARY_EARLY_DEMOS",
+      "status": "DESIGN_ONLY_PENDING_DYNAMIC_DATA_AND_PARENT_SELECTION",
+      "shared_target": {
         "old": 48,
-        "new": 32,
-        "recovery": 16
+        "new": 44,
+        "late_recovery": 2
       },
-      "requires_diverse_data": true
+      "control_only": {
+        "ordinary_early": 2
+      },
+      "treatment_only": {
+        "student_early_recovery": 2
+      },
+      "target_total": 96,
+      "source": {
+        "robodojo": 16,
+        "libero": 16
+      },
+      "treatment_total_recovery": 4,
+      "aux": {
+        "count": 4,
+        "old": 2,
+        "new": 2,
+        "weight": 0.375,
+        "identity": "COMMON_POOL_IDENTICAL_BETWEEN_ARMS"
+      },
+      "match_attributes": [
+        "PHASE",
+        "COLOR",
+        "DIRECTION",
+        "SCENE_FAMILY",
+        "SUPPORT_LENGTH"
+      ],
+      "suggested_steps_each": 500,
+      "dispatch_authorized_by_this_json": false,
+      "reuse_a_control_without_full_equivalence": false,
+      "subsequent_recovery_ratios": [
+        4,
+        8,
+        16
+      ]
+    },
+    {
+      "id": "RTC0",
+      "change": "FROZEN_MODEL_CAUSAL_CONTINUITY_OFFLINE",
+      "keep_physics_paused": true,
+      "past_p10_as_future_prefix": false,
+      "not_collision_avoidance": true
     },
     {
       "id": "D",
-      "change": "recap_value_residual",
+      "change": "RECAP_VALUE_RESIDUAL",
       "status": "PREPARE_ONLY_UNTIL_STABLE_NATIVE"
     }
   ],
@@ -275,9 +566,16 @@
     "original_gpu_hours": 320,
     "deadline_sgt": "2026-12-05T12:41:52+08:00",
     "reset": false,
-    "require_latest_actual": true
+    "require_latest_actual": true,
+    "formal_known_current": 3600,
+    "formal_after_a500_remaining_default": 3400,
+    "formal_conditional_cap_automatically_authorized": false,
+    "internals_are_not_new_approval_framework": true,
+    "current_site_permissions_and_resources_required": true,
+    "after_a_full_b_c_native_panel_already_funded": false
   },
   "actual_new_actions": {
+    "scope": "THIS_DOCUMENT_PUBLICATION",
     "pbs": 0,
     "formal_updates": 0,
     "engineering_updates": 0,
@@ -288,5 +586,115 @@
   "links": {
     "plan": "SLA_CONTROL_AWARE_POSTTRAIN_V7_PLAN_20261128.md",
     "runbook": "SLA_CONTROL_AWARE_POSTTRAIN_V7_RUNBOOK_20261128.md"
-  }
+  },
+  "revision": 2,
+  "publication_scope": "UPDATE_EXISTING_PR_529_DOCUMENTS_ONLY",
+  "previous_plan_commit": "08153842af4bfa778b0a43094e300de430c09c65",
+  "hypotheses": [
+    {
+      "id": "H_CONTROL_STATE",
+      "confirmed": "MISSING_EXPLICIT_COMMAND_BOUNDARY_AND_POTENTIAL_WHOLE_BODY_STATE_GAPS",
+      "causal_effect_status": "UNMEASURED_MATCHED_A_REQUIRED",
+      "first_test": "V7-A-CONTEXT",
+      "next_information_groups": [
+        "A2-TRACK",
+        "A3-BASE_OR_A3-ARM",
+        "A4-HISTORY"
+      ]
+    },
+    {
+      "id": "H_STUDENT_DISTRIBUTION",
+      "confirmed": "LATE_ONLY_R3_AND_EARLY_FAILURES_BEFORE_TEACHER_ADMISSION",
+      "causal_effect_status": "EARLY_CORRECTION_MATCHED_DATA_TEST_REQUIRED",
+      "independent_r3_handoff_origins": 3,
+      "first_test": "D0_THEN_C1"
+    },
+    {
+      "id": "H_RETENTION",
+      "confirmed": "TASK_PHASE_SPECIFIC_BEHAVIOR_REGRESSION_VS_R4",
+      "causal_effect_status": "FUNCTION_GRADIENT_AND_EXECUTION_MECHANISMS_NOT_ISOLATED",
+      "first_test": "LR0_THEN_B6"
+    }
+  ],
+  "early_recovery": {
+    "first_wave_cards": 2,
+    "first_wave_student": "R4-200",
+    "bind_exact_checkpoint": true,
+    "first_wave_types": [
+      "BLUE_POSTGRASP_LIFT",
+      "RED_PREGRASP"
+    ],
+    "qualified_train_geometry_and_teacher_required": true,
+    "legal_trigger": "REGISTERED_NEW_TRAIN_G7_PREINSTALL_REJECTION_PRIOR_P10_CONSUMED_CLOCK_PAUSED_NO_HARD_STOP",
+    "preserve_student_failure": true,
+    "teacher_assisted_is_autonomous_success": false,
+    "old_failed_episode_resume": false,
+    "admission": "EXISTING_FULL_SUCCESSFUL_TEACHER_SUFFIX_POLICY_WITH_ACTUAL_CONSUMPTION",
+    "partial_correction_train_eligible_in_existing_bank": false,
+    "next_wave_suggested_cards": [
+      2,
+      4
+    ],
+    "next_wave_student_rule": "FREEZE_IDENTITY_OF_CURRENT_RETENTION_QUALIFIED_STUDENT",
+    "track_independent_handoffs": true,
+    "change_sealed_a_bank": false
+  },
+  "work_packages": [
+    {
+      "id": "AQ",
+      "state": "NEEDS_FULL_MODEL_QUALIFICATION",
+      "owner_role": "EXISTING_TRAINING_EXECUTOR"
+    },
+    {
+      "id": "E0",
+      "state": "PLAN_FOR_3K_FIRST_DIVERGENCE",
+      "owner_role": "CORELAB_DIAGNOSTICS"
+    },
+    {
+      "id": "D0",
+      "state": "CPU_VERIFIED_DYNAMIC_PENDING",
+      "owner_role": "CORELAB_N1_OWNER"
+    },
+    {
+      "id": "LR0",
+      "state": "PLAN_ACTUAL_GRADIENT_AND_ANCHOR_AUDIT",
+      "owner_role": "TRAINING_AND_CORELAB"
+    },
+    {
+      "id": "A",
+      "state": "NOT_STARTED_AT_LATEST_SOURCE",
+      "owner_role": "EXISTING_TRAINING_EXECUTOR_THEN_CORELAB"
+    }
+  ],
+  "literature": [
+    {
+      "method": "DAgger",
+      "url": "https://proceedings.mlr.press/v15/ross11a.html"
+    },
+    {
+      "method": "HG-DAgger",
+      "url": "https://arxiv.org/abs/1810.02890v2"
+    },
+    {
+      "method": "IWR",
+      "url": "https://arxiv.org/abs/2012.06733"
+    },
+    {
+      "method": "Learning without Forgetting",
+      "url": "https://arxiv.org/abs/1606.09282"
+    },
+    {
+      "method": "L2-SP",
+      "url": "https://arxiv.org/abs/1802.01483"
+    },
+    {
+      "method": "RTC",
+      "url": "https://www.pi.website/research/real_time_chunking"
+    },
+    {
+      "method": "LeRobot RTC",
+      "url": "https://huggingface.co/docs/lerobot/rtc"
+    }
+  ]
 }
+
