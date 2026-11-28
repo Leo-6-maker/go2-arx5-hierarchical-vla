@@ -1,0 +1,544 @@
+{
+  "status": "ACTUAL_FULL_PARAMETER_SHAPES_AND_OPTIMIZER_STATE_ABI_PASS_ZERO_UPDATES",
+  "endpoint_metadata_source": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/v7-b6-p250.dWnpqo/LAMBDA_ZERO/STEP0250",
+  "complete_core_restore_proof_sha256": "c22d2bf4dd6c05411cea0d3b0874254c366bc2b0d4a1aec6e44074151ada7771",
+  "parameter_leaves": {
+    "libero": 8,
+    "robodojo": 8,
+    "shared": 11,
+    "target": 9
+  },
+  "parameter_elements": {
+    "libero": 2165792,
+    "robodojo": 2165792,
+    "shared": 427932672,
+    "target": 2166816
+  },
+  "optimizer_leaf_shapes": {
+    "libero/0/count": {
+      "shape": [],
+      "dtype": "int32"
+    },
+    "libero/0/mu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/mu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "libero/0/nu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/count": {
+      "shape": [],
+      "dtype": "int32"
+    },
+    "robodojo/0/mu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/mu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "robodojo/0/nu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/count": {
+      "shape": [],
+      "dtype": "int32"
+    },
+    "shared/0/mu/PaliGemma/llm/final_norm_1/Dense_0/bias/value": {
+      "shape": [
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/final_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/attn/attn_vec_einsum_1/w/value": {
+      "shape": [
+        18,
+        8,
+        256,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/attn/kv_einsum_1/w/value": {
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/attn/q_einsum_1/w/value": {
+      "shape": [
+        18,
+        8,
+        1024,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/mlp_1/gating_einsum/value": {
+      "shape": [
+        18,
+        2,
+        1024,
+        4096
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/mlp_1/linear/value": {
+      "shape": [
+        18,
+        4096,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/pre_attention_norm_1/Dense_0/bias/value": {
+      "shape": [
+        18,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/pre_attention_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        18,
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/pre_ffw_norm_1/Dense_0/bias/value": {
+      "shape": [
+        18,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/mu/PaliGemma/llm/layers/pre_ffw_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        18,
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/final_norm_1/Dense_0/bias/value": {
+      "shape": [
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/final_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/attn/attn_vec_einsum_1/w/value": {
+      "shape": [
+        18,
+        8,
+        256,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/attn/kv_einsum_1/w/value": {
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/attn/q_einsum_1/w/value": {
+      "shape": [
+        18,
+        8,
+        1024,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/mlp_1/gating_einsum/value": {
+      "shape": [
+        18,
+        2,
+        1024,
+        4096
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/mlp_1/linear/value": {
+      "shape": [
+        18,
+        4096,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/pre_attention_norm_1/Dense_0/bias/value": {
+      "shape": [
+        18,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/pre_attention_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        18,
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/pre_ffw_norm_1/Dense_0/bias/value": {
+      "shape": [
+        18,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "shared/0/nu/PaliGemma/llm/layers/pre_ffw_norm_1/Dense_0/kernel/value": {
+      "shape": [
+        18,
+        1024,
+        3072
+      ],
+      "dtype": "float32"
+    },
+    "target/0/count": {
+      "shape": [],
+      "dtype": "int32"
+    },
+    "target/0/mu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/previous_executed_gripper_projection/value": {
+      "shape": [
+        1,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/mu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/action_in_proj/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/action_in_proj/kernel/value": {
+      "shape": [
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/action_out_proj/bias/value": {
+      "shape": [
+        32
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/action_out_proj/kernel/value": {
+      "shape": [
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/previous_executed_gripper_projection/value": {
+      "shape": [
+        1,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/time_mlp_in/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/time_mlp_in/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/time_mlp_out/bias/value": {
+      "shape": [
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "target/0/nu/time_mlp_out/kernel/value": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "float32"
+    }
+  },
+  "original_optimizer_state_ABI_equal": true,
+  "traced_only_initializer": true,
+  "model_weight_values_read": false,
+  "actual_model_forwards": 0,
+  "actual_model_optimizer_updates": 0,
+  "full_model_gradient_or_H200_update_qualified": false,
+  "physics_integrations": 0
+}

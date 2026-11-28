@@ -1,0 +1,108 @@
+{
+  "status": "SYNTHETIC_CPU_OPTIMIZER_MECHANICS_PASS_NOT_MODEL_QUALIFICATION",
+  "scope": "V7_R4_FROZEN_SHARED_EXPERT_ADAMW_V1",
+  "original_optimizer_module_sha256": "8946ec63dfde9d1999119fde9fd8e43d0657f5ed1369f3ed01f0342ba67f11fc",
+  "optimizer_module_sha256": "2dd14f6fb112b1ca62e44f004a8c5884f1717f09d5dd106989535356676a407d",
+  "synthetic_fixture_shapes": {
+    "shared": {
+      "kernel": [
+        2,
+        2
+      ],
+      "bias": [
+        2
+      ]
+    },
+    "target": {
+      "bias": [
+        2
+      ],
+      "kernel": [
+        2,
+        2
+      ]
+    },
+    "robodojo": {
+      "bias": [
+        2
+      ],
+      "kernel": [
+        2,
+        2
+      ]
+    },
+    "libero": {
+      "bias": [
+        2
+      ],
+      "kernel": [
+        2,
+        2
+      ]
+    }
+  },
+  "checks": [
+    {
+      "synthetic_step": 1,
+      "active_gradient_l2": 5.412947654724121,
+      "clip_factor": 0.18474222619301617,
+      "private_matches_original": true,
+      "frozen_shared_and_adam_unchanged": true
+    },
+    {
+      "synthetic_step": 2,
+      "active_gradient_l2": 5.746303081512451,
+      "clip_factor": 0.17402493147590742,
+      "private_matches_original": true,
+      "frozen_shared_and_adam_unchanged": true
+    },
+    {
+      "synthetic_step": 3,
+      "active_gradient_l2": 6.081118583679199,
+      "clip_factor": 0.1644434303063664,
+      "private_matches_original": true,
+      "frozen_shared_and_adam_unchanged": true
+    },
+    {
+      "synthetic_step": 4,
+      "active_gradient_l2": 6.417164325714111,
+      "clip_factor": 0.15583206993670348,
+      "private_matches_original": true,
+      "frozen_shared_and_adam_unchanged": true
+    },
+    {
+      "synthetic_step": 5,
+      "active_gradient_l2": 6.754257678985596,
+      "clip_factor": 0.14805476005324503,
+      "private_matches_original": true,
+      "frozen_shared_and_adam_unchanged": true
+    }
+  ],
+  "nonzero_weight_decay_tested": true,
+  "shared_gradient_magnitude": 1000000.0,
+  "shared_count_after_5": 0,
+  "private_counts_after_5": {
+    "target": 5,
+    "libero": 5,
+    "robodojo": 5
+  },
+  "synthetic_snapshot_restore_equal": true,
+  "synthetic_next_update_equal": true,
+  "rejected": {
+    "missing_domain": "FROZEN_EXPERT_WRONG_ACTIVE_DOMAINS_OR_OPTIMIZER_PARTITION",
+    "nonfinite_frozen_gradient": "FROZEN_EXPERT_NONFINITE_OR_ZERO_ACTIVE_GRADIENT",
+    "zero_active_gradient": "FROZEN_EXPERT_NONFINITE_OR_ZERO_ACTIVE_GRADIENT"
+  },
+  "frozen_checkpoint_clock_and_moments_rejections": {
+    "dense_shared_clock": "FROZEN_EXPERT_WRONG_ADAM_CLOCK",
+    "frozen_nonzero_moments": "FROZEN_EXPERT_NONZERO_FROZEN_ADAM_MOMENTS"
+  },
+  "synthetic_frozen_optimizer_calls": 7,
+  "synthetic_original_oracle_calls": 5,
+  "actual_model_optimizer_updates": 0,
+  "formal_updates": 0,
+  "engineering_model_updates": 0,
+  "model_forwards": 0,
+  "physics_integrations": 0,
+  "full_model_and_H200_qualification": false
+}

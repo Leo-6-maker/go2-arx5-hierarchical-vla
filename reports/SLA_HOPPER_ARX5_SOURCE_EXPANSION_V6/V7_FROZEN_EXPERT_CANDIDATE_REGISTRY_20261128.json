@@ -1,0 +1,94 @@
+{
+  "schema": "V7_FROZEN_SHARED_EXPERT_CANDIDATE_CPU_PREPARATION_V1",
+  "status": "CPU_MECHANICS_AND_FULL_SHAPE_VERIFIED_NOT_FULL_MODEL_GPU_QUALIFIED",
+  "reviewed_plan": "8e6ffa192d3e6c0adce7e2f89ca97e8ea20f461a",
+  "scope": "V7_R4_FROZEN_SHARED_EXPERT_ADAMW_V1",
+  "scientific_question": "Can retaining the original shared R4 Expert while adapting private domain IO avoid the observed grasp/open function regression under the identical A93/R3 course?",
+  "evidence": {
+    "partition_counterfactual_forward_sha256": "c7510f6b9f82ad269d71611905a42d8eb2d5bfe2145fd2553b9256403f3a8537",
+    "partition_counterfactual_readback_sha256": "e7cc9b71eb2efe74d09700bef19ea5d67683f4c90bad8ff8f56a1c639aa3ae7e",
+    "optimizer_and_clock_synthetic_cpu_sha256": "6bef50842fe4ac774c0fc4c676f4793a3f66fa4f11de01ac770d7472600879b8",
+    "full_shape_abi_cpu_sha256": "50f22282eeb2ed7dcf0757b6504de11bbc9c6e1915a7c09d5da4ab84f7924439",
+    "old_original_optimizer_source_sha256_both_sites": "8946ec63dfde9d1999119fde9fd8e43d0657f5ed1369f3ed01f0342ba67f11fc"
+  },
+  "parent": "R4-200 fresh parameters and fresh private AdamW; no continuation from a failed endpoint",
+  "candidate_steps": 250,
+  "candidate_steps_status": "PROPOSED_NOT_DISPATCHED",
+  "dense_control": {
+    "identity": "B6 LAMBDA_ZERO complete 250",
+    "complete_independent_restore_sha256": "c22d2bf4dd6c05411cea0d3b0874254c366bc2b0d4a1aec6e44074151ada7771",
+    "reuse_only_if_all_inputs_and_scope_equal": true,
+    "repeat_training": false,
+    "zero_anchor_exact_original_update_verified_previously": true
+  },
+  "unchanged": {
+    "dataset": "A93 7916 windows plus original Recovery3 115 windows",
+    "input_bank_sha256": "a8fde923b6453be823fd8097b8440a7ad8780d6d484bc3d882df8a5b070e64ff",
+    "neutral_previous_command_context_sha256": "7573a2a63170b2a5bf47d51314e08f0c24724ec5a508bed6c61e9fbb4b85fda2",
+    "effective_FM_batch": 128,
+    "target_old_new_recovery": [48, 46, 2],
+    "robodojo": 16,
+    "libero": 16,
+    "auxiliary_samples": 4,
+    "auxiliary_coefficient": 0.375,
+    "auxiliary_support_and_mask": "original matched bank",
+    "actual_noise": "original archived CUDA FM/tau/aux draws at every matching logical step",
+    "learning_rate": "original 500-step schedule first 250 positions; no restart or extra warmup",
+    "CPU_workers": 4,
+    "asynchronous_prefetch_batches": 2,
+    "VLM_and_LoRA": "frozen inherited R4 values",
+    "model_state_and_action_statistics": "original",
+    "model_inputs": "original neutral previous-command architecture; no S2/A2/new Recovery input",
+    "WBC_L1_G7_STOP": "frozen original"
+  },
+  "changed_single_factor": {
+    "shared_Expert_leaves_frozen": 11,
+    "shared_Expert_parameter_elements_frozen": 427932672,
+    "private_IO_leaves_target_robodojo_libero": [9, 8, 8],
+    "private_IO_parameter_elements_total": 6498400,
+    "shared_gradient": "computed with original losses for diagnostic compatibility but excluded before the single active-IO global clip",
+    "shared_AdamW": "never invoked; no decoupled decay, moments and count remain zero",
+    "private_AdamW": "same beta/eps/weight decay and learning-rate semantics as the original; original global clip limit on active private gradients",
+    "neutral_projection": "unchanged zero-valued previous_executed_gripper_projection"
+  },
+  "checkpoint_contract": {
+    "full_parameter_Adam_rng_step_schema": "retained original",
+    "save_steps": [100, 250],
+    "shared_Adam_count": 0,
+    "private_Adam_count": "logical step",
+    "original_saver_reused_unmodified": false,
+    "reason": "Original saver requires every Adam count equal to step and writes before checking; incompatible with real frozen shared state",
+    "resume_requires_full_hash_and_frozen_value_validation": true
+  },
+  "preflight_gaps": {
+    "required_actual_H200_engineering_model_updates_at_least": 2,
+    "required_independent_Core_full_model_restore": true,
+    "current_engineering_usage": 24,
+    "current_engineering_cap": 24,
+    "additional_engineering_updates_allocated": 0,
+    "new_PBS_submitted": false,
+    "actual_full_model_qualification_passed": false,
+    "CPU_fixture_is_not_full_model_qualification": true
+  },
+  "evaluation": {
+    "frozen_fixed_37_TRAIN_panel": "original inputs/noise/whole H40; prior R4 and dense-250 outputs reused exactly",
+    "source_retention": "same original 42-window source review and 10 percent alert",
+    "mechanism_gate": "no new raw illegal state against R4 on selected retention states, restore grasp/open and preserve lift direction before spending native slots",
+    "new_native_scientific_samples_registered": 0,
+    "native_remaining": 4,
+    "full_promotion_possible_with_current_remaining": false,
+    "native_schedule_required_before_formal_dispatch": true
+  },
+  "current_actual_effects": {
+    "model_optimizer_updates": 0,
+    "model_forwards": 0,
+    "physics_integrations": 0,
+    "PBS_jobs": 0
+  },
+  "resource_ledger_unchanged": {
+    "formal": [5100, 8000],
+    "engineering": [24, 24],
+    "student_native": [46, 50],
+    "recovery_before_running_card19": [16, 20]
+  }
+}
